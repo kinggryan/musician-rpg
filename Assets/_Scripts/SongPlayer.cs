@@ -5,7 +5,7 @@ using UnityEngine;
 public class SongPlayer : MonoBehaviour {
 
 	private double songStartDSPTime;
-	private double bpm;
+	public double bpm;
 
 	// Use this for initialization
 	void Start () {

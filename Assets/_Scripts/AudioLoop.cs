@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioLoop {
+public class  AudioLoop : MonoBehaviour {
 
 	public SoundEvent[] soundEvent;
 	public AudioClip[] loopToPlay;
