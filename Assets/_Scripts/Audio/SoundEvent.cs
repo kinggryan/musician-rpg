@@ -92,6 +92,20 @@ private bool fadeInComplete;
         }
         listener = GameObject.FindObjectOfType<Camera>().transform;
     }
+
+    public void PlaySoundAtNextGrid(double dspTime){
+        if (nextClipToPlay != null){
+            double clipStartTime = dspTime;
+            double clipEndTime = clipStartTime + nextClipToPlay.clip.length;
+            double clipLength = nextClipToPlay.clip.length;
+            StartCoroutine(OnSoundFinished(clipStartTime, clipLength));
+            nextClipToPlay.PlayScheduled(clipStartTime);
+            soundPlayed = true;
+            PrepareNextSoundToPlay(clipStartTime, clipEndTime);
+        }else{
+            Debug.LogWarning(gameObject.name + " audioCilp not found?");
+        }
+    }
     
 
     public void PlaySound ()
@@ -103,9 +117,9 @@ private bool fadeInComplete;
             double clipEndTime = clipStartTime + nextClipToPlay.clip.length;
             double clipLength = nextClipToPlay.clip.length;
             StartCoroutine(OnSoundFinished(clipStartTime, clipLength));
-            if (audioChannel != null){
+            /*if (audioChannel != null){
                 audioChannel.OnSoundPlayed(nextClipToPlay);
-            }
+            }*/
             nextClipToPlay.PlayScheduled(clipStartTime);
             //nextClipToPlay.SetScheduledEndTime(clipEndTime);
             //Debug.Log("Current clip end time: " + clipEndTime);
