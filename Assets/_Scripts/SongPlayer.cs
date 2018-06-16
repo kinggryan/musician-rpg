@@ -9,7 +9,7 @@ public class SongPlayer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		StartSong();
 	}
 	
 	// Update is called once per frame
