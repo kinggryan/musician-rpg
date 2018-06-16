@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SongPlayer : MonoBehaviour {
 
+	private double songStartDSPTime;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -12,6 +14,10 @@ public class SongPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	void StartSong() {
+		songStartDSPTime = AudioSettings.dspTime;
 	}
 
 	void PlayLoopNextBeat() {
