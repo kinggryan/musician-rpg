@@ -9,10 +9,10 @@ public class  AudioLoop : MonoBehaviour {
 	public AudioClip[] loopToPlay;
 	public int numBeats;
 
-	public void playLoop(){
+	public void PlayLoop(double dspTime){
 		AudioSource source = soundEvent[0].gameObject.AddComponent<AudioSource>();
 		source.clip = loopToPlay[0];
 		soundEvent[0].nextClipToPlay = source;
-		soundEvent[0].PlaySound();
+		soundEvent[0].PlaySoundAtNextGrid(dspTime);
 	}
 }

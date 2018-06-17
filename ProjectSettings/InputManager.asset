@@ -185,8 +185,8 @@ InputManager:
     m_Name: Loop1
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 1
+    negativeButton: 1
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

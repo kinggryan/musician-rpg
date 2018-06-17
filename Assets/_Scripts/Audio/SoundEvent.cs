@@ -79,7 +79,7 @@ private bool fadeInComplete;
 
     void Awake(){
         //audioChannel = gameObject.transform.parent.GetComponent<VirtualAudioChannel>();
-        PrepareFirstSoundToPlay();
+        //PrepareFirstSoundToPlay();
     }
 
    void Start ()

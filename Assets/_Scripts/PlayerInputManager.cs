@@ -14,6 +14,7 @@ public class PlayerInputManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetButtonDown("Loop1")) {
+			Debug.Log("button pressed");
 			songPlayer.PlayClipNextBeat();
 		}
 	}

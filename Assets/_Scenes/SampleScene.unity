@@ -362,6 +362,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 120
+  audioLoop:
+  - {fileID: 1665567312}
 --- !u!4 &1665567315
 Transform:
   m_ObjectHideFlags: 0

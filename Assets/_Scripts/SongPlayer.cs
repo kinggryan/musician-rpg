@@ -6,6 +6,7 @@ public class SongPlayer : MonoBehaviour {
 
 	private double songStartDSPTime;
 	public double bpm;
+	public AudioLoop[] audioLoop;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,8 @@ public class SongPlayer : MonoBehaviour {
 	public void PlayClipNextBeat() {
 		var nextBeat = GetCurrentBeat() + 1;
 		var nextBeatDSPTime = ConvertBeatToDSPTime(nextBeat);
+		audioLoop[0].PlayLoop(nextBeatDSPTime);
+
 		// TODO: Tell sound event to play on this dsp time?
 	}
 
