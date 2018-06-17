@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SongPlayer : MonoBehaviour {
 
+	[System.Serializable]
 	public struct SongPhrase {
 		public AudioLoop loop;
 		public string key;
@@ -54,12 +55,12 @@ public class SongPlayer : MonoBehaviour {
 	void PlaySong() {
 		Debug.Log("Playing song!");
 		var currentBeat = 0;
-		foreach(var loop in songAudioLoops) {
-			var currentDSPTime = ConvertBeatToDSPTime(currentBeat);
-			loop.PlayLoop(currentDSPTime);
-			currentBeat += loop.numBeats;
-			Debug.Log("Playing " + loop + " at beat " + currentBeat);
-		}
+		// foreach(var loop in songAudioLoops) {
+		// 	var currentDSPTime = ConvertBeatToDSPTime(currentBeat);
+		// 	loop.PlayLoop(currentDSPTime);
+		// 	currentBeat += loop.numBeats;
+		// 	Debug.Log("Playing " + loop + " at beat " + currentBeat);
+		// }
 	}
 
 	// void ProgressSong() {
