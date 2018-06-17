@@ -6,6 +6,8 @@ public class PlayerInputManager : MonoBehaviour {
 
 	public SongPlayer songPlayer;
 
+	private bool songPlaying = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,9 +15,15 @@ public class PlayerInputManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Loop1")) {
-			Debug.Log("button pressed");
-			songPlayer.PlayClipNextBeat();
+		if(songPlaying) {
+			if(Input.GetButtonDown("Loop1")) {
+				Debug.Log("button pressed");
+				songPlayer.PlayClipNextBeat();
+			}
+		} else {
+			if(Input.GetButtonDown("Loop1")) {	
+				songPlayer.StartSong();
+			}
 		}
 	}
 }

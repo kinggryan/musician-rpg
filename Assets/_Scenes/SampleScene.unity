@@ -362,8 +362,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 120
-  audioLoop:
+  playerAudioLoops:
   - {fileID: 1665567312}
+  songAudioLoops:
+  - {fileID: 1665567312}
+  - {fileID: 1665567312}
+  - {fileID: 1665567312}
+  - {fileID: 1665567312}
+  currentLoopEndBeat: 0
 --- !u!4 &1665567315
 Transform:
   m_ObjectHideFlags: 0
