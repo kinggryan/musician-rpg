@@ -364,11 +364,15 @@ MonoBehaviour:
   bpm: 120
   playerAudioLoops:
   - {fileID: 1665567312}
-  songAudioLoops:
-  - {fileID: 1665567312}
-  - {fileID: 1665567312}
-  - {fileID: 1665567312}
-  - {fileID: 1665567312}
+  songPhrases:
+  - loop: {fileID: 1665567312}
+    key: a
+  - loop: {fileID: 1665567312}
+    key: e
+  - loop: {fileID: 1665567312}
+    key: c
+  - loop: {fileID: 1665567312}
+    key: g
   currentLoopEndBeat: 0
 --- !u!4 &1665567315
 Transform:

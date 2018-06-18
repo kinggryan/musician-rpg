@@ -17,19 +17,24 @@ public class SongPlayer : MonoBehaviour {
 
 	public double currentLoopEndBeat;
 	
-	private double currentSongAudioLoopEndBeat;
+	private double currentSongPhraseEndBeat;
 	private double currentSongBeat;
+	private int currentSongPhraseIndex = -1;
 
 	// Update is called once per frame
 	void Update () {
 		// If we incremented to the next beat
-		// see if it's the beat before the end beat of the current song loop
-		// if so, play the next one at the next 
+		var previousBeat = currentSongBeat;
+		currentSongBeat = GetCurrentBeat();
+		// Debug.Log("Cur beat " + currentSongBeat + " current song phrase end beat " + currentSongPhraseEndBeat);
+		if(currentSongBeat > previousBeat && currentSongBeat == currentSongPhraseEndBeat - 1) {
+			PlayNextPhrase();
+		}
 	}
 
 	public void StartSong() {
 		songStartDSPTime = AudioSettings.dspTime;
-		PlaySong();
+		PlayNextPhrase();
 	}
 
 	public void PlayClipNextBeat() {
@@ -52,15 +57,17 @@ public class SongPlayer : MonoBehaviour {
 		return (beat / bpm * 60) + songStartDSPTime;
 	}
 
-	void PlaySong() {
-		Debug.Log("Playing song!");
-		var currentBeat = 0;
-		// foreach(var loop in songAudioLoops) {
-		// 	var currentDSPTime = ConvertBeatToDSPTime(currentBeat);
-		// 	loop.PlayLoop(currentDSPTime);
-		// 	currentBeat += loop.numBeats;
-		// 	Debug.Log("Playing " + loop + " at beat " + currentBeat);
-		// }
+	void PlayNextPhrase() {
+		currentSongPhraseIndex++;
+		if(currentSongPhraseIndex >= songPhrases.Length) {
+			Debug.Log("Finished song!");
+		} else {
+			var nextPhrase = songPhrases[currentSongPhraseIndex];
+			var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentSongPhraseEndBeat);
+			currentSongPhraseEndBeat += nextPhrase.loop.numBeats;
+			Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
+			nextPhrase.loop.PlayLoop(nextPhraseStartDSPTime);
+		}
 	}
 
 	// void ProgressSong() {

@@ -22,6 +22,7 @@ public class PlayerInputManager : MonoBehaviour {
 			}
 		} else {
 			if(Input.GetButtonDown("Loop1")) {	
+				songPlaying = true;
 				songPlayer.StartSong();
 			}
 		}
