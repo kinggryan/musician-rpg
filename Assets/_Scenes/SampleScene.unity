@@ -369,12 +369,16 @@ MonoBehaviour:
   songPhrases:
   - loop: {fileID: 1665567312}
     key: a
+    numTimesToPlay: 1
   - loop: {fileID: 1665567312}
     key: e
+    numTimesToPlay: 1
   - loop: {fileID: 1665567312}
     key: c
+    numTimesToPlay: 1
   - loop: {fileID: 1665567312}
     key: g
+    numTimesToPlay: 3
   currentPlayerLoopEndBeat: 0
   currentPlayerLoopIndex: 0
 --- !u!4 &1665567315

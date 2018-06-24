@@ -8,6 +8,7 @@ public class SongPlayer : MonoBehaviour {
 	public struct SongPhrase {
 		public AudioLoop loop;
 		public string key;
+		public int numTimesToPlay;
 	}
 
 	private double songStartDSPTime;
@@ -21,6 +22,7 @@ public class SongPlayer : MonoBehaviour {
 	private double currentSongPhraseEndBeat;
 	private double currentSongBeat;
 	private int currentSongPhraseIndex = -1;
+	private int currentSongPhraseNumRepeatsRemaining = 0;
 
 	// Update is called once per frame
 	void Update () {
@@ -63,10 +65,20 @@ public class SongPlayer : MonoBehaviour {
 	}
 
 	void PlayNextPhrase() {
-		currentSongPhraseIndex++;
+		// Keep looping this loop if we should repeat it more, otherwise go to the next loop
+		if(currentSongPhraseNumRepeatsRemaining > 0) {
+			currentSongPhraseNumRepeatsRemaining--;
+		} else {
+			currentSongPhraseIndex++;
+			if(currentSongPhraseIndex >= songPhrases.Length)
+				currentSongPhraseNumRepeatsRemaining = songPhrases[currentSongPhraseIndex].numTimesToPlay - 1;
+		}
+
+		// Song is done if outside range
 		if(currentSongPhraseIndex >= songPhrases.Length) {
 			Debug.Log("Finished song!");
 		} else {
+			// Continue to the next phrase
 			var nextPhrase = songPhrases[currentSongPhraseIndex];
 			var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentSongPhraseEndBeat);
 			currentSongPhraseEndBeat += nextPhrase.loop.numBeats;
@@ -75,6 +87,7 @@ public class SongPlayer : MonoBehaviour {
 		}
 	}
 
+	// Continues looping the current player loop
 	void ContinuePlayerLoop() {
 		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
 		currentPlayerLoopEndBeat += playerAudioLoops[currentPlayerLoopIndex].numBeats;
