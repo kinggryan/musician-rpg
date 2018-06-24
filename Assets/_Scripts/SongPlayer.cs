@@ -15,7 +15,8 @@ public class SongPlayer : MonoBehaviour {
 	public AudioLoop[] playerAudioLoops;
 	public SongPhrase[] songPhrases;
 
-	public double currentLoopEndBeat;
+	public double currentPlayerLoopEndBeat;
+	public int currentPlayerLoopIndex;
 	
 	private double currentSongPhraseEndBeat;
 	private double currentSongBeat;
@@ -27,8 +28,11 @@ public class SongPlayer : MonoBehaviour {
 		var previousBeat = currentSongBeat;
 		currentSongBeat = GetCurrentBeat();
 		// Debug.Log("Cur beat " + currentSongBeat + " current song phrase end beat " + currentSongPhraseEndBeat);
-		if(currentSongBeat > previousBeat && currentSongBeat == currentSongPhraseEndBeat - 1) {
-			PlayNextPhrase();
+		if(currentSongBeat > previousBeat) {
+			if(currentSongBeat == currentSongPhraseEndBeat - 1)
+				PlayNextPhrase();
+			if(currentSongBeat == currentPlayerLoopEndBeat - 1)
+				ContinuePlayerLoop();
 		}
 	}
 
@@ -37,12 +41,13 @@ public class SongPlayer : MonoBehaviour {
 		PlayNextPhrase();
 	}
 
-	public void PlayClipNextBeat() {
-		var currentBeat = GetCurrentBeat();
-		var beatToStartAt = (currentLoopEndBeat > currentBeat) ? currentLoopEndBeat : currentBeat + 1;
+	public void ChangePlayerLoop(int loopIndex) {
+		// We want to start this player loop at the next beat
+		var beatToStartAt = currentPlayerLoopEndBeat > 0 ? currentPlayerLoopEndBeat : currentSongPhraseEndBeat;
 		var beatToStartAtDSPTime = ConvertBeatToDSPTime(beatToStartAt);
-		playerAudioLoops[0].PlayLoop(beatToStartAtDSPTime);
-		currentLoopEndBeat = beatToStartAt + playerAudioLoops[0].numBeats;
+		playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime);
+		currentPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
+		currentPlayerLoopIndex = loopIndex;
 	}
 
 	double GetCurrentBeat() {
@@ -70,7 +75,10 @@ public class SongPlayer : MonoBehaviour {
 		}
 	}
 
-	// void ProgressSong() {
-		
-	// }
+	void ContinuePlayerLoop() {
+		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
+		currentPlayerLoopEndBeat += playerAudioLoops[currentPlayerLoopIndex].numBeats;
+		// Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
+		playerAudioLoops[currentPlayerLoopIndex].PlayLoop(nextPhraseStartDSPTime);
+	}
 }
