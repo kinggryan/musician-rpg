@@ -31,10 +31,17 @@ public class SongPlayer : MonoBehaviour {
 		currentSongBeat = GetCurrentBeat();
 		// Debug.Log("Cur beat " + currentSongBeat + " current song phrase end beat " + currentSongPhraseEndBeat);
 		if(currentSongBeat > previousBeat) {
+			// Continue The song player
 			if(currentSongBeat == currentSongPhraseEndBeat - 1)
 				PlayNextPhrase();
+
+			// Set up the next player's loop
 			if(currentSongBeat == currentPlayerLoopEndBeat - 1)
 				ContinuePlayerLoop();
+
+			// If we actually transitioned to a new player, broadcast a message to tell other elements to update
+			// if(currentSongBeat == currentPlayerLoopEndBeat)
+			BroadcastMessage("DidPlayPlayerTrack", currentPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
