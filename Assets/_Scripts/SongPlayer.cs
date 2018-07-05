@@ -20,6 +20,11 @@ public class SongPlayer : MonoBehaviour {
 	public double currentPlayerLoopEndBeat;
 	public int currentPlayerLoopIndex;
 	
+	public double nextPlayerLoopEndBeat;
+	public int nextPlayerLoopIndex;
+	/// Save the next player clip so that we can cancel it's playback when the PC changes which loop they are going to play
+	private AudioSource nextPlayerAudioSource;	
+
 	private double currentSongPhraseEndBeat;
 	private double currentSongBeat;
 	private int currentSongPhraseIndex = -1;
@@ -37,8 +42,8 @@ public class SongPlayer : MonoBehaviour {
 				PlayNextPhrase();
 
 			// Set up the next player's loop
-			if(currentSongBeat == currentPlayerLoopEndBeat - 1)
-				ContinuePlayerLoop();
+			if(currentSongBeat == currentPlayerLoopEndBeat)
+				ProceedToNextPlayerLoop();
 
 			// If we actually transitioned to a new player, broadcast a message to tell other elements to update
 			// if(currentSongBeat == currentPlayerLoopEndBeat)
@@ -80,19 +85,34 @@ public class SongPlayer : MonoBehaviour {
 	
 	// Continues looping the current player loop
 	void ContinuePlayerLoop() {
+		nextPlayerLoopIndex = currentPlayerLoopIndex;
 		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
-		currentPlayerLoopEndBeat += playerAudioLoops[currentPlayerLoopIndex].numBeats;
-		// Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
-		playerAudioLoops[currentPlayerLoopIndex].PlayLoop(nextPhraseStartDSPTime, GetChordForBeat(currentPlayerLoopEndBeat), soundEvent);
+		nextPlayerLoopEndBeat = currentPlayerLoopEndBeat + playerAudioLoops[nextPlayerLoopIndex].numBeats;
+		nextPlayerAudioSource = playerAudioLoops[nextPlayerLoopIndex].PlayLoop(nextPhraseStartDSPTime, GetChordForBeat(currentPlayerLoopEndBeat), soundEvent);
 	}
 
 	public void ChangePlayerLoop(int loopIndex) {
 		// We want to start this player loop at the next beat
 		var beatToStartAt = currentPlayerLoopEndBeat > 0 ? currentPlayerLoopEndBeat : currentSongPhraseEndBeat;
+		// If not playing any player loops yet, set the current song phrase end beat
+		if(currentPlayerLoopEndBeat <= 0)
+			currentPlayerLoopEndBeat = currentSongPhraseEndBeat;
+
 		var beatToStartAtDSPTime = ConvertBeatToDSPTime(beatToStartAt);
-		playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime, GetChordForBeat(beatToStartAt), soundEvent);
-		currentPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
-		currentPlayerLoopIndex = loopIndex;
+		// Cancel the next clip
+		if(nextPlayerAudioSource)
+			nextPlayerAudioSource.Stop();
+		nextPlayerAudioSource = playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime, GetChordForBeat(beatToStartAt), soundEvent);
+		nextPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
+		nextPlayerLoopIndex = loopIndex;
+
+		
+	}
+
+	void ProceedToNextPlayerLoop() {
+		currentPlayerLoopIndex = nextPlayerLoopIndex;
+		currentPlayerLoopEndBeat = nextPlayerLoopEndBeat;
+		ContinuePlayerLoop();
 	}
 
 	// MARK: Utilities

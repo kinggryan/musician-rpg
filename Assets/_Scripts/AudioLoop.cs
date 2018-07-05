@@ -35,13 +35,14 @@ public class AudioLoop {
 	public int numBeats;
 
 	// Plays this loop with a given chord at a given time
-	public void PlayLoop(double dspTime, Chord chord, SoundEvent soundEvent){
+	public AudioSource PlayLoop(double dspTime, Chord chord, SoundEvent soundEvent){
 		var source = soundEvent.gameObject.AddComponent<AudioSource>();
 		var clip = AudioClipForChord(chord);
 		// Debug.Log("Clip is null?: " + (clip == null));
 		source.clip = clip;
 		soundEvent.nextClipToPlay = source;
 		soundEvent.PlaySoundAtNextGrid(dspTime);
+		return source;
 	}
 
 	// Get the audio clip for the given chord for this audioLoop's loop to play
