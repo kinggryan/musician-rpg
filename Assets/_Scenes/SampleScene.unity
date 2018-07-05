@@ -432,8 +432,8 @@ Camera:
   m_GameObject: {fileID: 282840810}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.42346027, g: 0.44955695, b: 0.49056602, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1251,10 +1251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d28d5ab122fc94a979a12433f4e87bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEvent:
-  - {fileID: 934864775}
-  loopToPlay:
-  - {fileID: 8300000, guid: 9d1f85be0cc6f684bada4ba7ea600302, type: 3}
+  soundEvent: {fileID: 934864775}
+  loopToPlay: 0
   numBeats: 4
 --- !u!114 &1665567313
 MonoBehaviour:
@@ -1280,23 +1278,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 120
-  playerAudioLoops:
-  - {fileID: 1665567312}
-  - {fileID: 1665567312}
-  - {fileID: 1665567312}
+  playerAudioLoops: []
   songPhrases:
-  - loop: {fileID: 1665567312}
-    key: a
+  - loop:
+      loopToPlay: 0
+      numBeats: 2
+    chord: 0
     numTimesToPlay: 1
-  - loop: {fileID: 1665567312}
-    key: e
+  - loop:
+      loopToPlay: 0
+      numBeats: 2
+    chord: 5
     numTimesToPlay: 1
-  - loop: {fileID: 1665567312}
-    key: c
+  - loop:
+      loopToPlay: 0
+      numBeats: 2
+    chord: 7
     numTimesToPlay: 1
-  - loop: {fileID: 1665567312}
-    key: g
+  - loop:
+      loopToPlay: 0
+      numBeats: 2
+    chord: 10
     numTimesToPlay: 3
+  soundEvent: {fileID: 934864775}
   currentPlayerLoopEndBeat: 0
   currentPlayerLoopIndex: 0
 --- !u!4 &1665567315

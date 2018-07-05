@@ -7,7 +7,7 @@ public class SongPlayer : MonoBehaviour {
 	[System.Serializable]
 	public struct SongPhrase {
 		public AudioLoop loop;
-		public string key;
+		public AudioLoop.Chord chord;
 		public int numTimesToPlay;
 	}
 
@@ -15,6 +15,7 @@ public class SongPlayer : MonoBehaviour {
 	public double bpm;
 	public AudioLoop[] playerAudioLoops;
 	public SongPhrase[] songPhrases;
+	public SoundEvent soundEvent;
 
 	public double currentPlayerLoopEndBeat;
 	public int currentPlayerLoopIndex;
@@ -54,7 +55,7 @@ public class SongPlayer : MonoBehaviour {
 		// We want to start this player loop at the next beat
 		var beatToStartAt = currentPlayerLoopEndBeat > 0 ? currentPlayerLoopEndBeat : currentSongPhraseEndBeat;
 		var beatToStartAtDSPTime = ConvertBeatToDSPTime(beatToStartAt);
-		playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime);
+		// playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime);
 		currentPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
 		currentPlayerLoopIndex = loopIndex;
 	}
@@ -90,7 +91,7 @@ public class SongPlayer : MonoBehaviour {
 			var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentSongPhraseEndBeat);
 			currentSongPhraseEndBeat += nextPhrase.loop.numBeats;
 			Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
-			nextPhrase.loop.PlayLoop(nextPhraseStartDSPTime);
+			nextPhrase.loop.PlayLoop(nextPhraseStartDSPTime, nextPhrase.chord, soundEvent);
 		}
 	}
 
@@ -99,6 +100,6 @@ public class SongPlayer : MonoBehaviour {
 		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
 		currentPlayerLoopEndBeat += playerAudioLoops[currentPlayerLoopIndex].numBeats;
 		// Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
-		playerAudioLoops[currentPlayerLoopIndex].PlayLoop(nextPhraseStartDSPTime);
+		// playerAudioLoops[currentPlayerLoopIndex].PlayLoop(nextPhraseStartDSPTime);
 	}
 }
