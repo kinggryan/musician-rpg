@@ -64,7 +64,7 @@ public class SongPlayer : MonoBehaviour {
 			currentSongPhraseNumRepeatsRemaining--;
 		} else {
 			currentSongPhraseIndex++;
-			if(currentSongPhraseIndex >= songPhrases.Length)
+			if(currentSongPhraseIndex < songPhrases.Length)
 				currentSongPhraseNumRepeatsRemaining = songPhrases[currentSongPhraseIndex].numTimesToPlay - 1;
 		}
 
@@ -76,7 +76,7 @@ public class SongPlayer : MonoBehaviour {
 			var nextPhrase = songPhrases[currentSongPhraseIndex];
 			var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentSongPhraseEndBeat);
 			currentSongPhraseEndBeat += nextPhrase.loop.numBeats;
-			Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
+			// Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
 			nextPhrase.loop.PlayLoop(nextPhraseStartDSPTime, nextPhrase.chord, soundEvent);
 		}
 	}

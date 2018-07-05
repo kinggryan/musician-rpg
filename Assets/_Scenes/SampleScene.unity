@@ -1290,25 +1290,27 @@ MonoBehaviour:
       loopToPlay: 0
       numBeats: 2
     chord: 0
-    numTimesToPlay: 1
+    numTimesToPlay: 2
   - loop:
       loopToPlay: 0
       numBeats: 2
     chord: 5
-    numTimesToPlay: 1
+    numTimesToPlay: 2
   - loop:
       loopToPlay: 0
       numBeats: 2
     chord: 7
-    numTimesToPlay: 1
+    numTimesToPlay: 2
   - loop:
       loopToPlay: 0
       numBeats: 2
     chord: 10
-    numTimesToPlay: 3
+    numTimesToPlay: 2
   soundEvent: {fileID: 934864775}
   currentPlayerLoopEndBeat: 0
   currentPlayerLoopIndex: 0
+  nextPlayerLoopEndBeat: 0
+  nextPlayerLoopIndex: 0
 --- !u!4 &1665567315
 Transform:
   m_ObjectHideFlags: 0
