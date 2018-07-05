@@ -28,6 +28,8 @@ public class PlayerInputManager : MonoBehaviour {
 				newPlayerLoopIndex = 1;
 			} else if (Input.GetButtonDown("Loop3")) {
 				newPlayerLoopIndex = 2;
+			} else if (Input.GetButtonDown("Loop4")) {
+				newPlayerLoopIndex = 3;
 			}
 			
 			if(newPlayerLoopIndex >= 0) {
