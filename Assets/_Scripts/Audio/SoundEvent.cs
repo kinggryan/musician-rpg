@@ -249,6 +249,14 @@ private bool fadeInComplete;
         if(source.loop == true){
             isLooping = true;
         }
+        if(clip >= audioClip.Length) {
+            Debug.LogError("Index " + clip + " outside range " + (audioClip.Length-1));
+            return;
+        }
+        if(audioClip[clip] == null) {
+            Debug.LogError("Audio Clip is null...");
+            return;
+        }
         //Debug.Log("Sound scheduled to play at " + clipEndTime);
         float endTimeOfNextClipToPlay = (float)clipEndTime + audioClip[clip].length;
         clipStartTime = clipEndTime;

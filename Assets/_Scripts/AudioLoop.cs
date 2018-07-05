@@ -37,7 +37,7 @@ public class AudioLoop {
 	// Plays this loop with a given chord at a given time
 	public void PlayLoop(double dspTime, Chord chord, SoundEvent soundEvent){
 		var source = soundEvent.gameObject.AddComponent<AudioSource>();
-		var clip = audioClipForChord(chord);
+		var clip = AudioClipForChord(chord);
 		// Debug.Log("Clip is null?: " + (clip == null));
 		source.clip = clip;
 		soundEvent.nextClipToPlay = source;
@@ -45,7 +45,7 @@ public class AudioLoop {
 	}
 
 	// Get the audio clip for the given chord for this audioLoop's loop to play
-	AudioClip audioClipForChord(Chord chord) {
+	AudioClip AudioClipForChord(Chord chord) {
 		switch(loopToPlay) {
 			case LoopName.Oud_1:
 				switch(chord) {
@@ -65,50 +65,50 @@ public class AudioLoop {
 				break;
 			case LoopName.Oud_2:
 				switch(chord) {
-					case Chord.A: return Resources.Load("Oud/Oud_1/Oud_02_A", typeof(AudioClip)) as AudioClip;
-					case Chord.Bb: return Resources.Load("Oud/Oud_1/Oud_02_Bb", typeof(AudioClip)) as AudioClip;
-					case Chord.B: return Resources.Load("Oud/Oud_1/Oud_02_B", typeof(AudioClip)) as AudioClip;
-					case Chord.C: return Resources.Load("Oud/Oud_1/Oud_02_C", typeof(AudioClip)) as AudioClip;
-					case Chord.Db: return Resources.Load("Oud/Oud_1/Oud_02_Db", typeof(AudioClip)) as AudioClip;
-					case Chord.D: return Resources.Load("Oud/Oud_1/Oud_02_D", typeof(AudioClip)) as AudioClip;
-					case Chord.Eb: return Resources.Load("Oud/Oud_1/Oud_02_Eb", typeof(AudioClip)) as AudioClip;
-					case Chord.E: return Resources.Load("Oud/Oud_1/Oud_02_E", typeof(AudioClip)) as AudioClip;
-					case Chord.F: return Resources.Load("Oud/Oud_1/Oud_02_F", typeof(AudioClip)) as AudioClip;
-					case Chord.Gb: return Resources.Load("Oud/Oud_1/Oud_02_Gb", typeof(AudioClip)) as AudioClip;
-					case Chord.G: return Resources.Load("Oud/Oud_1/Oud_02_G", typeof(AudioClip)) as AudioClip;
-					case Chord.Ab: return Resources.Load("Oud/Oud_1/Oud_02_Ab", typeof(AudioClip)) as AudioClip;
+					case Chord.A: return Resources.Load("Oud/Oud_2/Oud_02_A", typeof(AudioClip)) as AudioClip;
+					case Chord.Bb: return Resources.Load("Oud/Oud_2/Oud_02_Bb", typeof(AudioClip)) as AudioClip;
+					case Chord.B: return Resources.Load("Oud/Oud_2/Oud_02_B", typeof(AudioClip)) as AudioClip;
+					case Chord.C: return Resources.Load("Oud/Oud_2/Oud_02_C", typeof(AudioClip)) as AudioClip;
+					case Chord.Db: return Resources.Load("Oud/Oud_2/Oud_02_Db", typeof(AudioClip)) as AudioClip;
+					case Chord.D: return Resources.Load("Oud/Oud_2/Oud_02_D", typeof(AudioClip)) as AudioClip;
+					case Chord.Eb: return Resources.Load("Oud/Oud_2/Oud_02_Eb", typeof(AudioClip)) as AudioClip;
+					case Chord.E: return Resources.Load("Oud/Oud_2/Oud_02_E", typeof(AudioClip)) as AudioClip;
+					case Chord.F: return Resources.Load("Oud/Oud_2/Oud_02_F", typeof(AudioClip)) as AudioClip;
+					case Chord.Gb: return Resources.Load("Oud/Oud_2/Oud_02_Gb", typeof(AudioClip)) as AudioClip;
+					case Chord.G: return Resources.Load("Oud/Oud_2/Oud_02_G", typeof(AudioClip)) as AudioClip;
+					case Chord.Ab: return Resources.Load("Oud/Oud_2/Oud_02_Ab", typeof(AudioClip)) as AudioClip;
 				}
 				break;
 			case LoopName.Oud_3:
 				switch(chord) {
-					case Chord.A: return Resources.Load("Oud/Oud_1/Oud_03_A", typeof(AudioClip)) as AudioClip;
-					case Chord.Bb: return Resources.Load("Oud/Oud_1/Oud_03_Bb", typeof(AudioClip)) as AudioClip;
-					case Chord.B: return Resources.Load("Oud/Oud_1/Oud_03_B", typeof(AudioClip)) as AudioClip;
-					case Chord.C: return Resources.Load("Oud/Oud_1/Oud_03_C", typeof(AudioClip)) as AudioClip;
-					case Chord.Db: return Resources.Load("Oud/Oud_1/Oud_03_Db", typeof(AudioClip)) as AudioClip;
-					case Chord.D: return Resources.Load("Oud/Oud_1/Oud_03_D", typeof(AudioClip)) as AudioClip;
-					case Chord.Eb: return Resources.Load("Oud/Oud_1/Oud_03_Eb", typeof(AudioClip)) as AudioClip;
-					case Chord.E: return Resources.Load("Oud/Oud_1/Oud_03_E", typeof(AudioClip)) as AudioClip;
-					case Chord.F: return Resources.Load("Oud/Oud_1/Oud_03_F", typeof(AudioClip)) as AudioClip;
-					case Chord.Gb: return Resources.Load("Oud/Oud_1/Oud_03_Gb", typeof(AudioClip)) as AudioClip;
-					case Chord.G: return Resources.Load("Oud/Oud_1/Oud_03_G", typeof(AudioClip)) as AudioClip;
-					case Chord.Ab: return Resources.Load("Oud/Oud_1/Oud_03_Ab", typeof(AudioClip)) as AudioClip;
+					case Chord.A: return Resources.Load("Oud/Oud_3/Oud_03_A", typeof(AudioClip)) as AudioClip;
+					case Chord.Bb: return Resources.Load("Oud/Oud_3/Oud_03_Bb", typeof(AudioClip)) as AudioClip;
+					case Chord.B: return Resources.Load("Oud/Oud_3/Oud_03_B", typeof(AudioClip)) as AudioClip;
+					case Chord.C: return Resources.Load("Oud/Oud_3/Oud_03_C", typeof(AudioClip)) as AudioClip;
+					case Chord.Db: return Resources.Load("Oud/Oud_3/Oud_03_Db", typeof(AudioClip)) as AudioClip;
+					case Chord.D: return Resources.Load("Oud/Oud_3/Oud_03_D", typeof(AudioClip)) as AudioClip;
+					case Chord.Eb: return Resources.Load("Oud/Oud_3/Oud_03_Eb", typeof(AudioClip)) as AudioClip;
+					case Chord.E: return Resources.Load("Oud/Oud_3/Oud_03_E", typeof(AudioClip)) as AudioClip;
+					case Chord.F: return Resources.Load("Oud/Oud_3/Oud_03_F", typeof(AudioClip)) as AudioClip;
+					case Chord.Gb: return Resources.Load("Oud/Oud_3/Oud_03_Gb", typeof(AudioClip)) as AudioClip;
+					case Chord.G: return Resources.Load("Oud/Oud_3/Oud_03_G", typeof(AudioClip)) as AudioClip;
+					case Chord.Ab: return Resources.Load("Oud/Oud_3/Oud_03_Ab", typeof(AudioClip)) as AudioClip;
 				}
 				break;
 			case LoopName.Oud_4:
 				switch(chord) {
-					case Chord.A: return Resources.Load("Oud/Oud_1/Oud_04_A", typeof(AudioClip)) as AudioClip;
-					case Chord.Bb: return Resources.Load("Oud/Oud_1/Oud_04_Bb", typeof(AudioClip)) as AudioClip;
-					case Chord.B: return Resources.Load("Oud/Oud_1/Oud_04_B", typeof(AudioClip)) as AudioClip;
-					case Chord.C: return Resources.Load("Oud/Oud_1/Oud_04_C", typeof(AudioClip)) as AudioClip;
-					case Chord.Db: return Resources.Load("Oud/Oud_1/Oud_04_Db", typeof(AudioClip)) as AudioClip;
-					case Chord.D: return Resources.Load("Oud/Oud_1/Oud_04_D", typeof(AudioClip)) as AudioClip;
-					case Chord.Eb: return Resources.Load("Oud/Oud_1/Oud_04_Eb", typeof(AudioClip)) as AudioClip;
-					case Chord.E: return Resources.Load("Oud/Oud_1/Oud_04_E", typeof(AudioClip)) as AudioClip;
-					case Chord.F: return Resources.Load("Oud/Oud_1/Oud_04_F", typeof(AudioClip)) as AudioClip;
-					case Chord.Gb: return Resources.Load("Oud/Oud_1/Oud_04_Gb", typeof(AudioClip)) as AudioClip;
-					case Chord.G: return Resources.Load("Oud/Oud_1/Oud_04_G", typeof(AudioClip)) as AudioClip;
-					case Chord.Ab: return Resources.Load("Oud/Oud_1/Oud_04_Ab", typeof(AudioClip)) as AudioClip;
+					case Chord.A: return Resources.Load("Oud/Oud_4/Oud_04_A", typeof(AudioClip)) as AudioClip;
+					case Chord.Bb: return Resources.Load("Oud/Oud_4/Oud_04_Bb", typeof(AudioClip)) as AudioClip;
+					case Chord.B: return Resources.Load("Oud/Oud_4/Oud_04_B", typeof(AudioClip)) as AudioClip;
+					case Chord.C: return Resources.Load("Oud/Oud_4/Oud_04_C", typeof(AudioClip)) as AudioClip;
+					case Chord.Db: return Resources.Load("Oud/Oud_4/Oud_04_Db", typeof(AudioClip)) as AudioClip;
+					case Chord.D: return Resources.Load("Oud/Oud_4/Oud_04_D", typeof(AudioClip)) as AudioClip;
+					case Chord.Eb: return Resources.Load("Oud/Oud_4/Oud_04_Eb", typeof(AudioClip)) as AudioClip;
+					case Chord.E: return Resources.Load("Oud/Oud_4/Oud_04_E", typeof(AudioClip)) as AudioClip;
+					case Chord.F: return Resources.Load("Oud/Oud_4/Oud_04_F", typeof(AudioClip)) as AudioClip;
+					case Chord.Gb: return Resources.Load("Oud/Oud_4/Oud_04_Gb", typeof(AudioClip)) as AudioClip;
+					case Chord.G: return Resources.Load("Oud/Oud_4/Oud_04_G", typeof(AudioClip)) as AudioClip;
+					case Chord.Ab: return Resources.Load("Oud/Oud_4/Oud_04_Ab", typeof(AudioClip)) as AudioClip;
 				}
 				break;
 		}

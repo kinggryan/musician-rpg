@@ -1278,7 +1278,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 120
-  playerAudioLoops: []
+  playerAudioLoops:
+  - loopToPlay: 0
+    numBeats: 2
+  - loopToPlay: 1
+    numBeats: 2
+  - loopToPlay: 2
+    numBeats: 2
   songPhrases:
   - loop:
       loopToPlay: 0
