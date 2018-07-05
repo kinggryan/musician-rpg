@@ -46,8 +46,10 @@ public class SongPlayer : MonoBehaviour {
 				ProceedToNextPlayerLoop();
 
 			// If we actually transitioned to a new player, broadcast a message to tell other elements to update
-			// if(currentSongBeat == currentPlayerLoopEndBeat)
-			BroadcastMessage("DidPlayPlayerTrack", currentPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
+			// The current player loop end beat is <= 0 when the song hasn't started
+			// TODO: Add a utility method for this
+			if(currentPlayerLoopEndBeat > 0)
+				BroadcastMessage("DidPlayPlayerTrack", currentPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
@@ -106,7 +108,7 @@ public class SongPlayer : MonoBehaviour {
 		nextPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
 		nextPlayerLoopIndex = loopIndex;
 
-		
+		BroadcastMessage("DidQueuePlayerTrack", nextPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
 	}
 
 	void ProceedToNextPlayerLoop() {

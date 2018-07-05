@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerMusicDisplay : MonoBehaviour {
 
-	public UnityEngine.UI.Image[] trackHighlightImages;
+	public Animator[] trackAnimators;
+	int currentPlayingTrackIndex = -1;
 
 	// Use this for initialization
 	void Start () {
-		TurnOffAllTracks();
+		StopPlayingAllTracks();
+		DeselectAllTracks();
 	}
 	
 	// Update is called once per frame
@@ -16,22 +18,49 @@ public class PlayerMusicDisplay : MonoBehaviour {
 		
 	}
 
-	void SetTrackOn(int trackIndex, bool on) {
-		if(trackIndex < 0 || trackIndex >= trackHighlightImages.Length) {
+	void SetTrackPlaying(int trackIndex, bool on) {
+		if(trackIndex < 0 || trackIndex >= trackAnimators.Length) {
 			Debug.LogError("Error: Track index " + trackIndex + " is out of bounds.");
 			return;
 		}
 
-		trackHighlightImages[trackIndex].enabled = on;
+		trackAnimators[trackIndex].SetBool("playing",on);
 	}
 
-	void TurnOffAllTracks() {
-		for(var i = 0 ; i < trackHighlightImages.Length ; i++)
-			SetTrackOn(i, false);
+	void SetTrackSelected(int trackIndex, bool on) {
+		if(trackIndex < 0 || trackIndex >= trackAnimators.Length) {
+			Debug.LogError("Error: Track index " + trackIndex + " is out of bounds.");
+			return;
+		}
+
+		trackAnimators[trackIndex].SetBool("selected",on);
+	}
+
+	void StopPlayingAllTracks() {
+		for(var i = 0 ; i < trackAnimators.Length ; i++)
+			SetTrackPlaying(i, false);
+	}
+
+	void DeselectAllTracks() {
+		for(var i = 0 ; i < trackAnimators.Length ; i++)
+			SetTrackSelected(i, false);
 	}
 
 	public void DidPlayPlayerTrack(int trackIndex) {
-		TurnOffAllTracks();
-		SetTrackOn(trackIndex, true);
+		// Set playing to false for all tracks, true for given track
+		// Don't mess with selected
+		if(trackIndex != currentPlayingTrackIndex) {
+			StopPlayingAllTracks();
+			DeselectAllTracks();
+			SetTrackPlaying(trackIndex, true);
+			currentPlayingTrackIndex = trackIndex;
+		}
+	}
+
+	public void DidQueuePlayerTrack(int trackIndex) {
+		// Set selected to false for all tracks, true for given track
+		// Don't mess with playing
+		DeselectAllTracks();
+		SetTrackSelected(trackIndex, true);
 	}
 }
