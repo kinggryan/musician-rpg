@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-[System.Serializable]
 public class AudioLoop {
 
 	/// LoopName stores all the different loop name types.
@@ -11,7 +10,11 @@ public class AudioLoop {
 		Oud_1,
 		Oud_2,
 		Oud_3,
-		Oud_4
+		Oud_4,
+		Derbakki_1,
+		Derbakki_2,
+		Derbakki_3,
+		Derbakki_4
 	}
 
 	public enum Chord {
@@ -112,6 +115,14 @@ public class AudioLoop {
 					case Chord.Ab: return Resources.Load("Oud/Oud_4/Oud_04_Ab", typeof(AudioClip)) as AudioClip;
 				}
 				break;
+			case LoopName.Derbakki_1:
+				return Resources.Load("Derbakki/Derbakki-001", typeof(AudioClip)) as AudioClip;
+			case LoopName.Derbakki_2:
+				return Resources.Load("Derbakki/Derbakki-002", typeof(AudioClip)) as AudioClip;
+			case LoopName.Derbakki_3:
+				return Resources.Load("Derbakki/Derbakki-003", typeof(AudioClip)) as AudioClip;
+			case LoopName.Derbakki_4:
+				return Resources.Load("Derbakki/Derbakki-004", typeof(AudioClip)) as AudioClip;
 		}
 
 		// If we don't find the clip to play, something is misconfigured
