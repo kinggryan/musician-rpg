@@ -15,15 +15,25 @@ public class PlayerInputManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(Input.GetButtonDown("StartSong") && !songPlaying) {
+			songPlaying = true;
+			songPlayer.StartSong();
+		}
+
 		if(songPlaying) {
+			var newPlayerLoopIndex = -1;
 			if(Input.GetButtonDown("Loop1")) {
-				Debug.Log("button pressed");
-				songPlayer.PlayClipNextBeat();
+				newPlayerLoopIndex = 0;
+			} else if (Input.GetButtonDown("Loop2")) {
+				newPlayerLoopIndex = 1;
+			} else if (Input.GetButtonDown("Loop3")) {
+				newPlayerLoopIndex = 2;
+			} else if (Input.GetButtonDown("Loop4")) {
+				newPlayerLoopIndex = 3;
 			}
-		} else {
-			if(Input.GetButtonDown("Loop1")) {	
-				songPlaying = true;
-				songPlayer.StartSong();
+			
+			if(newPlayerLoopIndex >= 0) {
+				songPlayer.ChangePlayerLoop(newPlayerLoopIndex);
 			}
 		}
 	}
