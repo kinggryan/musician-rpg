@@ -15,9 +15,12 @@ public class SongGameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(songStarted) {
+			// Calculate how much the groove should change, based on the rhythm matching of NPC vs PC rhythm
 			var currentGrooveModifier = grooveDecayRate + grooveIncreaseRate*AudioLoopGameData.ScorePlayerStringAgainstNPCString(currentSongRhythmString,currentPlayerRhythmString);
 			currentGroove += currentGrooveModifier*Time.deltaTime;
-			grooveBar.value = currentGroove;
+
+			// Update the UI, use a lerp to make it smoother
+			grooveBar.value = Mathf.Lerp(grooveBar.value,currentGroove,20*Time.deltaTime);;
 		}
 	}
 }
