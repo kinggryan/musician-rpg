@@ -70,12 +70,25 @@ public class SongPlayer : MonoBehaviour {
 		}
 	}
 
+	void Start() {
+		Invoke("StartCountoff",2);
+	}
+
 	// MARK: Song Loops
+
+	public void StartCountoff() {
+		var numCountoffBeats = 4;
+		Invoke("StartSong", (float)(numCountoffBeats*60/bpm));
+
+		BroadcastMessage("DidStartCountoff",(float)bpm,SendMessageOptions.DontRequireReceiver);
+	}
 
 	public void StartSong() {
 		songStartDSPTime = AudioSettings.dspTime;
 		gameManager.songStarted = true;
 		PlayNextPhrase();
+
+		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
 	}
 
 	void PlayNextPhrase() {

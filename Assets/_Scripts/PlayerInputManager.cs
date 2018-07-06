@@ -7,11 +7,6 @@ public class PlayerInputManager : MonoBehaviour {
 	public SongPlayer songPlayer;
 
 	private bool songPlaying = false;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -36,5 +31,9 @@ public class PlayerInputManager : MonoBehaviour {
 				songPlayer.ChangePlayerLoop(newPlayerLoopIndex);
 			}
 		}
+	}
+
+	void DidStartSong() {
+		songPlaying = true;
 	}
 }
