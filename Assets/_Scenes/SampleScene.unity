@@ -859,7 +859,7 @@ MonoBehaviour:
   grooveBar: {fileID: 1456805385}
   currentSongRhythmString: 
   currentPlayerRhythmString: 
-  grooveIncreaseRate: 0.09
+  grooveIncreaseRate: 0.06
   grooveDecayRate: -0.03
   currentGroove: 0.5
   songStarted: 0
@@ -1341,6 +1341,70 @@ MonoBehaviour:
   - loopToPlay: 3
     numBeats: 2
   song:
+  - phrases:
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    numTimesToPlay: 8
+  - phrases:
+    - loop:
+        loopToPlay: 6
+        numBeats: 1
+      chord: 7
+      numTimesToPlay: 3
+    - loop:
+        loopToPlay: 7
+        numBeats: 1
+      chord: 7
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 6
+        numBeats: 1
+      chord: 7
+      numTimesToPlay: 3
+    - loop:
+        loopToPlay: 7
+        numBeats: 1
+      chord: 7
+      numTimesToPlay: 1
+    numTimesToPlay: 8
   - phrases:
     - loop:
         loopToPlay: 4

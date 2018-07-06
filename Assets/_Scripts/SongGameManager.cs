@@ -17,7 +17,7 @@ public class SongGameManager : MonoBehaviour {
 		if(songStarted) {
 			// Calculate how much the groove should change, based on the rhythm matching of NPC vs PC rhythm
 			var currentGrooveModifier = grooveDecayRate + grooveIncreaseRate*AudioLoopGameData.ScorePlayerStringAgainstNPCString(currentSongRhythmString,currentPlayerRhythmString);
-			currentGroove += currentGrooveModifier*Time.deltaTime;
+			currentGroove = Mathf.Clamp(currentGroove + currentGrooveModifier*Time.deltaTime, 0, 1);
 
 			// Update the UI, use a lerp to make it smoother
 			grooveBar.value = Mathf.Lerp(grooveBar.value,currentGroove,20*Time.deltaTime);;
