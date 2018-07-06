@@ -22,6 +22,7 @@ public class SongPlayer : MonoBehaviour {
 	}
 
 	public SongGameManager gameManager;
+	public CharacterAnimationManager characters;
 
 	private double songStartDSPTime;
 	public double bpm;
@@ -86,6 +87,7 @@ public class SongPlayer : MonoBehaviour {
 	public void StartSong() {
 		songStartDSPTime = AudioSettings.dspTime;
 		gameManager.songStarted = true;
+		characters.DidStartSong();
 		PlayNextPhrase();
 
 		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
