@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+[System.Serializable]
 public class AudioLoop {
 
 	/// LoopName stores all the different loop name types.
@@ -128,5 +129,22 @@ public class AudioLoop {
 		// If we don't find the clip to play, something is misconfigured
 		Debug.LogError("Couldn't load a clip for chord " + chord + " with loop name " + loopToPlay);
 		return null;
+	}
+
+	// Returns the rhythm string for this audioloop
+	public string GetRhythmString() {
+		switch(loopToPlay) {
+			case LoopName.Oud_1: return "1101";
+			case LoopName.Oud_2: return "1010";
+			case LoopName.Oud_3: return "1011";
+			case LoopName.Oud_4: return "1110";
+			case LoopName.Derbakki_1: return "10";
+			case LoopName.Derbakki_2: return "01";
+			case LoopName.Derbakki_3: return "10";
+			case LoopName.Derbakki_4: return "11";
+		}
+
+		Debug.LogError("Couldn't find rhythm string for loop to play " + loopToPlay);
+		return "";
 	}
 }
