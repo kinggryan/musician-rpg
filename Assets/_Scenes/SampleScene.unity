@@ -859,8 +859,8 @@ MonoBehaviour:
   grooveBar: {fileID: 1456805385}
   currentSongRhythmString: 
   currentPlayerRhythmString: 
-  grooveIncreaseRate: 0.15
-  grooveDecayRate: -0.1
+  grooveIncreaseRate: 0.09
+  grooveDecayRate: -0.03
   currentGroove: 0.5
   songStarted: 0
 --- !u!4 &1265418468
@@ -1340,27 +1340,49 @@ MonoBehaviour:
     numBeats: 2
   - loopToPlay: 3
     numBeats: 2
-  songPhrases:
-  - loop:
-      loopToPlay: 0
-      numBeats: 2
-    chord: 0
-    numTimesToPlay: 2
-  - loop:
-      loopToPlay: 0
-      numBeats: 2
-    chord: 5
-    numTimesToPlay: 2
-  - loop:
-      loopToPlay: 0
-      numBeats: 2
-    chord: 7
-    numTimesToPlay: 2
-  - loop:
-      loopToPlay: 0
-      numBeats: 2
-    chord: 10
-    numTimesToPlay: 2
+  song:
+  - phrases:
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 0
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    - loop:
+        loopToPlay: 5
+        numBeats: 1
+      chord: 5
+      numTimesToPlay: 1
+    numTimesToPlay: 16
   soundEvent: {fileID: 934864775}
   currentPlayerLoopEndBeat: 0
   currentPlayerLoopIndex: 0

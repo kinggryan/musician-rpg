@@ -11,6 +11,12 @@ public class SongPlayer : MonoBehaviour {
 		public int numTimesToPlay;
 	}
 
+	[System.Serializable]
+	public struct SongSection {
+		public SongPhrase[] phrases;
+		public int numTimesToPlay;
+	}
+
 	struct PhraseOffsetTuple {
 		public readonly SongPhrase phrase;
 		public readonly double beatOffset;
@@ -27,7 +33,8 @@ public class SongPlayer : MonoBehaviour {
 	private double songStartDSPTime;
 	public double bpm;
 	public AudioLoop[] playerAudioLoops;
-	public SongPhrase[] songPhrases;
+	public SongSection[] song;
+	private SongPhrase[] songPhrases;
 	public SoundEvent soundEvent;
 
 	public double currentPlayerLoopEndBeat;
@@ -72,10 +79,24 @@ public class SongPlayer : MonoBehaviour {
 	}
 
 	void Start() {
+		// Initialize the song and start the countoff
+		SetSongPhrases();
 		Invoke("StartCountoff",2);
 	}
 
 	// MARK: Song Loops
+	
+	void SetSongPhrases() {
+		var songPhrasesList = new List<SongPhrase>();
+		foreach(var section in song) {
+			for(var i = 0 ; i < section.numTimesToPlay; i++) {
+				foreach(var phrase in section.phrases) {
+					songPhrasesList.Add(phrase);
+				}
+			}
+		}
+		songPhrases = songPhrasesList.ToArray();
+	}
 
 	public void StartCountoff() {
 		var numCountoffBeats = 4;
@@ -88,6 +109,8 @@ public class SongPlayer : MonoBehaviour {
 		songStartDSPTime = AudioSettings.dspTime;
 		gameManager.songStarted = true;
 		characters.DidStartSong();
+		PlayNextPhrase();
+		// HACK:? 
 		PlayNextPhrase();
 
 		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
