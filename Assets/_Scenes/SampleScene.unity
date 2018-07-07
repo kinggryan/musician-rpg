@@ -1388,23 +1388,23 @@ MonoBehaviour:
         loopToPlay: 6
         numBeats: 1
       chord: 7
-      numTimesToPlay: 3
+      numTimesToPlay: 1
     - loop:
-        loopToPlay: 7
+        loopToPlay: 4
         numBeats: 1
       chord: 7
-      numTimesToPlay: 1
+      numTimesToPlay: 3
     - loop:
         loopToPlay: 6
         numBeats: 1
-      chord: 7
-      numTimesToPlay: 3
-    - loop:
-        loopToPlay: 7
-        numBeats: 1
-      chord: 7
+      chord: 11
       numTimesToPlay: 1
-    numTimesToPlay: 8
+    - loop:
+        loopToPlay: 4
+        numBeats: 1
+      chord: 11
+      numTimesToPlay: 3
+    numTimesToPlay: 16
   - phrases:
     - loop:
         loopToPlay: 4
