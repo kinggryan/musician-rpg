@@ -19,4 +19,8 @@ public class NPCAnimationController : MonoBehaviour {
 	public void StartPlaying() {
 		animator.SetBool("playing", true);
 	}
+
+	public void UpdateGroove(float groove) {
+		animator.SetFloat("groove", groove);
+	}
 }

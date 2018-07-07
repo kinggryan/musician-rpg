@@ -21,4 +21,10 @@ public class CharacterAnimationManager : MonoBehaviour {
 			npc.StartPlaying();
 		}
 	}
+
+	public void UpdateGroove(float groove) {
+		foreach(var npc in npcs) {
+			npc.UpdateGroove(groove);
+		}
+	}
 }

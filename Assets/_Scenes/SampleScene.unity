@@ -594,7 +594,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -754,7 +754,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -859,8 +859,8 @@ MonoBehaviour:
   grooveBar: {fileID: 1456805385}
   currentSongRhythmString: 
   currentPlayerRhythmString: 
-  grooveIncreaseRate: 0.06
-  grooveDecayRate: -0.03
+  grooveIncreaseRate: 0.15
+  grooveDecayRate: -0.1
   currentGroove: 0.5
   songStarted: 0
 --- !u!4 &1265418468
@@ -1053,7 +1053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1456805384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1348,7 +1348,7 @@ MonoBehaviour:
       chord: 0
       numTimesToPlay: 1
     - loop:
-        loopToPlay: 5
+        loopToPlay: 7
         numBeats: 1
       chord: 0
       numTimesToPlay: 1
@@ -1358,7 +1358,7 @@ MonoBehaviour:
       chord: 0
       numTimesToPlay: 1
     - loop:
-        loopToPlay: 5
+        loopToPlay: 7
         numBeats: 1
       chord: 0
       numTimesToPlay: 1
@@ -1368,7 +1368,7 @@ MonoBehaviour:
       chord: 5
       numTimesToPlay: 1
     - loop:
-        loopToPlay: 5
+        loopToPlay: 7
         numBeats: 1
       chord: 5
       numTimesToPlay: 1
