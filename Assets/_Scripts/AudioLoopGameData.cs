@@ -7,19 +7,26 @@ public class AudioLoopGameData {
 	/// This is a string in the format of 0s and 1s, where each 0 or 1 is an eighth note
 	public string rhythmString;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	/// Returns a number between 0 and 1, where 1 is a perfectly matched string and 0 is perfectly unmatched?
-	static float ScoreTwoRhythmStrings(string rhythmStringA, string rhythmStringB) {
-		// 
-		return 0;
+	public static float ScorePlayerStringAgainstNPCString(string npcString, string playerString) {
+		var maxScore = 0;
+		foreach(var character in npcString) {
+			maxScore += character == '1' ? 1 : 0;
+		}
+
+		// Prevent divide by 0 errors
+		if(maxScore == 0) {
+			return 0;
+		}
+
+		var playerScore = 0;
+		for(var i = 0 ; i < npcString.Length; i++) {
+			if(npcString[i] == '1' && playerString[i] == '1') {
+				playerScore += 1;
+			}
+		}
+
+		// Debug.Log("Scoring '" + npcString + "' against '" + playerString + "', score is " + playerScore + " out of " + maxScore);
+		return (float)playerScore/maxScore;
 	}
 }

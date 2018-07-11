@@ -11,10 +11,30 @@ public class SongPlayer : MonoBehaviour {
 		public int numTimesToPlay;
 	}
 
+	[System.Serializable]
+	public struct SongSection {
+		public SongPhrase[] phrases;
+		public int numTimesToPlay;
+	}
+
+	struct PhraseOffsetTuple {
+		public readonly SongPhrase phrase;
+		public readonly double beatOffset;
+
+		public PhraseOffsetTuple(SongPhrase phrase, double beatOffset) {
+			this.phrase = phrase;
+			this.beatOffset = beatOffset;
+		}
+	}
+
+	public SongGameManager gameManager;
+	public CharacterAnimationManager characters;
+
 	private double songStartDSPTime;
 	public double bpm;
 	public AudioLoop[] playerAudioLoops;
-	public SongPhrase[] songPhrases;
+	public SongSection[] song;
+	private SongPhrase[] songPhrases;
 	public SoundEvent soundEvent;
 
 	public double currentPlayerLoopEndBeat;
@@ -48,16 +68,52 @@ public class SongPlayer : MonoBehaviour {
 			// If we actually transitioned to a new player, broadcast a message to tell other elements to update
 			// The current player loop end beat is <= 0 when the song hasn't started
 			// TODO: Add a utility method for this
-			if(currentPlayerLoopEndBeat > 0)
+			if(currentPlayerLoopEndBeat > 0) {
 				BroadcastMessage("DidPlayPlayerTrack", currentPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
+				// Tell the game manager what the current song's rhythm track is
+				var currentBeat = GetCurrentBeat();
+				gameManager.currentSongRhythmString = GetSongRhythmStringForBeat(currentBeat);
+				gameManager.currentPlayerRhythmString = GetCurrentPlayerRhythmString();
+			}
 		}
 	}
 
+	void Start() {
+		// Initialize the song and start the countoff
+		SetSongPhrases();
+		Invoke("StartCountoff",2);
+	}
+
 	// MARK: Song Loops
+	
+	void SetSongPhrases() {
+		var songPhrasesList = new List<SongPhrase>();
+		foreach(var section in song) {
+			for(var i = 0 ; i < section.numTimesToPlay; i++) {
+				foreach(var phrase in section.phrases) {
+					songPhrasesList.Add(phrase);
+				}
+			}
+		}
+		songPhrases = songPhrasesList.ToArray();
+	}
+
+	public void StartCountoff() {
+		var numCountoffBeats = 4;
+		Invoke("StartSong", (float)(numCountoffBeats*60/bpm));
+
+		BroadcastMessage("DidStartCountoff",(float)bpm,SendMessageOptions.DontRequireReceiver);
+	}
 
 	public void StartSong() {
 		songStartDSPTime = AudioSettings.dspTime;
+		gameManager.songStarted = true;
+		characters.DidStartSong();
 		PlayNextPhrase();
+		// HACK:? 
+		PlayNextPhrase();
+
+		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
 	}
 
 	void PlayNextPhrase() {
@@ -114,6 +170,7 @@ public class SongPlayer : MonoBehaviour {
 	void ProceedToNextPlayerLoop() {
 		currentPlayerLoopIndex = nextPlayerLoopIndex;
 		currentPlayerLoopEndBeat = nextPlayerLoopEndBeat;
+		gameManager.currentPlayerRhythmString = playerAudioLoops[currentPlayerLoopIndex].GetRhythmString();
 		ContinuePlayerLoop();
 	}
 
@@ -133,21 +190,38 @@ public class SongPlayer : MonoBehaviour {
 
 	// Returns the chord that should be played on a given beat
 	AudioLoop.Chord GetChordForBeat(double beat) {
-		return GetSongPhraseForBeat(beat).chord;
+		return GetSongPhraseForBeat(beat).phrase.chord;
 	}
 
 	// Returns the song phrase that should be playing on a given beat. 
 	// If the beat is the border between two phrases, will return the latter of the two.
-	SongPhrase GetSongPhraseForBeat(double beat) {
+	PhraseOffsetTuple GetSongPhraseForBeat(double beat) {
 		var checkBeat = 0;
 		foreach(var phrase in songPhrases) {
 			var endOfPhraseBeat = checkBeat + phrase.numTimesToPlay*phrase.loop.numBeats;
-			if(beat < endOfPhraseBeat)
-				return phrase;
+			if(beat < endOfPhraseBeat) {
+				return new PhraseOffsetTuple(phrase, beat - checkBeat);
+			}
 			checkBeat = endOfPhraseBeat;
 		}
 
 		Debug.LogError("Tried to find the song phrase for beat " + beat + " but it was past the end of the song.");
-		return songPhrases[songPhrases.Length-1];
+		return new PhraseOffsetTuple(songPhrases[songPhrases.Length-1], beat);
+	}
+
+	string GetSongRhythmStringForBeat(double beat) {
+		var phraseOffsetTuple = GetSongPhraseForBeat(beat);
+		// For each beat into the offset, we want to return a different 2-eighth note string
+		// TODO: Make this way less gnarly
+		var fullRhythmString = phraseOffsetTuple.phrase.loop.GetRhythmString();
+		var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % phraseOffsetTuple.phrase.loop.numBeats;
+		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
+	}
+
+	string GetCurrentPlayerRhythmString() {
+		var currentPlayerLoopStartBeat = currentPlayerLoopEndBeat - playerAudioLoops[currentPlayerLoopIndex].numBeats;
+		var beatOffsetIndex = Mathf.RoundToInt((float)(GetCurrentBeat() - currentPlayerLoopStartBeat));
+		var fullRhythmString = playerAudioLoops[currentPlayerLoopIndex].GetRhythmString();
+		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
 	}
 }

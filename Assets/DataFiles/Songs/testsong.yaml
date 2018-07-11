@@ -1,0 +1,6 @@
+song:
+  - phrase:
+    file: Oud_1
+    numBeats: 2
+    chord: A
+    numReps: 1
