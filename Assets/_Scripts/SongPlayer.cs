@@ -31,6 +31,13 @@ public class SongPlayer : MonoBehaviour {
 		public SongPhrase[] phrases;
 	}
 
+	public struct BeatUpdateInfo {
+		public int currentBeat;
+		public SongSection currentSection;
+		public int beatsUntilNextSection;
+		public SongSection nextSection;
+	}
+
 	struct PhraseOffsetTuple {
 		public readonly SongPhrase phrase;
 		public readonly double beatOffset;
@@ -103,7 +110,15 @@ public class SongPlayer : MonoBehaviour {
 			}
 
 			// Broadcast this message
-			BroadcastMessage("DidStartNextBeat", currentSongBeat, SendMessageOptions.DontRequireReceiver);
+			var beatUpdateInfo = new BeatUpdateInfo();
+			beatUpdateInfo.currentBeat = Mathf.RoundToInt((float)currentSongBeat);
+			beatUpdateInfo.currentSection = songSections[currentSongSectionIndex];
+			if(currentSongSectionIndex + 1 < songSections.Length) {
+				beatUpdateInfo.nextSection = songSections[currentSongSectionIndex+1];
+				beatUpdateInfo.beatsUntilNextSection = GetStartBeatForSectionIndex(currentSongSectionIndex+1) - Mathf.RoundToInt((float)currentSongBeat);
+			}
+			
+			BroadcastMessage("DidStartNextBeat", beatUpdateInfo, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
@@ -241,6 +256,20 @@ public class SongPlayer : MonoBehaviour {
 		
 		Debug.LogError("Tried to find the song phrase for beat " + beat + " but it was past the end of the song.");
 		return new PhraseOffsetTuple(nullPhrase, beat);
+	}
+
+	int GetStartBeatForSectionIndex(int index) {
+		var numBeats = 0;
+		for(var i = 0 ; i < index ; i++) {
+			if(i >= songSections.Length) {
+				break;
+			}
+			foreach(var phrase in songSections[i].phrases) {
+				numBeats += phrase.numTimesToPlay*phrase.loop.numBeats;
+			}
+		}
+
+		return numBeats;
 	}
 
 	string GetSongRhythmStringForBeat(double beat) {
