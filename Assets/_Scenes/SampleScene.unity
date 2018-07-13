@@ -1710,6 +1710,10 @@ MonoBehaviour:
   currentPlayerLoopIndex: 0
   nextPlayerLoopEndBeat: 0
   nextPlayerLoopIndex: 0
+  playerOutput: {fileID: 243660908193783810, guid: fa6c0180ced2bdf479fc5740a08f63cf,
+    type: 2}
+  npcOutput: {fileID: 243782690406516986, guid: fa6c0180ced2bdf479fc5740a08f63cf,
+    type: 2}
 --- !u!4 &1665567315
 Transform:
   m_ObjectHideFlags: 0
