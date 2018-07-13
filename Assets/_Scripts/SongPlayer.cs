@@ -15,6 +15,14 @@ public class SongPlayer : MonoBehaviour {
 			chord = AudioLoop.ChordForString(chordName);
 			this.numTimesToPlay = numTimesToPlay;
 		}
+
+		public static bool operator== (SongPhrase lhs, SongPhrase rhs) {
+			return lhs.loop == rhs.loop && lhs.chord == rhs.chord && lhs.numTimesToPlay == rhs.numTimesToPlay;
+		}
+
+		public static bool operator!= (SongPhrase lhs, SongPhrase rhs) {
+			return !(lhs.loop == rhs.loop && lhs.chord == rhs.chord && lhs.numTimesToPlay == rhs.numTimesToPlay);
+		}
 	}
 
 	[System.Serializable]
@@ -33,6 +41,9 @@ public class SongPlayer : MonoBehaviour {
 		}
 	}
 
+	// This phrase is used to signify the lack of a phrase, e.g. the end of the song
+	static SongPhrase nullPhrase = new SongPhrase();
+
 	public SongGameManager gameManager;
 	public CharacterAnimationManager characters;
 
@@ -41,8 +52,7 @@ public class SongPlayer : MonoBehaviour {
 	public AudioLoop[] playerAudioLoops;
 	public string songFilename;
 
-	private SongSection[] song;
-	private SongPhrase[] songPhrases;
+	private SongSection[] songSections;
 	public SoundEvent soundEvent;
 
 	public double currentPlayerLoopEndBeat;
@@ -55,13 +65,14 @@ public class SongPlayer : MonoBehaviour {
 
 	private double currentSongPhraseEndBeat;
 	private double currentSongBeat;
+
+	private int currentSongSectionIndex = 0;
 	private int currentSongPhraseIndex = -1;
 	private int currentSongPhraseNumRepeatsRemaining = 0;
 
 	void Start() {
 		// Initialize the song and start the countoff
-		song = SongFileReader.ReadSongFile(songFilename);
-		SetSongPhrases();
+		songSections = SongFileReader.ReadSongFile(songFilename);
 		Invoke("StartCountoff",2);
 	}
 
@@ -97,16 +108,6 @@ public class SongPlayer : MonoBehaviour {
 	}
 
 	// MARK: Song Loops
-	
-	void SetSongPhrases() {
-		var songPhrasesList = new List<SongPhrase>();
-		foreach(var section in song) {
-			foreach(var phrase in section.phrases) {
-				songPhrasesList.Add(phrase);
-			}
-		}
-		songPhrases = songPhrasesList.ToArray();
-	}
 
 	public void StartCountoff() {
 		var numCountoffBeats = 4;
@@ -127,26 +128,41 @@ public class SongPlayer : MonoBehaviour {
 	}
 
 	void PlayNextPhrase() {
-		// Keep looping this loop if we should repeat it more, otherwise go to the next loop
-		if(currentSongPhraseNumRepeatsRemaining > 0) {
-			currentSongPhraseNumRepeatsRemaining--;
-		} else {
-			currentSongPhraseIndex++;
-			if(currentSongPhraseIndex < songPhrases.Length)
-				currentSongPhraseNumRepeatsRemaining = songPhrases[currentSongPhraseIndex].numTimesToPlay - 1;
-		}
+
+		var nextPhrase = GetNextPhrase();
 
 		// Song is done if outside range
-		if(currentSongPhraseIndex >= songPhrases.Length) {
+		if(nextPhrase == nullPhrase) {
 			Debug.Log("Finished song!");
 		} else {
 			// Continue to the next phrase
-			var nextPhrase = songPhrases[currentSongPhraseIndex];
 			var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentSongPhraseEndBeat);
 			currentSongPhraseEndBeat += nextPhrase.loop.numBeats;
 			// Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
 			nextPhrase.loop.PlayLoop(nextPhraseStartDSPTime, nextPhrase.chord, soundEvent);
 		}
+	}
+
+	SongPhrase GetNextPhrase() {
+		// If we're repeating this phrase, keep repeating it
+		if(currentSongPhraseNumRepeatsRemaining > 0) {
+			currentSongPhraseNumRepeatsRemaining--;
+		} else {
+			currentSongPhraseIndex++;
+			if(currentSongPhraseIndex >= songSections[currentSongSectionIndex].phrases.Length) {
+				currentSongPhraseIndex = 0;
+				currentSongSectionIndex++;
+			}
+			currentSongPhraseNumRepeatsRemaining = songSections[currentSongSectionIndex].phrases[currentSongPhraseIndex].numTimesToPlay - 1;
+		}
+
+		// If past the end of the song, return the null phrase
+		if(currentSongSectionIndex >= songSections.Length) {
+			return nullPhrase;
+		}
+
+		// Otherwise, return the correct loop
+		return songSections[currentSongSectionIndex].phrases[currentSongPhraseIndex];
 	}
 
 	// MARK: Player Loops
@@ -213,16 +229,18 @@ public class SongPlayer : MonoBehaviour {
 	// If the beat is the border between two phrases, will return the latter of the two.
 	PhraseOffsetTuple GetSongPhraseForBeat(double beat) {
 		var checkBeat = 0;
-		foreach(var phrase in songPhrases) {
-			var endOfPhraseBeat = checkBeat + phrase.numTimesToPlay*phrase.loop.numBeats;
-			if(beat < endOfPhraseBeat) {
-				return new PhraseOffsetTuple(phrase, beat - checkBeat);
+		foreach(var section in songSections) {
+			foreach(var phrase in section.phrases) {
+				var endOfPhraseBeat = checkBeat + phrase.numTimesToPlay*phrase.loop.numBeats;
+				if(beat < endOfPhraseBeat) {
+					return new PhraseOffsetTuple(phrase, beat - checkBeat);
+				}
+				checkBeat = endOfPhraseBeat;
 			}
-			checkBeat = endOfPhraseBeat;
 		}
-
+		
 		Debug.LogError("Tried to find the song phrase for beat " + beat + " but it was past the end of the song.");
-		return new PhraseOffsetTuple(songPhrases[songPhrases.Length-1], beat);
+		return new PhraseOffsetTuple(nullPhrase, beat);
 	}
 
 	string GetSongRhythmStringForBeat(double beat) {
