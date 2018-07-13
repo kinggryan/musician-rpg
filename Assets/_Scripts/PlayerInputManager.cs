@@ -5,17 +5,24 @@ using UnityEngine;
 public class PlayerInputManager : MonoBehaviour {
 
 	public SongPlayer songPlayer;
+	public PlayerLoopManager loopManager;
 
 	private bool songPlaying = false;
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("StartSong") && !songPlaying) {
-			songPlaying = true;
-			songPlayer.StartSong();
-		}
+		// if(Input.GetButtonDown("StartSong") && !songPlaying) {
+		// 	songPlaying = true;
+		// 	songPlayer.StartSong();
+		// }
 
 		if(songPlaying) {
+			if(Input.GetButtonDown("Loop")) {
+				loopManager.StartRecording();
+			} else if(Input.GetButtonUp("Loop")) {
+				loopManager.FinishRecording();
+			}
+
 			var newPlayerLoopIndex = -1;
 			if(Input.GetButtonDown("Loop1")) {
 				newPlayerLoopIndex = 0;
@@ -28,9 +35,13 @@ public class PlayerInputManager : MonoBehaviour {
 			}
 			
 			if(newPlayerLoopIndex >= 0) {
-				songPlayer.ChangePlayerLoop(newPlayerLoopIndex);
+				ChangePlayerLoop(newPlayerLoopIndex);
 			}
 		}
+	}
+
+	void ChangePlayerLoop(int loopIndex) {
+		songPlayer.ChangePlayerLoop(loopIndex);
 	}
 
 	void DidStartSong() {

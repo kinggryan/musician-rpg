@@ -75,6 +75,9 @@ public class SongPlayer : MonoBehaviour {
 				gameManager.currentSongRhythmString = GetSongRhythmStringForBeat(currentBeat);
 				gameManager.currentPlayerRhythmString = GetCurrentPlayerRhythmString();
 			}
+
+			// Broadcast this message
+			BroadcastMessage("DidStartNextBeat", currentSongBeat, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
