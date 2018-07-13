@@ -57,6 +57,10 @@ public class PlayerMusicDisplay : MonoBehaviour {
 		}
 	}
 
+	public void DidStopPlayingTracks() {
+		StopPlayingAllTracks();
+	}
+
 	public void DidQueuePlayerTrack(int trackIndex) {
 		// Set selected to false for all tracks, true for given track
 		// Don't mess with playing

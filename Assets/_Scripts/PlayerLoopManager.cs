@@ -12,7 +12,7 @@ public class PlayerLoopManager : MonoBehaviour {
 
 	// This class is responsible for recording the player's loop
 	// For now, let's just assume all player loops are 4 beats long
-	public int[] playerLoops = {-1, -1, -1 ,-1};
+	public List<int> playerLoops = new List<int>();
 	
 	SongPlayer player;
 	PlayerLoopDisplay display;
@@ -20,7 +20,6 @@ public class PlayerLoopManager : MonoBehaviour {
 	int currentRecordingLoopIndex = -1;
 	int currentRecordingSelectedLoopNumber = -1;
 	int loopLengthBeats = 2;
-	int fullRecordingBeats = 8;
 
 	// Use this for initialization
 	void Awake () {
@@ -31,13 +30,17 @@ public class PlayerLoopManager : MonoBehaviour {
 	public void StartRecording() {
 		mode = Mode.RecordingLoop;
 		currentRecordingLoopIndex = -1;
-		for(var i = 0 ; i < playerLoops.Length ; i++) {
-			playerLoops[i] = -1;
-		}
+		playerLoops.Clear();
 	}
 
 	public void FinishRecording() {
-		mode = Mode.PlayingLoop;
+		if(playerLoops.Count > 0) {
+			mode = Mode.PlayingLoop;
+			player.ChangePlayerLoop(playerLoops[0]);
+		} else {
+			mode = Mode.None;
+			player.StopPlayerLoops();
+		}
 	}
 
 	public void DidPlayPlayerTrack(int playerLoopNumber) {
@@ -47,7 +50,7 @@ public class PlayerLoopManager : MonoBehaviour {
 	}
 
 	int PlayerLoopIndexForBeatNumber(int beatNum) {
-		return beatNum/loopLengthBeats % playerLoops.Length;
+		return beatNum/loopLengthBeats % playerLoops.Count;
 	}
 
 	int PlayerLoopNumberForBeatNumber(int beatNum) {
@@ -70,11 +73,11 @@ public class PlayerLoopManager : MonoBehaviour {
 				// If recording, increment the recording beat and finish automatically if we've recorded 4 beats
 				case Mode.RecordingLoop: {
 					currentRecordingLoopIndex++;
-					if(currentRecordingLoopIndex == playerLoops.Length) {
-						FinishRecording();
-					} else {
-						// If we reached the next beat, then set the current recording beat
-						playerLoops[currentRecordingLoopIndex] = currentRecordingSelectedLoopNumber;
+					
+					// If we reached the next beat, then set the current recording beat
+					if(currentRecordingSelectedLoopNumber >= 0) {
+						Debug.Log(Time.time + " adding loop number " + currentRecordingSelectedLoopNumber);
+						playerLoops.Add(currentRecordingSelectedLoopNumber);
 						display.SetLoopNumberForIndex(currentRecordingSelectedLoopNumber, currentRecordingLoopIndex);
 					}
 					break;

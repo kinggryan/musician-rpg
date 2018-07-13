@@ -170,6 +170,12 @@ public class SongPlayer : MonoBehaviour {
 		BroadcastMessage("DidQueuePlayerTrack", nextPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
 	}
 
+	public void StopPlayerLoops() {
+		// Set teh player loop end beat to 0
+		currentPlayerLoopEndBeat = 0;
+		BroadcastMessage("DidStopPlayingTracks", SendMessageOptions.DontRequireReceiver);
+	}
+
 	void ProceedToNextPlayerLoop() {
 		currentPlayerLoopIndex = nextPlayerLoopIndex;
 		currentPlayerLoopEndBeat = nextPlayerLoopEndBeat;
