@@ -1,20 +1,22 @@
 sections:
   - name: Chorus
     loops:
-    - file: Oud_1
-      chord: A
+    - file: Guitar_01
+      chord: Am
       numReps: 1
-    - file: Oud_1
-      chord: D
+    - file: Guitar_02
+      chord: Am
       numReps: 1
   - name: Verse
     loops:
-    - file: Oud_2
-      chord: A
+    - file: Guitar_01
+      chord: GM
       numReps: 1
-    - file: Oud_2
-      chord: D
+    - file: Guitar_01
+      chord: DM
       numReps: 1
 structure:
+  - Chorus
+  - Verse
   - Chorus
   - Verse

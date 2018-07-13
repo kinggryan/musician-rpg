@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -705,7 +705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &947198855
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1588,14 +1588,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1265418467}
   characters: {fileID: 1265418469}
-  bpm: 120
+  bpm: 100
   playerAudioLoops:
   - loopToPlay: 0
-    numBeats: 2
+    numBeats: 8
   - loopToPlay: 1
-    numBeats: 2
+    numBeats: 8
   - loopToPlay: 2
-    numBeats: 2
+    numBeats: 8
   - loopToPlay: 3
     numBeats: 2
   songFilename: testsong
