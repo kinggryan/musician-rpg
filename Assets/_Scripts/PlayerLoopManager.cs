@@ -57,8 +57,9 @@ public class PlayerLoopManager : MonoBehaviour {
 		return playerLoops[PlayerLoopIndexForBeatNumber(beatNum)];
 	}
 
-	void DidStartNextBeat(int newBeatNum) {
+	void DidStartNextBeat(SongPlayer.BeatUpdateInfo beatInfo) {
 		// Don't do anything unless we startd the beat before the next loop
+		var newBeatNum = beatInfo.currentBeat;
 		if(newBeatNum % loopLengthBeats == loopLengthBeats - 1) {
 			// schedule the next player loop
 			switch(mode) {

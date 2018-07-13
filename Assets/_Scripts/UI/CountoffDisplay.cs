@@ -38,6 +38,20 @@ public class CountoffDisplay : MonoBehaviour {
 		PulseWithText("" + currentBeat);
 	}
 
+	void DidStartNextBeat(SongPlayer.BeatUpdateInfo beatInfo) {
+		Debug.Log("Beats until next section: " + beatInfo.beatsUntilNextSection);
+		if(beatInfo.nextSection.name != beatInfo.currentSection.name) {
+			if(beatInfo.beatsUntilNextSection == 4) {
+				currentBeat = 1;
+				timeTillNextBeat = beatDuration;
+				PulseWithText(""+currentBeat);
+			} else if(beatInfo.beatsUntilNextSection == 8) {
+				currentBeat = -1;
+				PulseWithText(beatInfo.nextSection.name+" comin' up!");
+			}
+		}
+	}
+
 	void PulseWithText(string text) {
 		// lol
 		this.text.text = text;
@@ -46,12 +60,14 @@ public class CountoffDisplay : MonoBehaviour {
 	}
 
 	void NextBeat() {
-		currentBeat++;
-		if(currentBeat > finalBeat) {
-			text.enabled = false;
-			Object.Destroy(this);
-		} else {
-			PulseWithText(text.text = "" + currentBeat);
+		if(currentBeat > 0) {
+			currentBeat++;
+			if(currentBeat > finalBeat) {
+				text.text = "";
+				currentBeat = -1;
+			} else {
+				PulseWithText(text.text = "" + currentBeat);
+			}
 		}
 	}
 }
