@@ -39,7 +39,7 @@ public class SongPlayer : MonoBehaviour {
 	private double songStartDSPTime;
 	public double bpm;
 	public AudioLoop[] playerAudioLoops;
-	public SongSection[] song;
+	private SongSection[] song;
 	private SongPhrase[] songPhrases;
 	public SoundEvent soundEvent;
 
