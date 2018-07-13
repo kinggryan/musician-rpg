@@ -1591,14 +1591,14 @@ MonoBehaviour:
   bpm: 100
   playerAudioLoops:
   - loopToPlay: 0
-    numBeats: 8
+    numBeats: 4
   - loopToPlay: 1
-    numBeats: 8
+    numBeats: 4
   - loopToPlay: 2
-    numBeats: 8
+    numBeats: 4
   - loopToPlay: 3
-    numBeats: 2
-  songFilename: testsong
+    numBeats: 4
+  songFilename: TravisSong1
   soundEvent: {fileID: 934864775}
   currentPlayerLoopEndBeat: 0
   currentPlayerLoopIndex: 0
