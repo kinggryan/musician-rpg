@@ -15,8 +15,9 @@ public class PlayerLoopManager : MonoBehaviour {
 	public int[] playerLoops = {-1, -1, -1 ,-1};
 	
 	SongPlayer player;
+	PlayerLoopDisplay display;
 	Mode mode = Mode.None;
-	int currentRecordingBeat = -1;
+	int currentRecordingLoopIndex = -1;
 	int currentRecordingSelectedLoopNumber = -1;
 	int loopLengthBeats = 2;
 	int fullRecordingBeats = 8;
@@ -24,11 +25,12 @@ public class PlayerLoopManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		player = GetComponent<SongPlayer>();
+		display = GetComponent<PlayerLoopDisplay>();
 	}
 	
 	public void StartRecording() {
 		mode = Mode.RecordingLoop;
-		currentRecordingBeat = -1;
+		currentRecordingLoopIndex = -1;
 		for(var i = 0 ; i < playerLoops.Length ; i++) {
 			playerLoops[i] = -1;
 		}
@@ -44,8 +46,12 @@ public class PlayerLoopManager : MonoBehaviour {
 		}
 	}
 
+	int PlayerLoopIndexForBeatNumber(int beatNum) {
+		return beatNum/loopLengthBeats % playerLoops.Length;
+	}
+
 	int PlayerLoopNumberForBeatNumber(int beatNum) {
-		return playerLoops[beatNum/loopLengthBeats % playerLoops.Length];
+		return playerLoops[PlayerLoopIndexForBeatNumber(beatNum)];
 	}
 
 	void DidStartNextBeat(int newBeatNum) {
@@ -63,12 +69,13 @@ public class PlayerLoopManager : MonoBehaviour {
 				}
 				// If recording, increment the recording beat and finish automatically if we've recorded 4 beats
 				case Mode.RecordingLoop: {
-					currentRecordingBeat++;
-					if(currentRecordingBeat == fullRecordingBeats) {
+					currentRecordingLoopIndex++;
+					if(currentRecordingLoopIndex == playerLoops.Length) {
 						FinishRecording();
 					} else {
 						// If we reached the next beat, then set the current recording beat
-						playerLoops[currentRecordingBeat] = currentRecordingSelectedLoopNumber;
+						playerLoops[currentRecordingLoopIndex] = currentRecordingSelectedLoopNumber;
+						display.SetLoopNumberForIndex(currentRecordingSelectedLoopNumber, currentRecordingLoopIndex);
 					}
 					break;
 				}
