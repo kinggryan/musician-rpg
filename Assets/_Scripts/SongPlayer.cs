@@ -39,6 +39,8 @@ public class SongPlayer : MonoBehaviour {
 	private double songStartDSPTime;
 	public double bpm;
 	public AudioLoop[] playerAudioLoops;
+	public string songFilename;
+
 	private SongSection[] song;
 	private SongPhrase[] songPhrases;
 	public SoundEvent soundEvent;
@@ -58,7 +60,7 @@ public class SongPlayer : MonoBehaviour {
 
 	void Start() {
 		// Initialize the song and start the countoff
-		song = SongFileReader.ReadSongFile("testsong");
+		song = SongFileReader.ReadSongFile(songFilename);
 		SetSongPhrases();
 		Invoke("StartCountoff",2);
 	}

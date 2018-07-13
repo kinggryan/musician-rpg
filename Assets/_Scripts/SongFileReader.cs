@@ -10,7 +10,6 @@ public static class SongFileReader  {
 
 	class Loop {
 		public string file { get; set; }
-		public int numBeats { get; set; }
 		public string chord { get; set; }
 		public int numReps { get; set; }
 	}

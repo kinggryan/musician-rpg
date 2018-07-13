@@ -2,21 +2,17 @@ sections:
   - name: Chorus
     loops:
     - file: Oud_1
-      numBeats: 2
       chord: A
       numReps: 1
     - file: Oud_1
-      numBeats: 2
       chord: D
       numReps: 1
   - name: Verse
     loops:
     - file: Oud_2
-      numBeats: 2
       chord: A
       numReps: 1
     - file: Oud_2
-      numBeats: 2
       chord: D
       numReps: 1
 structure:
