@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterAnimationManager : MonoBehaviour {
 
 	public NPCAnimationController[] npcs;
+	public SongStructureDisplay songStructureDisplay;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,7 @@ public class CharacterAnimationManager : MonoBehaviour {
 		foreach(var npc in npcs) {
 			npc.StartPlaying();
 		}
+		songStructureDisplay.StartSong();
 	}
 
 	public void UpdateGroove(float groove) {

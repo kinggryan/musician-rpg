@@ -75,6 +75,9 @@ public class SongPlayer : MonoBehaviour {
 				gameManager.currentSongRhythmString = GetSongRhythmStringForBeat(currentBeat);
 				gameManager.currentPlayerRhythmString = GetCurrentPlayerRhythmString();
 			}
+
+			// Broadcast this message
+			BroadcastMessage("DidStartNextBeat", currentSongBeat, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
@@ -165,6 +168,12 @@ public class SongPlayer : MonoBehaviour {
 		nextPlayerLoopIndex = loopIndex;
 
 		BroadcastMessage("DidQueuePlayerTrack", nextPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
+	}
+
+	public void StopPlayerLoops() {
+		// Set teh player loop end beat to 0
+		currentPlayerLoopEndBeat = 0;
+		BroadcastMessage("DidStopPlayingTracks", SendMessageOptions.DontRequireReceiver);
 	}
 
 	void ProceedToNextPlayerLoop() {
