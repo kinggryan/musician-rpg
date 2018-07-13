@@ -38,6 +38,11 @@ public class AudioLoop {
 	// The length of this loop in beats
 	public int numBeats;
 
+	public AudioLoop(LoopName loopName) {
+		loopToPlay = loopName;
+		numBeats = AudioLoop.NumBeatsForLoopName(loopName);
+	}
+
 	// Plays this loop with a given chord at a given time
 	public AudioSource PlayLoop(double dspTime, Chord chord, SoundEvent soundEvent){
 		var source = soundEvent.gameObject.AddComponent<AudioSource>();
@@ -129,6 +134,60 @@ public class AudioLoop {
 		// If we don't find the clip to play, something is misconfigured
 		Debug.LogError("Couldn't load a clip for chord " + chord + " with loop name " + loopToPlay);
 		return null;
+	}
+
+	public static LoopName LoopNameForString(string loopName) {
+		switch(loopName) {
+			case "Oud_1": return LoopName.Oud_1;
+			case "Oud_2": return LoopName.Oud_2;
+			case "Oud_3": return LoopName.Oud_3;
+			case "Oud_4": return LoopName.Oud_4;
+			case "Derbakki_1": return LoopName.Derbakki_1;
+			case "Derbakki_2": return LoopName.Derbakki_2;
+			case "Derbakki_3": return LoopName.Derbakki_3;
+			case "Derbakki_4": return LoopName.Derbakki_4;
+		}
+
+		Debug.LogError("Tried to load loop for '" + loopName + "' but one doesn't exist");
+		return LoopName.Oud_1;
+	}
+
+	public static int NumBeatsForLoopName(LoopName loopName) {
+		switch(loopName) {
+			case LoopName.Derbakki_1:
+			case LoopName.Derbakki_2:
+			case LoopName.Derbakki_3:
+			case LoopName.Derbakki_4:
+				return 1;
+			case LoopName.Oud_1:
+			case LoopName.Oud_2:
+			case LoopName.Oud_3:
+			case LoopName.Oud_4:
+				return 2;
+		}
+
+		Debug.LogError("Tried to get num beats for for '" + loopName + "' but can't");
+		return 0;
+	}
+
+	public static Chord ChordForString(string chord) {
+		switch(chord) {
+			case "A": return Chord.A;
+			case "Bb": return Chord.Bb;
+			case "B": return Chord.B;
+			case "C": return Chord.C;
+			case "Db": return Chord.Db;
+			case "D": return Chord.D;
+			case "Eb": return Chord.Eb;
+			case "E": return Chord.E;
+			case "F": return Chord.F;
+			case "Gb": return Chord.Gb;
+			case "G": return Chord.Gb;
+			case "Ab": return Chord.Ab;
+		}
+
+		Debug.LogError("Tried to load chord for '" + chord + "' but one doesn't exist");
+		return Chord.A;
 	}
 
 	// Returns the rhythm string for this audioloop
