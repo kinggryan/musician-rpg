@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -55,6 +55,11 @@ public class AudioLoop {
 	public LoopName loopToPlay;
 	// The length of this loop in beats
 	public int numBeats;
+
+	public AudioLoop(LoopName loopName) {
+		loopToPlay = loopName;
+		numBeats = AudioLoop.NumBeatsForLoopName(loopName);
+	}
 
 	// Plays this loop with a given chord at a given time
 	public AudioSource PlayLoop(double dspTime, Chord chord, SoundEvent soundEvent, AudioMixerGroup output){
@@ -441,6 +446,86 @@ public class AudioLoop {
 
 	AudioClip GetDerbakki_4AudioClip(Chord chord){
 		return Resources.Load("Derbakki/Derbakki-004", typeof(AudioClip)) as AudioClip;
+	}
+
+	public static LoopName LoopNameForString(string loopName) {
+		switch(loopName) {
+			case "Oud_1": return LoopName.Oud_1;
+			case "Oud_2": return LoopName.Oud_2;
+			case "Oud_3": return LoopName.Oud_3;
+			case "Oud_4": return LoopName.Oud_4;
+			case "Derbakki_1": return LoopName.Derbakki_1;
+			case "Derbakki_2": return LoopName.Derbakki_2;
+			case "Derbakki_3": return LoopName.Derbakki_3;
+			case "Derbakki_4": return LoopName.Derbakki_4;
+			case "Guitar_01": return LoopName.Guitar_01;
+			case "Guitar_02": return LoopName.Guitar_02;
+			case "Flute_01": return LoopName.Flute_01;
+			case "Flute_02": return LoopName.Flute_02;
+			case "Flute_03": return LoopName.Flute_03;
+			case "Flute_04": return LoopName.Flute_04;
+		}
+
+		Debug.LogError("Tried to load loop for '" + loopName + "' but one doesn't exist");
+		return LoopName.Oud_1;
+	}
+
+	public static int NumBeatsForLoopName(LoopName loopName) {
+		switch(loopName) {
+			case LoopName.Derbakki_1:
+			case LoopName.Derbakki_2:
+			case LoopName.Derbakki_3:
+			case LoopName.Derbakki_4:
+				return 1;
+			case LoopName.Oud_1:
+			case LoopName.Oud_2:
+			case LoopName.Oud_3:
+			case LoopName.Oud_4:
+				return 2;
+			case LoopName.Guitar_01:
+			case LoopName.Guitar_02:
+				return 4;
+			case LoopName.Flute_01:
+			case LoopName.Flute_02:
+			case LoopName.Flute_03:
+			case LoopName.Flute_04:
+				return 8;
+		}
+
+		Debug.LogError("Tried to get num beats for for '" + loopName + "' but can't");
+		return 0;
+	}
+
+	public static Chord ChordForString(string chord) {
+		switch(chord) {
+			case "AM": return Chord.AM;
+			case "Am": return Chord.Am;
+			case "BbM": return Chord.BbM;
+			case "Bbm": return Chord.Bbm;
+			case "BM": return Chord.BM;
+			case "Bm": return Chord.Bm;
+			case "CM": return Chord.CM;
+			case "Cm": return Chord.Cm;
+			case "DbM": return Chord.DbM;
+			case "Dbm": return Chord.Dbm;
+			case "DM": return Chord.DM;
+			case "Dm": return Chord.Dm;
+			case "EbM": return Chord.EbM;
+			case "Ebm": return Chord.Ebm;
+			case "EM": return Chord.EM;
+			case "Em": return Chord.Em;
+			case "FM": return Chord.FM;
+			case "Fm": return Chord.Fm;
+			case "GbM": return Chord.GbM;
+			case "Gbm": return Chord.Gbm;
+			case "GM": return Chord.GM;
+			case "Gm": return Chord.Gm;
+			case "AbM": return Chord.AbM;
+			case "Abm": return Chord.Abm;
+		}
+
+		Debug.LogError("Tried to load chord for '" + chord + "' but one doesn't exist");
+		return Chord.Am;
 	}
 
 	// Returns the rhythm string for this audioloop

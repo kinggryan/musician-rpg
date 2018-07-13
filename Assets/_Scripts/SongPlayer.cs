@@ -10,12 +10,18 @@ public class SongPlayer : MonoBehaviour {
 		public AudioLoop loop;
 		public AudioLoop.Chord chord;
 		public int numTimesToPlay;
+
+		public SongPhrase(string loopName, string chordName, int numTimesToPlay) {
+			loop = new AudioLoop(AudioLoop.LoopNameForString(loopName));
+			chord = AudioLoop.ChordForString(chordName);
+			this.numTimesToPlay = numTimesToPlay;
+		}
 	}
 
 	[System.Serializable]
 	public struct SongSection {
+		public string name;
 		public SongPhrase[] phrases;
-		public int numTimesToPlay;
 	}
 
 	struct PhraseOffsetTuple {
@@ -34,7 +40,9 @@ public class SongPlayer : MonoBehaviour {
 	private double songStartDSPTime;
 	public double bpm;
 	public AudioLoop[] playerAudioLoops;
-	public SongSection[] song;
+	public string songFilename;
+
+	private SongSection[] song;
 	private SongPhrase[] songPhrases;
 	public SoundEvent soundEvent;
 
@@ -53,6 +61,13 @@ public class SongPlayer : MonoBehaviour {
 	private double currentSongBeat;
 	private int currentSongPhraseIndex = -1;
 	private int currentSongPhraseNumRepeatsRemaining = 0;
+
+	void Start() {
+		// Initialize the song and start the countoff
+		song = SongFileReader.ReadSongFile(songFilename);
+		SetSongPhrases();
+		Invoke("StartCountoff",2);
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -85,21 +100,13 @@ public class SongPlayer : MonoBehaviour {
 		}
 	}
 
-	void Start() {
-		// Initialize the song and start the countoff
-		SetSongPhrases();
-		Invoke("StartCountoff",2);
-	}
-
 	// MARK: Song Loops
 	
 	void SetSongPhrases() {
 		var songPhrasesList = new List<SongPhrase>();
 		foreach(var section in song) {
-			for(var i = 0 ; i < section.numTimesToPlay; i++) {
-				foreach(var phrase in section.phrases) {
-					songPhrasesList.Add(phrase);
-				}
+			foreach(var phrase in section.phrases) {
+				songPhrasesList.Add(phrase);
 			}
 		}
 		songPhrases = songPhrasesList.ToArray();
