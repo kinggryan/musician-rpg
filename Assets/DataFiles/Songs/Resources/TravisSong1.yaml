@@ -5,10 +5,10 @@ sections:
       chord: Am
       numReps: 2
     - file: Guitar_02
-      chord: EM
+      chord: CM
       numReps: 2
     - file: Guitar_02
-      chord: EM
+      chord: G
       numReps: 2
     - file: Guitar_02
       chord: Am
@@ -20,7 +20,7 @@ sections:
       chord: Am
       numReps: 2
     - file: Guitar_02
-      chord: EM
+      chord: GM
       numReps: 2
     - file: Guitar_02
       chord: Am
