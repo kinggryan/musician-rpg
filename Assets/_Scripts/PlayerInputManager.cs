@@ -22,21 +22,21 @@ public class PlayerInputManager : MonoBehaviour {
 			} else if(Input.GetButtonUp("Loop")) {
 				loopManager.FinishRecording();
 			}
+		}
 
-			var newPlayerLoopIndex = -1;
-			if(Input.GetButtonDown("Loop1")) {
-				newPlayerLoopIndex = 0;
-			} else if (Input.GetButtonDown("Loop2")) {
-				newPlayerLoopIndex = 1;
-			} else if (Input.GetButtonDown("Loop3")) {
-				newPlayerLoopIndex = 2;
-			} else if (Input.GetButtonDown("Loop4")) {
-				newPlayerLoopIndex = 3;
-			}
-			
-			if(newPlayerLoopIndex >= 0) {
-				ChangePlayerLoop(newPlayerLoopIndex);
-			}
+		var newPlayerLoopIndex = -1;
+		if(Input.GetButtonDown("Loop1")) {
+			newPlayerLoopIndex = 0;
+		} else if (Input.GetButtonDown("Loop2")) {
+			newPlayerLoopIndex = 1;
+		} else if (Input.GetButtonDown("Loop3")) {
+			newPlayerLoopIndex = 2;
+		} else if (Input.GetButtonDown("Loop4")) {
+			newPlayerLoopIndex = 3;
+		}
+		
+		if(newPlayerLoopIndex >= 0) {
+			ChangePlayerLoop(newPlayerLoopIndex);
 		}
 	}
 

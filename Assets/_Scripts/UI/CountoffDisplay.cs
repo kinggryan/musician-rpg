@@ -39,7 +39,6 @@ public class CountoffDisplay : MonoBehaviour {
 	}
 
 	void DidStartNextBeat(SongPlayer.BeatUpdateInfo beatInfo) {
-		Debug.Log("Beats until next section: " + beatInfo.beatsUntilNextSection);
 		if(beatInfo.nextSection.name != beatInfo.currentSection.name) {
 			if(beatInfo.beatsUntilNextSection == 4) {
 				currentBeat = 1;

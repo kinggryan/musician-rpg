@@ -62,7 +62,7 @@ public class SongPlayer : MonoBehaviour {
 	private SongSection[] songSections;
 	public SoundEvent soundEvent;
 
-	public double currentPlayerLoopEndBeat;
+	public double currentPlayerLoopEndBeat = -1;
 	public int currentPlayerLoopIndex;
 	
 	public double nextPlayerLoopEndBeat;
@@ -77,6 +77,8 @@ public class SongPlayer : MonoBehaviour {
 	private int currentSongPhraseIndex = -1;
 	private int currentSongPhraseNumRepeatsRemaining = 0;
 
+	private bool songStarted = false;
+
 	void Start() {
 		// Initialize the song and start the countoff
 		songSections = SongFileReader.ReadSongFile(songFilename);
@@ -85,40 +87,43 @@ public class SongPlayer : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// If we incremented to the next beat
-		var previousBeat = currentSongBeat;
-		currentSongBeat = GetCurrentBeat();
-		// Debug.Log("Cur beat " + currentSongBeat + " current song phrase end beat " + currentSongPhraseEndBeat);
-		if(currentSongBeat > previousBeat) {
-			// Continue The song player
-			if(currentSongBeat == currentSongPhraseEndBeat - 1)
-				PlayNextPhrase();
+		if(songStarted) {
+			// If we incremented to the next beat
+			var previousBeat = currentSongBeat;
+			currentSongBeat = GetCurrentBeat();
+			// Debug.Log("Cur beat " + currentSongBeat + " current song phrase end beat " + currentSongPhraseEndBeat);
+			if(currentSongBeat > previousBeat) {
+				// Continue The song player
+				if(currentSongBeat == currentSongPhraseEndBeat - 1)
+					PlayNextPhrase();
 
-			// Set up the next player's loop
-			if(currentSongBeat == currentPlayerLoopEndBeat)
-				ProceedToNextPlayerLoop();
+				// Set up the next player's loop
+				Debug.Log("Current beat : " + currentSongBeat + " end beat: " + currentPlayerLoopEndBeat);
+				if(currentSongBeat == currentPlayerLoopEndBeat)
+					ProceedToNextPlayerLoop();
 
-			// If we actually transitioned to a new player, broadcast a message to tell other elements to update
-			// The current player loop end beat is <= 0 when the song hasn't started
-			// TODO: Add a utility method for this
-			if(currentPlayerLoopEndBeat > 0) {
-				BroadcastMessage("DidPlayPlayerTrack", currentPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
-				// Tell the game manager what the current song's rhythm track is
-				var currentBeat = GetCurrentBeat();
-				gameManager.currentSongRhythmString = GetSongRhythmStringForBeat(currentBeat);
-				gameManager.currentPlayerRhythmString = GetCurrentPlayerRhythmString();
+				// If we actually transitioned to a new player, broadcast a message to tell other elements to update
+				// The current player loop end beat is <= 0 when the song hasn't started
+				// TODO: Add a utility method for this
+				if(currentPlayerLoopEndBeat >= 0) {
+					BroadcastMessage("DidPlayPlayerTrack", currentPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
+					// Tell the game manager what the current song's rhythm track is
+					var currentBeat = GetCurrentBeat();
+					gameManager.currentSongRhythmString = GetSongRhythmStringForBeat(currentBeat);
+					gameManager.currentPlayerRhythmString = GetCurrentPlayerRhythmString();
+				}
+
+				// Broadcast this message
+				var beatUpdateInfo = new BeatUpdateInfo();
+				beatUpdateInfo.currentBeat = Mathf.RoundToInt((float)currentSongBeat);
+				beatUpdateInfo.currentSection = songSections[currentSongSectionIndex];
+				if(currentSongSectionIndex + 1 < songSections.Length) {
+					beatUpdateInfo.nextSection = songSections[currentSongSectionIndex+1];
+					beatUpdateInfo.beatsUntilNextSection = GetStartBeatForSectionIndex(currentSongSectionIndex+1) - Mathf.RoundToInt((float)currentSongBeat);
+				}
+				
+				BroadcastMessage("DidStartNextBeat", beatUpdateInfo, SendMessageOptions.DontRequireReceiver);
 			}
-
-			// Broadcast this message
-			var beatUpdateInfo = new BeatUpdateInfo();
-			beatUpdateInfo.currentBeat = Mathf.RoundToInt((float)currentSongBeat);
-			beatUpdateInfo.currentSection = songSections[currentSongSectionIndex];
-			if(currentSongSectionIndex + 1 < songSections.Length) {
-				beatUpdateInfo.nextSection = songSections[currentSongSectionIndex+1];
-				beatUpdateInfo.beatsUntilNextSection = GetStartBeatForSectionIndex(currentSongSectionIndex+1) - Mathf.RoundToInt((float)currentSongBeat);
-			}
-			
-			BroadcastMessage("DidStartNextBeat", beatUpdateInfo, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
@@ -133,11 +138,19 @@ public class SongPlayer : MonoBehaviour {
 
 	public void StartSong() {
 		songStartDSPTime = AudioSettings.dspTime;
+		songStarted = true;
 		gameManager.songStarted = true;
 		characters.DidStartSong();
 		PlayNextPhrase();
 		// HACK:? 
 		PlayNextPhrase();
+
+		// Also kind of a hack
+		if(currentPlayerLoopIndex >= 0) {
+			ContinuePlayerLoop();
+			ProceedToNextPlayerLoop();
+		}
+
 
 		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
 	}
@@ -184,6 +197,7 @@ public class SongPlayer : MonoBehaviour {
 	
 	// Continues looping the current player loop
 	void ContinuePlayerLoop() {
+		Debug.Log("Continuing player loop");
 		nextPlayerLoopIndex = currentPlayerLoopIndex;
 		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
 		nextPlayerLoopEndBeat = currentPlayerLoopEndBeat + playerAudioLoops[nextPlayerLoopIndex].numBeats;
@@ -191,26 +205,33 @@ public class SongPlayer : MonoBehaviour {
 	}
 
 	public void ChangePlayerLoop(int loopIndex) {
-		// We want to start this player loop at the next beat
-		var beatToStartAt = currentPlayerLoopEndBeat > 0 ? currentPlayerLoopEndBeat : currentSongPhraseEndBeat;
-		// If not playing any player loops yet, set the current song phrase end beat
-		if(currentPlayerLoopEndBeat <= 0)
-			currentPlayerLoopEndBeat = currentSongPhraseEndBeat;
+		if(songStarted) {
+			// We want to start this player loop at the next beat
+			var beatToStartAt = currentPlayerLoopEndBeat > 0 ? currentPlayerLoopEndBeat : currentSongPhraseEndBeat;
+			// If not playing any player loops yet, set the current song phrase end beat
+			if(currentPlayerLoopEndBeat <= 0)
+				currentPlayerLoopEndBeat = currentSongPhraseEndBeat;
 
-		var beatToStartAtDSPTime = ConvertBeatToDSPTime(beatToStartAt);
-		// Cancel the next clip
-		if(nextPlayerAudioSource)
-			nextPlayerAudioSource.Stop();
-		nextPlayerAudioSource = playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime, GetChordForBeat(beatToStartAt), soundEvent);
-		nextPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
-		nextPlayerLoopIndex = loopIndex;
-
-		BroadcastMessage("DidQueuePlayerTrack", nextPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
+			var beatToStartAtDSPTime = ConvertBeatToDSPTime(beatToStartAt);
+			// Cancel the next clip
+			if(nextPlayerAudioSource)
+				nextPlayerAudioSource.Stop();
+			nextPlayerAudioSource = playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime, GetChordForBeat(beatToStartAt), soundEvent);
+			nextPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
+			nextPlayerLoopIndex = loopIndex;
+			BroadcastMessage("DidQueuePlayerTrack", nextPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
+		} else {
+			currentPlayerLoopIndex = loopIndex;
+			nextPlayerLoopIndex = loopIndex;
+			currentPlayerLoopEndBeat = 0;
+			nextPlayerLoopEndBeat = playerAudioLoops[loopIndex].numBeats;
+			BroadcastMessage("DidQueuePlayerTrack", loopIndex, SendMessageOptions.DontRequireReceiver);
+		}
 	}
 
 	public void StopPlayerLoops() {
 		// Set teh player loop end beat to 0
-		currentPlayerLoopEndBeat = 0;
+		currentPlayerLoopEndBeat = -1;
 		BroadcastMessage("DidStopPlayingTracks", SendMessageOptions.DontRequireReceiver);
 	}
 
