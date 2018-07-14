@@ -39,7 +39,8 @@ public class CountoffDisplay : MonoBehaviour {
 	}
 
 	void DidStartNextBeat(SongPlayer.BeatUpdateInfo beatInfo) {
-		if(beatInfo.nextSection.name != beatInfo.currentSection.name) {
+		// if(beatInfo.nextSection.name != beatInfo.currentSection.name) {
+			Debug.Log("Beats until next section: " + beatInfo.beatsUntilNextSection);
 			if(beatInfo.beatsUntilNextSection == 4) {
 				currentBeat = 1;
 				timeTillNextBeat = beatDuration;
@@ -48,7 +49,7 @@ public class CountoffDisplay : MonoBehaviour {
 				currentBeat = -1;
 				PulseWithText(beatInfo.nextSection.name+" comin' up!");
 			}
-		}
+		// }
 	}
 
 	void PulseWithText(string text) {

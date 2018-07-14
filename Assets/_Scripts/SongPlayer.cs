@@ -102,7 +102,7 @@ public class SongPlayer : MonoBehaviour {
 					PlayNextPhrase();
 
 				// Set up the next player's loop
-				Debug.Log("Current beat : " + currentSongBeat + " end beat: " + currentPlayerLoopEndBeat);
+				// Debug.Log("Current beat : " + currentSongBeat + " end beat: " + currentPlayerLoopEndBeat);
 				if(currentSongBeat == currentPlayerLoopEndBeat)
 					ProceedToNextPlayerLoop();
 
@@ -201,7 +201,7 @@ public class SongPlayer : MonoBehaviour {
 	
 	// Continues looping the current player loop
 	void ContinuePlayerLoop() {
-		Debug.Log("Continuing player loop");
+		// Debug.Log("Continuing player loop");
 		nextPlayerLoopIndex = currentPlayerLoopIndex;
 		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
 		nextPlayerLoopEndBeat = currentPlayerLoopEndBeat + playerAudioLoops[nextPlayerLoopIndex].numBeats;
