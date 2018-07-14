@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1590,20 +1590,24 @@ MonoBehaviour:
   characters: {fileID: 1265418469}
   bpm: 100
   playerAudioLoops:
-  - loopToPlay: 0
-    numBeats: 8
-  - loopToPlay: 1
-    numBeats: 8
   - loopToPlay: 2
-    numBeats: 8
+    numBeats: 4
+  - loopToPlay: 1
+    numBeats: 4
+  - loopToPlay: 0
+    numBeats: 4
   - loopToPlay: 3
-    numBeats: 2
-  songFilename: testsong
+    numBeats: 4
+  songFilename: TravisSong1
   soundEvent: {fileID: 934864775}
   currentPlayerLoopEndBeat: 0
   currentPlayerLoopIndex: 0
   nextPlayerLoopEndBeat: 0
   nextPlayerLoopIndex: 0
+  playerOutput: {fileID: 243660908193783810, guid: fa6c0180ced2bdf479fc5740a08f63cf,
+    type: 2}
+  npcOutput: {fileID: 243782690406516986, guid: fa6c0180ced2bdf479fc5740a08f63cf,
+    type: 2}
 --- !u!4 &1665567315
 Transform:
   m_ObjectHideFlags: 0

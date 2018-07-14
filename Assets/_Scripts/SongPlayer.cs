@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SongPlayer : MonoBehaviour {
 
@@ -68,6 +69,9 @@ public class SongPlayer : MonoBehaviour {
 	public double nextPlayerLoopEndBeat;
 	public int nextPlayerLoopIndex;
 	/// Save the next player clip so that we can cancel it's playback when the PC changes which loop they are going to play
+	public AudioMixerGroup playerOutput;
+	
+	public AudioMixerGroup npcOutput;
 	private AudioSource nextPlayerAudioSource;	
 
 	private double currentSongPhraseEndBeat;
@@ -167,7 +171,7 @@ public class SongPlayer : MonoBehaviour {
 			var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentSongPhraseEndBeat);
 			currentSongPhraseEndBeat += nextPhrase.loop.numBeats;
 			// Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
-			nextPhrase.loop.PlayLoop(nextPhraseStartDSPTime, nextPhrase.chord, soundEvent);
+			nextPhrase.loop.PlayLoop(nextPhraseStartDSPTime, nextPhrase.chord, soundEvent, npcOutput);
 		}
 	}
 
@@ -201,7 +205,7 @@ public class SongPlayer : MonoBehaviour {
 		nextPlayerLoopIndex = currentPlayerLoopIndex;
 		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
 		nextPlayerLoopEndBeat = currentPlayerLoopEndBeat + playerAudioLoops[nextPlayerLoopIndex].numBeats;
-		nextPlayerAudioSource = playerAudioLoops[nextPlayerLoopIndex].PlayLoop(nextPhraseStartDSPTime, GetChordForBeat(currentPlayerLoopEndBeat), soundEvent);
+		nextPlayerAudioSource = playerAudioLoops[nextPlayerLoopIndex].PlayLoop(nextPhraseStartDSPTime, GetChordForBeat(currentPlayerLoopEndBeat), soundEvent, playerOutput);
 	}
 
 	public void ChangePlayerLoop(int loopIndex) {
@@ -216,7 +220,7 @@ public class SongPlayer : MonoBehaviour {
 			// Cancel the next clip
 			if(nextPlayerAudioSource)
 				nextPlayerAudioSource.Stop();
-			nextPlayerAudioSource = playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime, GetChordForBeat(beatToStartAt), soundEvent);
+			nextPlayerAudioSource = playerAudioLoops[loopIndex].PlayLoop(beatToStartAtDSPTime, GetChordForBeat(beatToStartAt), soundEvent, playerOutput);
 			nextPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].numBeats;
 			nextPlayerLoopIndex = loopIndex;
 			BroadcastMessage("DidQueuePlayerTrack", nextPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);

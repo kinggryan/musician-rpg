@@ -1,0 +1,47 @@
+sections:
+  - name: Verse
+    loops:
+    - file: Guitar_02
+      chord: Am
+      numReps: 2
+    - file: Guitar_02
+      chord: CM
+      numReps: 2
+    - file: Guitar_02
+      chord: G
+      numReps: 2
+    - file: Guitar_02
+      chord: Am
+      numReps: 2
+    - file: Guitar_02
+      chord: Dm
+      numReps: 2
+    - file: Guitar_02
+      chord: Am
+      numReps: 2
+    - file: Guitar_02
+      chord: GM
+      numReps: 2
+    - file: Guitar_02
+      chord: Am
+      numReps: 2
+  - name: Chorus
+    loops:
+    - file: Guitar_01
+      chord: FM
+      numReps: 2
+    - file: Guitar_01
+      chord: Am
+      numReps: 2
+    - file: Guitar_01
+      chord: BM
+      numReps: 2
+    - file: Guitar_01
+      chord: EM
+      numReps: 2
+structure:
+  - Verse
+  - Chorus
+  - Verse
+  - Chorus
+  - Verse

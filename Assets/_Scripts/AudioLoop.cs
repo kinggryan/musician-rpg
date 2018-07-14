@@ -62,15 +62,17 @@ public class AudioLoop {
 	}
 
 	// Plays this loop with a given chord at a given time
-	public AudioSource PlayLoop(double dspTime, Chord chord, SoundEvent soundEvent){
+	public AudioSource PlayLoop(double dspTime, Chord chord, SoundEvent soundEvent, AudioMixerGroup output){
 		var source = soundEvent.gameObject.AddComponent<AudioSource>();
 		var clip = AudioClipForChord(chord);
 		// Debug.Log("Clip is null?: " + (clip == null));
+		source.outputAudioMixerGroup = output;
 		source.clip = clip;
 		soundEvent.nextClipToPlay = source;
 		soundEvent.PlaySoundAtNextGrid(dspTime);
 		return source;
 	}
+
 
 	// Get the audio clip for the given chord for this audioLoop's loop to play
 	AudioClip AudioClipForChord(Chord chord) {
