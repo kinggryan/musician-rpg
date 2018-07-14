@@ -531,6 +531,12 @@ public class AudioLoop {
 	// Returns the rhythm string for this audioloop
 	public string GetRhythmString() {
 		switch(loopToPlay) {
+			case LoopName.Flute_01: return "10010000";
+			case LoopName.Flute_02: return "10100000";
+			case LoopName.Flute_03: return "11010000";
+			case LoopName.Flute_04: return "00110000";
+			case LoopName.Guitar_01: return "10100000";
+			case LoopName.Guitar_02: return "10100000";
 			case LoopName.Oud_1: return "1101";
 			case LoopName.Oud_2: return "1010";
 			case LoopName.Oud_3: return "1011";

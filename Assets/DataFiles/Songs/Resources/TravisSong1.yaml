@@ -8,7 +8,7 @@ sections:
       chord: CM
       numReps: 2
     - file: Guitar_02
-      chord: G
+      chord: GM
       numReps: 2
     - file: Guitar_02
       chord: Am
