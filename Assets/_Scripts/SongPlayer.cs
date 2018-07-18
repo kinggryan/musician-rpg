@@ -53,6 +53,7 @@ public class SongPlayer : MonoBehaviour {
 	static SongPhrase nullPhrase = new SongPhrase();
 
 	public SongGameManager gameManager;
+	public SongStructureProgressBar progressBar;
 	public CharacterAnimationManager characters;
 
 	private double songStartDSPTime;
@@ -86,6 +87,7 @@ public class SongPlayer : MonoBehaviour {
 	void Start() {
 		// Initialize the song and start the countoff
 		songSections = SongFileReader.ReadSongFile(songFilename);
+		progressBar.SetSongStructure(songSections, (float)bpm);
 		Invoke("StartCountoff",2);
 	}
 
@@ -155,7 +157,7 @@ public class SongPlayer : MonoBehaviour {
 			ProceedToNextPlayerLoop();
 		}
 
-
+		progressBar.StartSong();
 		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
 	}
 
