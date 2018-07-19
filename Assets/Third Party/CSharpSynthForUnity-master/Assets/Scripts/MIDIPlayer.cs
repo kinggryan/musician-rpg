@@ -28,6 +28,10 @@ public class MIDIPlayer : MonoBehaviour
             midiSequencer.ApplyMidiFilterToTracks(gate);
         }
     }
+    public float playbackRate {
+        set { midiSequencer.playbackSpeedMultiplier = value; }
+        get { return midiSequencer.playbackSpeedMultiplier; }
+    }
     //Private 
     private float[] sampleBuffer;
     private float gain = 1f;
@@ -49,7 +53,7 @@ public class MIDIPlayer : MonoBehaviour
 
         midiSequencer = new MidiSequencer(midiStreamSynthesizer);
 
-        trackGateVelocity = 126;
+        trackGateVelocity = 0;
 
         //These will be fired by the midiSequencer when a song plays. Check the console for messages if you uncomment these
         //midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);

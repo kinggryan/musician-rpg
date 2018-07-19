@@ -52,6 +52,7 @@ namespace CSharpSynth.Sequencer
             get { return PitchWheelSemitoneRange; }
             set { PitchWheelSemitoneRange = value; }
         }
+        public float playbackSpeedMultiplier = 1f;
         //--Public Methods
         public MidiSequencer(StreamSynthesizer synth)
         {
@@ -239,7 +240,7 @@ namespace CSharpSynth.Sequencer
                     return null;
                 }
             }
-            while (eventIndex < _MidiFile.Tracks[0].EventCount && _MidiFile.Tracks[0].MidiEvents[eventIndex].deltaTime < (sampleTime + frame))
+            while (eventIndex < _MidiFile.Tracks[0].EventCount && _MidiFile.Tracks[0].MidiEvents[eventIndex].deltaTime < (sampleTime + frame*playbackSpeedMultiplier))
             {
                 seqEvt.Events.Add(_MidiFile.Tracks[0].MidiEvents[eventIndex]);
                 eventIndex++;
@@ -248,7 +249,7 @@ namespace CSharpSynth.Sequencer
         }
         public void IncrementSampleCounter(int amount)
         {
-            sampleTime = sampleTime + amount;
+            sampleTime = sampleTime + Mathf.FloorToInt(amount*playbackSpeedMultiplier);
         }
         public void ProcessMidiEvent(MidiEvent midiEvent)
         {
@@ -358,13 +359,13 @@ namespace CSharpSynth.Sequencer
         }
         private void SilentProcess(int amount)
         {
-            while (eventIndex < _MidiFile.Tracks[0].EventCount && _MidiFile.Tracks[0].MidiEvents[eventIndex].deltaTime < (sampleTime + amount))
+            while (eventIndex < _MidiFile.Tracks[0].EventCount && _MidiFile.Tracks[0].MidiEvents[eventIndex].deltaTime < (sampleTime + amount*playbackSpeedMultiplier))
             {
                 if (_MidiFile.Tracks[0].MidiEvents[eventIndex].midiChannelEvent != MidiHelper.MidiChannelEvent.Note_On)
                     ProcessMidiEvent(_MidiFile.Tracks[0].MidiEvents[eventIndex]);               
                 eventIndex++;
             }
-            sampleTime = sampleTime + amount;
+            sampleTime = sampleTime + Mathf.FloorToInt(amount*playbackSpeedMultiplier);
         }
     }
 }
