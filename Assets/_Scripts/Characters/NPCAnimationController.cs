@@ -23,4 +23,8 @@ public class NPCAnimationController : MonoBehaviour {
 	public void UpdateGroove(float groove) {
 		animator.SetFloat("groove", groove);
 	}
+
+	public void SetBPM(float bpm) {
+		animator.speed = bpm / 120f;
+	}
 }

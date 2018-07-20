@@ -5,51 +5,55 @@ using UnityEngine;
 public class PlayerMidiController : MonoBehaviour {
 
 	public MIDIPlayer midiPlayer;
-	public int playerChannel = 1;
+	public CharacterAnimationManager animationManager;
 	PlayerMouseSpringInput mouseInput;
-	//public MIDITrackGate midiTrackGate;
 	
-	float targetBPM = 180;
-	float currentBPM = 180;
+	float songBPM = 180f;
+
+	float targetBPM;
+	float currentBPM;
+
+	int maxGate = 80;
+	int minGate = 78;
 
 	// Use this for initialization
 	void Start () {
-		//midiTrackGate.playerChannel = playerChannel;
 		mouseInput = new PlayerMouseSpringInput();
 		mouseInput.maxDistance = 400;
 		mouseInput.tension = 2;
+
+		targetBPM = songBPM;
+		currentBPM = songBPM;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// TODO: Use the actual BPM
-		
-		// if(Input.GetButtonDown("Loop1")) {
-		// 	mouseInput.SetAnchor();
-		// }
-		// if(Input.GetButton("Loop1")) {
-		// 	var playRate = (mouseInput.GetMouseValue() + 1)/2f;
-		// 	midiPlayer.playbackRate = playRate;
-		// }
-
-		// Mathf.L
-		currentBPM = Mathf.Lerp(currentBPM, targetBPM, Time.deltaTime);
-		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / 180f,0.3f,1.2f);
-	}
-
-	void DidChangeBPM(double bpm) {
-		targetBPM = (float)bpm;
-		Debug.Log("BPM: " + bpm);
-		if(!midiPlayer.IsPlaying()) {
-			midiPlayer.Play();
-		}
 		if(Input.GetButtonDown("Loop2")) {
 			mouseInput.SetAnchor();
 		}
 		if(Input.GetButton("Loop2")) {
-			int veloGate = 80 - Mathf.RoundToInt(2*((mouseInput.GetMouseValue() + 1)/2f));
+			int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((mouseInput.GetMouseValue() + 1)/2f));
 			Debug.Log("Gate: " + veloGate);
 			midiPlayer.trackGateVelocity = veloGate;
 		}
+
+		// Mathf.L
+		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
+		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / songBPM,0.3f,1.2f);
+	}
+
+	void DidChangeBPM(double bpm) {
+		targetBPM = (float)bpm;
+		
+		if(!midiPlayer.IsPlaying()) {
+			StartSongWithBPM(targetBPM);
+		}
+	}
+
+	void StartSongWithBPM(float bpm) {
+		currentBPM = bpm;
+		animationManager.SetBPM(bpm);
+		animationManager.DidStartSong();
+		midiPlayer.Play();
 	}
 }
