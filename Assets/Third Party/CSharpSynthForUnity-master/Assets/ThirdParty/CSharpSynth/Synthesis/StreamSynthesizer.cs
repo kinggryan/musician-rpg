@@ -9,6 +9,8 @@ namespace CSharpSynth.Synthesis
 {
     public class StreamSynthesizer
     {
+        public ControllableSynthBank controllableSynthBank;
+
         //--Variables
         private InstrumentBank bank;
         private float[,] sampleBuffer;
@@ -103,7 +105,8 @@ namespace CSharpSynth.Synthesis
             //    return false;
             //}
             //UnitySynth
-            BankManager.addBank(new InstrumentBank(sampleRate, filename));
+            controllableSynthBank = new ControllableSynthBank(sampleRate, filename);
+            BankManager.addBank(controllableSynthBank);
             SwitchBank(BankManager.Count - 1);
             return true;
         }

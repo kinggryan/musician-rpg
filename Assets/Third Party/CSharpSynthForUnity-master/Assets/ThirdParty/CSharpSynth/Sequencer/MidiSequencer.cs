@@ -133,7 +133,8 @@ namespace CSharpSynth.Sequencer
                     //Remove old bank being used by synth
                     synth.UnloadBank();
                     //Add the bank and switch to it with the synth
-                    BankManager.addBank(new InstrumentBank(synth.SampleRate, bankStr, _MidiFile.Tracks[0].Programs, _MidiFile.Tracks[0].DrumPrograms));
+                    var newInstrumentBank = new ControllableSynthBank(synth.SampleRate, bankStr, _MidiFile.Tracks[0].Programs, _MidiFile.Tracks[0].DrumPrograms);
+                    BankManager.addBank(newInstrumentBank);
                     synth.SwitchBank(BankManager.Count - 1);
                 }
             }

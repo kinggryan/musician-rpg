@@ -147,7 +147,7 @@ namespace CSharpSynth.Banks
                 DrumBank.Add(inst);
             }
         }
-        public Instrument getInstrument(int index, bool isDrum)
+        public virtual Instrument getInstrument(int index, bool isDrum)
         {
             if (isDrum == false)
                 return Bank[index];

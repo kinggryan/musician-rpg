@@ -35,9 +35,16 @@ public class MIDIPlayer : MonoBehaviour
             midiSequencer.ApplyMidiFilterToTracks(filterGroup);
         }
     }
+    public int playerOutputChannel {
+        get { return playerInstrumentFilter.outputChannel; }
+        set { playerInstrumentFilter.outputChannel = value; }
+    }
     public float playbackRate {
         set { midiSequencer.playbackSpeedMultiplier = value; }
         get { return midiSequencer.playbackSpeedMultiplier; }
+    }
+    public ControllableSynthBank synthBank {
+        get { return midiStreamSynthesizer.controllableSynthBank; }
     }
     //Private 
     private float[] sampleBuffer;
@@ -50,6 +57,7 @@ public class MIDIPlayer : MonoBehaviour
     private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
     private MIDITrackGate gate = new MIDITrackGate();
     private MIDIVolumeFilter playerVolumeFilter = new MIDIVolumeFilter();
+    private MIDIInstrumentChangeFilter playerInstrumentFilter = new MIDIInstrumentChangeFilter();
     private bool isPlaying;
 
     // Awake is called when the script instance

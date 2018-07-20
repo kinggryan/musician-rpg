@@ -8,8 +8,11 @@ public class PlayerMidiController : MonoBehaviour {
 	public CharacterAnimationManager animationManager;
 	public PlayerPowerArrow volumeArrow;
 	public PlayerPowerArrow gateArrow;
+	public PlayerPowerArrow instrumentArrow;
+
 	public PlayerMouseSpringInput gateMouseInput;
 	public PlayerMouseSpringInput volumeMouseInput;
+	public PlayerMouseSpringInput instrumentMouseInput;
 	public PowerCircleAnimationController circleAnimator;
 	
 	float songBPM = 180f;
@@ -23,8 +26,12 @@ public class PlayerMidiController : MonoBehaviour {
 	float maxVolume = 2.5f;
 	float minVolume = 0.25f;
 
+	int[] playerInstruments = new int[]{1,2,3,4,5,6,7,8};
+
 	float savedGateValue = 0.5f;
 	float savedVolumeValue = 0.5f;
+	float savedInstrumentValue = 0.5f;
+
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +43,7 @@ public class PlayerMidiController : MonoBehaviour {
 
 		volumeArrow.mouseInput = volumeMouseInput;
 		gateArrow.mouseInput = gateMouseInput;
+		instrumentArrow.mouseInput = instrumentMouseInput;
 
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
@@ -43,6 +51,7 @@ public class PlayerMidiController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		UpdateInstrument();
 		UpdateGate();
 		UpdateVolume();
 
@@ -82,6 +91,24 @@ public class PlayerMidiController : MonoBehaviour {
 			savedVolumeValue = volumeMouseInput.GetMouseValue();
 			float volume = minVolume + (maxVolume - minVolume)*((savedVolumeValue + 1)/2f);
 			midiPlayer.playerVolume = volume;
+		}
+	}
+
+	void UpdateInstrument() {
+		// Set the displays for each power
+		if(Input.GetButtonDown("Loop1")) {
+			instrumentArrow.isPowerActive = true;
+			instrumentMouseInput.SetAnchorWithValue(savedInstrumentValue);
+		} else if(Input.GetButtonUp("Loop1")) {
+			instrumentArrow.isPowerActive = false;
+		}
+
+		if(Input.GetButton("Loop1")) {
+			savedInstrumentValue = instrumentMouseInput.GetMouseValue();
+			var instrumentIndex = Mathf.RoundToInt((playerInstruments.Length-1)*((savedInstrumentValue + 1)/2f));
+			int instrument = playerInstruments[instrumentIndex];
+			Debug.Log("Changing instrument to " + instrument);
+			midiPlayer.synthBank.currentPlayerInstrument = instrument;
 		}
 	}
 
