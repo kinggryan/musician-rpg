@@ -6,7 +6,9 @@ public class PlayerMidiController : MonoBehaviour {
 
 	public MIDIPlayer midiPlayer;
 	public CharacterAnimationManager animationManager;
-	PlayerMouseSpringInput mouseInput;
+	public PlayerPowerArrow volumeArrow;
+	public PlayerMouseSpringInput gateMouseInput;
+	public PlayerMouseSpringInput volumeMouseInput;
 	
 	float songBPM = 180f;
 
@@ -19,34 +21,60 @@ public class PlayerMidiController : MonoBehaviour {
 	float maxVolume = 1.5f;
 	float minVolume = 0.25f;
 
+	float savedGateValue = 0.5f;
+	float savedVolumeValue = 0.5f;
+
 	// Use this for initialization
 	void Start () {
-		mouseInput = new PlayerMouseSpringInput();
-		mouseInput.maxDistance = 250;
-		mouseInput.tension = 2;
+		// mouseInput.maxDistance = 250;
+		// mouseInput.tension = 2;
 
 		targetBPM = songBPM;
 		currentBPM = songBPM;
+
+		volumeArrow.mouseInput = volumeMouseInput;
+
+		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Loop2") || Input.GetButtonDown("Loop3")) {
-			mouseInput.SetAnchor();
-		}
-		if(Input.GetButton("Loop2")) {
-			int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((mouseInput.GetMouseValue() + 1)/2f));
-			Debug.Log("Gate: " + veloGate);
-			midiPlayer.trackGateVelocity = veloGate;
-		}
-		if(Input.GetButton("Loop3")) {
-			float volume = minVolume + (maxVolume - minVolume)*((mouseInput.GetMouseValue() + 1)/2f);
-			midiPlayer.playerVolume = volume;
-		}
+		UpdateGate();
+		UpdateVolume();
 
 		// Mathf.L
 		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
 		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / songBPM,0.3f,1.2f);
+	}
+
+	void UpdateGate() {
+		if(Input.GetButtonDown("Loop2")) {
+			gateMouseInput.SetAnchorWithValue(savedGateValue);
+		}
+		if(Input.GetButton("Loop2")) {
+			savedGateValue = gateMouseInput.GetMouseValue();
+			int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((savedGateValue + 1)/2f));
+			Debug.Log("Gate: " + veloGate);
+			midiPlayer.trackGateVelocity = veloGate;
+		}
+	}
+
+	void UpdateVolume() {
+		// Set the displays for each power
+		if(Input.GetButtonDown("Loop3")) {
+			volumeArrow.isPowerActive = true;
+			volumeMouseInput.SetAnchorWithValue(savedVolumeValue);
+
+		} else if(Input.GetButtonUp("Loop3")) {
+			volumeArrow.isPowerActive = false;
+		}
+
+		if(Input.GetButton("Loop3")) {
+			savedVolumeValue = volumeMouseInput.GetMouseValue();
+			float volume = minVolume + (maxVolume - minVolume)*(( + 1)/2f);
+			midiPlayer.playerVolume = volume;
+		}
 	}
 
 	void DidChangeBPM(double bpm) {
