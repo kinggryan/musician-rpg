@@ -23,5 +23,12 @@ public class PlayerMidiController : MonoBehaviour {
 			var playRate = (mouseInput.GetMouseValue() + 1)/2f;
 			midiPlayer.playbackRate = playRate;
 		}
+		if(Input.GetButtonDown("Loop2")) {
+			mouseInput.SetAnchor();
+		}
+		if(Input.GetButton("Loop2")) {
+			int veloGate = Mathf.RoundToInt(79 - ((mouseInput.GetMouseValue() + 1)/2f));
+			midiPlayer.trackGateVelocity = veloGate;
+		}
 	}
 }

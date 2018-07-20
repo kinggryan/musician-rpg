@@ -53,7 +53,7 @@ public class MIDIPlayer : MonoBehaviour
 
         midiSequencer = new MidiSequencer(midiStreamSynthesizer);
 
-        trackGateVelocity = 0;
+        trackGateVelocity = 79;
 
         //These will be fired by the midiSequencer when a song plays. Check the console for messages if you uncomment these
         //midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);
