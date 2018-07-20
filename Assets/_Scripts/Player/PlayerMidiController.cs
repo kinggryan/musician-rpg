@@ -54,6 +54,7 @@ public class PlayerMidiController : MonoBehaviour {
 		currentBPM = bpm;
 		animationManager.SetBPM(bpm);
 		animationManager.DidStartSong();
+		animationManager.UpdateGroove(1f);
 		midiPlayer.Play();
 	}
 }
