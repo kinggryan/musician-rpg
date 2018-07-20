@@ -41,6 +41,7 @@ public class MIDIPlayer : MonoBehaviour
     private float sliderValue = 1.0f;
     private float maxSliderValue = 127.0f;
     private MIDITrackGate gate = new MIDITrackGate();
+    private bool isPlaying;
 
     // Awake is called when the script instance
     // is being loaded.
@@ -64,7 +65,17 @@ public class MIDIPlayer : MonoBehaviour
     {
         midiSequencer.LoadMidi(midiPath, false);
         midiSequencer.ApplyMidiFilterToTracks(gate);
+        // midiSequencer.Play();
+        // Play();
+    }
+
+    public void Play() {
+        isPlaying = true;
         midiSequencer.Play();
+    }
+
+    public bool IsPlaying() {
+        return isPlaying;
     }
 
     // Start is called just before any of the
@@ -90,15 +101,15 @@ public class MIDIPlayer : MonoBehaviour
             midiSequencer.Stop(true);
         }
 
-        if (Input.GetButtonDown("Loop1"))
-        {
-            midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
-        }
+        // if (Input.GetButtonDown("Fire1"))
+        // {
+        //     midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
+        // }
 
-        if (Input.GetButtonUp("Loop1"))
-        {
-            midiStreamSynthesizer.NoteOff(0, midiNote);
-        }
+        // if (Input.GetButtonUp("Fire1"))
+        // {
+        //     midiStreamSynthesizer.NoteOff(0, midiNote);
+        // }
 
 
         }

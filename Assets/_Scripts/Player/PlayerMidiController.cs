@@ -6,6 +6,9 @@ public class PlayerMidiController : MonoBehaviour {
 
 	public MIDIPlayer midiPlayer;
 	PlayerMouseSpringInput mouseInput;
+	
+	float targetBPM = 200;
+	float currentBPM = 200;
 
 	// Use this for initialization
 	void Start () {
@@ -16,12 +19,26 @@ public class PlayerMidiController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Loop1")) {
-			mouseInput.SetAnchor();
-		}
-		if(Input.GetButton("Loop1")) {
-			var playRate = (mouseInput.GetMouseValue() + 1)/2f;
-			midiPlayer.playbackRate = playRate;
+		// TODO: Use the actual BPM
+		
+		// if(Input.GetButtonDown("Loop1")) {
+		// 	mouseInput.SetAnchor();
+		// }
+		// if(Input.GetButton("Loop1")) {
+		// 	var playRate = (mouseInput.GetMouseValue() + 1)/2f;
+		// 	midiPlayer.playbackRate = playRate;
+		// }
+
+		// Mathf.L
+		currentBPM = Mathf.Lerp(currentBPM, targetBPM, Time.deltaTime);
+		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / 200f,0.3f,1.2f);
+	}
+
+	void DidChangeBPM(double bpm) {
+		targetBPM = (float)bpm;
+		Debug.Log("BPM: " + bpm);
+		if(!midiPlayer.IsPlaying()) {
+			midiPlayer.Play();
 		}
 		if(Input.GetButtonDown("Loop2")) {
 			mouseInput.SetAnchor();
