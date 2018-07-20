@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerMidiController : MonoBehaviour {
 
 	public MIDIPlayer midiPlayer;
+	public int playerChannel = 1;
 	PlayerMouseSpringInput mouseInput;
+	//public MIDITrackGate midiTrackGate;
 
 	// Use this for initialization
 	void Start () {
+		//midiTrackGate.playerChannel = playerChannel;
 		mouseInput = new PlayerMouseSpringInput();
 		mouseInput.maxDistance = 400;
 		mouseInput.tension = 2;
