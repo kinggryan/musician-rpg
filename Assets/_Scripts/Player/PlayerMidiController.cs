@@ -7,6 +7,7 @@ public class PlayerMidiController : MonoBehaviour {
 	public MIDIPlayer midiPlayer;
 	public CharacterAnimationManager animationManager;
 	public PlayerPowerArrow volumeArrow;
+	public PlayerPowerArrow gateArrow;
 	public PlayerMouseSpringInput gateMouseInput;
 	public PlayerMouseSpringInput volumeMouseInput;
 	public PowerCircleAnimationController circleAnimator;
@@ -34,6 +35,7 @@ public class PlayerMidiController : MonoBehaviour {
 		currentBPM = songBPM;
 
 		volumeArrow.mouseInput = volumeMouseInput;
+		gateArrow.mouseInput = gateMouseInput;
 
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
@@ -51,8 +53,13 @@ public class PlayerMidiController : MonoBehaviour {
 
 	void UpdateGate() {
 		if(Input.GetButtonDown("Loop2")) {
+			gateArrow.isPowerActive = true;
 			gateMouseInput.SetAnchorWithValue(savedGateValue);
+
+		} else if(Input.GetButtonUp("Loop2")) {
+			gateArrow.isPowerActive = false;
 		}
+
 		if(Input.GetButton("Loop2")) {
 			savedGateValue = gateMouseInput.GetMouseValue();
 			int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((savedGateValue + 1)/2f));
