@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MidiGameController : MonoBehaviour {
+public class PlayerPowerArrow : MonoBehaviour {
 
-	
+	float maxScale = 2f;
+	float minScale = 0f;
 
 	// Use this for initialization
 	void Start () {

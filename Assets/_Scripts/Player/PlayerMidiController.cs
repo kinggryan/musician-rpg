@@ -16,10 +16,13 @@ public class PlayerMidiController : MonoBehaviour {
 	int maxGate = 80;
 	int minGate = 78;
 
+	float maxVolume = 1.5f;
+	float minVolume = 0.25f;
+
 	// Use this for initialization
 	void Start () {
 		mouseInput = new PlayerMouseSpringInput();
-		mouseInput.maxDistance = 400;
+		mouseInput.maxDistance = 250;
 		mouseInput.tension = 2;
 
 		targetBPM = songBPM;
@@ -28,13 +31,17 @@ public class PlayerMidiController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Loop2")) {
+		if(Input.GetButtonDown("Loop2") || Input.GetButtonDown("Loop3")) {
 			mouseInput.SetAnchor();
 		}
 		if(Input.GetButton("Loop2")) {
 			int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((mouseInput.GetMouseValue() + 1)/2f));
 			Debug.Log("Gate: " + veloGate);
 			midiPlayer.trackGateVelocity = veloGate;
+		}
+		if(Input.GetButton("Loop3")) {
+			float volume = minVolume + (maxVolume - minVolume)*((mouseInput.GetMouseValue() + 1)/2f);
+			midiPlayer.playerVolume = volume;
 		}
 
 		// Mathf.L

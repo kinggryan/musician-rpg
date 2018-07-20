@@ -25,7 +25,14 @@ public class MIDIPlayer : MonoBehaviour
         get { return gate.gateVelocity; }
         set { 
             gate.gateVelocity = value; 
-            midiSequencer.ApplyMidiFilterToTracks(gate);
+            midiSequencer.ApplyMidiFilterToTracks(filterGroup);
+        }
+    }
+    public float playerVolume {
+        get { return playerVolumeFilter.volumeMultiplier; }
+        set {
+            playerVolumeFilter.volumeMultiplier = value;
+            midiSequencer.ApplyMidiFilterToTracks(filterGroup);
         }
     }
     public float playbackRate {
@@ -40,7 +47,9 @@ public class MIDIPlayer : MonoBehaviour
 
     private float sliderValue = 1.0f;
     private float maxSliderValue = 127.0f;
+    private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
     private MIDITrackGate gate = new MIDITrackGate();
+    private MIDIVolumeFilter playerVolumeFilter = new MIDIVolumeFilter();
     private bool isPlaying;
 
     // Awake is called when the script instance
@@ -54,7 +63,9 @@ public class MIDIPlayer : MonoBehaviour
 
         midiSequencer = new MidiSequencer(midiStreamSynthesizer);
 
+        filterGroup.filters = new MIDITrackFilter[]{ gate, playerVolumeFilter };
         trackGateVelocity = 79;
+        playerVolume = 1;
 
         //These will be fired by the midiSequencer when a song plays. Check the console for messages if you uncomment these
         //midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);
@@ -64,7 +75,7 @@ public class MIDIPlayer : MonoBehaviour
     void LoadSong(string midiPath)
     {
         midiSequencer.LoadMidi(midiPath, false);
-        midiSequencer.ApplyMidiFilterToTracks(gate);
+        midiSequencer.ApplyMidiFilterToTracks(filterGroup);
         // midiSequencer.Play();
         // Play();
     }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMouseSpringInput {
 
+	
+
 	Vector2 anchorPos;
 	public float maxDistance;
 	public float tension;
