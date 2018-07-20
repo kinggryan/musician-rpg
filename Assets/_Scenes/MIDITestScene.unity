@@ -277,6 +277,7 @@ MonoBehaviour:
   volumeArrow: {fileID: 1082551298}
   gateMouseInput: {fileID: 39149014}
   volumeMouseInput: {fileID: 39149013}
+  circleAnimator: {fileID: 1544796801}
 --- !u!114 &39149011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,6 +825,8 @@ GameObject:
   - component: {fileID: 1544796797}
   - component: {fileID: 1544796799}
   - component: {fileID: 1544796798}
+  - component: {fileID: 1544796800}
+  - component: {fileID: 1544796801}
   m_Layer: 5
   m_Name: PlayerPowerCircle
   m_TagString: Untagged
@@ -883,6 +886,35 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1544796796}
+--- !u!95 &1544796800
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1544796796}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dad844011eaf1411aadcc0eee7ed967f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1544796801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1544796796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2228abc161a444a9e8b3b4ab06a5467c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1952265589
 GameObject:
   m_ObjectHideFlags: 0

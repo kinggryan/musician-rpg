@@ -9,6 +9,7 @@ public class PlayerMidiController : MonoBehaviour {
 	public PlayerPowerArrow volumeArrow;
 	public PlayerMouseSpringInput gateMouseInput;
 	public PlayerMouseSpringInput volumeMouseInput;
+	public PowerCircleAnimationController circleAnimator;
 	
 	float songBPM = 180f;
 
@@ -87,6 +88,7 @@ public class PlayerMidiController : MonoBehaviour {
 
 	void StartSongWithBPM(float bpm) {
 		currentBPM = bpm;
+		circleAnimator.StartSong(bpm);
 		animationManager.SetBPM(bpm);
 		animationManager.DidStartSong();
 		animationManager.UpdateGroove(1f);
