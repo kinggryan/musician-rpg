@@ -19,7 +19,7 @@ public class PlayerMidiController : MonoBehaviour {
 	int maxGate = 80;
 	int minGate = 78;
 
-	float maxVolume = 1.5f;
+	float maxVolume = 2.5f;
 	float minVolume = 0.25f;
 
 	float savedGateValue = 0.5f;
@@ -73,7 +73,7 @@ public class PlayerMidiController : MonoBehaviour {
 
 		if(Input.GetButton("Loop3")) {
 			savedVolumeValue = volumeMouseInput.GetMouseValue();
-			float volume = minVolume + (maxVolume - minVolume)*(( + 1)/2f);
+			float volume = minVolume + (maxVolume - minVolume)*((savedVolumeValue + 1)/2f);
 			midiPlayer.playerVolume = volume;
 		}
 	}
