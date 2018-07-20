@@ -17,6 +17,17 @@
             this.midiMetaEvent = MidiHelper.MidiMetaEvent.None;
             this.midiChannelEvent = MidiHelper.MidiChannelEvent.None;
         }
+        public MidiEvent Duplicate() {
+            var copy = new MidiEvent();
+            copy.deltaTime = this.deltaTime;
+            copy.midiMetaEvent = this.midiMetaEvent;
+            copy.midiChannelEvent = this.midiChannelEvent;
+            copy.Parameters = this.Parameters;
+            copy.parameter1 = this.parameter1;
+            copy.parameter2 = this.parameter2;
+            copy.channel = this.channel;
+            return copy;
+        }
         public bool isMetaEvent()
         {
             return midiChannelEvent == MidiHelper.MidiChannelEvent.None;
