@@ -9,8 +9,8 @@ public class PlayerMidiController : MonoBehaviour {
 	PlayerMouseSpringInput mouseInput;
 	//public MIDITrackGate midiTrackGate;
 	
-	float targetBPM = 200;
-	float currentBPM = 200;
+	float targetBPM = 180;
+	float currentBPM = 180;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +34,7 @@ public class PlayerMidiController : MonoBehaviour {
 
 		// Mathf.L
 		currentBPM = Mathf.Lerp(currentBPM, targetBPM, Time.deltaTime);
-		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / 200f,0.3f,1.2f);
+		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / 180f,0.3f,1.2f);
 	}
 
 	void DidChangeBPM(double bpm) {
