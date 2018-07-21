@@ -12,7 +12,7 @@ public class ControllableSynthBank : InstrumentBank {
 
 	const int playerChannel = 0;
 	public List<Instrument> playerInstruments;
-	public int currentPlayerInstrument = 8;
+	public int currentPlayerInstrument = 1;
 
 	public ControllableSynthBank(int sampleRate, string bankfile) : base(sampleRate, bankfile) {
 		// Required for compilation, but we don't want any custom behavior here

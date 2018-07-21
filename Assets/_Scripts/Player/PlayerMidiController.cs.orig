@@ -7,13 +7,7 @@ public class PlayerMidiController : MonoBehaviour {
 	public MIDIPlayer midiPlayer;
 	public int playerChannel = 1;
 	PlayerMouseSpringInput mouseInput;
-<<<<<<< HEAD
-	
-	float targetBPM = 200;
-	float currentBPM = 200;
-=======
 	//public MIDITrackGate midiTrackGate;
->>>>>>> b58f1308420f35f89594f896cb1477d267d7713f
 
 	// Use this for initialization
 	void Start () {

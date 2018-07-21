@@ -4,8 +4,8 @@ Piano2/sfz/1/1/i/
 Piano3/sfz/2/2/i/
 Honkytonk/sfz/3/3/i/
 ElectricPiano1/sfz/4/4/i/
-ElectricPiano2/sfz/5/5/i/
-Harpsichord/sfz/6/6/i/
+Harpsichord/sfz/5/5/i/
+ElectricPiano2/sfz/6/6/i/
 Clav/sfz/7/7/i/
 Celesta/sfz/8/8/i/
 Glockenspiel/sfz/9/9/i/
