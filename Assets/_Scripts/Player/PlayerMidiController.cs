@@ -15,7 +15,7 @@ public class PlayerMidiController : MonoBehaviour {
 	public PlayerMouseSpringInput instrumentMouseInput;
 	public PowerCircleAnimationController circleAnimator;
 	
-	float songBPM = 180f;
+	float songBPM = 240f;
 
 	float targetBPM;
 	float currentBPM;
