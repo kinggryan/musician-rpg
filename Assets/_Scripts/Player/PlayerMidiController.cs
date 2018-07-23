@@ -26,7 +26,7 @@ public class PlayerMidiController : MonoBehaviour {
 	float maxVolume = 2.5f;
 	float minVolume = 0.25f;
 
-	int[] playerInstruments = new int[]{1,2,3,4,5,6,7,8};
+	int[] playerInstruments = new int[]{125,127,76,94,98,102,101,108,103,118,110,111,91,88};
 
 	float savedGateValue = 0.5f;
 	float savedVolumeValue = 0.5f;
