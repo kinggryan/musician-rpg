@@ -5,7 +5,6 @@ using CSharpSynth.Midi;
 
 public class MIDIVolumeFilter : MIDITrackFilter {
 	public float volumeMultiplier;
-	public int playerChannel = 1;
 
 	public override MidiEvent[] FilterMidiEvents(MidiEvent[] events) {
 		var filteredEvents = new List<MidiEvent>();
@@ -13,7 +12,7 @@ public class MIDIVolumeFilter : MIDITrackFilter {
 			var newMidiEvent = midiEvent.Duplicate();
 			// Velocity is parameter 2
 			int velocity = midiEvent.parameter2;
-			if (midiEvent.channel == playerChannel){
+			if (midiEvent.channel == playerChannelNumber){
 				if(midiEvent.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_On) {
 					newMidiEvent.parameter2 = (byte)Mathf.FloorToInt(volumeMultiplier*(int)newMidiEvent.parameter2);
 				}

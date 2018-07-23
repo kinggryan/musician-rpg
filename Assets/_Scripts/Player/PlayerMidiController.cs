@@ -72,7 +72,7 @@ public class PlayerMidiController : MonoBehaviour {
 		if(Input.GetButton("Loop2")) {
 			savedGateValue = gateMouseInput.GetMouseValue();
 			int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((savedGateValue + 1)/2f));
-			Debug.Log("Gate: " + veloGate);
+			// Debug.Log("Gate: " + veloGate);
 			midiPlayer.trackGateVelocity = veloGate;
 		}
 	}

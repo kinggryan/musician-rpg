@@ -10,7 +10,7 @@ using CSharpSynth.Banks;
 
 public class ControllableSynthBank : InstrumentBank {
 
-	const int playerChannel = 0;
+	const int playerChannel = 1;
 	public List<Instrument> playerInstruments;
 	public int currentPlayerInstrument = 1;
 
@@ -31,7 +31,7 @@ public class ControllableSynthBank : InstrumentBank {
 				return playerInstruments[currentPlayerInstrument];
 			}
 		}
-		Debug.Log("Channel : " + index);
+		// Debug.Log("Channel : " + index);
 		
 		return base.getInstrument(index, isDrum);
 	}
