@@ -115,8 +115,8 @@ public class SongPlayer : MonoBehaviour {
 					BroadcastMessage("DidPlayPlayerTrack", currentPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
 					// Tell the game manager what the current song's rhythm track is
 					var currentBeat = GetCurrentBeat();
-					gameManager.currentSongRhythmString = GetSongRhythmStringForBeat(currentBeat);
-					gameManager.currentPlayerRhythmString = GetCurrentPlayerRhythmString();
+					// gameManager.currentSongRhythmString = GetSongRhythmStringForBeat(currentBeat);
+					// gameManager.currentPlayerRhythmString = GetCurrentPlayerRhythmString();
 				}
 
 				// Broadcast this message
