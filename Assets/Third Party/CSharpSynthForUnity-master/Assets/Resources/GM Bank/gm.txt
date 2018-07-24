@@ -1,10 +1,10 @@
 [BankFile]
 Piano1/sfz/0/0/i/
-Piano2/sfz/1/1/i/
-Piano3/sfz/2/2/i/
-Honkytonk/sfz/3/3/i/
-ElectricPiano1/sfz/4/4/i/
-Harpsichord/sfz/5/5/i/
+Fiddle/sfz/1/1/i/
+Violin/sfz/2/2/i/
+TremoloStr/sfz/3/3/i/
+PizzicatoStr/sfz/4/4/i/
+NylonGtr/sfz/5/5/i/
 ElectricPiano2/sfz/6/6/i/
 Clav/sfz/7/7/i/
 Celesta/sfz/8/8/i/
@@ -23,7 +23,7 @@ ReedOrgan/sfz/20/20/i/
 Accordion/sfz/21/21/i/
 Harmonica/sfz/22/22/i/
 Bandoneon/sfz/23/23/i/
-NylonGtr/sfz/24/24/i/
+Harpsichord/sfz/24/24/i/
 SteelGtr/sfz/25/25/i/
 JazzGtr/sfz/26/26/i/
 CleanGtr/sfz/27/27/i/
