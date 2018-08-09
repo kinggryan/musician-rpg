@@ -5,6 +5,7 @@ using CSharpSynth.Effects;
 using CSharpSynth.Sequencer;
 using CSharpSynth.Synthesis;
 using CSharpSynth.Midi;
+using MusicianRPG;
 
 [RequireComponent(typeof(AudioSource))]
 public class MIDIPlayer : MonoBehaviour
@@ -45,7 +46,7 @@ public class MIDIPlayer : MonoBehaviour
     //Private 
     private float[] sampleBuffer;
     private float gain = 1f;
-    private MidiSequencer midiSequencer;
+    private MusicianRPG.MidiSequencer midiSequencer;
     private StreamSynthesizer midiStreamSynthesizer;
 
     private float sliderValue = 1.0f;
@@ -64,7 +65,7 @@ public class MIDIPlayer : MonoBehaviour
         
         midiStreamSynthesizer.LoadBank(bankFilePath);
 
-        midiSequencer = new MidiSequencer(midiStreamSynthesizer);
+        midiSequencer = new MusicianRPG.MidiSequencer(midiStreamSynthesizer);
 
         filterGroup.filters = new MIDITrackFilter[]{ gate, playerVolumeFilter };
         trackGateVelocity = 79;

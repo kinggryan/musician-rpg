@@ -12,7 +12,7 @@ namespace MusicianRPG
     public class MidiSequencer
     {
         //--Variables
-        private MidiFile _MidiFile;
+        private MidiStreamer midiStreamer;
         private StreamSynthesizer synth;
         private int[] currentPrograms;
         private List<byte> blockList;
@@ -36,14 +36,15 @@ namespace MusicianRPG
         {
             get { return sampleTime; }
         }
-        public int EndSampleTime
-        {
-            get { return (int)_MidiFile.Tracks[0].TotalTime; }
-        }
-        public TimeSpan EndTime
-        {
-            get { return new TimeSpan(0, 0, (int)SynthHelper.getTimeFromSample(synth.SampleRate, (int)_MidiFile.Tracks[0].TotalTime)); }
-        }
+        // RGK: The midi sequencer doesn't reliably have an end sample time since the midi is being loaded dynamically
+        // public int EndSampleTime
+        // {
+        //     get { return (int)_MidiFile.Tracks[0].TotalTime; }
+        // }
+        // public TimeSpan EndTime
+        // {
+        //     get { return new TimeSpan(0, 0, (int)SynthHelper.getTimeFromSample(synth.SampleRate, (int)_MidiFile.Tracks[0].TotalTime)); }
+        // }
         public TimeSpan Time
         {
             get { return new TimeSpan(0, 0, (int)SynthHelper.getTimeFromSample(synth.SampleRate, sampleTime)); }
@@ -54,14 +55,20 @@ namespace MusicianRPG
             get { return PitchWheelSemitoneRange; }
             set { PitchWheelSemitoneRange = value; }
         }
-        public float playbackSpeedMultiplier = 1f;
+        public float playbackSpeedMultiplier {
+            get {
+                return midiStreamer.playbackSpeedMultiplier;
+            }
+            set {
+                midiStreamer.playbackSpeedMultiplier = value;
+            }
+        }
         //--Public Methods
         public MidiSequencer(StreamSynthesizer synth)
         {
             currentPrograms = new int[16]; //16 channels
             this.synth = synth;
-            // TODO: Fix this
-            // this.synth.setSequencer(this);
+            this.synth.setSequencer(this);
             blockList = new List<byte>();
             seqEvt = new MidiSequencerEvent();
         }
@@ -89,58 +96,62 @@ namespace MusicianRPG
         {
             if (playing == true)
                 return false;
-            _MidiFile = midi;
-            if (_MidiFile.SequencerReady == false)
-            {
-                try
-                {
-                    //Combine all tracks into 1 track that is organized from lowest to highest abs time
-                    _MidiFile.CombineTracks();
-                    //Convert delta time to sample time
-                    eventIndex = 0;
-                    uint lastSample = 0;
-                    for (int x = 0; x < _MidiFile.Tracks[0].MidiEvents.Length; x++)
-                    {
-                        _MidiFile.Tracks[0].MidiEvents[x].deltaTime = lastSample + (uint)DeltaTimetoSamples(_MidiFile.Tracks[0].MidiEvents[x].deltaTime);
-                        lastSample = _MidiFile.Tracks[0].MidiEvents[x].deltaTime;
-                        //Update tempo
-                        if (_MidiFile.Tracks[0].MidiEvents[x].midiMetaEvent == MidiHelper.MidiMetaEvent.Tempo)
-                        {
-                            _MidiFile.BeatsPerMinute = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(_MidiFile.Tracks[0].MidiEvents[x].Parameters[0]);
-                        }
-                    }
-                    //Set total time to proper value
-                    _MidiFile.Tracks[0].TotalTime = _MidiFile.Tracks[0].MidiEvents[_MidiFile.Tracks[0].MidiEvents.Length - 1].deltaTime;
-                    //reset tempo
-                    _MidiFile.BeatsPerMinute = 120;
-                    //mark midi as ready for sequencing
-                    _MidiFile.SequencerReady = true;
-                }
-                catch (Exception ex)
-                {
-                    //UnitySynth
-                    Debug.Log("Error Loading Midi:\n" + ex.Message);
-                    return false;
-                }
-            }
+            midiStreamer = new MidiStreamer();
+            midiStreamer.sampleRate = synth.SampleRate;
+            midiStreamer.LoadMidiFiles(new MidiFile[]{midi});
+            // _MidiFile = midi;
+            // if (_MidiFile.SequencerReady == false)
+            // {
+            //     try
+            //     {
+            //         //Combine all tracks into 1 track that is organized from lowest to highest abs time
+            //         _MidiFile.CombineTracks();
+            //         //Convert delta time to sample time
+            //         eventIndex = 0;
+            //         uint lastSample = 0;
+            //         for (int x = 0; x < _MidiFile.Tracks[0].MidiEvents.Length; x++)
+            //         {
+            //             _MidiFile.Tracks[0].MidiEvents[x].deltaTime = lastSample + (uint)DeltaTimetoSamples(_MidiFile.Tracks[0].MidiEvents[x].deltaTime);
+            //             lastSample = _MidiFile.Tracks[0].MidiEvents[x].deltaTime;
+            //             //Update tempo
+            //             if (_MidiFile.Tracks[0].MidiEvents[x].midiMetaEvent == MidiHelper.MidiMetaEvent.Tempo)
+            //             {
+            //                 _MidiFile.BeatsPerMinute = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(_MidiFile.Tracks[0].MidiEvents[x].Parameters[0]);
+            //             }
+            //         }
+            //         //Set total time to proper value
+            //         _MidiFile.Tracks[0].TotalTime = _MidiFile.Tracks[0].MidiEvents[_MidiFile.Tracks[0].MidiEvents.Length - 1].deltaTime;
+            //         //reset tempo
+            //         _MidiFile.BeatsPerMinute = 120;
+            //         //mark midi as ready for sequencing
+            //         _MidiFile.SequencerReady = true;
+            //     }
+            //     catch (Exception ex)
+            //     {
+            //         //UnitySynth
+            //         Debug.Log("Error Loading Midi:\n" + ex.Message);
+            //         return false;
+            //     }
+            // }
             blockList.Clear();
-            if (UnloadUnusedInstruments == true)
-            {
-                if (synth.SoundBank == null)
-                {//If there is no bank warn the developer =)
-                    Debug.Log("No Soundbank loaded !");
-                }
-                else
-                {
-                    string bankStr = synth.SoundBank.BankPath;
-                    //Remove old bank being used by synth
-                    synth.UnloadBank();
-                    //Add the bank and switch to it with the synth
-                    var newInstrumentBank = new ControllableSynthBank(synth.SampleRate, bankStr, _MidiFile.Tracks[0].Programs, _MidiFile.Tracks[0].DrumPrograms);
-                    BankManager.addBank(newInstrumentBank);
-                    synth.SwitchBank(BankManager.Count - 1);
-                }
-            }
+            // RGK: This UnloadUnusedInstrument parameter is false in the midi player so it seems hopefully unused for our purposes
+            // if (UnloadUnusedInstruments == true)
+            // {
+            //     if (synth.SoundBank == null)
+            //     {//If there is no bank warn the developer =)
+            //         Debug.Log("No Soundbank loaded !");
+            //     }
+            //     else
+            //     {
+            //         string bankStr = synth.SoundBank.BankPath;
+            //         //Remove old bank being used by synth
+            //         synth.UnloadBank();
+            //         //Add the bank and switch to it with the synth
+            //         var newInstrumentBank = new ControllableSynthBank(synth.SampleRate, bankStr, _MidiFile.Tracks[0].Programs, _MidiFile.Tracks[0].DrumPrograms);
+            //         BankManager.addBank(newInstrumentBank);
+            //         synth.SwitchBank(BankManager.Count - 1);
+            //     }
+            // }
             return true;
         }
         public bool LoadMidi(string file, bool UnloadUnusedInstruments)
@@ -169,7 +180,7 @@ namespace MusicianRPG
             //Clear vol, pan, and tune
             ResetControllers();
             //set bpm
-            _MidiFile.BeatsPerMinute = 120;
+            midiStreamer.PrepareToPlay();
             //Let the synth know that the sequencer is ready.
             eventIndex = 0;
             playing = true;
@@ -221,34 +232,7 @@ namespace MusicianRPG
         }
         public MidiSequencerEvent Process(int frame)
         {
-            seqEvt.Events.Clear();
-            //stop or loop
-            if (sampleTime >= (int)_MidiFile.Tracks[0].TotalTime)
-            {
-                sampleTime = 0;
-                if (looping == true)
-                {
-                    //Clear the current programs for the channels.
-                    Array.Clear(currentPrograms, 0, currentPrograms.Length);
-                    //Clear vol, pan, and tune
-                    ResetControllers();
-                    //set bpm
-                    _MidiFile.BeatsPerMinute = 120;
-                    //Let the synth know that the sequencer is ready.
-                    eventIndex = 0;
-                }
-                else
-                {
-                    playing = false;
-                    synth.NoteOffAll(true);
-                    return null;
-                }
-            }
-            while (eventIndex < _MidiFile.Tracks[0].EventCount && _MidiFile.Tracks[0].MidiEvents[eventIndex].deltaTime < (sampleTime + frame * playbackSpeedMultiplier))
-            {
-                seqEvt.Events.Add(_MidiFile.Tracks[0].MidiEvents[eventIndex]);
-                eventIndex++;
-            }
+            seqEvt.Events = midiStreamer.GetNextMidiEvents(frame);
             return seqEvt;
         }
         public void IncrementSampleCounter(int amount)
@@ -317,7 +301,7 @@ namespace MusicianRPG
                 switch (midiEvent.midiMetaEvent)
                 {
                     case MidiHelper.MidiMetaEvent.Tempo:
-                        _MidiFile.BeatsPerMinute = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(midiEvent.Parameters[0]);
+                        midiStreamer.bpm = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(midiEvent.Parameters[0]);
                         break;
                     default:
                         break;
@@ -329,21 +313,21 @@ namespace MusicianRPG
             Stop(true);
             //Set anything that may become a circular reference to null...
             synth = null;
-            _MidiFile = null;
+            midiStreamer.Dispose();
             seqEvt = null;
         }
 
         public void ApplyMidiFilterToTracks(MIDITrackFilter filter)
         {
-            if (_MidiFile != null)
-                _MidiFile.ApplyMidiFilterToTracks(filter);
+            if(midiStreamer != null)
+                midiStreamer.ApplyMidiFilterToTracks(filter);
         }
 
         //--Private Methods
-        private int DeltaTimetoSamples(uint DeltaTime)
-        {
-            return SynthHelper.getSampleFromTime(synth.SampleRate, (DeltaTime * (60.0f / (((int)_MidiFile.BeatsPerMinute) * _MidiFile.MidiHeader.DeltaTiming))));
-        }
+        // private int DeltaTimetoSamples(uint DeltaTime)
+        // {
+        //     return SynthHelper.getSampleFromTime(synth.SampleRate, (DeltaTime * (60.0f / (((int)_MidiFile.BeatsPerMinute) * _MidiFile.MidiHeader.DeltaTiming))));
+        // }
         private void SetTime(TimeSpan time)
         {
             int _stime = SynthHelper.getSampleFromTime(synth.SampleRate, (float)time.TotalSeconds);
@@ -357,20 +341,22 @@ namespace MusicianRPG
                 sampleTime = 0;
                 Array.Clear(currentPrograms, 0, currentPrograms.Length);
                 ResetControllers();
-                _MidiFile.BeatsPerMinute = 120;
+                midiStreamer.bpm = 120;
                 eventIndex = 0;
                 SilentProcess(_stime);
             }
         }
+
+        // TODO: Fix this function to work with the midi streamer
         private void SilentProcess(int amount)
         {
-            while (eventIndex < _MidiFile.Tracks[0].EventCount && _MidiFile.Tracks[0].MidiEvents[eventIndex].deltaTime < (sampleTime + amount * playbackSpeedMultiplier))
-            {
-                if (_MidiFile.Tracks[0].MidiEvents[eventIndex].midiChannelEvent != MidiHelper.MidiChannelEvent.Note_On)
-                    ProcessMidiEvent(_MidiFile.Tracks[0].MidiEvents[eventIndex]);
-                eventIndex++;
-            }
-            sampleTime = sampleTime + Mathf.FloorToInt(amount * playbackSpeedMultiplier);
+            // while (eventIndex < _MidiFile.Tracks[0].EventCount && _MidiFile.Tracks[0].MidiEvents[eventIndex].deltaTime < (sampleTime + amount * playbackSpeedMultiplier))
+            // {
+            //     if (_MidiFile.Tracks[0].MidiEvents[eventIndex].midiChannelEvent != MidiHelper.MidiChannelEvent.Note_On)
+            //         ProcessMidiEvent(_MidiFile.Tracks[0].MidiEvents[eventIndex]);
+            //     eventIndex++;
+            // }
+            // sampleTime = sampleTime + Mathf.FloorToInt(amount * playbackSpeedMultiplier);
         }
     }
 }

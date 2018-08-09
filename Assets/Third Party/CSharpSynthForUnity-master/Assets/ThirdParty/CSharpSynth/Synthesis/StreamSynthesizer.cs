@@ -4,6 +4,7 @@ using CSharpSynth.Banks;
 using CSharpSynth.Sequencer;
 using CSharpSynth.Effects;
 using UnityEngine;
+using MusicianRPG;
 
 namespace CSharpSynth.Synthesis
 {
@@ -22,7 +23,7 @@ namespace CSharpSynth.Synthesis
         private float[] panPositions_;
         private float[] volPositions_;
         private double[] tunePositions_;
-        private MidiSequencer seq;
+        private MusicianRPG.MidiSequencer seq;
         private List<BasicAudioEffect> effects;
         //Set "once parameters"
         private int audioChannels = 1;
@@ -152,7 +153,7 @@ namespace CSharpSynth.Synthesis
                 tunePositions_[channel] = semitones;
             }
         }
-        public void setSequencer(MidiSequencer sequencer)
+        public void setSequencer(MusicianRPG.MidiSequencer sequencer)
         {
             this.seq = sequencer;
         }
@@ -376,6 +377,7 @@ namespace CSharpSynth.Synthesis
             // Call Process on all active voices
             LinkedListNode<Voice> node;
             LinkedListNode<Voice> delnode;
+            // Debug.Log("Seq is non-null?: " + (seq != null) + " is playing? " + (seq != null ? seq.isPlaying : false));
             if (seq != null && seq.isPlaying)//Use sequencer
             {
                 MidiSequencerEvent seqEvent = seq.Process(samplesperBuffer);

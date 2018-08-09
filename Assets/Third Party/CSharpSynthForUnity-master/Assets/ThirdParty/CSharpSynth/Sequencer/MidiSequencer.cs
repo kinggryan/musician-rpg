@@ -58,7 +58,8 @@ namespace CSharpSynth.Sequencer
         {
             currentPrograms = new int[16]; //16 channels
             this.synth = synth;
-            this.synth.setSequencer(this);
+            // RGK: Commented this out just to make the stream synthesize compile
+            // this.synth.setSequencer(this);
             blockList = new List<byte>();
             seqEvt = new MidiSequencerEvent();
         }

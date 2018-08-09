@@ -2,28 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CSharpSynth.Midi;
+using CSharpSynth.Synthesis;
 
-public class DynamicMIDIFileOutput {
+public class MidiStreamer {
 
     // This class needs to be able to output midi file output. Perhaps override existing MIDI file class?
     // Has an array of midi files
     // Has some sort of event index
-    struct DynamicMidiFile
+    class DynamicMidiFile
     {
         public MidiFile file;
         public int eventIndex;
         public bool looping;
     }
 
+    public uint bpm {
+        set {
+            for(var i = 0 ; i < midiFiles.Count; i++)
+                midiFiles[i].file.BeatsPerMinute = value;
+        }
+    }
+
+    public int sampleRate;
+    public float playbackSpeedMultiplier = 1f;
+
     //
-    private DynamicMidiFile[] midiFiles;
+    private List<DynamicMidiFile> midiFiles;
     private int sampleTime;
-    private float playbackSpeedMultiplier = 1f;
 
     public void LoadMidiFiles(MidiFile[] files)
     {
         // TODO: Unload files properly
-        midiFiles = new DynamicMidiFile[] { };
+        midiFiles = new List<DynamicMidiFile>();
 
         foreach(var file in files)
         {
@@ -36,7 +46,7 @@ public class DynamicMIDIFileOutput {
             uint lastSample = 0;
             for (int x = 0; x < newDynamicFile.file.Tracks[0].MidiEvents.Length; x++)
             {
-                newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime = lastSample + (uint)DeltaTimetoSamples(newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime);
+                newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime = lastSample + (uint)DeltaTimetoSamples(newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime, newDynamicFile.file);
                 lastSample = newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime;
                 //Update tempo
                 if (newDynamicFile.file.Tracks[0].MidiEvents[x].midiMetaEvent == MidiHelper.MidiMetaEvent.Tempo)
@@ -50,6 +60,8 @@ public class DynamicMIDIFileOutput {
             newDynamicFile.file.BeatsPerMinute = 120;
             //mark midi as ready for sequencing
             newDynamicFile.file.SequencerReady = true;
+
+            midiFiles.Add(newDynamicFile);
         }
         
     }
@@ -58,7 +70,7 @@ public class DynamicMIDIFileOutput {
     {
         var events = new List<MidiEvent>();
         // For each file
-        for (var i = 0; i < midiFiles.Length; i++)
+        foreach(var file in midiFiles)
         {
             /* if (sampleTime >= (int)_MidiFile.Tracks[0].TotalTime)
             {
@@ -81,14 +93,39 @@ public class DynamicMIDIFileOutput {
                     return null;
                 }
             } */
-            while (midiFiles[i].eventIndex < midiFiles[i].file.Tracks[0].EventCount && midiFiles[i].file.Tracks[0].MidiEvents[midiFiles[i].eventIndex].deltaTime < (sampleTime + numFrames * playbackSpeedMultiplier))
+            while (file.eventIndex < file.file.Tracks[0].EventCount && file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime < (sampleTime + numFrames * playbackSpeedMultiplier))
             {
-                events.Add(midiFiles[i].file.Tracks[0].MidiEvents[midiFiles[i].eventIndex]);
-                midiFiles[i].eventIndex++;
+                Debug.Log("Event index: " + file.eventIndex);
+                events.Add(file.file.Tracks[0].MidiEvents[file.eventIndex]);
+                file.eventIndex++;
             }
         }
 
+        sampleTime += Mathf.FloorToInt(numFrames * playbackSpeedMultiplier);
+
         //  Go through the events of that file and return them
         return events;
+    }
+
+    public void PrepareToPlay() {
+        // TODO: Get rid of this weird 120 bpm stuff. It feels like a hack in the original sequencer
+        foreach(var midiFile in midiFiles)
+            midiFile.file.BeatsPerMinute = 120;
+    }
+
+    public void Dispose() 
+    {
+        midiFiles.Clear();
+    }
+
+    public void ApplyMidiFilterToTracks(MIDITrackFilter filter)
+    {
+        foreach(var file in midiFiles)
+            file.file.ApplyMidiFilterToTracks(filter);
+    }
+
+    private int DeltaTimetoSamples(uint DeltaTime, MidiFile file)
+    {
+        return SynthHelper.getSampleFromTime(sampleRate, (DeltaTime * (60.0f / (((int)file.BeatsPerMinute) * file.MidiHeader.DeltaTiming))));
     }
 }
