@@ -12,7 +12,7 @@ public class MIDITrackGate : MIDITrackFilter {
 			var newMidiEvent = midiEvent.Duplicate();
 			// Velocity is parameter 2
 			int velocity = midiEvent.parameter2;
-			if (midiEvent.channel == playerChannelNumber){
+			if (midiEvent.channel == activeChannel){
 				if(midiEvent.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_On && velocity < gateVelocity) {
 					newMidiEvent.parameter2 = 0;
 				}

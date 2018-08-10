@@ -5,7 +5,7 @@ using CSharpSynth.Midi;
 
 public abstract class MIDITrackFilter {
 
-	public const int playerChannelNumber = 0;
+	public int activeChannel = 0;
 
 	// Use this for initialization
 	public abstract MidiEvent[] FilterMidiEvents(MidiEvent[] events);
