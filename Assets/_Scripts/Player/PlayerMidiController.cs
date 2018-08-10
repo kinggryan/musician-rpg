@@ -18,6 +18,27 @@ public class PlayerMidiController : MonoBehaviour {
 	public bool mouseControls;
 	public Metronome metro;
 	
+	
+
+	public enum Chord {
+		I,
+		i,
+		ii,
+		iiDim,
+		iii,
+		bIII,
+		IV,
+		iv,
+		V,
+		v,
+		vi,
+		VI,
+		viiDim,
+		bVII
+	}
+
+	public Chord chord;
+	
 	public float keyVolumeIncrement;
 	public int keyControlIndex = 1;
 	public int currentInstIndex;
@@ -56,6 +77,7 @@ public class PlayerMidiController : MonoBehaviour {
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
 		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[2];
+		
 		currentInstIndex = 2;
 	}
 	
@@ -68,10 +90,58 @@ public class PlayerMidiController : MonoBehaviour {
 		}else{
 			UpdateKeyControls();
 		}
+		UpdateChord();
 
 		// Mathf.L
 		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
 		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / songBPM,0.3f,1.2f);
+	}
+
+	void UpdateChord(){
+		if(Input.GetKeyDown(KeyCode.Z)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 0;
+		} else if(Input.GetKeyDown(KeyCode.A)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 1;
+		} else if(Input.GetKeyDown(KeyCode.X)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 2;
+		} else if(Input.GetKeyDown(KeyCode.S)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 3;
+		} else if(Input.GetKeyDown(KeyCode.C)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 4;
+		} else if(Input.GetKeyDown(KeyCode.D)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 5;
+		} else if(Input.GetKeyDown(KeyCode.V)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 6;
+		} else if(Input.GetKeyDown(KeyCode.F)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 7;
+		} else if(Input.GetKeyDown(KeyCode.B)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 8;
+		} else if(Input.GetKeyDown(KeyCode.G)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 9;
+		} else if(Input.GetKeyDown(KeyCode.N)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 10;
+		} else if(Input.GetKeyDown(KeyCode.H)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 11;
+		} else if(Input.GetKeyDown(KeyCode.M)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 12;
+		} else if(Input.GetKeyDown(KeyCode.J)){
+			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+			midiPlayer.chordChange = 13;
+		}
+		
 	}
 
 	void UpdateKeyControls(){

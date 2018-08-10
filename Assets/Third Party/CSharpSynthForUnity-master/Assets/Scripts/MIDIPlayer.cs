@@ -42,6 +42,14 @@ public class MIDIPlayer : MonoBehaviour
     public ControllableSynthBank synthBank {
         get { return midiStreamSynthesizer.controllableSynthBank; }
     }
+
+    public int chordChange {
+        set {transposeFilter.transposeRules = transposeRules[value];
+            midiStreamSynthesizer.NoteOffAll(true);
+            midiSequencer.ApplyMidiFilterToTracks(filterGroup);}
+    }
+
+    public TransposeRules[] transposeRules;
     //Private 
     private float[] sampleBuffer;
     private float gain = 1f;
@@ -53,6 +61,7 @@ public class MIDIPlayer : MonoBehaviour
     private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
     private MIDITrackGate gate = new MIDITrackGate();
     private MIDIVolumeFilter playerVolumeFilter = new MIDIVolumeFilter();
+    public MIDISmartTranspose transposeFilter = new MIDISmartTranspose();
     private bool isPlaying;
 
     // Awake is called when the script instance
@@ -65,10 +74,12 @@ public class MIDIPlayer : MonoBehaviour
         midiStreamSynthesizer.LoadBank(bankFilePath);
 
         midiSequencer = new MidiSequencer(midiStreamSynthesizer);
+        transposeFilter.transposeRules = transposeRules[0];
 
-        filterGroup.filters = new MIDITrackFilter[]{ gate, playerVolumeFilter };
+        filterGroup.filters = new MIDITrackFilter[]{ gate, playerVolumeFilter, transposeFilter };
         trackGateVelocity = 79;
         playerVolume = 1;
+        
 
         //These will be fired by the midiSequencer when a song plays. Check the console for messages if you uncomment these
         //midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);
