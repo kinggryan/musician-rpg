@@ -12,7 +12,7 @@ namespace MusicianRPG
     public class MidiSequencer
     {
         //--Variables
-        private MidiStreamer midiStreamer;
+        public MidiStreamer midiStreamer;
         private StreamSynthesizer synth;
         private int[] currentPrograms;
         private List<byte> blockList;

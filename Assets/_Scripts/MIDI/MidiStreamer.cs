@@ -15,17 +15,41 @@ public class MidiStreamer {
         public int eventIndex;
         public bool looping;
 
-        public void SetMidiFile(MidiFile newFile, int sampleTime = 0) {
+        public void SetMidiFile(MidiFile newFile, int sampleRate, int sampleTime = 0) {
             // What we need to do here is set the eventIndex based on the current sample
-            this.file = newFile;
-            var loopedDeltaTime = 0;
-            while (this.eventIndex < this.file.Tracks[0].EventCount && this.file.Tracks[0].MidiEvents[this.eventIndex].deltaTime < sampleTime)
+            file = newFile;
+            //Combine all tracks into 1 track that is organized from lowest to highest abs time
+            file.CombineTracks();
+            //Convert delta time to sample time
+            eventIndex = 0;
+            uint lastSample = 0;
+            for (int x = 0; x < file.Tracks[0].MidiEvents.Length; x++)
             {
-                this.eventIndex++;
-                if(this.eventIndex >= this.file.Tracks[0].EventCount) {
-                    
+                file.Tracks[0].MidiEvents[x].deltaTime = lastSample + (uint)DeltaTimetoSamples(file.Tracks[0].MidiEvents[x].deltaTime, sampleRate, file);
+                lastSample = file.Tracks[0].MidiEvents[x].deltaTime;
+                //Update tempo
+                if (file.Tracks[0].MidiEvents[x].midiMetaEvent == MidiHelper.MidiMetaEvent.Tempo)
+                {
+                    file.BeatsPerMinute = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(file.Tracks[0].MidiEvents[x].Parameters[0]);
                 }
             }
+            //Set total time to proper value
+            file.Tracks[0].TotalTime = file.Tracks[0].MidiEvents[file.Tracks[0].MidiEvents.Length - 1].deltaTime;
+            //reset tempo
+            file.BeatsPerMinute = 120;
+            //mark midi as ready for sequencing
+            file.SequencerReady = true;
+
+            // Increment the event index as much as possible
+            while (eventIndex < file.Tracks[0].EventCount && file.Tracks[0].MidiEvents[eventIndex].deltaTime < sampleTime)
+            {
+                eventIndex++;
+            }
+        }
+
+        private int DeltaTimetoSamples(uint DeltaTime, int sampleRate, MidiFile file)
+        {
+            return SynthHelper.getSampleFromTime(sampleRate, (DeltaTime * (60.0f / (((int)file.BeatsPerMinute) * file.MidiHeader.DeltaTiming))));
         }
     }
 
@@ -51,32 +75,16 @@ public class MidiStreamer {
         foreach(var file in files)
         {
             var newDynamicFile = new DynamicMidiFile { };
-            newDynamicFile.SetMidiFile(file);
-            //Combine all tracks into 1 track that is organized from lowest to highest abs time
-            newDynamicFile.file.CombineTracks();
-            //Convert delta time to sample time
-            newDynamicFile.eventIndex = 0;
-            uint lastSample = 0;
-            for (int x = 0; x < newDynamicFile.file.Tracks[0].MidiEvents.Length; x++)
-            {
-                newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime = lastSample + (uint)DeltaTimetoSamples(newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime, newDynamicFile.file);
-                lastSample = newDynamicFile.file.Tracks[0].MidiEvents[x].deltaTime;
-                //Update tempo
-                if (newDynamicFile.file.Tracks[0].MidiEvents[x].midiMetaEvent == MidiHelper.MidiMetaEvent.Tempo)
-                {
-                    newDynamicFile.file.BeatsPerMinute = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(newDynamicFile.file.Tracks[0].MidiEvents[x].Parameters[0]);
-                }
-            }
-            //Set total time to proper value
-            newDynamicFile.file.Tracks[0].TotalTime = newDynamicFile.file.Tracks[0].MidiEvents[newDynamicFile.file.Tracks[0].MidiEvents.Length - 1].deltaTime;
-            //reset tempo
-            newDynamicFile.file.BeatsPerMinute = 120;
-            //mark midi as ready for sequencing
-            newDynamicFile.file.SequencerReady = true;
+            newDynamicFile.SetMidiFile(file, sampleRate);
 
             midiFiles.Add(newDynamicFile);
         }
         
+    }
+
+    public void ChangeMidiFile(MidiFile file, int index) {
+        midiFiles[index].SetMidiFile(file, sampleRate, sampleTime);
+        Debug.Log("Changing midi file at time " + Time.time);
     }
 
     public List<MidiEvent> GetNextMidiEvents(int numFrames)
@@ -136,8 +144,5 @@ public class MidiStreamer {
             file.file.ApplyMidiFilterToTracks(filter);
     }
 
-    private int DeltaTimetoSamples(uint DeltaTime, MidiFile file)
-    {
-        return SynthHelper.getSampleFromTime(sampleRate, (DeltaTime * (60.0f / (((int)file.BeatsPerMinute) * file.MidiHeader.DeltaTiming))));
-    }
+    
 }

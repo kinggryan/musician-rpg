@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CSharpSynth.Midi;
 
 public class PlayerMidiController : MonoBehaviour {
 
@@ -14,6 +15,8 @@ public class PlayerMidiController : MonoBehaviour {
 	public PlayerMouseSpringInput volumeMouseInput;
 	public PlayerMouseSpringInput instrumentMouseInput;
 	public PowerCircleAnimationController circleAnimator;
+
+	public string[] playerMidiLoops;
 	
 	float songBPM = 240f;
 
@@ -54,6 +57,7 @@ public class PlayerMidiController : MonoBehaviour {
 		UpdateInstrument();
 		UpdateGate();
 		UpdateVolume();
+		UpdateCurrentMidiFile();
 
 		// Mathf.L
 		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
@@ -109,6 +113,16 @@ public class PlayerMidiController : MonoBehaviour {
 			int instrument = playerInstruments[instrumentIndex];
 			Debug.Log("Changing instrument to " + instrument);
 			midiPlayer.synthBank.currentPlayerInstrument = instrument;
+		}
+	}
+
+	void UpdateCurrentMidiFile() {
+		// TODO: Do this more properly
+		// DEBUG
+		if(Input.GetKeyDown("a")) {
+			midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[0]));
+		} else if(Input.GetKeyDown("s")) {
+			midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[1]));
 		}
 	}
 
