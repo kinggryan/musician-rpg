@@ -10,9 +10,9 @@ using CSharpSynth.Banks;
 
 public class ControllableSynthBank : InstrumentBank {
 
-	const int playerChannel = 1;
+	const int playerChannel = 0;
 	public List<Instrument> playerInstruments;
-	public int currentPlayerInstrument = 1;
+	public int currentPlayerInstrument = 0;
 
 	public ControllableSynthBank(int sampleRate, string bankfile) : base(sampleRate, bankfile) {
 		// Required for compilation, but we don't want any custom behavior here

@@ -21,14 +21,11 @@ public class MIDISmartTranspose : MIDITrackFilter {
 			if(rules != null) {
 				foreach (int i in rules){
 					int pitch = midiEvent.parameter1;
-					//Debug.Log("Pitch: " + pitch);
 					int index = System.Array.IndexOf(rules,i);
 					if (pitch % 12 == index){
 						var newMidiEvent = midiEvent.Duplicate();
 						// pitch is parameter 1
 						pitch = pitch + (i - index);
-						//Debug.Log("New Pitch: " + pitch);
-						//Debug.Log("Transposig by " + (i  - index));
 						newMidiEvent.parameter1 = (byte)pitch;
 						filteredEvents.Add(newMidiEvent);
 						break;

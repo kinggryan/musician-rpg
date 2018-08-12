@@ -76,9 +76,9 @@ public class PlayerMidiController : MonoBehaviour {
 
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
-		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[2];
+		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[6];
 		
-		currentInstIndex = 2;
+		currentInstIndex = 6;
 	}
 	
 	// Update is called once per frame
@@ -284,7 +284,8 @@ public class PlayerMidiController : MonoBehaviour {
 					if(currentInstrument > 0){
 						currentInstrument--;
 					}
-					Debug.Log("Current Inst:" + currentInstrument);				
+					Debug.Log("Current Inst:" + currentInstrument);
+					Debug.Log("playerInst: " + playerInstruments[currentInstrument]);			
 					midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[currentInstrument];
 					currentInstIndex = currentInstrument;
 					keyControlDisplay.UpdateDisplayValues();
@@ -306,7 +307,8 @@ public class PlayerMidiController : MonoBehaviour {
 					if(currentInstrument < playerInstruments.Length - 1){
 						currentInstrument++;
 					}
-					Debug.Log("Current Inst:" + currentInstrument);				
+					Debug.Log("Current Inst:" + currentInstrument);
+					Debug.Log("playerInst: " + playerInstruments[currentInstrument]);				
 					midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[currentInstrument];
 					currentInstIndex = currentInstrument;
 					keyControlDisplay.UpdateDisplayValues();

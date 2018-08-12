@@ -9,17 +9,33 @@ public class AIFeedback : MonoBehaviour {
 	private float displayTimer;
 	private bool isTextEnabled;
 	private float displayTime;
+	public Image avatar;
+	private Color avatarStartColor = Color.white;
+	private float colorTimer;
+	private bool colorIsChanged;
+	private float colorChangeDuration;
 
 	void Start(){
+		if(avatar){
+			avatarStartColor = avatar.color;
+		}
 		text = gameObject.GetComponent<Text>();
-		text.enabled = false;
+		if(text != null){
+			text.enabled = false;
+		}
 	}
 
-	public void DisplayText(string textToDisplay, float timeToDisplayText){
+	public void ChangeAvatarColorForDuration(Color color, float duration){
+		colorIsChanged = true;
+		colorChangeDuration = duration;
+	}
+
+	public void DisplayText(string textToDisplay, float timeToDisplayText, Color color){
 		text.enabled = true;
 		displayTimer = 0;
 		displayTime = timeToDisplayText;
 		isTextEnabled = true;
+		text.color = color;
 		text.text = textToDisplay;
 		
 	}
@@ -31,6 +47,15 @@ public class AIFeedback : MonoBehaviour {
 				isTextEnabled = false;
 				text.enabled = false;
 			}
+		}
+		if(colorIsChanged){
+			colorTimer += Time.deltaTime;
+			if (colorTimer >= colorChangeDuration){
+				colorTimer = 0;
+				avatar.color = avatarStartColor;
+				colorIsChanged = false;
+			}
+
 		}
 	}
 }

@@ -27,6 +27,7 @@ public class MIDIPlayer : MonoBehaviour
         set { 
             playerGate.gateVelocity = value; 
             midiSequencer.ApplyMidiFilterToTracks(filterGroup);
+            aiMidiContoller.playerGateChange(value);
         }
     }
     public float playerVolume {
@@ -52,6 +53,7 @@ public class MIDIPlayer : MonoBehaviour
     }
 
     public TransposeRules[] transposeRules;
+    
     public bool mute;
     //Private 
     private float[] sampleBuffer;
@@ -67,6 +69,7 @@ public class MIDIPlayer : MonoBehaviour
     public MIDISmartTranspose transposeFilter = new MIDISmartTranspose();
     //private MIDIVolumeFilter muter = new MIDIVolumeFilter();
     public MIDIVolumeFilter opponentVolumeFilter = new MIDIVolumeFilter();
+    public MIDITrackGate opponentGate = new MIDITrackGate();
     private bool isPlaying;
 
     // Awake is called when the script instance
@@ -82,7 +85,8 @@ public class MIDIPlayer : MonoBehaviour
         transposeFilter.transposeRules = transposeRules[0];
         opponentVolumeFilter.activeChannel = 1;
 
-        filterGroup.filters = new MIDITrackFilter[]{ playerGate, playerVolumeFilter, transposeFilter, opponentVolumeFilter };
+        filterGroup.filters = new MIDITrackFilter[]{  playerGate, playerVolumeFilter,   opponentGate, opponentVolumeFilter,transposeFilter};
+        
         trackGateVelocity = 79;
         playerVolume = 1;
         

@@ -28,7 +28,7 @@ public class Metronome : MonoBehaviour {
 			}
 			
 		}
-		Debug.Log("Metro Started");
+		//Debug.Log("Metro Started");
 
 	}
 
@@ -49,7 +49,7 @@ public class Metronome : MonoBehaviour {
 				if(playSound){
 					GetComponent<AudioSource>().Play();
 				}
-				Debug.Log("tick");
+				//Debug.Log("tick");
 			}
 			
 		}
