@@ -11,9 +11,22 @@ public class MidiStreamer {
     // Has some sort of event index
     class DynamicMidiFile
     {
-        public MidiFile file;
+        public MidiFile file { get; private set; }
         public int eventIndex;
         public bool looping;
+
+        public void SetMidiFile(MidiFile newFile, int sampleTime = 0) {
+            // What we need to do here is set the eventIndex based on the current sample
+            this.file = newFile;
+            var loopedDeltaTime = 0;
+            while (this.eventIndex < this.file.Tracks[0].EventCount && this.file.Tracks[0].MidiEvents[this.eventIndex].deltaTime < sampleTime)
+            {
+                this.eventIndex++;
+                if(this.eventIndex >= this.file.Tracks[0].EventCount) {
+                    
+                }
+            }
+        }
     }
 
     public uint bpm {
@@ -38,7 +51,7 @@ public class MidiStreamer {
         foreach(var file in files)
         {
             var newDynamicFile = new DynamicMidiFile { };
-            newDynamicFile.file = file;
+            newDynamicFile.SetMidiFile(file);
             //Combine all tracks into 1 track that is organized from lowest to highest abs time
             newDynamicFile.file.CombineTracks();
             //Convert delta time to sample time
@@ -95,7 +108,6 @@ public class MidiStreamer {
             } */
             while (file.eventIndex < file.file.Tracks[0].EventCount && file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime < (sampleTime + numFrames * playbackSpeedMultiplier))
             {
-                Debug.Log("Event index: " + file.eventIndex);
                 events.Add(file.file.Tracks[0].MidiEvents[file.eventIndex]);
                 file.eventIndex++;
             }
