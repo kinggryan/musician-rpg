@@ -45,6 +45,9 @@ public class MidiStreamer {
             {
                 eventIndex++;
             }
+
+            // DEBUG
+            looping = true;
         }
 
         private int DeltaTimetoSamples(uint DeltaTime, int sampleRate, MidiFile file)
@@ -114,10 +117,32 @@ public class MidiStreamer {
                     return null;
                 }
             } */
-            while (file.eventIndex < file.file.Tracks[0].EventCount && file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime < (sampleTime + numFrames * playbackSpeedMultiplier))
+            // while(IsFrameInRangeWithLoopingFile(file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime, 
+            //     sampleTime, 
+            //     Mathf.FloorToInt(sampleTime + numFrames * playbackSpeedMultiplier), 
+            //     (int)file.file.Tracks[0].TotalTime))
+            while (
+                file.eventIndex < file.file.Tracks[0].EventCount
+                && IsFrameInRangeWithLoopingFile(file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime, 
+                sampleTime, 
+                Mathf.FloorToInt(sampleTime + numFrames * playbackSpeedMultiplier), 
+                (int)file.file.Tracks[0].TotalTime))
             {
-                events.Add(file.file.Tracks[0].MidiEvents[file.eventIndex]);
+                var newMidiEvent = file.file.Tracks[0].MidiEvents[file.eventIndex].Duplicate();
+            
+                // Because of looping, we might end up with a deltatime that is less than the sample time. If this is the case, fix the deltatime
+                while(newMidiEvent.deltaTime < sampleTime) {
+                    newMidiEvent.deltaTime += (uint)file.file.Tracks[0].TotalTime;
+                }
+
+                events.Add(newMidiEvent);
                 file.eventIndex++;
+                if(file.eventIndex >= file.file.Tracks[0].EventCount) {
+                    if(file.looping) {
+                        file.eventIndex = 0;
+                    }
+                }
+
             }
         }
 
@@ -144,5 +169,13 @@ public class MidiStreamer {
             file.file.ApplyMidiFilterToTracks(filter);
     }
 
-    
+    private bool IsFrameInRangeWithLoopingFile(uint frame, int startFrameRange, int endFrameRange, int maxNumFrames) {
+        // If the range doesn't cross the edge of the file, determine if the frame is in the range
+        if(endFrameRange / maxNumFrames == startFrameRange / maxNumFrames) {
+            return frame % maxNumFrames >= startFrameRange % maxNumFrames && frame % maxNumFrames < endFrameRange % maxNumFrames;
+        }
+        else {
+            return frame % maxNumFrames >= startFrameRange % maxNumFrames || frame % maxNumFrames < endFrameRange % maxNumFrames;
+        }
+    }
 }
