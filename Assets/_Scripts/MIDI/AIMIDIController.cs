@@ -76,7 +76,7 @@ public class AIMIDIController : MonoBehaviour {
     void Start()
     {
 		// Add yourself to the midi player
-		midiStreamer = midiPlayer.CreateNewMidiStreamer(new List<string>(){midiFilePath});
+		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(){midiFilePath});
 
 		volumeFilter = new MIDIVolumeFilter();
 		midiStreamer.AddFilter(volumeFilter);

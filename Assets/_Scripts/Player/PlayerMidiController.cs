@@ -65,7 +65,7 @@ public class PlayerMidiController : MonoBehaviour {
 	float savedVolumeValue = 0.5f;
 	float savedInstrumentValue = 0.5f;
 	
-	MidiStreamer midiStreamer;
+	MidiFileStreamer midiStreamer;
 	MIDIVolumeFilter volumeFilter;
 	MIDITrackGate gateFilter;
 
@@ -86,7 +86,7 @@ public class PlayerMidiController : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[6];
 
-		midiStreamer = midiPlayer.CreateNewMidiStreamer(new List<string>(midiFileNames));
+		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(midiFileNames));
 		midiStreamer.LoadMidiFiles(new List<string>(midiFileNames));
 		volumeFilter = new MIDIVolumeFilter();
 		midiStreamer.AddFilter(volumeFilter);
@@ -106,7 +106,7 @@ public class PlayerMidiController : MonoBehaviour {
 			UpdateKeyControls();
 		}
 		// UpdateChord();
-        UpdateCurrentMidiFile();
+        // UpdateCurrentMidiFile();
 
 		// Mathf.L
 		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
@@ -334,15 +334,15 @@ public class PlayerMidiController : MonoBehaviour {
 		}
 	}
 
-	void UpdateCurrentMidiFile() {
-		// TODO: Do this more properly
-		// DEBUG
-		if(Input.GetKeyDown("a")) {
-			midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[0]));
-		} else if(Input.GetKeyDown("s")) {
-			midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[1]));
-		}
-	}
+	// void UpdateCurrentMidiFile() {
+	// 	// TODO: Do this more properly
+	// 	// DEBUG
+	// 	if(Input.GetKeyDown("a")) {
+	// 		midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[0]));
+	// 	} else if(Input.GetKeyDown("s")) {
+	// 		midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[1]));
+	// 	}
+	// }
 
 	void DidChangeBPM(double bpm) {
 		targetBPM = (float)bpm;

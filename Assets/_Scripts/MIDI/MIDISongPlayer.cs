@@ -130,15 +130,10 @@ public class MIDISongPlayer : MonoBehaviour
         Debug.Log("NoteOff: " + note.ToString());
     }
 
-    // DEBUG
-    public void ChangePlayerMidiFile(MidiFile newFile) {
-        midiSequencer.midiStreamer.ChangeMidiFile(newFile, 0);
-    }
-
     // This function creates a new midi streamer with the given file names and returns it.
     // That streamer can then be controlled by outside classes
-    public MidiStreamer CreateNewMidiStreamer(List<string> midiFileNames) {
-        var streamer = new MidiStreamer();
+    public MidiFileStreamer CreateNewMidiFileStreamer(List<string> midiFileNames) {
+        var streamer = new MidiFileStreamer();
         streamer.LoadMidiFiles(midiFileNames);
         // TODO: Change the sequencer so that it can have multiple streamers (for multiple midi files playing at once)
         midiSequencer.midiStreamer = streamer;

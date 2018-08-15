@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   midiFileNames:
-  - Midis/Medieval_01_240bpm.mid
+  - MIDI/HokeyMidiTest_02.mid
   midiPlayer: {fileID: 39149008}
   animationManager: {fileID: 39149012}
   volumeArrow: {fileID: 1082551298}
@@ -1582,12 +1582,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 936085913}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b091114be8beed499bca756bbd03db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  midiFilePath: Midis/Groove.mid
+  midiFilePath: MIDI/HokeyMidiTest_01.mid
   volumeFollow: 1000
   volumeFollowRndm: 2000
   gateFollowTime: 3
@@ -1602,7 +1602,7 @@ MonoBehaviour:
   bufferSize: 1024
   currentVolume: 0
   gateVal: 0
-  midiPlayer: {fileID: 0}
+  midiPlayer: {fileID: 39149008}
   aiFeedback: {fileID: 842659071}
   isLeading: 1
   mute: 0

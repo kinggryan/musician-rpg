@@ -185,9 +185,4 @@ public class MIDIPlayer : MonoBehaviour
     {
         Debug.Log("NoteOff: " + note.ToString());
     }
-
-    // DEBUG
-    public void ChangePlayerMidiFile(MidiFile newFile) {
-        midiSequencer.midiStreamer.ChangeMidiFile(newFile, 0);
-    }
 }
