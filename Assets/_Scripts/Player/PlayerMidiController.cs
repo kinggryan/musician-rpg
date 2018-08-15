@@ -5,7 +5,9 @@ using CSharpSynth.Midi;
 
 public class PlayerMidiController : MonoBehaviour {
 
-	public MIDIPlayer midiPlayer;
+	public string[] midiFileNames;
+
+	public MIDISongPlayer midiPlayer;
 	public CharacterAnimationManager animationManager;
 	public PlayerPowerArrow volumeArrow;
 	public PlayerPowerArrow gateArrow;
@@ -43,7 +45,6 @@ public class PlayerMidiController : MonoBehaviour {
 	public float keyVolumeIncrement;
 	public int keyControlIndex = 1;
 	public int currentInstIndex;
-	public PowerCircleAnimationController circleAnimator;
 
 	public string[] playerMidiLoops;
 	
@@ -64,6 +65,9 @@ public class PlayerMidiController : MonoBehaviour {
 	float savedVolumeValue = 0.5f;
 	float savedInstrumentValue = 0.5f;
 	
+	MidiStreamer midiStreamer;
+	MIDIVolumeFilter volumeFilter;
+	MIDITrackGate gateFilter;
 
 
 	// Use this for initialization
@@ -81,6 +85,13 @@ public class PlayerMidiController : MonoBehaviour {
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
 		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[6];
+
+		midiStreamer = midiPlayer.CreateNewMidiStreamer(new List<string>(midiFileNames));
+		midiStreamer.LoadMidiFiles(new List<string>(midiFileNames));
+		volumeFilter = new MIDIVolumeFilter();
+		midiStreamer.AddFilter(volumeFilter);
+		gateFilter = new MIDITrackGate();
+		midiStreamer.AddFilter(gateFilter);
 		
 		currentInstIndex = 6;
 	}
@@ -94,7 +105,7 @@ public class PlayerMidiController : MonoBehaviour {
 		}else{
 			UpdateKeyControls();
 		}
-		UpdateChord();
+		// UpdateChord();
         UpdateCurrentMidiFile();
 
 		// Mathf.L
@@ -102,52 +113,52 @@ public class PlayerMidiController : MonoBehaviour {
 		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / songBPM,0.3f,1.2f);
 	}
 
-	void UpdateChord(){
-		if(Input.GetKeyDown(KeyCode.Z)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 0;
-		} else if(Input.GetKeyDown(KeyCode.A)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 1;
-		} else if(Input.GetKeyDown(KeyCode.X)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 2;
-		} else if(Input.GetKeyDown(KeyCode.S)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 3;
-		} else if(Input.GetKeyDown(KeyCode.C)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 4;
-		} else if(Input.GetKeyDown(KeyCode.D)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 5;
-		} else if(Input.GetKeyDown(KeyCode.V)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 6;
-		} else if(Input.GetKeyDown(KeyCode.F)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 7;
-		} else if(Input.GetKeyDown(KeyCode.B)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 8;
-		} else if(Input.GetKeyDown(KeyCode.G)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 9;
-		} else if(Input.GetKeyDown(KeyCode.N)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 10;
-		} else if(Input.GetKeyDown(KeyCode.H)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 11;
-		} else if(Input.GetKeyDown(KeyCode.M)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 12;
-		} else if(Input.GetKeyDown(KeyCode.J)){
-			Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
-			midiPlayer.chordChange = 13;
-		}
+	// void UpdateChord(){
+	// 	if(Input.GetKeyDown(KeyCode.Z)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 0;
+	// 	} else if(Input.GetKeyDown(KeyCode.A)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 1;
+	// 	} else if(Input.GetKeyDown(KeyCode.X)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 2;
+	// 	} else if(Input.GetKeyDown(KeyCode.S)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 3;
+	// 	} else if(Input.GetKeyDown(KeyCode.C)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 4;
+	// 	} else if(Input.GetKeyDown(KeyCode.D)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 5;
+	// 	} else if(Input.GetKeyDown(KeyCode.V)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 6;
+	// 	} else if(Input.GetKeyDown(KeyCode.F)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 7;
+	// 	} else if(Input.GetKeyDown(KeyCode.B)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 8;
+	// 	} else if(Input.GetKeyDown(KeyCode.G)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 9;
+	// 	} else if(Input.GetKeyDown(KeyCode.N)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 10;
+	// 	} else if(Input.GetKeyDown(KeyCode.H)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 11;
+	// 	} else if(Input.GetKeyDown(KeyCode.M)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 12;
+	// 	} else if(Input.GetKeyDown(KeyCode.J)){
+	// 		Debug.Log("Changing from " + midiPlayer.transposeFilter.transposeRules.name + " to IV");
+	// 		midiPlayer.chordChange = 13;
+	// 	}
 		
-	}
+	// }
 
 	void UpdateKeyControls(){
 		if(Input.GetKeyDown(KeyCode.LeftArrow)){
@@ -189,23 +200,23 @@ public class PlayerMidiController : MonoBehaviour {
 				savedGateValue = gateMouseInput.GetMouseValue();
 				int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((savedGateValue + 1)/2f));
 				// Debug.Log("Gate: " + veloGate);
-				midiPlayer.trackGateVelocity = veloGate;
+				gateFilter.gateVelocity = veloGate;
 			}
 		}else{
 			if(Input.GetKeyDown(KeyCode.DownArrow)){
 				Debug.Log("GATE UP");
-				if(midiPlayer.trackGateVelocity < maxGate){
-					midiPlayer.trackGateVelocity++;
+				if(gateFilter.gateVelocity < maxGate){
+					gateFilter.gateVelocity++;
 				}
-				Debug.Log("Gate level:" + midiPlayer.trackGateVelocity);
+				Debug.Log("Gate level:" + gateFilter.gateVelocity);
 				keyControlDisplay.UpdateDisplayValues();				
 			}
 			if(Input.GetKeyDown(KeyCode.UpArrow)){
 				Debug.Log("GATE DOWN");
-				if(midiPlayer.trackGateVelocity > minGate){
-					midiPlayer.trackGateVelocity--;
+				if(gateFilter.gateVelocity > minGate){
+					gateFilter.gateVelocity--;
 				}
-				Debug.Log("Gate level:" + midiPlayer.trackGateVelocity);
+				Debug.Log("Gate level:" + gateFilter.gateVelocity);
 				keyControlDisplay.UpdateDisplayValues();
 			}
 		}
@@ -225,28 +236,28 @@ public class PlayerMidiController : MonoBehaviour {
 			if(Input.GetButton("Loop3")) {
 				savedVolumeValue = volumeMouseInput.GetMouseValue();
 				float volume = minVolume + (maxVolume - minVolume)*((savedVolumeValue + 1)/2f);
-				midiPlayer.playerVolume = volume;
+				volumeFilter.volumeMultiplier = volume;
 			}
 		}else{
 			
 			if(Input.GetKeyDown(KeyCode.DownArrow)){
-				float currentVolume = midiPlayer.playerVolume;
+				float currentVolume = volumeFilter.volumeMultiplier;
 				Debug.Log("VOLUME DOWN");
 				if(currentVolume > minVolume){
 					currentVolume -= keyVolumeIncrement;
 				}
 				Debug.Log("Volume level:" + currentVolume);				
-				midiPlayer.playerVolume = currentVolume;
+				volumeFilter.volumeMultiplier = currentVolume;
 				keyControlDisplay.UpdateDisplayValues();
 			}
 			if(Input.GetKeyDown(KeyCode.UpArrow)){
-				float currentVolume = midiPlayer.playerVolume;
+				float currentVolume = volumeFilter.volumeMultiplier;
 				Debug.Log("VOLUME UP");
 				if(currentVolume < maxVolume){
 					currentVolume += keyVolumeIncrement;
 				}
 				Debug.Log("Volume level:" + currentVolume);				
-				midiPlayer.playerVolume = currentVolume;
+				volumeFilter.volumeMultiplier = currentVolume;
 				keyControlDisplay.UpdateDisplayValues();
 			}
 			

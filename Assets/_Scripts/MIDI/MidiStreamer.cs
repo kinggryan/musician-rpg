@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CSharpSynth.Midi;
@@ -66,8 +67,9 @@ public class MidiStreamer {
     public int sampleRate;
     public float playbackSpeedMultiplier = 1f;
 
-    //
     private List<DynamicMidiFile> midiFiles;
+    private List<MIDITrackFilter> filters =  new List<MIDITrackFilter>();
+    private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
     private int sampleTime;
 
     public void LoadMidiFiles(MidiFile[] files)
@@ -82,7 +84,22 @@ public class MidiStreamer {
 
             midiFiles.Add(newDynamicFile);
         }
-        
+    }
+
+    public void LoadMidiFiles(List<string> fileNames)
+    {
+        var files = new List<MidiFile>();
+        foreach(var filename in fileNames) {
+            MidiFile file = null;
+            try {
+                file = new MidiFile(filename);
+            } catch(Exception e) {
+                Debug.LogError("Couldn't load midi file with name " + filename + ":" + e);
+                continue;
+            }
+            files.Add(file);
+        }
+        LoadMidiFiles(files.ToArray());
     }
 
     public void ChangeMidiFile(MidiFile file, int index) {
@@ -96,31 +113,6 @@ public class MidiStreamer {
         // For each file
         foreach(var file in midiFiles)
         {
-            /* if (sampleTime >= (int)_MidiFile.Tracks[0].TotalTime)
-            {
-                sampleTime = 0;
-                if (looping == true)
-                {
-                    //Clear the current programs for the channels.
-                    Array.Clear(currentPrograms, 0, currentPrograms.Length);
-                    //Clear vol, pan, and tune
-                    ResetControllers();
-                    //set bpm
-                    _MidiFile.BeatsPerMinute = 120;
-                    //Let the synth know that the sequencer is ready.
-                    eventIndex = 0;
-                }
-                else
-                {
-                    playing = false;
-                    synth.NoteOffAll(true);
-                    return null;
-                }
-            } */
-            // while(IsFrameInRangeWithLoopingFile(file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime, 
-            //     sampleTime, 
-            //     Mathf.FloorToInt(sampleTime + numFrames * playbackSpeedMultiplier), 
-            //     (int)file.file.Tracks[0].TotalTime))
             while (
                 file.eventIndex < file.file.Tracks[0].EventCount
                 && IsFrameInRangeWithLoopingFile(file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime, 
@@ -146,6 +138,9 @@ public class MidiStreamer {
             }
         }
 
+        // Feed the events through all of the filters
+        events = new List<MidiEvent>(filterGroup.FilterMidiEvents(events.ToArray()));
+
         sampleTime += Mathf.FloorToInt(numFrames * playbackSpeedMultiplier);
 
         //  Go through the events of that file and return them
@@ -163,10 +158,9 @@ public class MidiStreamer {
         midiFiles.Clear();
     }
 
-    public void ApplyMidiFilterToTracks(MIDITrackFilter filter)
-    {
-        foreach(var file in midiFiles)
-            file.file.ApplyMidiFilterToTracks(filter);
+    public void AddFilter(MIDITrackFilter filter) {
+        filters.Add(filter);
+        filterGroup.AddFilter(filter);
     }
 
     private bool IsFrameInRangeWithLoopingFile(uint frame, int startFrameRange, int endFrameRange, int maxNumFrames) {

@@ -178,8 +178,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 39149009}
-  - component: {fileID: 39149008}
   - component: {fileID: 39149007}
+  - component: {fileID: 39149008}
   - component: {fileID: 39149010}
   - component: {fileID: 39149011}
   - component: {fileID: 39149012}
@@ -296,32 +296,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 39149006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3fa7422909e5244786a79dcd7adc333, type: 3}
+  m_Script: {fileID: 11500000, guid: 32c5b462d6e2e4d94b729998d5d1da89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  midiFilePath: midis/MidiTestSong_01.mid
-  aiMidiContoller: {fileID: 936085914}
-  ShouldPlayFile: 1
   bankFilePath: GM Bank/gm
   bufferSize: 1024
   midiNote: 60
   midiNoteVolume: 100
   midiInstrument: 0
-  transposeRules:
-  - {fileID: 512764808}
-  - {fileID: 1762144843}
-  - {fileID: 543859040}
-  - {fileID: 1788404516}
-  - {fileID: 1299665687}
-  - {fileID: 1028557992}
-  - {fileID: 1526867786}
-  - {fileID: 449290746}
-  - {fileID: 2055293197}
-  - {fileID: 327072406}
-  - {fileID: 1062193515}
-  - {fileID: 782877172}
-  - {fileID: 468606745}
-  - {fileID: 940741103}
   mute: 0
 --- !u!4 &39149009
 Transform:
@@ -348,6 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2c8c5db22a44dcab296cdc3298f8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  midiFileNames:
+  - Midis/Medieval_01_240bpm.mid
   midiPlayer: {fileID: 39149008}
   animationManager: {fileID: 39149012}
   volumeArrow: {fileID: 1082551298}
@@ -365,6 +349,7 @@ MonoBehaviour:
   keyVolumeIncrement: 0.1
   keyControlIndex: 1
   currentInstIndex: 0
+  playerMidiLoops: []
 --- !u!114 &39149011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,7 +678,6 @@ MonoBehaviour:
   index: 0
   color: {r: 0.99215686, g: 1, b: 0.4, a: 1}
   animator: {fileID: 0}
-  animation: {fileID: 0}
 --- !u!114 &236193314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,7 +817,6 @@ MonoBehaviour:
   index: 1
   color: {r: 0.42352942, g: 0.9607843, b: 0.49411765, a: 1}
   animator: {fileID: 0}
-  animation: {fileID: 0}
 --- !u!114 &320572397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1599,11 +1582,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 936085913}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b091114be8beed499bca756bbd03db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  midiFilePath: Midis/Groove.mid
   volumeFollow: 1000
   volumeFollowRndm: 2000
   gateFollowTime: 3
@@ -1618,7 +1602,7 @@ MonoBehaviour:
   bufferSize: 1024
   currentVolume: 0
   gateVal: 0
-  midiPlayer: {fileID: 39149008}
+  midiPlayer: {fileID: 0}
   aiFeedback: {fileID: 842659071}
   isLeading: 1
   mute: 0
@@ -1642,7 +1626,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 936085913}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85fe4c8e491250a468d900eaa0f01d3a, type: 3}
   m_Name: 
@@ -2503,7 +2487,6 @@ MonoBehaviour:
   index: 2
   color: {r: 0.4392157, g: 0.9019608, b: 1, a: 1}
   animator: {fileID: 0}
-  animation: {fileID: 0}
 --- !u!114 &1985433299
 MonoBehaviour:
   m_ObjectHideFlags: 0

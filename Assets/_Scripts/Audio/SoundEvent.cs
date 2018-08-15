@@ -258,7 +258,7 @@ private bool fadeInComplete;
             return;
         }
         //Debug.Log("Sound scheduled to play at " + clipEndTime);
-        float endTimeOfNextClipToPlay = (float)clipEndTime + audioClip[clip].length;
+        // float endTimeOfNextClipToPlay = (float)clipEndTime + audioClip[clip].length;
         clipStartTime = clipEndTime;
         clipEndTime = clipEndTime + audioClip[clip].length;
         StartCoroutine(PrepareSoundAfterDelay(audioClip[clip].length + 0.7f, clipStartTime, clipEndTime));

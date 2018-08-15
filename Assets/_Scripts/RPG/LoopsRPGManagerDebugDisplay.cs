@@ -18,14 +18,14 @@ public class LoopsRPGManagerDebugDisplay : MonoBehaviour {
 
 	// Use this for initialization
 	void DidChangePlayerRole(LoopsRPGManager.MusicalRole role) {
-		playerMelody.active = false;
-		playerHarmony.active = false;
-		playerRhythm.active = false;
+		playerMelody.SetActive(false);
+		playerHarmony.SetActive(false);
+		playerRhythm.SetActive(false);
 
 		switch(role) {
-			case LoopsRPGManager.MusicalRole.Harmony: playerHarmony.active = true; break;
-			case LoopsRPGManager.MusicalRole.Melody: playerMelody.active = true; break;
-			case LoopsRPGManager.MusicalRole.Rhythm: playerRhythm.active = true; break;
+			case LoopsRPGManager.MusicalRole.Harmony: playerHarmony.SetActive(true); break;
+			case LoopsRPGManager.MusicalRole.Melody: playerMelody.SetActive(true); break;
+			case LoopsRPGManager.MusicalRole.Rhythm: playerRhythm.SetActive(true); break;
 		}
 	}
 

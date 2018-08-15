@@ -35,13 +35,13 @@ public class KeyControlDisplay : MonoBehaviour {
 			}
 
 			//Set Text To Current Value
-			if(index == 0){
-				text.text = controlNames[index] + "\n" + playerMidiController.currentInstIndex.ToString();
-			}else if(index == 1){
-				text.text = controlNames[index] + "\n" + playerMidiController.midiPlayer.trackGateVelocity.ToString();
-			}else if(index == 2){
-				text.text = controlNames[index] + "\n" + playerMidiController.midiPlayer.playerVolume.ToString();
-			}
+			// if(index == 0){
+			// 	text.text = controlNames[index] + "\n" + playerMidiController.currentInstIndex.ToString();
+			// }else if(index == 1){
+			// 	text.text = controlNames[index] + "\n" + playerMidiController.midiPlayer.trackGateVelocity.ToString();
+			// }else if(index == 2){
+			// 	text.text = controlNames[index] + "\n" + playerMidiController.midiPlayer.playerVolume.ToString();
+			// }
 		}
 	}
 }

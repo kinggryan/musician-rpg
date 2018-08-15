@@ -12,7 +12,16 @@ namespace MusicianRPG
     public class MidiSequencer
     {
         //--Variables
-        public MidiStreamer midiStreamer;
+        public MidiStreamer midiStreamer {
+            set {
+                _midiStreamer = value;
+                _midiStreamer.sampleRate = synth.SampleRate;
+            }
+            get {
+                return _midiStreamer;
+            }
+        }
+        private MidiStreamer _midiStreamer;
         private StreamSynthesizer synth;
         private int[] currentPrograms;
         private List<byte> blockList;
@@ -91,85 +100,6 @@ namespace MusicianRPG
         {
             get { return looping; }
             set { looping = value; }
-        }
-        public bool LoadMidi(MidiFile midi, bool UnloadUnusedInstruments)
-        {
-            if (playing == true)
-                return false;
-            midiStreamer = new MidiStreamer();
-            midiStreamer.sampleRate = synth.SampleRate;
-            midiStreamer.LoadMidiFiles(new MidiFile[]{midi});
-            // _MidiFile = midi;
-            // if (_MidiFile.SequencerReady == false)
-            // {
-            //     try
-            //     {
-            //         //Combine all tracks into 1 track that is organized from lowest to highest abs time
-            //         _MidiFile.CombineTracks();
-            //         //Convert delta time to sample time
-            //         eventIndex = 0;
-            //         uint lastSample = 0;
-            //         for (int x = 0; x < _MidiFile.Tracks[0].MidiEvents.Length; x++)
-            //         {
-            //             _MidiFile.Tracks[0].MidiEvents[x].deltaTime = lastSample + (uint)DeltaTimetoSamples(_MidiFile.Tracks[0].MidiEvents[x].deltaTime);
-            //             lastSample = _MidiFile.Tracks[0].MidiEvents[x].deltaTime;
-            //             //Update tempo
-            //             if (_MidiFile.Tracks[0].MidiEvents[x].midiMetaEvent == MidiHelper.MidiMetaEvent.Tempo)
-            //             {
-            //                 _MidiFile.BeatsPerMinute = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(_MidiFile.Tracks[0].MidiEvents[x].Parameters[0]);
-            //             }
-            //         }
-            //         //Set total time to proper value
-            //         _MidiFile.Tracks[0].TotalTime = _MidiFile.Tracks[0].MidiEvents[_MidiFile.Tracks[0].MidiEvents.Length - 1].deltaTime;
-            //         //reset tempo
-            //         _MidiFile.BeatsPerMinute = 120;
-            //         //mark midi as ready for sequencing
-            //         _MidiFile.SequencerReady = true;
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         //UnitySynth
-            //         Debug.Log("Error Loading Midi:\n" + ex.Message);
-            //         return false;
-            //     }
-            // }
-            blockList.Clear();
-            // RGK: This UnloadUnusedInstrument parameter is false in the midi player so it seems hopefully unused for our purposes
-            // if (UnloadUnusedInstruments == true)
-            // {
-            //     if (synth.SoundBank == null)
-            //     {//If there is no bank warn the developer =)
-            //         Debug.Log("No Soundbank loaded !");
-            //     }
-            //     else
-            //     {
-            //         string bankStr = synth.SoundBank.BankPath;
-            //         //Remove old bank being used by synth
-            //         synth.UnloadBank();
-            //         //Add the bank and switch to it with the synth
-            //         var newInstrumentBank = new ControllableSynthBank(synth.SampleRate, bankStr, _MidiFile.Tracks[0].Programs, _MidiFile.Tracks[0].DrumPrograms);
-            //         BankManager.addBank(newInstrumentBank);
-            //         synth.SwitchBank(BankManager.Count - 1);
-            //     }
-            // }
-            return true;
-        }
-        public bool LoadMidi(string file, bool UnloadUnusedInstruments)
-        {
-            if (playing == true)
-                return false;
-            MidiFile mf = null;
-            try
-            {
-                mf = new MidiFile(file);
-            }
-            catch (Exception ex)
-            {
-                //UnitySynth
-                Debug.Log("Error Loading Midi:\n" + ex.Message);
-                return false;
-            }
-            return LoadMidi(mf, UnloadUnusedInstruments);
         }
         public void Play()
         {
@@ -315,12 +245,6 @@ namespace MusicianRPG
             synth = null;
             midiStreamer.Dispose();
             seqEvt = null;
-        }
-
-        public void ApplyMidiFilterToTracks(MIDITrackFilter filter)
-        {
-            if(midiStreamer != null)
-                midiStreamer.ApplyMidiFilterToTracks(filter);
         }
 
         //--Private Methods

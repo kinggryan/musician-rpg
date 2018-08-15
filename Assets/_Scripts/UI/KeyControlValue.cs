@@ -9,11 +9,11 @@ public class KeyControlValue : MonoBehaviour {
 	public int index;
 	public Color color;
 	public Animator animator;
-	public Animation animation;
+	// public Animation animation;
 	
 	void Start(){
 		animator = GetComponent<Animator>();
-		animation = GetComponent<Animation>();
+		// animation = GetComponent<Animation>();
 	}
 
 	public void OnBeatPlayed(float bpm){

@@ -5,9 +5,12 @@ using CSharpSynth.Effects;
 using CSharpSynth.Sequencer;
 using CSharpSynth.Synthesis;
 using CSharpSynth.Midi;
+using MusicianRPG;
 
 public class AIMIDIController : MonoBehaviour {
 
+	// TODO : This may get moved around
+	public string midiFilePath = "Midis/Groove.mid";
 
 	public float volumeFollow;
 	public float volumeFollowRndm;
@@ -28,14 +31,12 @@ public class AIMIDIController : MonoBehaviour {
         set { 
             gate.gateVelocity = value; 
 			gateVal = value;
-            midiSequencer.ApplyMidiFilterToTracks(filterGroup);
         }
     }
     public float volume {
         get { return volumeFilter.volumeMultiplier; }
         set {
             volumeFilter.volumeMultiplier = value;
-            midiSequencer.ApplyMidiFilterToTracks(filterGroup);
 			currentVolume = value;
         }
     }
@@ -45,7 +46,7 @@ public class AIMIDIController : MonoBehaviour {
 	public int gateVal;
     //Private 
     
-	public MIDIPlayer midiPlayer;
+	public MIDISongPlayer midiPlayer;
 	public AIFeedback aiFeedback;
 	
 	public bool isLeading;
@@ -55,12 +56,8 @@ public class AIMIDIController : MonoBehaviour {
 	private float moveTimer;
 	private bool moving;
 	private float targetVolume;
-	private float[] sampleBuffer;
 
-	private MidiSequencer midiSequencer;
-    private StreamSynthesizer midiStreamSynthesizer;
-
-	private MIDIFilterGroup filterGroup;
+	private MidiStreamer midiStreamer;
     private MIDITrackGate gate;
     private MIDIVolumeFilter volumeFilter;
 	private bool dynMatchBuffer;
@@ -78,18 +75,19 @@ public class AIMIDIController : MonoBehaviour {
 
     void Start()
     {
-        midiStreamSynthesizer = midiPlayer.midiStreamSynthesizer;
-		volumeFilter = midiPlayer.opponentVolumeFilter;
-		gate = midiPlayer.opponentGate;
-        sampleBuffer = new float[midiStreamSynthesizer.BufferSize];
+		// Add yourself to the midi player
+		midiStreamer = midiPlayer.CreateNewMidiStreamer(new List<string>(){midiFilePath});
+
+		volumeFilter = new MIDIVolumeFilter();
+		midiStreamer.AddFilter(volumeFilter);
+		volumeFilter.activeChannel = 1;
+
+		gate = new MIDITrackGate();
+		midiStreamer.AddFilter(gate);
+		gate.activeChannel = 1;
 
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
 
-        midiSequencer = midiPlayer.midiSequencer;
-        volumeFilter.activeChannel = 1;
-		gate.activeChannel = 1;
-
-        filterGroup = midiPlayer.filterGroup;
         trackGateVelocity = 79;
         volume = 1;
 	}
@@ -116,13 +114,13 @@ public class AIMIDIController : MonoBehaviour {
 	void MakeVolumeMove(){
 		moveTimer = 0;
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
-		targetVolume = Random.RandomRange(.2f,2);
+		targetVolume = Random.Range(.2f,2);
 		Debug.Log("Making vol move from " + volume + " to " + targetVolume);
 		moving = true;
 	}
 
 	void MakeGateMove(){
-		int newGateVelo = Random.RandomRange(78, 81);
+		int newGateVelo = Random.Range(78, 81);
 		trackGateVelocity = newGateVelo;
 	}
 
@@ -190,17 +188,9 @@ public class AIMIDIController : MonoBehaviour {
 		if (leadTimer >= leadInterval){
 			SwitchLead();
 		}
-		
-		if(midiSequencer == null){
-			Debug.LogError("AI MIDI Sequencer missing!");
-		}
-		if(midiStreamSynthesizer == null){
-			Debug.LogError("AI Stream Synth missing!");
-		}
 
 		if (mute){
             volumeFilter.volumeMultiplier = 0;
-            midiSequencer.ApplyMidiFilterToTracks(filterGroup);
         }
 		if (isLeading){
 			
