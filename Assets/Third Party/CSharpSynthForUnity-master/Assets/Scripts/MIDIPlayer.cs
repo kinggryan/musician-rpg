@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using CSharpSynth.Effects;
@@ -13,6 +13,7 @@ public class MIDIPlayer : MonoBehaviour
     //Public
     //Check the Midi's file folder for different songs
     public string midiFilePath = "Midis/Groove.mid";
+    public AIMIDIController aiMidiContoller;
     public bool ShouldPlayFile = true;
 
     //Try also: "FM Bank/fm" or "Analog Bank/analog" for some different sounds
@@ -23,10 +24,11 @@ public class MIDIPlayer : MonoBehaviour
     [Range(0, 127)] //From Piano to Gunshot
     public int midiInstrument = 0;
     public int trackGateVelocity {
-        get { return gate.gateVelocity; }
+        get { return playerGate.gateVelocity; }
         set { 
-            gate.gateVelocity = value; 
+            playerGate.gateVelocity = value; 
             midiSequencer.ApplyMidiFilterToTracks(filterGroup);
+            aiMidiContoller.playerGateChange(value);
         }
     }
     public float playerVolume {
@@ -34,6 +36,7 @@ public class MIDIPlayer : MonoBehaviour
         set {
             playerVolumeFilter.volumeMultiplier = value;
             midiSequencer.ApplyMidiFilterToTracks(filterGroup);
+            aiMidiContoller.playerVolume = value;
         }
     }
     public float playbackRate {
@@ -43,17 +46,31 @@ public class MIDIPlayer : MonoBehaviour
     public ControllableSynthBank synthBank {
         get { return midiStreamSynthesizer.controllableSynthBank; }
     }
+
+    public int chordChange {
+        set {transposeFilter.transposeRules = transposeRules[value];
+            midiStreamSynthesizer.NoteOffAll(true);
+            midiSequencer.ApplyMidiFilterToTracks(filterGroup);}
+    }
+
+    public TransposeRules[] transposeRules;
+    
+    public bool mute;
     //Private 
     private float[] sampleBuffer;
     private float gain = 1f;
-    private MusicianRPG.MidiSequencer midiSequencer;
-    private StreamSynthesizer midiStreamSynthesizer;
+    public MusicianRPG.MidiSequencer midiSequencer;
+    public StreamSynthesizer midiStreamSynthesizer;
 
     private float sliderValue = 1.0f;
     private float maxSliderValue = 127.0f;
-    private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
-    private MIDITrackGate gate = new MIDITrackGate();
+    public MIDIFilterGroup filterGroup = new MIDIFilterGroup();
+    private MIDITrackGate playerGate = new MIDITrackGate();
     private MIDIVolumeFilter playerVolumeFilter = new MIDIVolumeFilter();
+    public MIDISmartTranspose transposeFilter = new MIDISmartTranspose();
+    //private MIDIVolumeFilter muter = new MIDIVolumeFilter();
+    public MIDIVolumeFilter opponentVolumeFilter = new MIDIVolumeFilter();
+    public MIDITrackGate opponentGate = new MIDITrackGate();
     private bool isPlaying;
 
     // Awake is called when the script instance
@@ -66,10 +83,14 @@ public class MIDIPlayer : MonoBehaviour
         midiStreamSynthesizer.LoadBank(bankFilePath);
 
         midiSequencer = new MusicianRPG.MidiSequencer(midiStreamSynthesizer);
+        transposeFilter.transposeRules = transposeRules[0];
+        opponentVolumeFilter.activeChannel = 1;
 
-        filterGroup.filters = new MIDITrackFilter[]{ gate, playerVolumeFilter };
+        filterGroup.filters = new MIDITrackFilter[]{  playerGate, playerVolumeFilter,   opponentGate, opponentVolumeFilter,transposeFilter};
+        
         trackGateVelocity = 79;
         playerVolume = 1;
+        
 
         //These will be fired by the midiSequencer when a song plays. Check the console for messages if you uncomment these
         //midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);
@@ -103,6 +124,10 @@ public class MIDIPlayer : MonoBehaviour
     // MonoBehaviour is enabled.
     void Update()
     {
+        if (mute){
+            //muter.volumeMultiplier = 0;
+            //midiSequencer.ApplyMidiFilterToTracks(filterGroup);
+        }
         if (!midiSequencer.isPlaying)
         {
             //if (!GetComponent<AudioSource>().isPlaying)
