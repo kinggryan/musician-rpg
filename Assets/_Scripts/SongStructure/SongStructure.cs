@@ -6,6 +6,23 @@ using UnityEngine.Audio;
 
 [System.Serializable]
 public enum Chord {
+	// All the chord relatives
+	I,
+	i,
+	ii,
+	iiDim,
+	iii,
+	bIII,
+	IV,
+	iv,
+	V,
+	v,
+	vii,
+	bVI,
+	viiDim,
+	bVII,
+
+	// All the Chord Literals
 	AM,
 	Am,
 	BbM,
@@ -97,6 +114,22 @@ public struct SongSection {
 public static class SongStructureUtilities {
 	public static Chord ChordForString(string chord) {
 		switch(chord) {
+			// The Chord Numbers
+			case "I": return Chord.I;
+			case "i": return Chord.i;
+			case "ii": return Chord.ii;
+			case "iiDim": return Chord.iiDim;
+			case "iii": return Chord.iii;
+			case "bIII": return Chord.bIII;
+			case "IV": return Chord.IV;
+			case "iv": return Chord.iv;
+			case "V": return Chord.V;
+			case "v": return Chord.v;
+			case "vii": return Chord.vii;
+			case "bVI": return Chord.bVI;
+			case "viiDim": return Chord.viiDim;
+			case "bVII": return Chord.bVII;
+			// The Chord Literals
 			case "AM": return Chord.AM;
 			case "Am": return Chord.Am;
 			case "BbM": return Chord.BbM;
@@ -124,7 +157,7 @@ public static class SongStructureUtilities {
 		}
 
 		Debug.LogError("Tried to load chord for '" + chord + "' but one doesn't exist");
-		return Chord.Am;
+		return Chord.I;
 	}
 
 	public static AudioLoop LoopForString(string loopName) {
