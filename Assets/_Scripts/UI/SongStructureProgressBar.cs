@@ -15,7 +15,7 @@ public class SongStructureProgressBar : MonoBehaviour {
 	private bool songPlaying;
 
 	// Creates the progress bar
-	public void SetSongStructure(SongPlayer.SongSection[] sections, float bpm) {
+	public void SetSongStructure(SongSection[] sections, float bpm) {
 		var barTransform = GetComponent<RectTransform>();
 
 		// We're going to cycle through colors
@@ -25,7 +25,7 @@ public class SongStructureProgressBar : MonoBehaviour {
 		var songLengthBeats = 0;
 		foreach(var section in sections) {
 			foreach(var phrase in section.phrases) {
-				songLengthBeats += phrase.loop.numBeats * phrase.numTimesToPlay;
+				songLengthBeats += SongStructureUtilities.NumBeatsForLoop(phrase.loop) * phrase.numTimesToPlay;
 			}
 		}
 
@@ -48,7 +48,7 @@ public class SongStructureProgressBar : MonoBehaviour {
 
 			var beatsInThisSection = 0;
 			foreach(var phrase in section.phrases) {
-				beatsInThisSection += phrase.loop.numBeats * phrase.numTimesToPlay;
+				beatsInThisSection += SongStructureUtilities.NumBeatsForLoop(phrase.loop) * phrase.numTimesToPlay;
 			}
 
 			// Position and scale the song section game object

@@ -8,6 +8,7 @@ using YamlDotNet.Samples.Helpers;
 
 public static class SongFileReader  {
 
+	// The following classes are used for unarchiving the song data file
 	class Loop {
 		public string file { get; set; }
 		public string chord { get; set; }
@@ -24,10 +25,7 @@ public static class SongFileReader  {
 		public List<string> structure { get; set; }
 	}
 
-	// TODO: Make this actually load from files lul....
-
-
-	public static SongPlayer.SongSection[] ReadSongFile(string filename) {
+	public static SongSection[] ReadSongFile(string filename) {
 			// Get teh file asset and string
 			var fileAsset = (TextAsset)Resources.Load(filename,typeof(TextAsset));
 
@@ -47,17 +45,17 @@ public static class SongFileReader  {
 				sectionDictionary[section.name] = section;
 			}
 
-			var songPlayerSections = new List<SongPlayer.SongSection>();
+			var songPlayerSections = new List<SongSection>();
 			foreach(var sectionName in song.structure) {
 				var section = sectionDictionary[sectionName];
 
 				// Create the correct song section
-				var playerSongSection = new SongPlayer.SongSection();
+				var playerSongSection = new SongSection();
 				playerSongSection.name = section.name;
 
-				var phrases = new List<SongPlayer.SongPhrase>();
+				var phrases = new List<SongPhrase>();
 				foreach(var loop in section.loops) {
-					var phrase = new SongPlayer.SongPhrase(loop.file,loop.chord,loop.numReps);
+					var phrase = new SongPhrase(loop.file,loop.chord,loop.numReps);
 					phrases.Add(phrase);
 				}
 
