@@ -7,6 +7,7 @@ public class PlayerMidiController : MonoBehaviour {
 
 	public string[] midiFileNames;
 
+	public MidiSongStructureManager songStructureManager;
 	public MIDISongPlayer midiPlayer;
 	public CharacterAnimationManager animationManager;
 	public PlayerPowerArrow volumeArrow;
@@ -110,6 +111,8 @@ public class PlayerMidiController : MonoBehaviour {
 
 		// Mathf.L
 		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
+		// TODO: We should have some central object that coordinates between these different objects so that they don't need to do things like this
+		songStructureManager.bpm = currentBPM;
 		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / songBPM,0.3f,1.2f);
 	}
 
