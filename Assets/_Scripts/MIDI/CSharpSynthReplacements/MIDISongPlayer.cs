@@ -139,4 +139,8 @@ public class MIDISongPlayer : MonoBehaviour
         streamer.LoadMidiFiles(midiFileNames);
         return streamer;
     }
+
+    public void AddFilterToMainMidiStreamerGroup(MIDITrackFilter filter) {
+        midiSequencer.AddMidiFilterToMainMidiStreamerGroup(filter);
+    }
 }

@@ -244,6 +244,10 @@ namespace MusicianRPG
             midiStreamerGroup.AddStreamerToGroup(streamer);
         }
 
+        public void AddMidiFilterToMainMidiStreamerGroup(MIDITrackFilter filter) {
+            midiStreamerGroup.AddFilter(filter);
+        }
+
         //--Private Methods
         // private int DeltaTimetoSamples(uint DeltaTime)
         // {
