@@ -12,16 +12,7 @@ namespace MusicianRPG
     public class MidiSequencer
     {
         //--Variables
-        public MidiStreamer midiStreamer {
-            set {
-                _midiStreamer = value;
-                _midiStreamer.sampleRate = synth.SampleRate;
-            }
-            get {
-                return _midiStreamer;
-            }
-        }
-        private MidiStreamer _midiStreamer;
+        private MidiStreamerGroup midiStreamerGroup = new MidiStreamerGroup();
         private StreamSynthesizer synth;
         private int[] currentPrograms;
         private List<byte> blockList;
@@ -66,10 +57,10 @@ namespace MusicianRPG
         }
         public float playbackSpeedMultiplier {
             get {
-                return midiStreamer.playbackSpeedMultiplier;
+                return midiStreamerGroup.playbackSpeedMultiplier;
             }
             set {
-                midiStreamer.playbackSpeedMultiplier = value;
+                midiStreamerGroup.playbackSpeedMultiplier = value;
             }
         }
         //--Public Methods
@@ -80,6 +71,7 @@ namespace MusicianRPG
             this.synth.setSequencer(this);
             blockList = new List<byte>();
             seqEvt = new MidiSequencerEvent();
+            midiStreamerGroup.sampleRate = synth.SampleRate;
         }
         public string getProgramName(int channel)
         {
@@ -110,7 +102,7 @@ namespace MusicianRPG
             //Clear vol, pan, and tune
             ResetControllers();
             //set bpm
-            midiStreamer.PrepareToPlay();
+            midiStreamerGroup.PrepareToPlay();
             //Let the synth know that the sequencer is ready.
             eventIndex = 0;
             playing = true;
@@ -162,7 +154,7 @@ namespace MusicianRPG
         }
         public MidiSequencerEvent Process(int frame)
         {
-            seqEvt.Events = midiStreamer.GetNextMidiEvents(frame);
+            seqEvt.Events = midiStreamerGroup.GetNextMidiEvents(frame);
             return seqEvt;
         }
         public void IncrementSampleCounter(int amount)
@@ -231,7 +223,7 @@ namespace MusicianRPG
                 switch (midiEvent.midiMetaEvent)
                 {
                     case MidiHelper.MidiMetaEvent.Tempo:
-                        midiStreamer.bpm = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(midiEvent.Parameters[0]);
+                        midiStreamerGroup.bpm = MidiHelper.MicroSecondsPerMinute / System.Convert.ToUInt32(midiEvent.Parameters[0]);
                         break;
                     default:
                         break;
@@ -243,8 +235,13 @@ namespace MusicianRPG
             Stop(true);
             //Set anything that may become a circular reference to null...
             synth = null;
-            midiStreamer.Dispose();
+            midiStreamerGroup.Dispose();
             seqEvt = null;
+        }
+
+        public void AddMidiStreamer(MidiStreamer streamer)
+        {
+            midiStreamerGroup.AddStreamerToGroup(streamer);
         }
 
         //--Private Methods
@@ -265,7 +262,7 @@ namespace MusicianRPG
                 sampleTime = 0;
                 Array.Clear(currentPrograms, 0, currentPrograms.Length);
                 ResetControllers();
-                midiStreamer.bpm = 120;
+                midiStreamerGroup.bpm = 120;
                 eventIndex = 0;
                 SilentProcess(_stime);
             }

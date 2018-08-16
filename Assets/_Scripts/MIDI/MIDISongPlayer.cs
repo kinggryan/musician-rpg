@@ -134,9 +134,9 @@ public class MIDISongPlayer : MonoBehaviour
     // That streamer can then be controlled by outside classes
     public MidiFileStreamer CreateNewMidiFileStreamer(List<string> midiFileNames) {
         var streamer = new MidiFileStreamer();
+        // We must add the streamer to the sequencer BEFORE loading the files, as it sets some required information for the loading process
+        midiSequencer.AddMidiStreamer(streamer);
         streamer.LoadMidiFiles(midiFileNames);
-        // TODO: Change the sequencer so that it can have multiple streamers (for multiple midi files playing at once)
-        midiSequencer.midiStreamer = streamer;
         return streamer;
     }
 }

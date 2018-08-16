@@ -64,14 +64,14 @@ public class MidiFileStreamer: MidiStreamer {
         }
     }
 
-    private List<DynamicMidiFile> midiFiles;
+    private List<DynamicMidiFile> midiFiles = new List<DynamicMidiFile>();
     private List<MIDITrackFilter> filters =  new List<MIDITrackFilter>();
     private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
 
     public void LoadMidiFiles(MidiFile[] files)
     {
         // TODO: Unload files properly
-        midiFiles = new List<DynamicMidiFile>();
+        midiFiles.Clear();
 
         foreach(var file in files)
         {
@@ -103,7 +103,7 @@ public class MidiFileStreamer: MidiStreamer {
         Debug.Log("Changing midi file at time " + Time.time);
     }
 
-    public List<MidiEvent> GetNextMidiEvents(int numFrames)
+    public override List<MidiEvent> GetNextMidiEvents(int numFrames)
     {
         var events = new List<MidiEvent>();
         // For each file
@@ -155,6 +155,10 @@ public class MidiFileStreamer: MidiStreamer {
     }
 
     private bool IsFrameInRangeWithLoopingFile(uint frame, int startFrameRange, int endFrameRange, int maxNumFrames) {
+        if(maxNumFrames == 0) {
+            Debug.LogError("Tried to get frame in range when the max frames were 0");
+            return false;
+        }
         // If the range doesn't cross the edge of the file, determine if the frame is in the range
         if(endFrameRange / maxNumFrames == startFrameRange / maxNumFrames) {
             return frame % maxNumFrames >= startFrameRange % maxNumFrames && frame % maxNumFrames < endFrameRange % maxNumFrames;
