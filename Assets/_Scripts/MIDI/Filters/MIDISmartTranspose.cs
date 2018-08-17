@@ -22,6 +22,9 @@ public class MIDISmartTranspose : MIDITrackFilter {
 	/// </summary>
 	List<TransposeRulesQueueElement> transposeRulesQueue = new List<TransposeRulesQueueElement>();
 
+	// If this is a note on event, then transpose it according to transpose rules and store in memory that it is "on" and has been translated
+	// If this is a note off event, then look to see what the corresponding note on event was and translate the note off event back
+
 	public override MidiEvent[] FilterMidiEvents(MidiEvent[] events) {
 		var filteredEvents = new List<MidiEvent>();
 		
@@ -51,18 +54,16 @@ public class MIDISmartTranspose : MIDITrackFilter {
 	// Private
 	private TransposeRules GetTransposeRulesForSampleTimeAndUpdateQueue(int sampleTime) {
 		if(transposeRulesQueue.Count == 0) {
+			Debug.Log("L 0");
 			return null;
 		}
 
 		// First, make sure we dequeue elements that have passed
-		while(transposeRulesQueue[0].startSampleTime < sampleTime) {
+		while(transposeRulesQueue.Count > 1 && transposeRulesQueue[1].startSampleTime < sampleTime) {
 			transposeRulesQueue.RemoveAt(0);
-			// If we ran out of elements, leave this function
-			if(transposeRulesQueue.Count == 0) {
-				return null;
-			}
 		}
 
+		Debug.Log("Transposing " + transposeRulesQueue[0].transposeRules.ToString());
 		return transposeRulesQueue[0].transposeRules;
 	}
 }

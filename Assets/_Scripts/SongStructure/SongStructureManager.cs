@@ -25,6 +25,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 	// This phrase is used to signify the lack of a phrase, e.g. the end of the song
 	static SongPhrase nullPhrase = new SongPhrase();
 
+	[HideInInspector]
 	public double bpm;
 	public string songFilename;
 
@@ -55,9 +56,15 @@ public abstract class SongStructureManager : MonoBehaviour {
 		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
 	}
 
+	//-- Protected Functions
+	protected virtual void Start() {
+		songSections = SongFileReader.ReadSongFile(songFilename);
+	}
+
 	protected virtual void QueueNextSongPhrase() {
 
 		SongPhrase nextPhrase;
+		var phraseStartBeat = currentSongPhraseEndBeat;
 
 		// If we're repeating this phrase, keep repeating it
 		if(currentSongPhraseNumRepeatsRemaining > 0) {
@@ -85,13 +92,14 @@ public abstract class SongStructureManager : MonoBehaviour {
 		} else {
 			// Continue to the next phrase
 			currentSongPhraseEndBeat += SongStructureUtilities.NumBeatsForLoop(nextPhrase.loop);
+			QueueSongPhrase(nextPhrase, phraseStartBeat);
 		}
 	}
 
 	/// <summary>
 	/// This method handles the actual song playback side logic of how to queue up a new song phrase
 	/// </summary>
-	protected abstract void QueueSongPhrase(SongPhrase phrase);
+	protected abstract void QueueSongPhrase(SongPhrase phrase, double atBeat);
 	/// <summary>
 	/// This method should return the current beat as the song is being played.
 	/// </summary>

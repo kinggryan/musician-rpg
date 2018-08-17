@@ -1,0 +1,22 @@
+sections:
+  - name: Chorus
+    loops:
+    - file: Guitar_01
+      chord: I
+      numReps: 1
+    - file: Guitar_02
+      chord: I
+      numReps: 1
+  - name: Verse
+    loops:
+    - file: Guitar_01
+      chord: IV
+      numReps: 1
+    - file: Guitar_01
+      chord: V
+      numReps: 1
+structure:
+  - Chorus
+  - Verse
+  - Chorus
+  - Verse

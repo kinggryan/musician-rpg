@@ -72,6 +72,7 @@ public class MidiStreamerGroup : MidiStreamer {
 			}
 		}
 		fullEventList.Sort(SortMidiEventsChronologically);
+		fullEventList = FilterEvents(fullEventList);
 		return fullEventList;
 	}
 

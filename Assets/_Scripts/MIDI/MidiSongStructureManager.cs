@@ -5,9 +5,20 @@ using UnityEngine;
 public class MidiSongStructureManager : SongStructureManager {
 	public MIDISongPlayer songPlayer;
 
-	override protected void QueueSongPhrase(SongPhrase phrase) {
-		// When we queue the song phrase
-		// We are going to want to transition between chords at the sample time that that phrase starts
+	MIDISmartTranspose transposeFilter;
+
+	protected override void Start() {
+		// Create and add the transposition filter to the midi player
+		base.Start();
+		transposeFilter = new MIDISmartTranspose();
+		songPlayer.AddFilterToMainMidiStreamerGroup(transposeFilter);
+	}
+
+	override protected void QueueSongPhrase(SongPhrase phrase, double atBeat) {
+		// Tell the transpose filter to start transposing at the given sample time
+		var sampleTimeForPhrase = GetSampleTimeForBeat(atBeat);
+		var transposeRules = TransposeRules.RulesForChord(phrase.chord);
+		transposeFilter.AddTransposeRule(transposeRules, sampleTimeForPhrase);
 	}
 
 	override protected double GetCurrentBeat() {

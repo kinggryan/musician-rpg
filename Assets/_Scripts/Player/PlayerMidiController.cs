@@ -365,5 +365,6 @@ public class PlayerMidiController : MonoBehaviour {
 		animationManager.DidStartSong();
 		animationManager.UpdateGroove(1f);
 		midiPlayer.Play();
+		songStructureManager.StartSong();
 	}
 }

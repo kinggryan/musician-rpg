@@ -68,4 +68,8 @@ public class TransposeRules {
 		var pitchShift = newPitch - pitchIndex;
 		return pitchShift;
 	}
+
+	public override string ToString() {
+		return rules.ToString();
+	}
 }
