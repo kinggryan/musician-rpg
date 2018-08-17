@@ -91,13 +91,16 @@ public class PlayerMidiController : MonoBehaviour {
 		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(midiFileNames));
 		midiStreamer.LoadMidiFiles(new List<string>(midiFileNames));
 		midiStreamer.outputChannel = outputChannel;
+		
+		gateFilter = new MIDITrackGate();
+		gateFilter.activeChannel = outputChannel;
+		midiStreamer.AddFilter(gateFilter);
+
+		// Add the volume after the gate filter so it doesn't affect the gate
 		volumeFilter = new MIDIVolumeFilter();
 		volumeFilter.activeChannel = outputChannel;
 		volumeFilter.volumeMultiplier = 1;
 		midiStreamer.AddFilter(volumeFilter);
-		gateFilter = new MIDITrackGate();
-		gateFilter.activeChannel = outputChannel;
-		midiStreamer.AddFilter(gateFilter);
 		
 		currentInstIndex = 6;
 	}
