@@ -10,6 +10,11 @@ public abstract class MidiStreamer {
     public abstract uint bpm { set; }
     public virtual int sampleRate { get; set; }
     public virtual float playbackSpeedMultiplier { get; set; }
+    /// <summary>
+    /// If this is >= 0, it will change all midi events streamed by this streamer to that channel
+    /// Otherwise, it will not affect the stream
+    /// </summary>
+    public int outputChannel;
 
     private List<MIDITrackFilter> filters =  new List<MIDITrackFilter>();
     private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
@@ -38,6 +43,13 @@ public abstract class MidiStreamer {
     }
 
     protected List<MidiEvent> FilterEvents(List<MidiEvent> events) {
+        if(outputChannel > 0) {
+            var newEvents = new List<MidiEvent>(events);
+            foreach(var ev in newEvents) {
+                ev.channel = (byte)outputChannel;
+            }
+            return new List<MidiEvent>(filterGroup.FilterMidiEvents(newEvents.ToArray()));
+        }
         return new List<MidiEvent>(filterGroup.FilterMidiEvents(events.ToArray()));
     }
 }

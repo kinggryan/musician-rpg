@@ -44,6 +44,7 @@ public class AIMIDIController : MonoBehaviour {
 
 	public float currentVolume;
 	public int gateVal;
+	public int channelNumber = 1;
     //Private 
     
 	public MIDISongPlayer midiPlayer;
@@ -77,14 +78,15 @@ public class AIMIDIController : MonoBehaviour {
     {
 		// Add yourself to the midi player
 		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(){midiFilePath});
+		midiStreamer.outputChannel = channelNumber;
 
 		volumeFilter = new MIDIVolumeFilter();
 		midiStreamer.AddFilter(volumeFilter);
-		volumeFilter.activeChannel = 1;
+		volumeFilter.activeChannel = channelNumber;
 
 		gate = new MIDITrackGate();
 		midiStreamer.AddFilter(gate);
-		gate.activeChannel = 1;
+		gate.activeChannel = channelNumber;
 
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
 

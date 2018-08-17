@@ -46,6 +46,7 @@ public class PlayerMidiController : MonoBehaviour {
 	public float keyVolumeIncrement;
 	public int keyControlIndex = 1;
 	public int currentInstIndex;
+	public int outputChannel = 0;
 
 	public string[] playerMidiLoops;
 	
@@ -89,9 +90,12 @@ public class PlayerMidiController : MonoBehaviour {
 
 		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(midiFileNames));
 		midiStreamer.LoadMidiFiles(new List<string>(midiFileNames));
+		midiStreamer.outputChannel = outputChannel;
 		volumeFilter = new MIDIVolumeFilter();
+		volumeFilter.activeChannel = outputChannel;
 		midiStreamer.AddFilter(volumeFilter);
 		gateFilter = new MIDITrackGate();
+		gateFilter.activeChannel = outputChannel;
 		midiStreamer.AddFilter(gateFilter);
 		
 		currentInstIndex = 6;

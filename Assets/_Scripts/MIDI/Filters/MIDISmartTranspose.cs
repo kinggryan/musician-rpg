@@ -15,6 +15,22 @@ public class MIDISmartTranspose : MIDITrackFilter {
 		}
 	}
 
+	struct MidiNoteInfo {
+		public int pitch;
+		public int channel;
+		public MidiNoteInfo(int pitch, int channel) {
+			this.pitch = pitch;
+			this.channel = channel;
+		}
+		public override int GetHashCode() {
+			// Since I really doubt there will be over 1000 channels, this is a safe hash function
+			return pitch * 1000 + channel;
+		}
+		public override string ToString() {
+			return "" + pitch + ":" + channel;
+		}
+	}
+
 	/// <summary>
 	/// A queue of the transpose rules that should be applied at certain sample times.
 	/// For now, it is safe to assume that they are both ordered and that the sample time will only increase.
@@ -27,7 +43,7 @@ public class MIDISmartTranspose : MIDITrackFilter {
 	/// is the original pitch and the value is the pitch shift. When a note off event is received, it should
 	/// Check this array for how to transpose itself, and remove that entry from the dictionary
 	/// </summary>
-	Dictionary<int, int> currentNoteTranspositions = new Dictionary<int, int>();
+	Dictionary<MidiNoteInfo, int> currentNoteTranspositions = new Dictionary<MidiNoteInfo, int>();
 
 	/// <summary>
 	/// If this is a note on event, then transpose it according to transpose rules and store in memory that it is "on" and has been translated
@@ -45,7 +61,9 @@ public class MIDISmartTranspose : MIDITrackFilter {
 					// pitch is parameter 1
 					int pitch = midiEvent.parameter1;
 					var pitchShift = rule.GetPitchShiftForPitch(pitch);
-					currentNoteTranspositions[pitch] = pitchShift;
+					var noteInfo = new MidiNoteInfo(pitch, midiEvent.channel);
+					Debug.Log("Setting " + noteInfo + " to " + pitchShift);
+					currentNoteTranspositions[noteInfo] = pitchShift;
 					pitch = pitch + pitchShift;
 
 					newMidiEvent.parameter1 = (byte)pitch;
@@ -53,7 +71,8 @@ public class MIDISmartTranspose : MIDITrackFilter {
 			} else if(midiEvent.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_Off) {
 				// pitch is parameter 1
 				int pitch = midiEvent.parameter1;
-				var pitchShift = GetShiftForNoteOffEvent(pitch);
+				var noteInfo = new MidiNoteInfo(pitch, midiEvent.channel);
+				var pitchShift = GetShiftForNoteOffEvent(noteInfo);
 				pitch = pitch + pitchShift;
 
 				newMidiEvent.parameter1 = (byte)pitch;
@@ -84,14 +103,18 @@ public class MIDISmartTranspose : MIDITrackFilter {
 	}
 
 	// Given a note off midi event, transposes it to match the correct note on 
-	private int GetShiftForNoteOffEvent(int pitch) {
+	private int GetShiftForNoteOffEvent(MidiNoteInfo noteInfo) {
 		// Look through the unresolved note on events for one matching that pitch
-		if(currentNoteTranspositions.ContainsKey(pitch)) {
+		if(currentNoteTranspositions.ContainsKey(noteInfo)) {
 			// Use that mapping to transpose this note as well
-			var shift = currentNoteTranspositions[pitch];
+			var shift = currentNoteTranspositions[noteInfo];
 			// Remove that element from the list
-			currentNoteTranspositions.Remove(pitch);
+			// Debug.Log("Removing " + noteInfo);
+			// currentNoteTranspositions.Remove(noteInfo);
 			return shift;
+		}
+		else {
+			Debug.LogError("Couldn't find transposition for " + noteInfo);
 		}
 
 		return 0;
