@@ -94,6 +94,7 @@ public class PlayerMidiController : MonoBehaviour {
 		
 		gateFilter = new MIDITrackGate();
 		gateFilter.activeChannel = outputChannel;
+		gateFilter.gateVelocity = (minGate + maxGate)/2;
 		midiStreamer.AddFilter(gateFilter);
 
 		// Add the volume after the gate filter so it doesn't affect the gate
