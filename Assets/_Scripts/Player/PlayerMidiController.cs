@@ -93,6 +93,7 @@ public class PlayerMidiController : MonoBehaviour {
 		midiStreamer.outputChannel = outputChannel;
 		volumeFilter = new MIDIVolumeFilter();
 		volumeFilter.activeChannel = outputChannel;
+		volumeFilter.volumeMultiplier = 1;
 		midiStreamer.AddFilter(volumeFilter);
 		gateFilter = new MIDITrackGate();
 		gateFilter.activeChannel = outputChannel;
@@ -111,7 +112,7 @@ public class PlayerMidiController : MonoBehaviour {
 			UpdateKeyControls();
 		}
 		// UpdateChord();
-        // UpdateCurrentMidiFile();
+        UpdateCurrentMidiFile();
 
 		// Mathf.L
 		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
@@ -341,15 +342,15 @@ public class PlayerMidiController : MonoBehaviour {
 		}
 	}
 
-	// void UpdateCurrentMidiFile() {
-	// 	// TODO: Do this more properly
-	// 	// DEBUG
-	// 	if(Input.GetKeyDown("a")) {
-	// 		midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[0]));
-	// 	} else if(Input.GetKeyDown("s")) {
-	// 		midiPlayer.ChangePlayerMidiFile( new MidiFile(playerMidiLoops[1]));
-	// 	}
-	// }
+	void UpdateCurrentMidiFile() {
+		// TODO: Do this more properly
+		// DEBUG
+		if(Input.GetKeyDown("a")) {
+			midiStreamer.SetCurrentMidiFile(0);
+		} else if(Input.GetKeyDown("s")) {
+			midiStreamer.SetCurrentMidiFile(1);
+		}
+	}
 
 	void DidChangeBPM(double bpm) {
 		targetBPM = (float)bpm;

@@ -43,7 +43,7 @@ public abstract class MidiStreamer {
     }
 
     protected List<MidiEvent> FilterEvents(List<MidiEvent> events) {
-        if(outputChannel > 0) {
+        if(outputChannel >= 0) {
             var newEvents = new List<MidiEvent>(events);
             foreach(var ev in newEvents) {
                 ev.channel = (byte)outputChannel;

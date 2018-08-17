@@ -331,6 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   midiFileNames:
+  - MIDI/HokeyMidiTest_01.mid
   - MIDI/HokeyMidiTest_02.mid
   songStructureManager: {fileID: 39149016}
   midiPlayer: {fileID: 39149008}
@@ -350,6 +351,7 @@ MonoBehaviour:
   keyVolumeIncrement: 0.1
   keyControlIndex: 1
   currentInstIndex: 0
+  outputChannel: 0
   playerMidiLoops: []
 --- !u!114 &39149011
 MonoBehaviour:
@@ -427,7 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 0
-  songFilename: testSong2
+  songFilename: testSong3
   songPlayer: {fileID: 39149008}
 --- !u!1 &39446230
 GameObject:
@@ -1309,7 +1311,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 936085913}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b091114be8beed499bca756bbd03db5, type: 3}
   m_Name: 
@@ -1329,6 +1331,7 @@ MonoBehaviour:
   bufferSize: 1024
   currentVolume: 0
   gateVal: 0
+  channelNumber: 1
   midiPlayer: {fileID: 39149008}
   aiFeedback: {fileID: 842659071}
   isLeading: 1

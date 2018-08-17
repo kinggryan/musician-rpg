@@ -1,0 +1,14 @@
+sections:
+  - name: Chorus
+    loops:
+    - file: Guitar_01
+      chord: I
+      numReps: 8
+structure:
+  - Chorus
+  - Chorus
+  - Chorus
+  - Chorus
+  - Chorus
+  - Chorus
+  - Chorus

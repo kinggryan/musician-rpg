@@ -57,6 +57,18 @@ public class MidiFileStreamer: MidiStreamer {
         }
     }
 
+    struct MidiFileNoteInfo {
+        public int midiFileIndex;
+        public int midiNote;
+        public MidiFileNoteInfo(int fileIndex, int note) {
+            midiFileIndex = fileIndex;
+            midiNote = note;
+        }
+        public override int GetHashCode() {
+            return midiFileIndex*1000 + midiNote;
+        }
+    }
+
     public override uint bpm {
         set {
             for(var i = 0 ; i < midiFiles.Count; i++)
@@ -65,8 +77,8 @@ public class MidiFileStreamer: MidiStreamer {
     }
 
     private List<DynamicMidiFile> midiFiles = new List<DynamicMidiFile>();
-    private List<MIDITrackFilter> filters =  new List<MIDITrackFilter>();
-    private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
+    private int currentMidiFileIndex = 0;
+    private Dictionary<MidiFileNoteInfo,int> currentlyPlayingMidiNotes = new Dictionary<MidiFileNoteInfo,int>();
 
     public void LoadMidiFiles(MidiFile[] files)
     {
@@ -98,17 +110,18 @@ public class MidiFileStreamer: MidiStreamer {
         LoadMidiFiles(files.ToArray());
     }
 
-    public void ChangeMidiFile(MidiFile file, int index) {
-        midiFiles[index].SetMidiFile(file, sampleRate, sampleTime);
-        Debug.Log("Changing midi file at time " + Time.time);
+    public void SetCurrentMidiFile(int index) {
+        Debug.Log("Changing midi file to " + index);
+        currentMidiFileIndex = index;
     }
 
     public override List<MidiEvent> GetNextMidiEvents(int numFrames)
     {
         var events = new List<MidiEvent>();
-        // For each file
-        foreach(var file in midiFiles)
-        {
+        // Iterate through each file so the eventIndex is up to date for all of them always
+        // HACK: We shouldn't constantly have to do this - we should be able to just calculate the current event index when we change files but this is a easier/less efficient way of doing it
+        for(var i = 0 ; i < midiFiles.Count; i++) {
+            var file = midiFiles[i];
             while (
                 file.eventIndex < file.file.Tracks[0].EventCount
                 && IsFrameInRangeWithLoopingFile(file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime, 
@@ -116,26 +129,50 @@ public class MidiFileStreamer: MidiStreamer {
                 Mathf.FloorToInt(sampleTime + numFrames * playbackSpeedMultiplier), 
                 (int)file.file.Tracks[0].TotalTime))
             {
+                // Only actually output this midi event if this is the active file
+                // We actually need to still send note_off events IF those notes are still on from a previos file
+                // We need to track which notes are on for a given file and let note off events through because of this
                 var newMidiEvent = file.file.Tracks[0].MidiEvents[file.eventIndex].Duplicate();
-            
-                // Because of looping, we might end up with a deltatime that is less than the sample time. If this is the case, fix the deltatime
-                while(newMidiEvent.deltaTime < sampleTime) {
-                    newMidiEvent.deltaTime += (uint)file.file.Tracks[0].TotalTime;
-                }
+                if(i == currentMidiFileIndex || ShouldMidiEventFromInactiveFileBeLetThrough(newMidiEvent,i)) {
+                
+                    // Because of looping, we might end up with a deltatime that is less than the sample time. If this is the case, fix the deltatime
+                    while(newMidiEvent.deltaTime < sampleTime) {
+                        newMidiEvent.deltaTime += (uint)file.file.Tracks[0].TotalTime;
+                    }
 
-                events.Add(newMidiEvent);
+                    // Add this to the dictionary of currently sustained notes
+                    if(newMidiEvent.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_On) {
+                        var noteInfo = new MidiFileNoteInfo(i, (int)newMidiEvent.parameter1);
+                        if(currentlyPlayingMidiNotes.ContainsKey(noteInfo)) {
+                            var numSustainedNotes = currentlyPlayingMidiNotes[noteInfo];
+                            currentlyPlayingMidiNotes[noteInfo] = numSustainedNotes + 1;
+                        } else {
+                            currentlyPlayingMidiNotes[noteInfo] = 1;
+                        }
+                    } else if(newMidiEvent.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_Off) {
+                        // If this is a note off event, decrement the number of sustained notes
+                        var noteInfo = new MidiFileNoteInfo(i, (int)newMidiEvent.parameter1);
+                        if(currentlyPlayingMidiNotes.ContainsKey(noteInfo)) {
+                            var numSustainedNotes = currentlyPlayingMidiNotes[noteInfo];
+                            currentlyPlayingMidiNotes[noteInfo] = numSustainedNotes - 1;
+                        }
+                    }
+
+                    events.Add(newMidiEvent);
+                }
+                
+                // Regardless of whether this is the active file, update the even tindex
                 file.eventIndex++;
                 if(file.eventIndex >= file.file.Tracks[0].EventCount) {
                     if(file.looping) {
                         file.eventIndex = 0;
                     }
                 }
-
             }
         }
 
         // Feed the events through all of the filters
-        events = new List<MidiEvent>(filterGroup.FilterMidiEvents(events.ToArray()));
+        events = FilterEvents(events);
 
         sampleTime += Mathf.FloorToInt(numFrames * playbackSpeedMultiplier);
 
@@ -166,5 +203,18 @@ public class MidiFileStreamer: MidiStreamer {
         else {
             return frame % maxNumFrames >= startFrameRange % maxNumFrames || frame % maxNumFrames < endFrameRange % maxNumFrames;
         }
+    }
+
+    private bool ShouldMidiEventFromInactiveFileBeLetThrough(MidiEvent ev, int fileIndex) {
+        // Let the note through if it is a note off event which is currently being held bya file
+        // The reason we do this is that we need to turn off sustained notes from non-playing files
+        if(ev.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_Off) {
+            var noteInfo = new MidiFileNoteInfo(fileIndex, (int)ev.parameter1);
+            if(currentlyPlayingMidiNotes.ContainsKey(noteInfo) && currentlyPlayingMidiNotes[noteInfo] > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
