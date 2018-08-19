@@ -49,25 +49,6 @@ public enum Chord {
 	Abm
 }
 
-/// AudioLoop stores all the different loop name types.
-[System.Serializable]
-public enum AudioLoop {
-	Flute_01,
-	Flute_02,
-	Flute_03,
-	Flute_04,
-	Guitar_01,
-	Guitar_02,
-	Oud_1,
-	Oud_2,
-	Oud_3,
-	Oud_4,
-	Derbakki_1,
-	Derbakki_2,
-	Derbakki_3,
-	Derbakki_4
-}
-
 [System.Serializable]
 public struct SongPhrase {
 	public AudioLoop loop;
@@ -75,13 +56,13 @@ public struct SongPhrase {
 	public int numTimesToPlay;
 
 	public SongPhrase(string loopName, string chordName, int numTimesToPlay) {
-		loop = SongStructureUtilities.LoopForString(loopName);
+		loop = AudioLoop.GetLoopForName(loopName);
 		chord = SongStructureUtilities.ChordForString(chordName);
 		this.numTimesToPlay = numTimesToPlay;
 	}
 
 	public int TotalBeatLength() {
-		return SongStructureUtilities.NumBeatsForLoop(loop)*numTimesToPlay;
+		return loop.beatDuration*numTimesToPlay;
 	}
 
 	public override int GetHashCode() {
@@ -158,75 +139,5 @@ public static class SongStructureUtilities {
 
 		Debug.LogError("Tried to load chord for '" + chord + "' but one doesn't exist");
 		return Chord.I;
-	}
-
-	public static AudioLoop LoopForString(string loopName) {
-		switch(loopName) {
-			case "Oud_1": return AudioLoop.Oud_1;
-			case "Oud_2": return AudioLoop.Oud_2;
-			case "Oud_3": return AudioLoop.Oud_3;
-			case "Oud_4": return AudioLoop.Oud_4;
-			case "Derbakki_1": return AudioLoop.Derbakki_1;
-			case "Derbakki_2": return AudioLoop.Derbakki_2;
-			case "Derbakki_3": return AudioLoop.Derbakki_3;
-			case "Derbakki_4": return AudioLoop.Derbakki_4;
-			case "Guitar_01": return AudioLoop.Guitar_01;
-			case "Guitar_02": return AudioLoop.Guitar_02;
-			case "Flute_01": return AudioLoop.Flute_01;
-			case "Flute_02": return AudioLoop.Flute_02;
-			case "Flute_03": return AudioLoop.Flute_03;
-			case "Flute_04": return AudioLoop.Flute_04;
-		}
-
-		Debug.LogError("Tried to load loop for '" + loopName + "' but one doesn't exist");
-		return AudioLoop.Oud_1;
-	}
-
-	public static int NumBeatsForLoop(AudioLoop loop) {
-		switch(loop) {
-			case AudioLoop.Derbakki_1:
-			case AudioLoop.Derbakki_2:
-			case AudioLoop.Derbakki_3:
-			case AudioLoop.Derbakki_4:
-				return 1;
-			case AudioLoop.Oud_1:
-			case AudioLoop.Oud_2:
-			case AudioLoop.Oud_3:
-			case AudioLoop.Oud_4:
-				return 2;
-			case AudioLoop.Guitar_01:
-			case AudioLoop.Guitar_02:
-				return 4;
-			case AudioLoop.Flute_01:
-			case AudioLoop.Flute_02:
-			case AudioLoop.Flute_03:
-			case AudioLoop.Flute_04:
-				return 8;
-		}
-
-		Debug.LogError("Tried to get num beats for for '" + loop + "' but can't");
-		return 0;
-	}
-
-	public static string GetRhythmStringFromLoop(AudioLoop loop) {
-		switch(loop) {
-			case AudioLoop.Flute_01: return "10010000";
-			case AudioLoop.Flute_02: return "10100000";
-			case AudioLoop.Flute_03: return "11010000";
-			case AudioLoop.Flute_04: return "00110000";
-			case AudioLoop.Guitar_01: return "10100000";
-			case AudioLoop.Guitar_02: return "10100000";
-			case AudioLoop.Oud_1: return "1101";
-			case AudioLoop.Oud_2: return "1010";
-			case AudioLoop.Oud_3: return "1011";
-			case AudioLoop.Oud_4: return "1110";
-			case AudioLoop.Derbakki_1: return "10";
-			case AudioLoop.Derbakki_2: return "01";
-			case AudioLoop.Derbakki_3: return "10";
-			case AudioLoop.Derbakki_4: return "11";
-		}
-
-		Debug.LogError("Tried to get rhythm string for loop '" + loop + "' but can't");
-		return "";
 	}
 }

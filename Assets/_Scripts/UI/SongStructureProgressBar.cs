@@ -25,7 +25,7 @@ public class SongStructureProgressBar : MonoBehaviour {
 		var songLengthBeats = 0;
 		foreach(var section in sections) {
 			foreach(var phrase in section.phrases) {
-				songLengthBeats += SongStructureUtilities.NumBeatsForLoop(phrase.loop) * phrase.numTimesToPlay;
+				songLengthBeats += phrase.TotalBeatLength();
 			}
 		}
 
@@ -48,7 +48,7 @@ public class SongStructureProgressBar : MonoBehaviour {
 
 			var beatsInThisSection = 0;
 			foreach(var phrase in section.phrases) {
-				beatsInThisSection += SongStructureUtilities.NumBeatsForLoop(phrase.loop) * phrase.numTimesToPlay;
+				beatsInThisSection += phrase.TotalBeatLength();
 			}
 
 			// Position and scale the song section game object

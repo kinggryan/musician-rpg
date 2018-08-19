@@ -6,40 +6,42 @@ public static class AudioFileBank {
 
 	// Get the audio clip for the given chord for this audioLoop's loop to play
 	public static AudioClip AudioClipForLoopAndChord(AudioLoop loop, Chord chord) {
-		switch(loop) {
-			case AudioLoop.Flute_01:
-				return GetFlute_01AudioClip(chord);
-			case AudioLoop.Flute_02:
-				return GetFlute_02AudioClip(chord);
-			case AudioLoop.Flute_03:
-				return GetFlute_03AudioClip(chord);
-			case AudioLoop.Flute_04:
-				return GetFlute_04AudioClip(chord);
-			case AudioLoop.Guitar_01:
-				return GetGuitar_01AudioClip(chord);
-			case AudioLoop.Guitar_02:
-				return GetGuitar_02AudioClip(chord);
-			case AudioLoop.Oud_1:
-				return GetOud_1AudioClip(chord);
-			case AudioLoop.Oud_2:
-				return GetOud_2AudioClip(chord);
-			case AudioLoop.Oud_3:
-				return GetOud_3AudioClip(chord);
-			case AudioLoop.Oud_4:
-				return GetOud_4AudioClip(chord);
-			case AudioLoop.Derbakki_1:
-				return GetDerbakki_1AudioClip(chord);
-			case AudioLoop.Derbakki_2:
-				return GetDerbakki_2AudioClip(chord);
-			case AudioLoop.Derbakki_3:
-				return GetDerbakki_3AudioClip(chord);
-			case AudioLoop.Derbakki_4:
-				return GetDerbakki_4AudioClip(chord);
-		}
+		// TODO: Fix all of this. We should be able to do this via name stuff or something, but not a priority right now
+		return Resources.Load("Flute/Flute_01/Flute_01_Major_A", typeof(AudioClip)) as AudioClip;
+		// switch(loop) {
+		// 	case AudioLoop.Flute_01:
+		// 		return GetFlute_01AudioClip(chord);
+		// 	case AudioLoop.Flute_02:
+		// 		return GetFlute_02AudioClip(chord);
+		// 	case AudioLoop.Flute_03:
+		// 		return GetFlute_03AudioClip(chord);
+		// 	case AudioLoop.Flute_04:
+		// 		return GetFlute_04AudioClip(chord);
+		// 	case AudioLoop.Guitar_01:
+		// 		return GetGuitar_01AudioClip(chord);
+		// 	case AudioLoop.Guitar_02:
+		// 		return GetGuitar_02AudioClip(chord);
+		// 	case AudioLoop.Oud_1:
+		// 		return GetOud_1AudioClip(chord);
+		// 	case AudioLoop.Oud_2:
+		// 		return GetOud_2AudioClip(chord);
+		// 	case AudioLoop.Oud_3:
+		// 		return GetOud_3AudioClip(chord);
+		// 	case AudioLoop.Oud_4:
+		// 		return GetOud_4AudioClip(chord);
+		// 	case AudioLoop.Derbakki_1:
+		// 		return GetDerbakki_1AudioClip(chord);
+		// 	case AudioLoop.Derbakki_2:
+		// 		return GetDerbakki_2AudioClip(chord);
+		// 	case AudioLoop.Derbakki_3:
+		// 		return GetDerbakki_3AudioClip(chord);
+		// 	case AudioLoop.Derbakki_4:
+		// 		return GetDerbakki_4AudioClip(chord);
+		// }
 
-		// If we don't find the clip to play, something is misconfigured
-		Debug.LogError("Couldn't load a clip for chord " + chord + " with loop name " + loop);
-		return null;
+		// // If we don't find the clip to play, something is misconfigured
+		// Debug.LogError("Couldn't load a clip for chord " + chord + " with loop name " + loop);
+		// return null;
 	}
 
 	public static AudioClip GetFlute_01AudioClip(Chord chord){

@@ -59,8 +59,8 @@ public class MIDIPlayer : MonoBehaviour
     public MusicianRPG.MidiSequencer midiSequencer;
     public StreamSynthesizer midiStreamSynthesizer;
 
-    private float sliderValue = 1.0f;
-    private float maxSliderValue = 127.0f;
+    // private float sliderValue = 1.0f;
+    // private float maxSliderValue = 127.0f;
     public MIDIFilterGroup filterGroup = new MIDIFilterGroup();
     private MIDITrackGate playerGate = new MIDITrackGate();
     private MIDIVolumeFilter playerVolumeFilter = new MIDIVolumeFilter();

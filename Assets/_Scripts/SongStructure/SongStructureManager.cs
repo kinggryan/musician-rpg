@@ -91,7 +91,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 			Debug.Log("Finished song!");
 		} else {
 			// Continue to the next phrase
-			currentSongPhraseEndBeat += SongStructureUtilities.NumBeatsForLoop(nextPhrase.loop);
+			currentSongPhraseEndBeat += nextPhrase.loop.beatDuration;
 			QueueSongPhrase(nextPhrase, phraseStartBeat);
 		}
 	}
@@ -180,8 +180,8 @@ public abstract class SongStructureManager : MonoBehaviour {
 		var phraseOffsetTuple = GetSongPhraseForBeat(beat);
 		// For each beat into the offset, we want to return a different 2-eighth note string
 		// TODO: Make this way less gnarly
-		var fullRhythmString = SongStructureUtilities.GetRhythmStringFromLoop(phraseOffsetTuple.phrase.loop);
-		var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % SongStructureUtilities.NumBeatsForLoop(phraseOffsetTuple.phrase.loop);
+		var fullRhythmString = phraseOffsetTuple.phrase.loop.rhythmString;
+		var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % phraseOffsetTuple.phrase.loop.beatDuration;
 		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
 	}
 }

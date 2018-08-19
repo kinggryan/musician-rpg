@@ -145,7 +145,7 @@ public class SongPlayer : MonoBehaviour {
 		} else {
 			// Continue to the next phrase
 			var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentSongPhraseEndBeat);
-			currentSongPhraseEndBeat += SongStructureUtilities.NumBeatsForLoop(nextPhrase.loop);
+			currentSongPhraseEndBeat += nextPhrase.loop.beatDuration;
 			// Debug.Log("Playing phrase "+ nextPhrase + " on beat " + currentSongPhraseEndBeat);
 			PlayLoop(nextPhrase.loop, nextPhrase.chord, nextPhraseStartDSPTime,soundEvent, npcOutput);
 		}
@@ -181,7 +181,7 @@ public class SongPlayer : MonoBehaviour {
 		nextPlayerLoopIndex = currentPlayerLoopIndex;
 		var nextPhraseStartDSPTime = ConvertBeatToDSPTime(currentPlayerLoopEndBeat);
 		var nextPlayerAudioLoop = playerAudioLoops[nextPlayerLoopIndex];
-		nextPlayerLoopEndBeat = currentPlayerLoopEndBeat + SongStructureUtilities.NumBeatsForLoop(nextPlayerAudioLoop);
+		nextPlayerLoopEndBeat = currentPlayerLoopEndBeat + nextPlayerAudioLoop.beatDuration;
 		nextPlayerAudioSource = PlayLoop(nextPlayerAudioLoop, GetChordForBeat(currentPlayerLoopEndBeat), nextPhraseStartDSPTime,soundEvent, playerOutput);
 	}
 
@@ -199,14 +199,14 @@ public class SongPlayer : MonoBehaviour {
 				nextPlayerAudioSource.Stop();
 
 			nextPlayerAudioSource = PlayLoop(playerAudioLoops[loopIndex], GetChordForBeat(beatToStartAt), beatToStartAtDSPTime, soundEvent, playerOutput);
-			nextPlayerLoopEndBeat = beatToStartAt + SongStructureUtilities.NumBeatsForLoop(playerAudioLoops[loopIndex]);
+			nextPlayerLoopEndBeat = beatToStartAt + playerAudioLoops[loopIndex].beatDuration;
 			nextPlayerLoopIndex = loopIndex;
 			BroadcastMessage("DidQueuePlayerTrack", nextPlayerLoopIndex, SendMessageOptions.DontRequireReceiver);
 		} else {
 			currentPlayerLoopIndex = loopIndex;
 			nextPlayerLoopIndex = loopIndex;
 			currentPlayerLoopEndBeat = 0;
-			nextPlayerLoopEndBeat = SongStructureUtilities.NumBeatsForLoop(playerAudioLoops[loopIndex]);
+			nextPlayerLoopEndBeat = playerAudioLoops[loopIndex].beatDuration;
 			BroadcastMessage("DidQueuePlayerTrack", loopIndex, SendMessageOptions.DontRequireReceiver);
 		}
 	}
@@ -220,7 +220,7 @@ public class SongPlayer : MonoBehaviour {
 	void ProceedToNextPlayerLoop() {
 		currentPlayerLoopIndex = nextPlayerLoopIndex;
 		currentPlayerLoopEndBeat = nextPlayerLoopEndBeat;
-		gameManager.currentPlayerRhythmString = SongStructureUtilities.GetRhythmStringFromLoop(playerAudioLoops[currentPlayerLoopIndex]);
+		gameManager.currentPlayerRhythmString = playerAudioLoops[currentPlayerLoopIndex].rhythmString;
 		ContinuePlayerLoop();
 	}
 
@@ -260,7 +260,7 @@ public class SongPlayer : MonoBehaviour {
 		var checkBeat = 0;
 		foreach(var section in songSections) {
 			foreach(var phrase in section.phrases) {
-				var endOfPhraseBeat = checkBeat + phrase.numTimesToPlay* SongStructureUtilities.NumBeatsForLoop(phrase.loop);
+				var endOfPhraseBeat = checkBeat + phrase.TotalBeatLength();
 				if(beat < endOfPhraseBeat) {
 					return new PhraseOffsetTuple(phrase, beat - checkBeat);
 				}
@@ -279,7 +279,7 @@ public class SongPlayer : MonoBehaviour {
 				break;
 			}
 			foreach(var phrase in songSections[i].phrases) {
-				numBeats += phrase.numTimesToPlay* SongStructureUtilities.NumBeatsForLoop(phrase.loop);
+				numBeats += phrase.TotalBeatLength();
 			}
 		}
 
@@ -290,15 +290,15 @@ public class SongPlayer : MonoBehaviour {
 		var phraseOffsetTuple = GetSongPhraseForBeat(beat);
 		// For each beat into the offset, we want to return a different 2-eighth note string
 		// TODO: Make this way less gnarly
-		var fullRhythmString = SongStructureUtilities.GetRhythmStringFromLoop(phraseOffsetTuple.phrase.loop);
-		var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % SongStructureUtilities.NumBeatsForLoop(phraseOffsetTuple.phrase.loop);
+		var fullRhythmString = phraseOffsetTuple.phrase.loop.rhythmString;
+		var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % phraseOffsetTuple.phrase.loop.beatDuration;
 		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
 	}
 
 	string GetCurrentPlayerRhythmString() {
-		var currentPlayerLoopStartBeat = currentPlayerLoopEndBeat - SongStructureUtilities.NumBeatsForLoop(playerAudioLoops[currentPlayerLoopIndex]);
+		var currentPlayerLoopStartBeat = currentPlayerLoopEndBeat - playerAudioLoops[currentPlayerLoopIndex].beatDuration;
 		var beatOffsetIndex = Mathf.RoundToInt((float)(GetCurrentBeat() - currentPlayerLoopStartBeat));
-		var fullRhythmString = SongStructureUtilities.GetRhythmStringFromLoop(playerAudioLoops[currentPlayerLoopIndex]);
+		var fullRhythmString = playerAudioLoops[currentPlayerLoopIndex].rhythmString;
 		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
 	}
 }
