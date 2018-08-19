@@ -54,14 +54,29 @@ public struct SongPhrase {
 	public AudioLoop loop;
 	public Chord chord;
 	public int numTimesToPlay;
+	public int singlePlaythroughBeatLength { get; private set; }
+	private int totalBeatLength;
 
 	public SongPhrase(string loopName, string chordName, int numTimesToPlay) {
 		loop = AudioLoop.GetLoopForName(loopName);
 		chord = SongStructureUtilities.ChordForString(chordName);
+		totalBeatLength = 0;
+		singlePlaythroughBeatLength = loop.beatDuration;
 		this.numTimesToPlay = numTimesToPlay;
 	}
 
+	public SongPhrase(string chordName, int totalBeatLength) {
+		loop = null;
+		numTimesToPlay = 1;
+		chord = SongStructureUtilities.ChordForString(chordName);
+		this.totalBeatLength = totalBeatLength;
+		singlePlaythroughBeatLength = totalBeatLength;
+	}
+
 	public int TotalBeatLength() {
+		if(totalBeatLength > 0) 
+			return totalBeatLength;
+
 		return loop.beatDuration*numTimesToPlay;
 	}
 

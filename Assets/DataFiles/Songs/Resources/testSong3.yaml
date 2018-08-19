@@ -1,9 +1,10 @@
 sections:
   - name: Chorus
     loops:
-    - file: Guitar_01
-      chord: I
-      numReps: 8
+    - chord: I
+      totalNumBeats: 8
+    - chord: V
+      totalNumBeats: 8
 structure:
   - Chorus
   - Chorus

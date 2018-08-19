@@ -9,10 +9,15 @@ using YamlDotNet.Samples.Helpers;
 public static class SongFileReader  {
 
 	// The following classes are used for unarchiving the song data file
+	// The loops can be of one of two formats:
+	// - Contain a file and a numReps
+	// - contain a totalNumBeats
+	// In either case, it should contain a chord
 	class Loop {
 		public string file { get; set; }
 		public string chord { get; set; }
 		public int numReps { get; set; }
+		public int totalNumBeats { get; set; }
 	}
 
 	class Section {
@@ -55,7 +60,12 @@ public static class SongFileReader  {
 
 				var phrases = new List<SongPhrase>();
 				foreach(var loop in section.loops) {
-					var phrase = new SongPhrase(loop.file,loop.chord,loop.numReps);
+					SongPhrase phrase;
+					if(loop.totalNumBeats > 0) {
+						phrase = new SongPhrase(loop.chord, loop.totalNumBeats);
+					} else {
+						phrase = new SongPhrase(loop.file,loop.chord,loop.numReps);
+					}
 					phrases.Add(phrase);
 				}
 

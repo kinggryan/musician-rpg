@@ -91,7 +91,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 			Debug.Log("Finished song!");
 		} else {
 			// Continue to the next phrase
-			currentSongPhraseEndBeat += nextPhrase.loop.beatDuration;
+			currentSongPhraseEndBeat += nextPhrase.singlePlaythroughBeatLength;
 			QueueSongPhrase(nextPhrase, phraseStartBeat);
 		}
 	}
