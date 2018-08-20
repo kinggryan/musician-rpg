@@ -7,7 +7,7 @@ using CSharpSynth.Synthesis;
 using CSharpSynth.Midi;
 using MusicianRPG;
 
-public class AIMIDIController : MonoBehaviour {
+public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 
 	// TODO : This may get moved around
 	public string midiFilePath = "Midis/Groove.mid";
@@ -76,6 +76,10 @@ public class AIMIDIController : MonoBehaviour {
 
     void Start()
     {
+		// Regiser with the song structure manager
+		var songStructureManager = Object.FindObjectOfType<SongStructureManager>();
+		songStructureManager.RegisterSongUpdateListener(this);
+
 		// Add yourself to the midi player
 		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(){midiFilePath});
 		midiStreamer.outputChannel = channelNumber;
@@ -105,6 +109,10 @@ public class AIMIDIController : MonoBehaviour {
 			newGateVelo = 80;
 		}
 		StartCoroutine(WaitThenChangeGate(newGateVelo, gateFollowTime + Random.Range(-1 * (gateFollowRndm / 2), gateFollowRndm / 2)));
+	}
+
+	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
+		// Do some stuff
 	}
 
 	private IEnumerator WaitThenChangeGate(int newGateVelo, float timeToWait){
@@ -186,6 +194,8 @@ public class AIMIDIController : MonoBehaviour {
 
 
 	void Update(){
+		// Switch the lead if it's been long enough
+		// TODO: This should be based on song triggers or number of beats, something like that.
 		leadTimer += Time.deltaTime;
 		if (leadTimer >= leadInterval){
 			SwitchLead();
@@ -194,82 +204,90 @@ public class AIMIDIController : MonoBehaviour {
 		if (mute){
             volumeFilter.volumeMultiplier = 0;
         }
+
+		// Do the main actions based on whether leading or not
 		if (isLeading){
-			
-			if(dynamicsMatched() && !dynMatchBuffer){
-				dynamicsMatchTimer += Time.deltaTime;
-				if (dynamicsMatchTimer >= 2){
-					dynMatchBuffer = true;
-					Debug.Log("Dynamics Matched");
-					aiFeedback.DisplayText("Tasty!", 1, dynamicsTextColor);
-				}
-			}else if(!dynamicsMatched()){
-				dynMatchBuffer = false;
-				dynamicsMatchTimer = 0;
-			}else{
-				dynamicsMatchTimer = 0;
-			}
-
-			if(gatesMatched() && !gateMatchBuffer){
-				gateMatchTimer += Time.deltaTime;
-				if (gateMatchTimer >= 2){
-					gateMatchBuffer = true;
-					Debug.Log("Gates Matched");
-					aiFeedback.DisplayText("Nice!", 1, gateTextColor);
-				}
-			}else if(!gatesMatched()){
-				gateMatchBuffer = false;
-				gateMatchTimer = 0;
-			}else{
-				gateMatchTimer = 0;
-			}
-
-			moveTimer += Time.deltaTime;
-			if (moving){
-				volume = Mathf.Lerp(volume, targetVolume, moveTimer);
-				if (moveTimer >= 1){
-					moveTimer = 0;
-					moving = false;
-				}
-			}else if (moveTimer >= moveInterval && !moving){
-				MakeMove();
-			}
-		}else if(!isLeading){
-			if(dynamicsMatched() && !dynMatchBuffer){
-				dynamicsMatchTimer += Time.deltaTime;
-				if (dynamicsMatchTimer >= 2){
-					dynMatchBuffer = true;
-					Debug.Log("Dynamics Matched");
-					aiFeedback.DisplayText("Cool!", 1, dynamicsTextColor);
-				}
-			}else if(!dynamicsMatched()){
-				dynMatchBuffer = false;
-				dynamicsMatchTimer = 0;
-			}else{
-				dynamicsMatchTimer = 0;
-			}
-
-			if(gatesMatched() && !gateMatchBuffer){
-				gateMatchTimer += Time.deltaTime;
-				if (gateMatchTimer >= 2){
-					gateMatchBuffer = true;
-					Debug.Log("Gates Matched");
-					aiFeedback.DisplayText("Sick!", 1, gateTextColor);
-				}
-			}else if(!gatesMatched()){
-				gateMatchBuffer = false;
-				gateMatchTimer = 0;
-			}else{
-				gateMatchTimer = 0;
-			}	
-			if (volume != playerVolume){
-				float random = Random.Range(0, volumeFollowRndm);
-				volumeTimer += Time.deltaTime / (volumeFollow + random);
-				volume = Mathf.Lerp(volume, playerVolume, volumeTimer);
-			}else{
-				volumeTimer = 0;
-			}
+			UpdateLeading();
+		} else {
+			UpdateFollowing();
 		}
 	}
 
+	private void UpdateLeading() {
+		if(dynamicsMatched() && !dynMatchBuffer){
+			dynamicsMatchTimer += Time.deltaTime;
+			if (dynamicsMatchTimer >= 2){
+				dynMatchBuffer = true;
+				Debug.Log("Dynamics Matched");
+				aiFeedback.DisplayText("Tasty!", 1, dynamicsTextColor);
+			}
+		}else if(!dynamicsMatched()){
+			dynMatchBuffer = false;
+			dynamicsMatchTimer = 0;
+		}else{
+			dynamicsMatchTimer = 0;
+		}
+
+		if(gatesMatched() && !gateMatchBuffer){
+			gateMatchTimer += Time.deltaTime;
+			if (gateMatchTimer >= 2){
+				gateMatchBuffer = true;
+				Debug.Log("Gates Matched");
+				aiFeedback.DisplayText("Nice!", 1, gateTextColor);
+			}
+		}else if(!gatesMatched()){
+			gateMatchBuffer = false;
+			gateMatchTimer = 0;
+		}else{
+			gateMatchTimer = 0;
+		}
+
+		moveTimer += Time.deltaTime;
+		if (moving){
+			volume = Mathf.Lerp(volume, targetVolume, moveTimer);
+			if (moveTimer >= 1){
+				moveTimer = 0;
+				moving = false;
+			}
+		}else if (moveTimer >= moveInterval && !moving){
+			MakeMove();
+		}
+	}
+
+	private void UpdateFollowing() {
+		if(dynamicsMatched() && !dynMatchBuffer){
+			dynamicsMatchTimer += Time.deltaTime;
+			if (dynamicsMatchTimer >= 2){
+				dynMatchBuffer = true;
+				Debug.Log("Dynamics Matched");
+				aiFeedback.DisplayText("Cool!", 1, dynamicsTextColor);
+			}
+		}else if(!dynamicsMatched()){
+			dynMatchBuffer = false;
+			dynamicsMatchTimer = 0;
+		}else{
+			dynamicsMatchTimer = 0;
+		}
+
+		if(gatesMatched() && !gateMatchBuffer){
+			gateMatchTimer += Time.deltaTime;
+			if (gateMatchTimer >= 2){
+				gateMatchBuffer = true;
+				Debug.Log("Gates Matched");
+				aiFeedback.DisplayText("Sick!", 1, gateTextColor);
+			}
+		}else if(!gatesMatched()){
+			gateMatchBuffer = false;
+			gateMatchTimer = 0;
+		}else{
+			gateMatchTimer = 0;
+		}	
+		if (volume != playerVolume){
+			float random = Random.Range(0, volumeFollowRndm);
+			volumeTimer += Time.deltaTime / (volumeFollow + random);
+			volume = Mathf.Lerp(volume, playerVolume, volumeTimer);
+		}else{
+			volumeTimer = 0;
+		}
+	}
 }

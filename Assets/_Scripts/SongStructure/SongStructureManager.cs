@@ -44,6 +44,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 	protected int currentSongPhraseNumRepeatsRemaining = 0;
 
 	protected bool isSongPlaying = false;
+	protected List<ISongUpdateListener> songUpdateListeners = new List<ISongUpdateListener>();
 
 	//-- Public functions
 
@@ -54,6 +55,10 @@ public abstract class SongStructureManager : MonoBehaviour {
 		isSongPlaying = true;
 		QueueNextSongPhrase();
 		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
+	}
+
+	public void RegisterSongUpdateListener(ISongUpdateListener listener) {
+		songUpdateListeners.Add(listener);
 	}
 
 	//-- Protected Functions
@@ -134,6 +139,9 @@ public abstract class SongStructureManager : MonoBehaviour {
 			}
 			
 			BroadcastMessage("DidStartNextBeat", beatUpdateInfo, SendMessageOptions.DontRequireReceiver);
+			foreach(var listener in songUpdateListeners) {
+				listener.DidStartNextBeat(beatUpdateInfo);
+			}
 		}
 	}
 
