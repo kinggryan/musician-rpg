@@ -69,7 +69,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 	protected virtual void QueueNextSongPhrase() {
 
 		SongPhrase nextPhrase;
-		var phraseStartBeat = currentSongPhraseEndBeat;
+		var phraseStartBeat = currentSongPhraseEndBeat - 1;
 
 		// If we're repeating this phrase, keep repeating it
 		if(currentSongPhraseNumRepeatsRemaining > 0) {
