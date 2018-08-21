@@ -99,6 +99,23 @@ public class AudioLoop {
 		this.emotionTags = emotionTags;
 	}
 
+	/// <summary>
+	/// This method returns the rhythm string of this loop in the given beat range
+	/// If start and end beat are the same, it will include exactly one beat's worth of rhythm string
+	/// The method assumes that the loop starts on beat 0 and repeats forever
+	/// </summary>
+	public string GetRhythmStringForBeat(int beat) {
+		var beatToUse = beat % beatDuration;
+		// Since the rhythm string is eighth notes, we just return the beat plus its upbeat
+		var rhythmStringIndex = beatToUse*2;
+		if(rhythmStringIndex + 1 >= rhythmString.Length) {
+			Debug.LogError("Rhythm string error: index of " + (rhythmStringIndex + 1) + " is outside string " + rhythmString);
+			return "";
+		}
+
+		return rhythmString.Substring(rhythmStringIndex,2);
+	}
+
 	public int NumMatchedEmotions(List<string> emotions) {
 		var count = 0;
 		foreach(var emotion in emotionTags) {

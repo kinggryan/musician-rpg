@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CSharpSynth.Midi;
 
-public class PlayerMidiController : MonoBehaviour {
+public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 
 	public string[] loopNames;
 
@@ -30,6 +30,7 @@ public class PlayerMidiController : MonoBehaviour {
 	public int outputChannel = 0;
 
 	public string[] playerMidiLoops;
+	public string playedRhythmString { get; private set; }
 	
 	float songBPM = 240f;
 
@@ -53,6 +54,18 @@ public class PlayerMidiController : MonoBehaviour {
 	MIDITrackGate gateFilter;
 
 	List<AudioLoop> playerLoops = new List<AudioLoop>();
+	int currentLoopIndex = 0;
+
+	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
+		// When we start the next beat
+		// Look at what loop is currently playing
+		// Determine the rhythm string for that loop on this beat
+		// Append it to the rhythm string
+		if(beatInfo.currentBeat > 0) {
+			var currentLoop = playerLoops[currentLoopIndex];
+			playedRhythmString += currentLoop.GetRhythmStringForBeat(beatInfo.currentBeat-1);
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -79,7 +92,7 @@ public class PlayerMidiController : MonoBehaviour {
 		
 		gateFilter = new MIDITrackGate();
 		gateFilter.activeChannel = outputChannel;
-		gateFilter.gateVelocity = maxGate; //(minGate + maxGate)/2;
+		gateFilter.gateVelocity = maxGate;
 		midiStreamer.AddFilter(gateFilter);
 
 		// Add the volume after the gate filter so it doesn't affect the gate
@@ -335,14 +348,19 @@ public class PlayerMidiController : MonoBehaviour {
 	void UpdateCurrentMidiFile() {
 		// Change the midi file at will
 		if(Input.GetButtonDown("Loop1")) {
-			midiStreamer.SetCurrentMidiFile(0);
+			SetCurrentLoop(0);
 		} else if(Input.GetButtonDown("Loop2")) {
-			midiStreamer.SetCurrentMidiFile(1);
+			SetCurrentLoop(1);
 		} else if(Input.GetButtonDown("Loop3")) {
-			midiStreamer.SetCurrentMidiFile(2);
+			SetCurrentLoop(2);
 		} else if(Input.GetButtonDown("Loop4")) {
-			midiStreamer.SetCurrentMidiFile(3);
+			SetCurrentLoop(3);
 		}
+	}
+
+	void SetCurrentLoop(int index) {
+		currentLoopIndex = index;
+		midiStreamer.SetCurrentMidiFile(currentLoopIndex);
 	}
 
 	void DidChangeBPM(double bpm) {
