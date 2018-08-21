@@ -132,11 +132,11 @@ public class MIDISongPlayer : MonoBehaviour
 
     // This function creates a new midi streamer with the given file names and returns it.
     // That streamer can then be controlled by outside classes
-    public MidiFileStreamer CreateNewMidiFileStreamer(List<string> midiFileNames) {
+    public MidiFileStreamer CreateNewMidiFileStreamer(List<AudioLoop> loops) {
         var streamer = new MidiFileStreamer();
         // We must add the streamer to the sequencer BEFORE loading the files, as it sets some required information for the loading process
         midiSequencer.AddMidiStreamer(streamer);
-        streamer.LoadMidiFiles(midiFileNames);
+        streamer.LoadMidiFiles(loops);
         return streamer;
     }
 

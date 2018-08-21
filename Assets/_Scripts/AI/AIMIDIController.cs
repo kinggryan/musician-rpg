@@ -9,8 +9,8 @@ using MusicianRPG;
 
 public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 
-	// TODO : This may get moved around
-	public string midiFilePath = "Midis/Groove.mid";
+	// The known loops of this character
+	public string[] knownLoopNames;
 
 	public float volumeFollow;
 	public float volumeFollowRndm;
@@ -58,7 +58,10 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 	private bool moving;
 	private float targetVolume;
 
-	private MidiStreamer midiStreamer;
+	private AILoopDecider loopDecider;
+	private List<AudioLoop> knownLoops;
+
+	private MidiFileStreamer midiStreamer;
     private MIDITrackGate gate;
     private MIDIVolumeFilter volumeFilter;
 	private bool dynMatchBuffer;
@@ -80,8 +83,15 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 		var songStructureManager = Object.FindObjectOfType<SongStructureManager>();
 		songStructureManager.RegisterSongUpdateListener(this);
 
+		// Load all the loops
+		knownLoops = new List<AudioLoop>();
+		foreach(var loopName in knownLoopNames) {
+			var loop = AudioLoop.GetLoopForName(loopName);
+			knownLoops.Add(loop);
+		}
+
 		// Add yourself to the midi player
-		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(){midiFilePath});
+		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(knownLoops);
 		midiStreamer.outputChannel = channelNumber;
 
 		volumeFilter = new MIDIVolumeFilter();
@@ -96,6 +106,9 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 
         trackGateVelocity = 79;
         volume = 1;
+
+		
+		loopDecider = new AIFollowingLoopDecider(knownLoops);
 	}
 
 	public void playerGateChange(int playerGate){
@@ -112,7 +125,12 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 	}
 
 	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
-		// Do some stuff
+		if(beatInfo.currentBeat % 16 == 15) {
+			var newLoopToPlay = loopDecider.ChooseLoopToPlay();
+			midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
+		}
+
+		loopDecider.DidStartNextBeat();
 	}
 
 	private IEnumerator WaitThenChangeGate(int newGateVelo, float timeToWait){
@@ -191,7 +209,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 
 		
 	}
-
 
 	void Update(){
 		// Switch the lead if it's been long enough

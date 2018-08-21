@@ -12,6 +12,7 @@ public class MidiFileStreamer: MidiStreamer {
     // Has some sort of event index
     class DynamicMidiFile
     {
+        public AudioLoop loop;
         public MidiFile file { get; private set; }
         public int eventIndex;
         public bool looping;
@@ -80,34 +81,36 @@ public class MidiFileStreamer: MidiStreamer {
     private int currentMidiFileIndex = 0;
     private Dictionary<MidiFileNoteInfo,int> currentlyPlayingMidiNotes = new Dictionary<MidiFileNoteInfo,int>();
 
-    public void LoadMidiFiles(MidiFile[] files)
+    public void LoadMidiFiles(List<AudioLoop> loops)
     {
         // TODO: Unload files properly
         midiFiles.Clear();
 
-        foreach(var file in files)
+        foreach(var loop in loops)
         {
             var newDynamicFile = new DynamicMidiFile { };
+            MidiFile file = null;
+            try {
+                file = new MidiFile(loop.filename);
+            } catch(Exception e) {
+                Debug.LogError("Couldn't load midi file with name " + loop.filename + ":" + e);
+                continue;
+            }
+
             newDynamicFile.SetMidiFile(file, sampleRate);
+            newDynamicFile.loop = loop;
 
             midiFiles.Add(newDynamicFile);
         }
     }
 
-    public void LoadMidiFiles(List<string> fileNames)
-    {
-        var files = new List<MidiFile>();
-        foreach(var filename in fileNames) {
-            MidiFile file = null;
-            try {
-                file = new MidiFile(filename);
-            } catch(Exception e) {
-                Debug.LogError("Couldn't load midi file with name " + filename + ":" + e);
-                continue;
-            }
-            files.Add(file);
+    /// <summary>
+    /// The provided loop MUST be in the array of loaded loops. otherwise this will be an error.
+    /// </summary>
+    public void SetCurrentMidiFileWith(AudioLoop loop) {
+        for(var i = 0 ; i < midiFiles.Count; i++) {
+            // if(midiFiles[i].file.pa)
         }
-        LoadMidiFiles(files.ToArray());
     }
 
     public void SetCurrentMidiFile(int index) {

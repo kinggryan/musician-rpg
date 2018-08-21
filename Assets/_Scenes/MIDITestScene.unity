@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 39149013}
   - component: {fileID: 39149015}
   - component: {fileID: 39149016}
+  - component: {fileID: 39149017}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -330,9 +331,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2c8c5db22a44dcab296cdc3298f8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  midiFileNames:
-  - MIDI/HokeyMidiTest_01.mid
-  - MIDI/HokeyMidiTest_02.mid
+  loopNames:
+  - HokeyTest1
+  - HokeyTest2
   songStructureManager: {fileID: 39149016}
   midiPlayer: {fileID: 39149008}
   animationManager: {fileID: 39149012}
@@ -431,6 +432,18 @@ MonoBehaviour:
   bpm: 0
   songFilename: testSong3
   songPlayer: {fileID: 39149008}
+--- !u!114 &39149017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 39149006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54a6fa24564f4a12a26dfd8655d5779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatNumber: {fileID: 328300921}
 --- !u!1 &39446230
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,6 +932,94 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!1 &328300918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 328300919}
+  - component: {fileID: 328300922}
+  - component: {fileID: 328300921}
+  - component: {fileID: 328300920}
+  m_Layer: 5
+  m_Name: BeatCountDebug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &328300919
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 328300918}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 497446745}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -365, y: 252}
+  m_SizeDelta: {x: 160, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &328300920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 328300918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be8765d5b2254a2e8cfafdeaa5c6e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 328300921}
+--- !u!114 &328300921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 328300918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: -1
+--- !u!222 &328300922
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 328300918}
+  m_CullTransparentMesh: 0
 --- !u!1 &471392396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,6 +1164,7 @@ RectTransform:
   - {fileID: 1544796797}
   - {fileID: 471392397}
   - {fileID: 842659068}
+  - {fileID: 328300919}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1316,7 +1418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b091114be8beed499bca756bbd03db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  midiFilePath: MIDI/HokeyMidiTest_01.mid
+  knownLoopNames:
+  - HokeyTest1
+  - HokeyTest2
   volumeFollow: 1000
   volumeFollowRndm: 2000
   gateFollowTime: 3

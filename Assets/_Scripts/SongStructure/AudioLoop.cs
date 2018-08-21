@@ -34,6 +34,40 @@ public class AudioLoop {
 		return loadedLoops[name];
 	}
 
+	public static List<string> GetMostCommonEmotionTagsInLoops(List<AudioLoop> loops) {
+		var tempDict = new Dictionary<string,int>();
+		var maxCount = 0;
+		foreach(var loop in loops) {
+			foreach(var tag in loop.emotionTags) {
+				if(tempDict.ContainsKey(tag)) {
+					tempDict[tag] = tempDict[tag] + 1;
+				} else {
+					tempDict[tag] = 1;
+				}
+				maxCount = Mathf.Max(maxCount,tempDict[tag]);
+			}
+		}
+
+		var listOfTags = new List<string>();
+
+		foreach(var kvPair in tempDict) {
+			if(kvPair.Value == maxCount) {
+				listOfTags.Add(kvPair.Key);
+			}
+		}
+
+		return listOfTags;
+	}
+
+	// Appends the rhythm strings of a set of lops
+	public static string AppendRhythmStrings(List<AudioLoop> loops) {
+		var str = "";
+		foreach(var loop in loops) {
+			str += loop.rhythmString;
+		}
+		return str;
+	}
+
 	private static Dictionary<string,AudioLoop> AddLoopsToLoadedLoopsDictionary(List<AudioLoop> loops, Dictionary<string,AudioLoop> dict) {
 		foreach(var loop in loops) {
 			if(dict.ContainsKey(loop.name)) {
@@ -63,5 +97,28 @@ public class AudioLoop {
 		this.beatDuration = beatDuration;
 		this.rhythmString = rhythmString;
 		this.emotionTags = emotionTags;
+	}
+
+	public int NumMatchedEmotions(List<string> emotions) {
+		var count = 0;
+		foreach(var emotion in emotionTags) {
+			if(emotions.Contains(emotion))
+				count++;
+		}
+		return count;
+	}
+
+	/// <summary>
+	/// This method returns the number of characters that match between the two rhythm strings
+	/// It is assumed that they start at the same time. If the two strings are of different lengths, the shorter one will be appended to itself to extend itself.
+	/// </summary>
+	public int GetRhythmStringScore(string otherRhythmString) {
+		var numMatchedChars = 0;
+		// TODO: Implement the part where they extend the shorter string
+		for(var i = 0 ; i < Mathf.Min(otherRhythmString.Length, rhythmString.Length); i++) {
+			if(rhythmString[i] == otherRhythmString[i]) 
+				numMatchedChars++;
+		}
+		return numMatchedChars;
 	}
 }

@@ -52,7 +52,8 @@ public class AIFeedback : MonoBehaviour {
 			colorTimer += Time.deltaTime;
 			if (colorTimer >= colorChangeDuration){
 				colorTimer = 0;
-				avatar.color = avatarStartColor;
+				if(avatar)
+					avatar.color = avatarStartColor;
 				colorIsChanged = false;
 			}
 

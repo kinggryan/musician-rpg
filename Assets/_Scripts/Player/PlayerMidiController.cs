@@ -5,7 +5,7 @@ using CSharpSynth.Midi;
 
 public class PlayerMidiController : MonoBehaviour {
 
-	public string[] midiFileNames;
+	public string[] loopNames;
 
 	public MidiSongStructureManager songStructureManager;
 	public MIDISongPlayer midiPlayer;
@@ -21,25 +21,6 @@ public class PlayerMidiController : MonoBehaviour {
 	public KeyControlDisplay keyControlDisplay;
 	public bool mouseControls;
 	public Metronome metro;
-	
-	
-
-	public enum Chord {
-		I,
-		i,
-		ii,
-		iiDim,
-		iii,
-		bIII,
-		IV,
-		iv,
-		V,
-		v,
-		vi,
-		VI,
-		viiDim,
-		bVII
-	}
 
 	public Chord chord;
 	
@@ -71,6 +52,7 @@ public class PlayerMidiController : MonoBehaviour {
 	MIDIVolumeFilter volumeFilter;
 	MIDITrackGate gateFilter;
 
+	List<AudioLoop> playerLoops = new List<AudioLoop>();
 
 	// Use this for initialization
 	void Start () {
@@ -88,8 +70,11 @@ public class PlayerMidiController : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[6];
 
-		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(new List<string>(midiFileNames));
-		midiStreamer.LoadMidiFiles(new List<string>(midiFileNames));
+		foreach(var loopName in loopNames) {
+			playerLoops.Add(AudioLoop.GetLoopForName(loopName));
+		}
+
+		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(playerLoops);
 		midiStreamer.outputChannel = outputChannel;
 		
 		gateFilter = new MIDITrackGate();
