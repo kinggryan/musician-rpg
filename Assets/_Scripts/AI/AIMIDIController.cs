@@ -44,7 +44,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 
 	public float currentVolume;
 	public int gateVal;
-	public int channelNumber = 1;
     //Private 
     
 	public MIDISongPlayer midiPlayer;
@@ -76,6 +75,8 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 	private int currentPlayerGate;
 	private float gateMatchTimer;
 	private bool gateMatchBuffer;
+
+	private const int channelNumber = 1;
 
     void Start()
     {
@@ -222,12 +223,12 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
             volumeFilter.volumeMultiplier = 0;
         }
 
-		// Do the main actions based on whether leading or not
-		if (isLeading){
-			UpdateLeading();
-		} else {
-			UpdateFollowing();
-		}
+		// // Do the main actions based on whether leading or not
+		// if (isLeading){
+		// 	UpdateLeading();
+		// } else {
+		// 	UpdateFollowing();
+		// }
 	}
 
 	private void UpdateLeading() {

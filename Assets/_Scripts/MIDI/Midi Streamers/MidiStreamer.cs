@@ -14,8 +14,7 @@ public abstract class MidiStreamer {
     /// If this is >= 0, it will change all midi events streamed by this streamer to that channel
     /// Otherwise, it will not affect the stream
     /// </summary>
-    public int outputChannel;
-
+    public int outputChannel = -1;
     private List<MIDITrackFilter> filters =  new List<MIDITrackFilter>();
     private MIDIFilterGroup filterGroup = new MIDIFilterGroup();
 
@@ -44,9 +43,10 @@ public abstract class MidiStreamer {
 
     protected List<MidiEvent> FilterEvents(List<MidiEvent> events) {
         if(outputChannel >= 0) {
-            var newEvents = new List<MidiEvent>(events);
-            foreach(var ev in newEvents) {
+            var newEvents = new List<MidiEvent>();
+            foreach(var ev in events) {
                 ev.channel = (byte)outputChannel;
+                newEvents.Add(ev);
             }
             return new List<MidiEvent>(filterGroup.FilterMidiEvents(newEvents.ToArray()));
         }

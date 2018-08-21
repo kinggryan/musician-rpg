@@ -42,7 +42,7 @@ public class PlayerMidiController : MonoBehaviour {
 	float maxVolume = 2.5f;
 	float minVolume = 0.25f;
 
-	int[] playerInstruments = new int[]{125,127,76,94,98,102,101,108,103,118,110,111,91,88};
+	int[] playerInstruments = new int[]{88,127,126,94,98,102,101,108,103,118,110,111,91,88};
 
 	float savedGateValue = 0.5f;
 	float savedVolumeValue = 0.5f;
@@ -68,7 +68,7 @@ public class PlayerMidiController : MonoBehaviour {
 
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
-		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[6];
+		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[0];
 
 		foreach(var loopName in loopNames) {
 			playerLoops.Add(AudioLoop.GetLoopForName(loopName));
@@ -79,7 +79,7 @@ public class PlayerMidiController : MonoBehaviour {
 		
 		gateFilter = new MIDITrackGate();
 		gateFilter.activeChannel = outputChannel;
-		gateFilter.gateVelocity = (minGate + maxGate)/2;
+		gateFilter.gateVelocity = maxGate; //(minGate + maxGate)/2;
 		midiStreamer.AddFilter(gateFilter);
 
 		// Add the volume after the gate filter so it doesn't affect the gate
@@ -88,7 +88,7 @@ public class PlayerMidiController : MonoBehaviour {
 		volumeFilter.volumeMultiplier = 1;
 		midiStreamer.AddFilter(volumeFilter);
 		
-		currentInstIndex = 6;
+		currentInstIndex = 0;
 	}
 	
 	// Update is called once per frame

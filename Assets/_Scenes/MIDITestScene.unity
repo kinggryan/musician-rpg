@@ -326,14 +326,15 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 39149006}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae2c8c5db22a44dcab296cdc3298f8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   loopNames:
-  - HokeyTest1
-  - HokeyTest2
+  - Melody_Roma_Lyrical
+  - Melody_Roma_Peppy
+  - Melody_Roma_SyncopatedRiff
   songStructureManager: {fileID: 39149016}
   midiPlayer: {fileID: 39149008}
   animationManager: {fileID: 39149012}
@@ -1419,8 +1420,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knownLoopNames:
-  - HokeyTest1
-  - HokeyTest2
+  - Comp_Klezmer_Bulgar
+  - Comp_Klezmer_Hosidl
+  - Comp_Klezmer_OomPah
+  - Comp_Klezmer_Terkisher
   volumeFollow: 1000
   volumeFollowRndm: 2000
   gateFollowTime: 3
