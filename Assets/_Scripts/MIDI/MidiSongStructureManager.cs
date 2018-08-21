@@ -7,6 +7,8 @@ public class MidiSongStructureManager : SongStructureManager {
 
 	MIDISmartTranspose transposeFilter;
 
+	const double songBPM = 240;
+
 	protected override void Start() {
 		// Create and add the transposition filter to the midi player
 		base.Start();
@@ -26,10 +28,12 @@ public class MidiSongStructureManager : SongStructureManager {
 	}
 
 	private double GetBeatForSampleTime(int sampleTime) {
-		return Mathf.Floor((float)(sampleTime * 1f / songPlayer.midiStreamSynthesizer.SampleRate / 60f * bpm));
+		// NOTE: We use a static songBPM here because the sampleTime from the stream synthesizer is stretched to adjust for dynamic BPM already
+		return Mathf.Floor((float)(sampleTime * 1f / songPlayer.midiStreamSynthesizer.SampleRate / 60f * songBPM));
 	}
 
 	private int GetSampleTimeForBeat(double beat) {
-		return Mathf.FloorToInt((float)(beat / bpm * 60 * songPlayer.midiStreamSynthesizer.SampleRate));
+		// NOTE: We use a static songBPM here because the sampleTime from the stream synthesizer is stretched to adjust for dynamic BPM already
+		return Mathf.FloorToInt((float)(beat / songBPM * 60 * songPlayer.midiStreamSynthesizer.SampleRate));
 	}
 }

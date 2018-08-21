@@ -104,10 +104,11 @@ public class PlayerMidiController : MonoBehaviour {
         UpdateCurrentMidiFile();
 
 		// Mathf.L
-		currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
+		// currentBPM = Mathf.Lerp(currentBPM, targetBPM, 5*Time.deltaTime);
 		// TODO: We should have some central object that coordinates between these different objects so that they don't need to do things like this
-		songStructureManager.bpm = currentBPM;
-		midiPlayer.playbackRate = Mathf.Clamp(currentBPM / songBPM,0.3f,1.2f);
+		// currentBPM = 90;
+		// songStructureManager.bpm = currentBPM;
+		// midiPlayer.playbackRate = Mathf.Clamp(currentBPM / songBPM,0.3f,1.2f);
 	}
 
 	// void UpdateChord(){
@@ -332,12 +333,15 @@ public class PlayerMidiController : MonoBehaviour {
 	}
 
 	void UpdateCurrentMidiFile() {
-		// TODO: Do this more properly
-		// DEBUG
-		if(Input.GetKeyDown("a")) {
+		// Change the midi file at will
+		if(Input.GetButtonDown("Loop1")) {
 			midiStreamer.SetCurrentMidiFile(0);
-		} else if(Input.GetKeyDown("s")) {
+		} else if(Input.GetButtonDown("Loop2")) {
 			midiStreamer.SetCurrentMidiFile(1);
+		} else if(Input.GetButtonDown("Loop3")) {
+			midiStreamer.SetCurrentMidiFile(2);
+		} else if(Input.GetButtonDown("Loop4")) {
+			midiStreamer.SetCurrentMidiFile(3);
 		}
 	}
 
@@ -352,13 +356,17 @@ public class PlayerMidiController : MonoBehaviour {
 	void StartSongWithBPM(float bpm) {
 		currentBPM = bpm;
 		for (int i = 0; i < circleAnimator.Length; i++){
-			circleAnimator[i].StartSong(bpm);
+			if(circleAnimator[i].isActiveAndEnabled)
+				circleAnimator[i].StartSong(bpm);
 		}
 		metro.StartMetro(bpm);
 		animationManager.SetBPM(bpm);
 		animationManager.DidStartSong();
 		animationManager.UpdateGroove(1f);
+
+		midiPlayer.playbackRate = bpm / songBPM;
 		midiPlayer.Play();
+		songStructureManager.bpm = bpm;
 		songStructureManager.StartSong();
 	}
 }

@@ -1,13 +1,13 @@
 loops:
 - name: HokeyTest1
-  filename: MIDI/HokeyMidiTest_01.mid
+  filename: MIDI/HokeyMidiTest_01_240.mid
   beatDuration: 4
   rhythmString: 10101010
   emotionTags: 
     - happy
     - sad
 - name: HokeyTest2
-  filename: MIDI/HokeyMidiTest_02.mid
+  filename: MIDI/HokeyMidiTest_02_240.mid
   beatDuration: 4
   rhythmString: 10101010
   emotionTags: 
