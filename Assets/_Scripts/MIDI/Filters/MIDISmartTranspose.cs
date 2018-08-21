@@ -62,7 +62,7 @@ public class MIDISmartTranspose : MIDITrackFilter {
 					int pitch = midiEvent.parameter1;
 					var pitchShift = rule.GetPitchShiftForPitch(pitch);
 					var noteInfo = new MidiNoteInfo(pitch, midiEvent.channel);
-					Debug.Log("Setting " + noteInfo + " to " + pitchShift);
+					// Debug.Log("Setting " + noteInfo + " to " + pitchShift);
 
 					// Add the transposition to the list of transpositions 
 					if(currentNoteTranspositions.ContainsKey(noteInfo)) {
@@ -70,7 +70,7 @@ public class MIDISmartTranspose : MIDITrackFilter {
 						currentList.Add(pitchShift);
 						currentNoteTranspositions[noteInfo] = currentList;
 					} else {
-						currentNoteTranspositions[noteInfo] = new List<int>(pitchShift);
+						currentNoteTranspositions[noteInfo] = new List<int>(new int[]{pitchShift});
 					}
 					pitch = pitch + pitchShift;
 
@@ -120,7 +120,7 @@ public class MIDISmartTranspose : MIDITrackFilter {
 			shiftList.RemoveAt(0);
 			currentNoteTranspositions[noteInfo] = shiftList;
 			// Remove that element from the list
-			Debug.Log("Shifting " + noteInfo + " with shift " + shift);
+			// Debug.Log("Shifting " + noteInfo + " with shift " + shift);
 			return shift;
 		}
 		else {

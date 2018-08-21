@@ -326,7 +326,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 39149006}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae2c8c5db22a44dcab296cdc3298f8cd, type: 3}
   m_Name: 
@@ -1438,7 +1438,6 @@ MonoBehaviour:
   bufferSize: 1024
   currentVolume: 0
   gateVal: 0
-  channelNumber: 1
   midiPlayer: {fileID: 39149008}
   aiFeedback: {fileID: 842659071}
   isLeading: 1
