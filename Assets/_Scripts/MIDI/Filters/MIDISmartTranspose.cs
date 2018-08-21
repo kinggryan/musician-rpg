@@ -43,7 +43,7 @@ public class MIDISmartTranspose : MIDITrackFilter {
 	/// is the original pitch and the value is the pitch shift. When a note off event is received, it should
 	/// Check this array for how to transpose itself, and remove that entry from the dictionary
 	/// </summary>
-	Dictionary<MidiNoteInfo, int> currentNoteTranspositions = new Dictionary<MidiNoteInfo, int>();
+	Dictionary<MidiNoteInfo, List<int>> currentNoteTranspositions = new Dictionary<MidiNoteInfo, List<int>>();
 
 	/// <summary>
 	/// If this is a note on event, then transpose it according to transpose rules and store in memory that it is "on" and has been translated
@@ -63,7 +63,15 @@ public class MIDISmartTranspose : MIDITrackFilter {
 					var pitchShift = rule.GetPitchShiftForPitch(pitch);
 					var noteInfo = new MidiNoteInfo(pitch, midiEvent.channel);
 					Debug.Log("Setting " + noteInfo + " to " + pitchShift);
-					currentNoteTranspositions[noteInfo] = pitchShift;
+
+					// Add the transposition to the list of transpositions 
+					if(currentNoteTranspositions.ContainsKey(noteInfo)) {
+						var currentList = currentNoteTranspositions[noteInfo];
+						currentList.Add(pitchShift);
+						currentNoteTranspositions[noteInfo] = currentList;
+					} else {
+						currentNoteTranspositions[noteInfo] = new List<int>(pitchShift);
+					}
 					pitch = pitch + pitchShift;
 
 					newMidiEvent.parameter1 = (byte)pitch;
@@ -105,12 +113,14 @@ public class MIDISmartTranspose : MIDITrackFilter {
 	// Given a note off midi event, transposes it to match the correct note on 
 	private int GetShiftForNoteOffEvent(MidiNoteInfo noteInfo) {
 		// Look through the unresolved note on events for one matching that pitch
-		if(currentNoteTranspositions.ContainsKey(noteInfo)) {
+		if(currentNoteTranspositions.ContainsKey(noteInfo) && currentNoteTranspositions[noteInfo].Count > 0) {
 			// Use that mapping to transpose this note as well
-			var shift = currentNoteTranspositions[noteInfo];
+			var shiftList = currentNoteTranspositions[noteInfo];
+			var shift = shiftList[0];
+			shiftList.RemoveAt(0);
+			currentNoteTranspositions[noteInfo] = shiftList;
 			// Remove that element from the list
 			Debug.Log("Shifting " + noteInfo + " with shift " + shift);
-			// currentNoteTranspositions.Remove(noteInfo);
 			return shift;
 		}
 		else {
