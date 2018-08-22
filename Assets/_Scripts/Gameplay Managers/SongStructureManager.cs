@@ -22,9 +22,6 @@ public abstract class SongStructureManager : MonoBehaviour {
 		}
 	}
 
-	// This phrase is used to signify the lack of a phrase, e.g. the end of the song
-	static SongPhrase nullPhrase = new SongPhrase();
-
 	[HideInInspector]
 	public double bpm;
 	public string songFilename;
@@ -86,14 +83,14 @@ public abstract class SongStructureManager : MonoBehaviour {
 
 		// If past the end of the song, return the null phrase
 		if(currentSongSectionIndex >= songSections.Length) {
-			nextPhrase = nullPhrase;
+			nextPhrase = null;
 		} else {
 			// Otherwise, return the correct loop
 			nextPhrase = songSections[currentSongSectionIndex].phrases[currentSongPhraseIndex];
 		}
 
 		// Song is done if outside range
-		if(nextPhrase == nullPhrase) {
+		if(nextPhrase == null) {
 			Debug.Log("Finished song!");
 		} else {
 			// Continue to the next phrase
@@ -168,7 +165,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 		}
 		
 		Debug.LogError("Tried to find the song phrase for beat " + beat + " but it was past the end of the song.");
-		return new PhraseOffsetTuple(nullPhrase, beat);
+		return new PhraseOffsetTuple(null, beat);
 	}
 
 	private int GetStartBeatForSectionIndex(int index) {

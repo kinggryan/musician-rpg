@@ -431,7 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 0
-  songFilename: testSong3
+  songFilename: Songs/testSong3
   songPlayer: {fileID: 39149008}
 --- !u!114 &39149017
 MonoBehaviour:
@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8708c66a8ada4fea9a3c16671077cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIsLeading: 0
 --- !u!1 &39446230
 GameObject:
   m_ObjectHideFlags: 0

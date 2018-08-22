@@ -50,12 +50,22 @@ public enum Chord {
 }
 
 [System.Serializable]
-public struct SongPhrase {
-	public AudioLoop loop;
-	public Chord chord;
-	public int numTimesToPlay;
-	public int singlePlaythroughBeatLength { get; private set; }
+public class SongPhrase {
+	public Chord chord { get; private set; }
 	public string[] emotionTags { get; private set; }
+	public int singlePlaythroughBeatLength { get; private set; }
+	/// <summary>
+	/// If set, indicates that the player should be forced to play this loop during this phrase
+	/// </summary>
+	public AudioLoop playerLoop { get; private set; }
+	/// <summary>
+	/// If set, indicates that the npc should be forced to play this loop during this phrase
+	/// </summary>
+	public AudioLoop npcLoop { get; private set; }
+
+	public AudioLoop loop { get; private set; }
+	public int numTimesToPlay { get; private set; }
+
 	private int totalBeatLength;
 
 	static public List<string> GetMostCommonEmotionsInPhrases(List<SongPhrase> phrases) {
@@ -92,13 +102,20 @@ public struct SongPhrase {
 		this.emotionTags = new string[] {};
 	}
 
-	public SongPhrase(string chordName, int totalBeatLength, string[] emotionTags) {
+	/// <summary>
+	/// The player loop and NPC loop are allowed to be null
+	/// </summary>
+	public SongPhrase(string chordName, int totalBeatLength, string[] emotionTags, string playerLoop = "", string npcLoop = "") {
 		loop = null;
 		numTimesToPlay = 1;
 		chord = SongStructureUtilities.ChordForString(chordName);
 		this.totalBeatLength = totalBeatLength;
 		singlePlaythroughBeatLength = totalBeatLength;
 		this.emotionTags = emotionTags;
+		if(playerLoop != "")
+			this.playerLoop = AudioLoop.GetLoopForName(playerLoop);
+		if(npcLoop != "")
+			this.npcLoop = AudioLoop.GetLoopForName(npcLoop);
 	}
 
 	public int TotalBeatLength() {

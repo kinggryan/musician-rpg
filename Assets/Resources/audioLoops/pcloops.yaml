@@ -20,3 +20,10 @@ loops:
   emotionTags: 
     - happy
     - sad
+- name: Melody_End_Basic
+  filename: MIDI/Melody/Melody_End_Basic.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad

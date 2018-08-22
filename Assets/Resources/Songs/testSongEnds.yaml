@@ -1,0 +1,20 @@
+sections:
+  - name: Chorus
+    loops:
+    - chord: I
+      totalNumBeats: 8
+      emotionTags:
+      - happy
+    - chord: V
+      totalNumBeats: 8
+      emotionTags:
+      - happy
+  - name: End
+    loops:
+    - chord: I
+      totalNumBeats: 4
+      emotionTags:
+      - happy
+structure:
+  - Chorus
+  - End

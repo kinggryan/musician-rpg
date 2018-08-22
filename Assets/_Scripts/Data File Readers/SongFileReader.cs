@@ -19,6 +19,8 @@ public static class SongFileReader  {
 		public int numReps { get; set; }
 		public int totalNumBeats { get; set; }
 		public List<string> emotionTags { get; set; }
+		public string playerLoop { get; set; }
+		public string npcLoop { get; set; }
 	}
 
 	class Section {
@@ -66,9 +68,11 @@ public static class SongFileReader  {
 						var emotionTags = new string[] {};
 						if(loop.emotionTags != null)
 							emotionTags = loop.emotionTags.ToArray();
-						phrase = new SongPhrase(loop.chord, loop.totalNumBeats, emotionTags);
+
+						// Get the player and npc loops if they exist
+						phrase = new SongPhrase(loop.chord, loop.totalNumBeats, emotionTags, loop.playerLoop, loop.npcLoop);
 					} else {
-						phrase = new SongPhrase(loop.file,loop.chord,loop.numReps);
+						phrase = new SongPhrase(loop.file, loop.chord, loop.numReps);
 					}
 					phrases.Add(phrase);
 				}

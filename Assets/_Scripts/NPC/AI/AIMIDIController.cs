@@ -24,7 +24,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	public Color gateTextColor;
 	public Color dynamicsTextColor;
 	public Color moveColor;
-	
 
 	public int trackGateVelocity {
         get { return gate.gateVelocity; }

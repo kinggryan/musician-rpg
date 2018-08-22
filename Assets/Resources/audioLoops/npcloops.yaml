@@ -23,3 +23,10 @@ loops:
   rhythmString: 110111111101111
   emotionTags: 
     - intense
+- name: Comp_End_Basic
+  filename: MIDI/Melody/Comp_End_Basic.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
