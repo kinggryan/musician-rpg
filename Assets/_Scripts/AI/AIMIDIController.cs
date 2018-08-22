@@ -83,6 +83,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	void Awake() {
+		// Do this during awake because we want the player to be fully initialized
 		var player = Object.FindObjectOfType<PlayerMidiController>();
 		player.AddListener(this);
 	}
@@ -117,7 +118,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
         trackGateVelocity = 79;
         volume = 1;
 
-		
 		loopDecider = new AIFollowingLoopDecider(knownLoops, songStructureManager.songSections);
 	}
 

@@ -63,7 +63,10 @@ public static class SongFileReader  {
 				foreach(var loop in section.loops) {
 					SongPhrase phrase;
 					if(loop.totalNumBeats > 0) {
-						phrase = new SongPhrase(loop.chord, loop.totalNumBeats, loop.emotionTags.ToArray());
+						var emotionTags = new string[] {};
+						if(loop.emotionTags != null)
+							emotionTags = loop.emotionTags.ToArray();
+						phrase = new SongPhrase(loop.chord, loop.totalNumBeats, emotionTags);
 					} else {
 						phrase = new SongPhrase(loop.file,loop.chord,loop.numReps);
 					}

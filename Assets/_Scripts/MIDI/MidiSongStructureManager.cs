@@ -9,9 +9,8 @@ public class MidiSongStructureManager : SongStructureManager {
 
 	const double songBPM = 240;
 
-	protected override void Start() {
+	protected void Start() {
 		// Create and add the transposition filter to the midi player
-		base.Start();
 		transposeFilter = new MIDISmartTranspose();
 		songPlayer.AddFilterToMainMidiStreamerGroup(transposeFilter);
 	}
