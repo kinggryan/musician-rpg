@@ -1,0 +1,22 @@
+loops:
+- name: Melody_Roma_Lyrical
+  filename: MIDI/Melody/Melody_Roma_Lyrical_01.mid
+  beatDuration: 16
+  rhythmString: 10101010101010101010101010101010
+  emotionTags: 
+    - happy
+    - sad
+- name: Melody_Roma_Peppy
+  filename: MIDI/Melody/Melody_Roma_Peppy_01.mid
+  beatDuration: 16
+  rhythmString: 11111111111111111111111111111111
+  emotionTags: 
+    - happy
+    - sad
+- name: Melody_Roma_SyncopatedRiff
+  filename: MIDI/Melody/Melody_Roma_SyncopatedRiff_01.mid
+  beatDuration: 16
+  rhythmString: 00000000000000000000000000000000
+  emotionTags: 
+    - happy
+    - sad
