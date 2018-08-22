@@ -26,6 +26,10 @@ public class MidiSongStructureManager : SongStructureManager {
 		return GetBeatForSampleTime(songPlayer.midiSequencer.SampleTime);
 	}
 
+	override protected void EndSong() {
+		songPlayer.Stop();
+	}
+
 	private double GetBeatForSampleTime(int sampleTime) {
 		// NOTE: We use a static songBPM here because the sampleTime from the stream synthesizer is stretched to adjust for dynamic BPM already
 		return Mathf.Floor((float)(sampleTime * 1f / songPlayer.midiStreamSynthesizer.SampleRate / 60f * songBPM));

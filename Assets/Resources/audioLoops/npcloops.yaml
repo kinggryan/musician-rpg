@@ -24,7 +24,7 @@ loops:
   emotionTags: 
     - intense
 - name: Comp_End_Basic
-  filename: MIDI/Melody/Comp_End_Basic.mid
+  filename: MIDI/Comp/Comp_End_Basic.mid
   beatDuration: 4
   rhythmString: 10000000
   emotionTags: 

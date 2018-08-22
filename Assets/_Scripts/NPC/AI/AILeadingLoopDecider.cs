@@ -5,9 +5,18 @@ using UnityEngine;
 public class AILeadingLoopDecider : AILoopDecider {
 
 	public AILeadingLoopDecider(AILoopDecider decider) : base(decider) {}
-	public AILeadingLoopDecider(List<AudioLoop> loops, SongSection[] songStructure) : base(loops,songStructure) {}
+	public AILeadingLoopDecider(List<AudioLoop> loops, List<AudioLoop> songSpecificLoops, SongSection[] songStructure) : base(loops, songSpecificLoops, songStructure) {}
 
 	public override AudioLoop ChooseLoopToPlay() {
+		// If the song has specific a loop to play, change loops
+		var songSpecificLoopToPlay = GetSongSpecifiedLoopForNextBeat();
+		if(songSpecificLoopToPlay != null)
+			return songSpecificLoopToPlay;
+
+		if(currentBeatNumber % 16 != 0) {
+			return null;
+		}
+
 		// Get the player loops over the past N beats
 		var songPhrases = GetSongPhrasesForBeatRange(currentBeatNumber, currentBeatNumber+16);
 
@@ -28,7 +37,7 @@ public class AILeadingLoopDecider : AILoopDecider {
 			}
 		}
 
-		Debug.Log("Best Loop: " + bestLoop.name);
+		// Debug.Log("Best Loop: " + bestLoop.name);
 
 		return bestLoop;
 	}
