@@ -20,7 +20,6 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	public PowerCircleAnimationController[] circleAnimator;
 	public KeyControlDisplay keyControlDisplay;
 	public bool mouseControls;
-	public Metronome metro;
 
 	public Chord chord;
 	
@@ -369,7 +368,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 			if(circleAnimator[i].isActiveAndEnabled)
 				circleAnimator[i].StartSong(bpm);
 		}
-		metro.StartMetro(bpm);
+
 		animationManager.SetBPM(bpm);
 		animationManager.DidStartSong();
 		animationManager.UpdateGroove(1f);

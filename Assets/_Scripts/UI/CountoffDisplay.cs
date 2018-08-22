@@ -38,19 +38,19 @@ public class CountoffDisplay : MonoBehaviour {
 		PulseWithText("" + currentBeat);
 	}
 
-	void DidStartNextBeat(SongPlayer.BeatUpdateInfo beatInfo) {
-		// if(beatInfo.nextSection.name != beatInfo.currentSection.name) {
-			Debug.Log("Beats until next section: " + beatInfo.beatsUntilNextSection);
-			if(beatInfo.beatsUntilNextSection == 4) {
-				currentBeat = 1;
-				timeTillNextBeat = beatDuration;
-				PulseWithText(""+currentBeat);
-			} else if(beatInfo.beatsUntilNextSection == 8) {
-				currentBeat = -1;
-				PulseWithText(beatInfo.nextSection.name+" comin' up!");
-			}
-		// }
-	}
+	// void DidStartNextBeat(SongPlayer.BeatUpdateInfo beatInfo) {
+	// 	// if(beatInfo.nextSection.name != beatInfo.currentSection.name) {
+	// 		Debug.Log("Beats until next section: " + beatInfo.beatsUntilNextSection);
+	// 		if(beatInfo.beatsUntilNextSection == 4) {
+	// 			currentBeat = 1;
+	// 			timeTillNextBeat = beatDuration;
+	// 			PulseWithText(""+currentBeat);
+	// 		} else if(beatInfo.beatsUntilNextSection == 8) {
+	// 			currentBeat = -1;
+	// 			PulseWithText(beatInfo.nextSection.name+" comin' up!");
+	// 		}
+	// 	// }
+	// }
 
 	void PulseWithText(string text) {
 		// lol
