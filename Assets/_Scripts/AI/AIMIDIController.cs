@@ -65,7 +65,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
     private MIDIVolumeFilter volumeFilter;
 	private bool dynMatchBuffer;
 	
-	
 	private float volumeTimer;
 	private float leadTimer;
 	public float dynamicsMatchTimer;
@@ -77,9 +76,20 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private bool gateMatchBuffer;
 
 	private const int channelNumber = 1;
+	private const int instrumentIndex = 16;
+
+	private List<IAIListener> listeners = new List<IAIListener>();
 
 	public void DidChangeLoop(AudioLoop playerLoop) {
 		loopDecider.DidStartPlayerLoop(playerLoop);
+	}
+
+	public void AddListener(IAIListener listener) {
+		listeners.Add(listener);
+	}
+
+	public void RemoveListener(IAIListener listener) {
+		listeners.Remove(listener);
 	}
 
 	void Awake() {
@@ -104,6 +114,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		// Add yourself to the midi player
 		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(knownLoops);
 		midiStreamer.outputChannel = channelNumber;
+		midiPlayer.midiSequencer.setProgram(channelNumber, instrumentIndex);
 
 		volumeFilter = new MIDIVolumeFilter();
 		midiStreamer.AddFilter(volumeFilter);
@@ -120,7 +131,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 
 		loopDecider = new AILeadingLoopDecider(knownLoops, songStructureManager.songSections);
 		var loopToPlay = loopDecider.ChooseLoopToPlay();
-		midiStreamer.SetCurrentMidiFileWith(loopToPlay);
+		SetCurrentLoop(loopToPlay);
 	}
 
 	public void playerGateChange(int playerGate){
@@ -152,6 +163,13 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		yield return new WaitForSeconds(timeToWait);
 		trackGateVelocity = newGateVelo;
 
+	}
+
+	void SetCurrentLoop(AudioLoop loop) {
+		midiStreamer.SetCurrentMidiFileWith(loop);
+		foreach(var listener in listeners) {
+			listener.DidChangeAILoop(this, loop);
+		}
 	}
 
 	void MakeVolumeMove(){

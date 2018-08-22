@@ -44,6 +44,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	float minVolume = 0.25f;
 
 	int[] playerInstruments = new int[]{88,127,126,94,98,102,101,108,103,118,110,111,91,88};
+	int playerInstrumentsIndex = 0;
 
 	float savedGateValue = 0.5f;
 	float savedVolumeValue = 0.5f;
@@ -91,7 +92,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
-		midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[0];
+		midiPlayer.midiSequencer.setProgram(outputChannel, playerInstruments[playerInstrumentsIndex]);
 
 		foreach(var loopName in loopNames) {
 			playerLoops.Add(AudioLoop.GetLoopForName(loopName));
@@ -307,49 +308,27 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		else{
 			if(Input.GetKeyDown(KeyCode.DownArrow)){
 				//Setting Currentinstrument to the midiPLayer instrument
-				int currentInstrument = 1000;
-				for (int i = 0; i < playerInstruments.Length; i++){
-					if (playerInstruments[i] == midiPlayer.synthBank.currentPlayerInstrument){
-						currentInstrument = i;
-						continue;
-					}
+				Debug.Log("INST Down");
+				if(playerInstrumentsIndex > 0){
+					playerInstrumentsIndex--;
 				}
-				if (currentInstrument == 1000){
-					Debug.LogError("Current instrument doesn't match midi instrument!");
-				}else{
-					Debug.Log("INST DOWN");
-					if(currentInstrument > 0){
-						currentInstrument--;
-					}
-					Debug.Log("Current Inst:" + currentInstrument);
-					Debug.Log("playerInst: " + playerInstruments[currentInstrument]);			
-					midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[currentInstrument];
-					currentInstIndex = currentInstrument;
-					keyControlDisplay.UpdateDisplayValues();
-				}
+
+				Debug.Log("Current Inst:" + playerInstrumentsIndex);
+				Debug.Log("playerInst: " + playerInstruments[playerInstrumentsIndex]);	
+				midiPlayer.midiSequencer.setProgram(outputChannel, playerInstruments[playerInstrumentsIndex]);
+				keyControlDisplay.UpdateDisplayValues();
 			}
 			if(Input.GetKeyDown(KeyCode.UpArrow)){
 				//Setting Currentinstrument to the midiPLayer instrument
-				int currentInstrument = 1000;
-				for (int i = 0; i < playerInstruments.Length; i++){
-					if (playerInstruments[i] == midiPlayer.synthBank.currentPlayerInstrument){
-						currentInstrument = i;
-						continue;
-					}
+				Debug.Log("INST UP");
+				if(playerInstrumentsIndex < playerInstruments.Length - 1){
+					playerInstrumentsIndex++;
 				}
-				if (currentInstrument == 1000){
-					Debug.LogError("Current instrument doesn't match midi instrument!");
-				}else{
-					Debug.Log("INST UP");
-					if(currentInstrument < playerInstruments.Length - 1){
-						currentInstrument++;
-					}
-					Debug.Log("Current Inst:" + currentInstrument);
-					Debug.Log("playerInst: " + playerInstruments[currentInstrument]);				
-					midiPlayer.synthBank.currentPlayerInstrument = playerInstruments[currentInstrument];
-					currentInstIndex = currentInstrument;
-					keyControlDisplay.UpdateDisplayValues();
-				}
+
+				Debug.Log("Current Inst:" + playerInstrumentsIndex);
+				Debug.Log("playerInst: " + playerInstruments[playerInstrumentsIndex]);	
+				midiPlayer.midiSequencer.setProgram(outputChannel, playerInstruments[playerInstrumentsIndex]);
+				keyControlDisplay.UpdateDisplayValues();
 			}
 			
 		}

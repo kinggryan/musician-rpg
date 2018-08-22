@@ -98,7 +98,7 @@ namespace MusicianRPG
             if (playing == true)
                 return;
             //Clear the current programs for the channels.
-            Array.Clear(currentPrograms, 0, currentPrograms.Length);
+            // Array.Clear(currentPrograms, 0, currentPrograms.Length);
             //Clear vol, pan, and tune
             ResetControllers();
             //set bpm
