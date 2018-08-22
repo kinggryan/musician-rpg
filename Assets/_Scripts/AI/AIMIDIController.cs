@@ -7,7 +7,7 @@ using CSharpSynth.Synthesis;
 using CSharpSynth.Midi;
 using MusicianRPG;
 
-public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
+public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerControllerListener {
 
 	// The known loops of this character
 	public string[] knownLoopNames;
@@ -77,6 +77,15 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener {
 	private bool gateMatchBuffer;
 
 	private const int channelNumber = 1;
+
+	public void DidChangeLoop(AudioLoop playerLoop) {
+		loopDecider.DidStartPlayerLoop(playerLoop);
+	}
+
+	void Awake() {
+		var player = Object.FindObjectOfType<PlayerMidiController>();
+		player.AddListener(this);
+	}
 
     void Start()
     {

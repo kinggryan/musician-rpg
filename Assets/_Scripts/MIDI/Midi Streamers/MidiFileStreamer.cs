@@ -109,7 +109,10 @@ public class MidiFileStreamer: MidiStreamer {
     /// </summary>
     public void SetCurrentMidiFileWith(AudioLoop loop) {
         for(var i = 0 ; i < midiFiles.Count; i++) {
-            // if(midiFiles[i].file.pa)
+            if(midiFiles[i].loop.name == loop.name) {
+                currentMidiFileIndex = i;
+                break;
+            }
         }
     }
 

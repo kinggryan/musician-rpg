@@ -56,6 +56,16 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	List<AudioLoop> playerLoops = new List<AudioLoop>();
 	int currentLoopIndex = 0;
 
+	private List<IPlayerControllerListener> listeners = new List<IPlayerControllerListener>();
+
+	public void AddListener(IPlayerControllerListener listener) {
+		listeners.Add(listener);
+	}
+
+	public void RemoveListener(IPlayerControllerListener listener) {
+		listeners.Remove(listener);
+	}
+
 	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
 		// When we start the next beat
 		// Look at what loop is currently playing
@@ -361,6 +371,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	void SetCurrentLoop(int index) {
 		currentLoopIndex = index;
 		midiStreamer.SetCurrentMidiFile(currentLoopIndex);
+		foreach(var listener in listeners) {
+			listener.DidChangeLoop(playerLoops[currentLoopIndex]);
+		}
 	}
 
 	void DidChangeBPM(double bpm) {
@@ -386,5 +399,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		midiPlayer.Play();
 		songStructureManager.bpm = bpm;
 		songStructureManager.StartSong();
+
+		SetCurrentLoop(0);
 	}
 }

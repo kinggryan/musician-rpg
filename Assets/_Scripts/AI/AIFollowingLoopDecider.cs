@@ -33,6 +33,7 @@ public class AIFollowingLoopDecider : AILoopDecider {
 
 			// determine a "rythm match" score for each loop
 			var rhythmScore = loop.GetRhythmStringScore(appendedRhythmString);
+			Debug.Log("Found rhythm score of " + rhythmScore + " for loop " + loop.name);
 
 			var score = emotionScore*emotionScoreWeight + rhythmScore*rhythmScoreWeight;
 			if(score > maxScore) {
@@ -40,6 +41,8 @@ public class AIFollowingLoopDecider : AILoopDecider {
 				bestLoop = loop;
 			}
 		}
+
+		Debug.Log("Best Loop: " + bestLoop.name);
 
 		return bestLoop;
 	}
