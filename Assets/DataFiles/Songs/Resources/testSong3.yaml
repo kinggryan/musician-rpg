@@ -1,15 +1,29 @@
 sections:
-  - name: Chorus
+  - name: HappyChorus
     loops:
     - chord: I
       totalNumBeats: 8
+      emotionTags:
+      - happy
     - chord: V
       totalNumBeats: 8
+      emotionTags:
+      - happy
+  - name: SadChorus
+    loops:
+    - chord: iii
+      totalNumBeats: 8
+      emotionTags:
+      - sad
+    - chord: vi
+      totalNumBeats: 8
+      emotionTags:
+      - sad
 structure:
-  - Chorus
-  - Chorus
-  - Chorus
-  - Chorus
-  - Chorus
-  - Chorus
-  - Chorus
+  - HappyChorus
+  - SadChorus
+  - SadChorus
+  - SadChorus
+  - SadChorus
+  - SadChorus
+  - SadChorus

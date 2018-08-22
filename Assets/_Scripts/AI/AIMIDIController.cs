@@ -118,7 +118,9 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
         trackGateVelocity = 79;
         volume = 1;
 
-		loopDecider = new AIFollowingLoopDecider(knownLoops, songStructureManager.songSections);
+		loopDecider = new AILeadingLoopDecider(knownLoops, songStructureManager.songSections);
+		var loopToPlay = loopDecider.ChooseLoopToPlay();
+		midiStreamer.SetCurrentMidiFileWith(loopToPlay);
 	}
 
 	public void playerGateChange(int playerGate){

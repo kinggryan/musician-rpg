@@ -9,7 +9,7 @@ public class AILeadingLoopDecider : AILoopDecider {
 
 	public override AudioLoop ChooseLoopToPlay() {
 		// Get the player loops over the past N beats
-		var songPhrases = GetSongPhrasesForBeatRange(currentBeatNumber - 16, currentBeatNumber);
+		var songPhrases = GetSongPhrasesForBeatRange(currentBeatNumber, currentBeatNumber+16);
 
 		// Find the most common emotion tags
 		var targetEmotionTags = SongPhrase.GetMostCommonEmotionsInPhrases(songPhrases);
