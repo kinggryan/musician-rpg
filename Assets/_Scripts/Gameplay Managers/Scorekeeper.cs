@@ -97,4 +97,63 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		// TODO: Implement a scoring algorithm
 		return 0;
 	}
+
+	/* *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+						Utility Methods
+	 *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+
+	private RhythmString GetRhythmStringForRecordsInRange(List<SongRecord> songRecords, int startBeat, int endBeat) {
+		var records = GetRecordsInBeatRange(songRecords, startBeat, endBeat);
+		return GetRhythmStringForSongRecords(records, endBeat);
+	}
+
+	private RhythmString GetRhythmStringForSongRecords(List<SongRecord> songRecords, int endBeat) {
+		if(songRecords.Count == 0)
+			return new RhythmString("");
+		
+		var rhythmString = new RhythmString("");
+		for(var i = 1; i < songRecords.Count; i++) {
+			var currentRecord = songRecords[i];
+			var previousRecord = songRecords[i-1];
+			rhythmString = rhythmString.AppendRhythmString(previousRecord.loop.rhythmString.GetRhythmStringForBeatRange(previousRecord.startBeat, currentRecord.startBeat));
+		}
+
+		var finalRecord = songRecords[songRecords.Count-1];
+		rhythmString = rhythmString.AppendRhythmString(finalRecord.loop.rhythmString.GetRhythmStringForBeatRange(finalRecord.startBeat,endBeat));
+		return rhythmString;
+	}
+
+	private HashSet<string> GetEmotionsForRecordsInRange(List<SongRecord> records, int startBeat, int endBeat) {
+		var recordsInRange = GetRecordsInBeatRange(records, startBeat, endBeat);
+		return GetEmotionsForRecords(recordsInRange);
+	}
+
+	private HashSet<string> GetEmotionsForRecords(List<SongRecord> records) {
+		var loops = new List<AudioLoop>();
+		foreach(var record in records) {
+			loops.Add(record.loop);
+		}
+
+		return AudioLoop.GetAllEmotionsInLoops(loops);
+	}
+
+	/// <summary>
+	/// Returns all loops from the records that would be playing between the startBeat (inclusive) and the endBeat (exclusive)
+	/// </summary>
+	private List<SongRecord> GetRecordsInBeatRange(List<SongRecord> records, int startBeat, int endBeat) {
+		var recordInRange = new List<SongRecord>();
+		var previousRecord = new SongRecord();
+
+		foreach(var recordEntry in records) {
+			if(recordEntry.startBeat > startBeat && previousRecord.loop != null && previousRecord.startBeat < startBeat) {
+				recordInRange.Add(previousRecord);
+			}
+			if(recordEntry.startBeat >= startBeat && recordEntry.startBeat < endBeat) {
+				recordInRange.Add(recordEntry);
+			} 
+			previousRecord = recordEntry;
+		}
+
+		return recordInRange;
+	}
 }

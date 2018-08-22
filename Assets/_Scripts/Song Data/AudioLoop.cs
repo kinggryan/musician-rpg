@@ -59,6 +59,17 @@ public class AudioLoop {
 		return listOfTags;
 	}
 
+	public static HashSet<string> GetAllEmotionsInLoops(List<AudioLoop> loops) {
+		var set = new HashSet<string>();
+		foreach(var loop in loops) {
+			foreach(var emotion in loop.emotionTags) {
+				set.Add(emotion);
+			}
+		}
+
+		return set;
+	}
+
 	// Appends the rhythm strings of a set of lops
 	public static RhythmString AppendRhythmStrings(List<AudioLoop> loops) {
 		var str = new RhythmString("");

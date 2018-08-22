@@ -16,6 +16,7 @@ public abstract class AILoopDecider {
 	}
 
 	protected List<AudioLoop> knownLoops;
+	protected List<AudioLoop> songSpecificLoops;
 	protected List<SongRecord> playerSongRecord = new List<SongRecord>();
 	protected List<SongPhrase> songPhrases = new List<SongPhrase>();
 	protected SongPhrase currentSongPhrase;
