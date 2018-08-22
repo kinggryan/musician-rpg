@@ -184,12 +184,8 @@ public abstract class SongStructureManager : MonoBehaviour {
 		return numBeats;
 	}
 
-	private string GetSongRhythmStringForBeat(double beat) {
+	private RhythmString GetSongRhythmStringForBeat(double beat) {
 		var phraseOffsetTuple = GetSongPhraseForBeat(beat);
-		// For each beat into the offset, we want to return a different 2-eighth note string
-		// TODO: Make this way less gnarly
-		var fullRhythmString = phraseOffsetTuple.phrase.loop.rhythmString;
-		var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % phraseOffsetTuple.phrase.loop.beatDuration;
-		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
+		return phraseOffsetTuple.phrase.loop.GetRhythmStringForBeat(Mathf.FloorToInt((float)beat));
 	}
 }

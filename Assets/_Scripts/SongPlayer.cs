@@ -220,7 +220,8 @@ public class SongPlayer : MonoBehaviour {
 	void ProceedToNextPlayerLoop() {
 		currentPlayerLoopIndex = nextPlayerLoopIndex;
 		currentPlayerLoopEndBeat = nextPlayerLoopEndBeat;
-		gameManager.currentPlayerRhythmString = playerAudioLoops[currentPlayerLoopIndex].rhythmString;
+		// TODO: Fix this if we ever care to
+		// gameManager.currentPlayerRhythmString = playerAudioLoops[currentPlayerLoopIndex].rhythmString;
 		ContinuePlayerLoop();
 	}
 
@@ -286,19 +287,19 @@ public class SongPlayer : MonoBehaviour {
 		return numBeats;
 	}
 
-	string GetSongRhythmStringForBeat(double beat) {
-		var phraseOffsetTuple = GetSongPhraseForBeat(beat);
-		// For each beat into the offset, we want to return a different 2-eighth note string
-		// TODO: Make this way less gnarly
-		var fullRhythmString = phraseOffsetTuple.phrase.loop.rhythmString;
-		var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % phraseOffsetTuple.phrase.loop.beatDuration;
-		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
-	}
+	// string GetSongRhythmStringForBeat(double beat) {
+	// 	var phraseOffsetTuple = GetSongPhraseForBeat(beat);
+	// 	// For each beat into the offset, we want to return a different 2-eighth note string
+	// 	// TODO: Make this way less gnarly
+	// 	var fullRhythmString = phraseOffsetTuple.phrase.loop.rhythmString;
+	// 	var beatOffsetIndex = Mathf.RoundToInt((float)phraseOffsetTuple.beatOffset) % phraseOffsetTuple.phrase.loop.beatDuration;
+	// 	return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
+	// }
 
-	string GetCurrentPlayerRhythmString() {
-		var currentPlayerLoopStartBeat = currentPlayerLoopEndBeat - playerAudioLoops[currentPlayerLoopIndex].beatDuration;
-		var beatOffsetIndex = Mathf.RoundToInt((float)(GetCurrentBeat() - currentPlayerLoopStartBeat));
-		var fullRhythmString = playerAudioLoops[currentPlayerLoopIndex].rhythmString;
-		return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
-	}
+	// string GetCurrentPlayerRhythmString() {
+	// 	var currentPlayerLoopStartBeat = currentPlayerLoopEndBeat - playerAudioLoops[currentPlayerLoopIndex].beatDuration;
+	// 	var beatOffsetIndex = Mathf.RoundToInt((float)(GetCurrentBeat() - currentPlayerLoopStartBeat));
+	// 	var fullRhythmString = playerAudioLoops[currentPlayerLoopIndex].rhythmString;
+	// 	return "" + fullRhythmString[2*beatOffsetIndex] + fullRhythmString[2*beatOffsetIndex+1];
+	// }
 }

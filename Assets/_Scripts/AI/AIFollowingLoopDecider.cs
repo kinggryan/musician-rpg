@@ -11,13 +11,17 @@ public class AIFollowingLoopDecider : AILoopDecider {
 
 	public override AudioLoop ChooseLoopToPlay() {
 		// Get the player loops over the past N beats
-		var playerPattern = GetPlayerLoopsBetweenBeats(currentBeatNumber - 16, currentBeatNumber);
+		var playerPattern = GetPlayerSongRecordForBeatRange(currentBeatNumber - 16, currentBeatNumber);
+		var playerLoops = new List<AudioLoop>();
+		foreach(var p in playerPattern) {
+			playerLoops.Add(p.loop);
+		}
 
 		// Find the most common emotion tags
-		var targetEmotionTags = AudioLoop.GetMostCommonEmotionTagsInLoops(playerPattern);
+		var targetEmotionTags = AudioLoop.GetMostCommonEmotionTagsInLoops(playerLoops);
 
 		// Find the composite rhythm string
-		var appendedRhythmString = AudioLoop.AppendRhythmStrings(playerPattern);
+		var appendedRhythmString = GetRhythmStringForSongRecords(playerPattern, currentBeatNumber);
 
 		var maxScore = Mathf.NegativeInfinity;
 		AudioLoop bestLoop = null;

@@ -13,7 +13,7 @@ public class AudioLoop {
 	public string name { get; private set; }
 	public string filename { get; private set; }
 	public int beatDuration { get; private set; }
-	public string rhythmString { get; private set; }
+	public RhythmString rhythmString { get; private set; }
 	public string[] emotionTags { get; private set; }
 
 	/// <summary>
@@ -60,10 +60,10 @@ public class AudioLoop {
 	}
 
 	// Appends the rhythm strings of a set of lops
-	public static string AppendRhythmStrings(List<AudioLoop> loops) {
-		var str = "";
+	public static RhythmString AppendRhythmStrings(List<AudioLoop> loops) {
+		var str = new RhythmString("");
 		foreach(var loop in loops) {
-			str += loop.rhythmString;
+			str = str.AppendRhythmString(loop.rhythmString);
 		}
 		return str;
 	}
@@ -95,7 +95,7 @@ public class AudioLoop {
 		this.name = name;
 		this.filename = filename;
 		this.beatDuration = beatDuration;
-		this.rhythmString = rhythmString;
+		this.rhythmString = new RhythmString(rhythmString);
 		this.emotionTags = emotionTags;
 	}
 
@@ -104,16 +104,8 @@ public class AudioLoop {
 	/// If start and end beat are the same, it will include exactly one beat's worth of rhythm string
 	/// The method assumes that the loop starts on beat 0 and repeats forever
 	/// </summary>
-	public string GetRhythmStringForBeat(int beat) {
-		var beatToUse = beat % beatDuration;
-		// Since the rhythm string is eighth notes, we just return the beat plus its upbeat
-		var rhythmStringIndex = beatToUse*2;
-		if(rhythmStringIndex + 1 >= rhythmString.Length) {
-			Debug.LogError("Rhythm string error: index of " + (rhythmStringIndex + 1) + " is outside string " + rhythmString);
-			return "";
-		}
-
-		return rhythmString.Substring(rhythmStringIndex,2);
+	public RhythmString GetRhythmStringForBeat(int beat) {
+		return rhythmString.GetRhythmStringForBeat(beat);
 	}
 
 	public int NumMatchedEmotions(List<string> emotions) {
@@ -129,13 +121,7 @@ public class AudioLoop {
 	/// This method returns the number of characters that match between the two rhythm strings
 	/// It is assumed that they start at the same time. If the two strings are of different lengths, the shorter one will be appended to itself to extend itself.
 	/// </summary>
-	public int GetRhythmStringScore(string otherRhythmString) {
-		var numMatchedChars = 0;
-		// TODO: Implement the part where they extend the shorter string
-		for(var i = 0 ; i < Mathf.Min(otherRhythmString.Length, rhythmString.Length); i++) {
-			if(rhythmString[i] == otherRhythmString[i]) 
-				numMatchedChars++;
-		}
-		return numMatchedChars;
+	public int GetRhythmStringScore(RhythmString otherRhythmString) {
+		return rhythmString.GetNumRhythmStringMatches(otherRhythmString);
 	}
 }

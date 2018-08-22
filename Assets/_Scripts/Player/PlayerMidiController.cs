@@ -30,7 +30,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	public int outputChannel = 0;
 
 	public string[] playerMidiLoops;
-	public string playedRhythmString { get; private set; }
+	// public RhythmString playedRhythmString { get; private set; }
 	
 	float songBPM = 240f;
 
@@ -63,7 +63,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		// Append it to the rhythm string
 		if(beatInfo.currentBeat > 0) {
 			var currentLoop = playerLoops[currentLoopIndex];
-			playedRhythmString += currentLoop.GetRhythmStringForBeat(beatInfo.currentBeat-1);
+			// playedRhythmString = playedRhythmString.AppendRhythmString(currentLoop.GetRhythmStringForBeat(beatInfo.currentBeat-1));
 		}
 	}
 

@@ -7,11 +7,21 @@ using UnityEngine;
 /// </summary>
 public abstract class AILoopDecider {
 
+	/// <summary>
+	/// This struct is used to track the player's loops as they play them
+	/// </summary>
+	protected struct PlayerSongRecord {
+		public int startBeat;
+		public AudioLoop loop;
+	}
+
 	protected List<AudioLoop> knownLoops;
-	protected List<AudioLoop> previousPlayerLoops = new List<AudioLoop>();
+	protected List<PlayerSongRecord> playerSongRecord = new List<PlayerSongRecord>();
 	protected SongPhrase currentSongPhrase;
 	protected int currentBeatNumber;
 	protected int numBeatsPerAILoop = 16;
+	
+	private AudioLoop currentPlayerLoop;
 
 	public AILoopDecider(List<AudioLoop> loops) {
 		this.knownLoops = loops;
@@ -21,7 +31,7 @@ public abstract class AILoopDecider {
 
 	public void DidStartPlayerLoop(AudioLoop playerLoop) {
 		// This should be tracked in some way
-		previousPlayerLoops.Add(playerLoop);
+		currentPlayerLoop = playerLoop;
 	}
 
 	public void DidStartNewSongPhrase(SongPhrase songPhrase) {
@@ -30,26 +40,46 @@ public abstract class AILoopDecider {
 	}
 
 	public void DidStartNextBeat() {
+		if(currentPlayerLoop != null && currentBeatNumber >= 0) {
+			var recordEntry = new PlayerSongRecord();
+			recordEntry.startBeat = currentBeatNumber;
+			recordEntry.loop = currentPlayerLoop;
+			playerSongRecord.Add(recordEntry);
+		}
 		currentBeatNumber++;
 	}
 
-	protected List<AudioLoop> GetPlayerLoopsBetweenBeats(int startBeat, int endBeat) {
-		var loopsInRange = new List<AudioLoop>();
-		var checkBeat = 0;
+	protected List<PlayerSongRecord> GetPlayerSongRecordForBeatRange(int startBeat, int endBeat) {
+		var recordInRange = new List<PlayerSongRecord>();
+		PlayerSongRecord previousRecord = new PlayerSongRecord();
 
-		// TODO: Make this work for loops which are playing while the start beat starts.
-		// For now, let's just assume this won't happen
-		foreach(var loop in previousPlayerLoops) {
-			if(checkBeat >= startBeat) {
-				loopsInRange.Add(loop);
+		foreach(var recordEntry in playerSongRecord) {
+			if(recordEntry.startBeat > startBeat && previousRecord.loop != null && previousRecord.startBeat < startBeat) {
+				recordInRange.Add(previousRecord);
 			}
-			checkBeat += loop.beatDuration;
-			if(checkBeat >= endBeat) {
-				break;
-			}
+			if(recordEntry.startBeat >= startBeat && recordEntry.startBeat < endBeat) {
+				recordInRange.Add(recordEntry);
+			} 
+			previousRecord = recordEntry;
 		}
 
-		return loopsInRange;
+		return recordInRange;
+	}
+
+	protected RhythmString GetRhythmStringForSongRecords(List<PlayerSongRecord> songRecords, int endBeat) {
+		if(songRecords.Count == 0)
+			return new RhythmString("");
+		
+		var rhythmString = new RhythmString("");
+		for(var i = 1; i < songRecords.Count; i++) {
+			var currentRecord = songRecords[i];
+			var previousRecord = songRecords[i-1];
+			rhythmString = rhythmString.AppendRhythmString(previousRecord.loop.rhythmString.GetRhythmStringForBeatRange(previousRecord.startBeat, currentRecord.startBeat));
+		}
+
+		var finalRecord = songRecords[songRecords.Count-1];
+		rhythmString = rhythmString.AppendRhythmString(finalRecord.loop.rhythmString.GetRhythmStringForBeatRange(finalRecord.startBeat,endBeat));
+		return rhythmString;
 	}
 
 	// to make a decision about what loops to play
