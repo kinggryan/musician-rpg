@@ -12,6 +12,9 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		public AudioLoop loop;
 	}
 
+	[HideInInspector]
+	public bool playerIsLeading = false;
+
 	private List<SongRecord> playerSongRecord = new List<SongRecord>();
 	private List<SongRecord> npcSongRecord = new List<SongRecord>();
 	private List<SongPhrase> songPhrases = new List<SongPhrase>();
@@ -78,5 +81,20 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 
 	private void Score() {
 		// Do the scoring
+		var score = 0;
+		if(playerIsLeading)
+			score = ScoreForPlayerLeading();
+		else
+			score = ScoreForPlayerFollowing();
+	}
+
+	private int ScoreForPlayerLeading() {
+		// TODO: Implement a scoring algorithm
+		return 0;
+	}
+
+	private int ScoreForPlayerFollowing() {
+		// TODO: Implement a scoring algorithm
+		return 0;
 	}
 }
