@@ -18,6 +18,7 @@ public static class SongFileReader  {
 		public string chord { get; set; }
 		public int numReps { get; set; }
 		public int totalNumBeats { get; set; }
+		public List<string> emotionTags { get; set; }
 	}
 
 	class Section {
@@ -62,7 +63,7 @@ public static class SongFileReader  {
 				foreach(var loop in section.loops) {
 					SongPhrase phrase;
 					if(loop.totalNumBeats > 0) {
-						phrase = new SongPhrase(loop.chord, loop.totalNumBeats);
+						phrase = new SongPhrase(loop.chord, loop.totalNumBeats, loop.emotionTags.ToArray());
 					} else {
 						phrase = new SongPhrase(loop.file,loop.chord,loop.numReps);
 					}

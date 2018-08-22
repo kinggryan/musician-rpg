@@ -29,7 +29,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 	public double bpm;
 	public string songFilename;
 
-	protected SongSection[] songSections;
+	public SongSection[] songSections { get; protected set; }
 
 	/// <summary>
 	/// The current beat of the song being played

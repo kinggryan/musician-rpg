@@ -118,7 +118,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
         volume = 1;
 
 		
-		loopDecider = new AIFollowingLoopDecider(knownLoops);
+		loopDecider = new AIFollowingLoopDecider(knownLoops, songStructureManager.songSections);
 	}
 
 	public void playerGateChange(int playerGate){
@@ -141,6 +141,9 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		}
 
 		loopDecider.DidStartNextBeat();
+		var newLoopDecider = loopDecider.UpdateState();
+		if(newLoopDecider != null)
+			loopDecider = newLoopDecider;
 	}
 
 	private IEnumerator WaitThenChangeGate(int newGateVelo, float timeToWait){

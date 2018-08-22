@@ -55,7 +55,33 @@ public struct SongPhrase {
 	public Chord chord;
 	public int numTimesToPlay;
 	public int singlePlaythroughBeatLength { get; private set; }
+	public string[] emotionTags { get; private set; }
 	private int totalBeatLength;
+
+	static public List<string> GetMostCommonEmotionsInPhrases(List<SongPhrase> phrases) {
+		var tempDict = new Dictionary<string,int>();
+		var maxCount = 0;
+		foreach(var p in phrases) {
+			foreach(var tag in p.emotionTags) {
+				if(tempDict.ContainsKey(tag)) {
+					tempDict[tag] = tempDict[tag] + 1;
+				} else {
+					tempDict[tag] = 1;
+				}
+				maxCount = Mathf.Max(maxCount,tempDict[tag]);
+			}
+		}
+
+		var listOfTags = new List<string>();
+
+		foreach(var kvPair in tempDict) {
+			if(kvPair.Value == maxCount) {
+				listOfTags.Add(kvPair.Key);
+			}
+		}
+
+		return listOfTags;
+	}
 
 	public SongPhrase(string loopName, string chordName, int numTimesToPlay) {
 		loop = AudioLoop.GetLoopForName(loopName);
@@ -63,14 +89,16 @@ public struct SongPhrase {
 		totalBeatLength = 0;
 		singlePlaythroughBeatLength = loop.beatDuration;
 		this.numTimesToPlay = numTimesToPlay;
+		this.emotionTags = new string[] {};
 	}
 
-	public SongPhrase(string chordName, int totalBeatLength) {
+	public SongPhrase(string chordName, int totalBeatLength, string[] emotionTags) {
 		loop = null;
 		numTimesToPlay = 1;
 		chord = SongStructureUtilities.ChordForString(chordName);
 		this.totalBeatLength = totalBeatLength;
 		singlePlaythroughBeatLength = totalBeatLength;
+		this.emotionTags = emotionTags;
 	}
 
 	public int TotalBeatLength() {

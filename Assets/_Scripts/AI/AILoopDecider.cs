@@ -10,24 +10,47 @@ public abstract class AILoopDecider {
 	/// <summary>
 	/// This struct is used to track the player's loops as they play them
 	/// </summary>
-	protected struct PlayerSongRecord {
+	protected struct SongRecord {
 		public int startBeat;
 		public AudioLoop loop;
 	}
 
 	protected List<AudioLoop> knownLoops;
-	protected List<PlayerSongRecord> playerSongRecord = new List<PlayerSongRecord>();
+	protected List<SongRecord> playerSongRecord = new List<SongRecord>();
+	protected List<SongPhrase> songPhrases = new List<SongPhrase>();
 	protected SongPhrase currentSongPhrase;
 	protected int currentBeatNumber;
-	protected int numBeatsPerAILoop = 16;
+	const int numBeatsPerAILoop = 16;
+	const int numBeatsPerLeadSwitch = 64;
 	
 	private AudioLoop currentPlayerLoop;
 
-	public AILoopDecider(List<AudioLoop> loops) {
+	public AILoopDecider(List<AudioLoop> loops, SongSection[] songStructure) {
 		this.knownLoops = loops;
+
+		// Set all of the phrases using the song structure
+		foreach(var section in songStructure) {
+			foreach(var phrase in section.phrases) {
+				songPhrases.Add(phrase);
+			}
+		}
+	}
+
+	public AILoopDecider(AILoopDecider parentDecider) {
+		knownLoops = parentDecider.knownLoops;
+		playerSongRecord = parentDecider.playerSongRecord;
+		songPhrases = parentDecider.songPhrases;
+		currentSongPhrase = parentDecider.currentSongPhrase;
+		currentBeatNumber = parentDecider.currentBeatNumber;
+		currentPlayerLoop = parentDecider.currentPlayerLoop;
 	}
 
 	public abstract AudioLoop ChooseLoopToPlay();
+	/// <summary>
+	/// This function should be called whenever we want to check to see if the state should change.
+	/// Returns null if no change is needed. Otherwise, returns the initialized new state to transition to.
+	/// </summary>
+	public abstract AILoopDecider UpdateState();
 
 	public void DidStartPlayerLoop(AudioLoop playerLoop) {
 		// This should be tracked in some way
@@ -41,7 +64,7 @@ public abstract class AILoopDecider {
 
 	public void DidStartNextBeat() {
 		if(currentPlayerLoop != null && currentBeatNumber >= 0) {
-			var recordEntry = new PlayerSongRecord();
+			var recordEntry = new SongRecord();
 			recordEntry.startBeat = currentBeatNumber;
 			recordEntry.loop = currentPlayerLoop;
 			playerSongRecord.Add(recordEntry);
@@ -49,9 +72,9 @@ public abstract class AILoopDecider {
 		currentBeatNumber++;
 	}
 
-	protected List<PlayerSongRecord> GetPlayerSongRecordForBeatRange(int startBeat, int endBeat) {
-		var recordInRange = new List<PlayerSongRecord>();
-		PlayerSongRecord previousRecord = new PlayerSongRecord();
+	protected List<SongRecord> GetPlayerSongRecordForBeatRange(int startBeat, int endBeat) {
+		var recordInRange = new List<SongRecord>();
+		var previousRecord = new SongRecord();
 
 		foreach(var recordEntry in playerSongRecord) {
 			if(recordEntry.startBeat > startBeat && previousRecord.loop != null && previousRecord.startBeat < startBeat) {
@@ -66,7 +89,21 @@ public abstract class AILoopDecider {
 		return recordInRange;
 	}
 
-	protected RhythmString GetRhythmStringForSongRecords(List<PlayerSongRecord> songRecords, int endBeat) {
+	protected List<SongPhrase> GetSongPhrasesForBeatRange(int startBeat, int endBeat) {
+		var phrasesInRange = new List<SongPhrase>();
+		var currentBeat = 0;
+
+		foreach(var phrase in songPhrases) {
+			var phraseEndBeat = currentBeat + phrase.TotalBeatLength();
+			if((currentBeat >= startBeat && currentBeat < endBeat) || (currentBeat < startBeat && phraseEndBeat >= endBeat)) {
+				phrasesInRange.Add(phrase);
+			}
+		}
+
+		return phrasesInRange;
+	}
+
+	protected RhythmString GetRhythmStringForSongRecords(List<SongRecord> songRecords, int endBeat) {
 		if(songRecords.Count == 0)
 			return new RhythmString("");
 		
@@ -80,6 +117,10 @@ public abstract class AILoopDecider {
 		var finalRecord = songRecords[songRecords.Count-1];
 		rhythmString = rhythmString.AppendRhythmString(finalRecord.loop.rhythmString.GetRhythmStringForBeatRange(finalRecord.startBeat,endBeat));
 		return rhythmString;
+	}
+
+	protected bool ShouldSwapLead() {
+		return currentBeatNumber % numBeatsPerLeadSwitch == numBeatsPerLeadSwitch - 1;
 	}
 
 	// to make a decision about what loops to play

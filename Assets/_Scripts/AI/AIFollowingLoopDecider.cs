@@ -7,7 +7,8 @@ public class AIFollowingLoopDecider : AILoopDecider {
 	private float emotionScoreWeight = 4;
 	private float rhythmScoreWeight = 1;
 
-	public AIFollowingLoopDecider(List<AudioLoop> loops) : base(loops) {}
+	public AIFollowingLoopDecider(AILoopDecider decider) : base(decider) {}
+	public AIFollowingLoopDecider(List<AudioLoop> loops, SongSection[] songStructure) : base(loops,songStructure) {}
 
 	public override AudioLoop ChooseLoopToPlay() {
 		// Get the player loops over the past N beats
@@ -45,5 +46,12 @@ public class AIFollowingLoopDecider : AILoopDecider {
 		Debug.Log("Best Loop: " + bestLoop.name);
 
 		return bestLoop;
+	}
+
+	public override AILoopDecider UpdateState() {
+		if(ShouldSwapLead()) {
+			return new AILeadingLoopDecider(this);
+		}
+		return null;
 	}
 }
