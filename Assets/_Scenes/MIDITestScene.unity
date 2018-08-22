@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 39149015}
   - component: {fileID: 39149016}
   - component: {fileID: 39149017}
+  - component: {fileID: 39149018}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -348,7 +349,6 @@ MonoBehaviour:
   - {fileID: 1544796801}
   keyControlDisplay: {fileID: 471392398}
   mouseControls: 0
-  metro: {fileID: 2067584166}
   chord: 0
   keyVolumeIncrement: 0.1
   keyControlIndex: 1
@@ -445,6 +445,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beatNumber: {fileID: 328300921}
+--- !u!114 &39149018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 39149006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8708c66a8ada4fea9a3c16671077cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &39446230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,12 +2220,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1923111193261966, guid: 87b5ce5feff8a3e45a30c0df325196d0,
     type: 2}
   m_PrefabInternal: {fileID: 3369690}
---- !u!114 &2067584166 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114375525558384364, guid: 87b5ce5feff8a3e45a30c0df325196d0,
-    type: 2}
-  m_PrefabInternal: {fileID: 3369690}
-  m_Script: {fileID: 11500000, guid: 200d0fd2198b23c42abc9166d65c85c8, type: 3}
 --- !u!82 &2067584167
 AudioSource:
   m_ObjectHideFlags: 0
