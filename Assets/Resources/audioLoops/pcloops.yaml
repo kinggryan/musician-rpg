@@ -2,24 +2,31 @@ loops:
 - name: Melody_Roma_Lyrical
   filename: MIDI/Melody/Melody_Roma_Lyrical_01.mid
   beatDuration: 16
-  rhythmString: 10101010101010101010101010101010
+  rhythmString: 10000000100010101000000010001010
   emotionTags: 
     - happy
     - sad
+    - sentimental
 - name: Melody_Roma_Peppy
   filename: MIDI/Melody/Melody_Roma_Peppy_01.mid
   beatDuration: 16
-  rhythmString: 11111111111111111111111111111111
+  rhythmString: 11111010111110101111101010000000
   emotionTags: 
     - happy
-    - sad
+    - aggressive
 - name: Melody_Roma_SyncopatedRiff
   filename: MIDI/Melody/Melody_Roma_SyncopatedRiff_01.mid
   beatDuration: 16
-  rhythmString: 00000000000000000000000000000000
+  rhythmString: 11011011110110111101101111011110
   emotionTags: 
     - happy
-    - sad
+    - cool
+- name: Melody_Roma_Fanfare
+  filename: MIDI/Melody/Melody_Roma_Fanfare_01.mid
+  beatDuration: 16
+  rhythmString: 10001000110110101000100011011010
+  emotionTags: 
+    - happy
 - name: Melody_End_Basic
   filename: MIDI/Melody/Melody_End_Basic.mid
   beatDuration: 4

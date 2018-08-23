@@ -26,6 +26,7 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	public float minNoOfRhythmStringMatches = 2;
 	public float maxScore = 10;
 	public int scoreEveryNumBeats = 8;
+	public int stalenessPunishment = 2;
 
 	public ScoreBar scoreBar;
 
@@ -46,6 +47,10 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	private const int scoreEveryNumBeatsOffset = 0;
 
 	public float _score;
+
+	private int lastBeat;
+	private bool loopChangedSinceLastInterval;
+	private int stalenessCounter;
 
 	// To make this work in the most dynamic way possible
 	// it should have a history of what the NPC and the player have played
@@ -70,17 +75,19 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 				songPhrases.Add(phrase);
 			}
 		}
-		score = 0;
+		score = maxScore/2;
 	}
 
 	// IAIListener
 	public void DidChangeAILoop(AIMIDIController ai, AudioLoop loop) {
 		currentNPCLoop = loop;
+		loopChangedSinceLastInterval = true;
 	}
 
 	// IPlayerControllerListener
 	public void DidChangeLoop(AudioLoop newLoop) {
 		currentPlayerLoop = newLoop;
+		loopChangedSinceLastInterval = true;
 	}
 
 	// ISongUpdateListener
@@ -98,22 +105,24 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 			npcSongRecord.Add(npcSongRecordEntry);
 		}
 
-		if(beatInfo.currentBeat > scoreEveryNumBeats && beatInfo.currentBeat % scoreEveryNumBeats == scoreEveryNumBeatsOffset) {
+		if(beatInfo.currentBeat > scoreEveryNumBeats && beatInfo.currentBeat % scoreEveryNumBeats == scoreEveryNumBeatsOffset && beatInfo.currentBeat != lastBeat) {
+			lastBeat = beatInfo.currentBeat;
+			Debug.Log("currentBeat: " + beatInfo.currentBeat + "beatInfo.currentBeat % scoreEveryNumBeats " + beatInfo.currentBeat % scoreEveryNumBeats);
 			GetScoreForBeatRange(beatInfo.currentBeat - scoreEveryNumBeats, beatInfo.currentBeat);
 		}
 	}
 
 	private void GetScoreForBeatRange(int startBeat, int endBeat) {
-		Debug.Log("Scoring");
+		
 		HashSet<string> playerEmotions = GetEmotionsForRecordsInRange(playerSongRecord, startBeat, endBeat);
 		HashSet<string> npcEmotions = GetEmotionsForRecordsInRange(npcSongRecord, startBeat, endBeat);
 		
 		int noOfRhythmStringMatches = GetNoOfRhythmStringMatchesInRange(startBeat, endBeat);
-		int noOfEmotionMatches = GetNoOfEmotionMatchesInRange(startBeat,endBeat);
+		int noOfEmotionMatches = GetNoOfEmotionMatchesInRange(startBeat, endBeat);
 		int noOfBeats = endBeat - startBeat;
 		int noOfEmotions = playerEmotions.Count + npcEmotions.Count;
 
-		float adjustedEmotionScore = noOfEmotionMatches * maxEmotionPoints/noOfEmotions;float adjustedRhythmScore = noOfRhythmStringMatches * maxRhythmPoints/noOfBeats;
+		float adjustedEmotionScore = noOfEmotionMatches * maxEmotionPoints/noOfEmotions;float adjustedRhythmScore = (noOfRhythmStringMatches - minNoOfRhythmStringMatches) * maxRhythmPoints/noOfBeats;
 
 		Debug.Log("Rhythm String Matches: " + noOfRhythmStringMatches + "\n Emotion matches: " + noOfEmotionMatches + "\n Emotion score: " + adjustedEmotionScore + "\n Rhythm Score: " + adjustedRhythmScore);
 
@@ -122,10 +131,20 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 
 		if(noOfRhythmStringMatches < minNoOfRhythmStringMatches){
 			score -= noRhythmMatchPunishment;
+			Debug.Log("No Rhythm Match");
 		}
 		if(noOfEmotionMatches <= 0){
 			score -= noEmotionMatchPunishment;
+			Debug.Log("No Emotion Match");
 		}
+		if(!loopChangedSinceLastInterval){
+			stalenessCounter++;
+			score -= stalenessCounter * stalenessPunishment;
+			Debug.Log("Stale Loop");
+		}else{
+			stalenessCounter = 0;
+		}
+		loopChangedSinceLastInterval = false;
 
 
 		// Do the scoring
@@ -142,7 +161,7 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		RhythmString playerRhythmString = GetRhythmStringForRecordsInRange(playerSongRecord, startBeat, endBeat);
 		RhythmString npcRhythmString = GetRhythmStringForRecordsInRange(npcSongRecord, startBeat, endBeat);
 		int noOfRhythmStringMatches = playerRhythmString.GetNumRhythmStringMatches(npcRhythmString);
-		Debug.Log("Player Rhythm String: " + playerRhythmString + "\nNPC Rhythm String: " + npcRhythmString + "\n" + noOfRhythmStringMatches + " matches");
+		//Debug.Log("Player Rhythm String: " + playerRhythmString + "\nNPC Rhythm String: " + npcRhythmString + "\n" + noOfRhythmStringMatches + " matches");
 		return noOfRhythmStringMatches;
 	}
 
@@ -150,7 +169,7 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		HashSet<string> playerEmotions = GetEmotionsForRecordsInRange(playerSongRecord, startBeat, endBeat);
 		HashSet<string> npcEmotions = GetEmotionsForRecordsInRange(npcSongRecord, startBeat, endBeat);
 		int noOfEmotionMatches = NumMatchedEmotions(playerEmotions,npcEmotions);
-		Debug.Log("Player Emotions: " + playerEmotions + "\nNPC Emotions: " + npcEmotions + "\n" + noOfEmotionMatches + " matches");
+		//Debug.Log("Player Emotions: " + playerEmotions + "\nNPC Emotions: " + npcEmotions + "\n" + noOfEmotionMatches + " matches");
 		return noOfEmotionMatches;
 	}
 
@@ -179,7 +198,7 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 
 	private RhythmString GetRhythmStringForRecordsInRange(List<SongRecord> songRecords, int startBeat, int endBeat) {
 		var records = GetRecordsInBeatRange(songRecords, startBeat, endBeat);
-		Debug.Log("got Rhythm String from range " + startBeat + " - " + endBeat + ": " + GetRhythmStringForSongRecords(records, endBeat));
+		//Debug.Log("got Rhythm String from range " + startBeat + " - " + endBeat + ": " + GetRhythmStringForSongRecords(records, endBeat));
 		return GetRhythmStringForSongRecords(records, endBeat);
 	}
 
@@ -196,7 +215,7 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 
 		var finalRecord = songRecords[songRecords.Count-1];
 		rhythmString = rhythmString.AppendRhythmString(finalRecord.loop.rhythmString.GetRhythmStringForBeatRange(finalRecord.startBeat,endBeat));
-		Debug.Log("got Rhythm String from record: " + rhythmString);
+		//Debug.Log("got Rhythm String from record: " + rhythmString);
 		return rhythmString;
 	}
 
