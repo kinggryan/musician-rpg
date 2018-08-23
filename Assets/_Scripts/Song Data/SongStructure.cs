@@ -112,9 +112,9 @@ public class SongPhrase {
 		this.totalBeatLength = totalBeatLength;
 		singlePlaythroughBeatLength = totalBeatLength;
 		this.emotionTags = emotionTags;
-		if(playerLoop != "")
+		if(playerLoop != null && playerLoop != "")
 			this.playerLoop = AudioLoop.GetLoopForName(playerLoop);
-		if(npcLoop != "")
+		if(npcLoop != null && npcLoop != "")
 			this.npcLoop = AudioLoop.GetLoopForName(npcLoop);
 	}
 
@@ -134,14 +134,17 @@ public class SongPhrase {
 			return false;
 		}
 		var otherPhrase = (SongPhrase)obj;
-		return this.loop == otherPhrase.loop && this.chord == otherPhrase.chord && this.numTimesToPlay == otherPhrase.numTimesToPlay;
+		return this == otherPhrase;
 	}
 
 	public static bool operator== (SongPhrase lhs, SongPhrase rhs) {
+		if(object.ReferenceEquals(lhs,null) || object.ReferenceEquals(rhs,null)) 
+			return object.ReferenceEquals(lhs,null) && object.ReferenceEquals(rhs,null);
+
 		return lhs.loop == rhs.loop && lhs.chord == rhs.chord && lhs.numTimesToPlay == rhs.numTimesToPlay;
 	}
 	public static bool operator!= (SongPhrase lhs, SongPhrase rhs) {
-		return !(lhs.loop == rhs.loop && lhs.chord == rhs.chord && lhs.numTimesToPlay == rhs.numTimesToPlay);
+		return !(lhs == rhs);
 	}
 }
 
@@ -149,6 +152,42 @@ public class SongPhrase {
 public struct SongSection {
 	public string name;
 	public SongPhrase[] phrases;
+
+	public static List<AudioLoop> GetSongSpecificNPCLoops(SongSection[] songSections) {
+		var npcLoops = new List<AudioLoop>();
+		foreach(var section in songSections) {
+			foreach(var phrase in section.phrases) {
+				if(phrase.npcLoop != null)
+					npcLoops.Add(phrase.npcLoop);
+			}
+		}
+		return npcLoops;
+	}
+
+	public static List<AudioLoop> GetSongSpecificPlayerLoops(SongSection[] songSections) {
+		var playerLoop = new List<AudioLoop>();
+		foreach(var section in songSections) {
+			foreach(var phrase in section.phrases) {
+				if(phrase.playerLoop != null)
+					playerLoop.Add(phrase.playerLoop);
+			}
+		}
+		return playerLoop;
+	}
+
+	public static SongPhrase GetSongPhraseForBeat(SongSection[] songSections, int beatNumber) {
+		var currentBeat = 0;
+		foreach(var section in songSections) {
+			foreach(var phrase in section.phrases) {
+				var phraseStart = currentBeat;
+				var phraseEnd = currentBeat + phrase.TotalBeatLength();
+				if(beatNumber >= phraseStart && beatNumber < phraseEnd)
+					return phrase;
+				currentBeat += phrase.TotalBeatLength();
+			}
+		}
+		return null;
+	}
 }
 
 

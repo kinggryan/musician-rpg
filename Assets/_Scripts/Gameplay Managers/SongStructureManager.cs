@@ -43,6 +43,19 @@ public abstract class SongStructureManager : MonoBehaviour {
 	protected bool isSongPlaying = false;
 	protected List<ISongUpdateListener> songUpdateListeners = new List<ISongUpdateListener>();
 
+	private int endBeat {
+		get {
+			var beat = 0;
+			foreach(var section in songSections) {
+				foreach(var phrase in section.phrases) {
+					beat += phrase.TotalBeatLength();
+				}
+			}
+
+			return beat;
+		}
+	}
+
 	//-- Public functions
 
 	/// <summary>
@@ -78,7 +91,9 @@ public abstract class SongStructureManager : MonoBehaviour {
 				currentSongPhraseIndex = 0;
 				currentSongSectionIndex++;
 			}
-			currentSongPhraseNumRepeatsRemaining = songSections[currentSongSectionIndex].phrases[currentSongPhraseIndex].numTimesToPlay - 1;
+			if(currentSongSectionIndex < songSections.Length) {
+				currentSongPhraseNumRepeatsRemaining = songSections[currentSongSectionIndex].phrases[currentSongPhraseIndex].numTimesToPlay - 1;
+			}
 		}
 
 		// If past the end of the song, return the null phrase
@@ -91,7 +106,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 
 		// Song is done if outside range
 		if(nextPhrase == null) {
-			Debug.Log("Finished song!");
+			EndSong();
 		} else {
 			// Continue to the next phrase
 			currentSongPhraseEndBeat += nextPhrase.singlePlaythroughBeatLength;
@@ -108,6 +123,8 @@ public abstract class SongStructureManager : MonoBehaviour {
 	/// </summary>
 	protected abstract double GetCurrentBeat();
 
+	protected abstract void EndSong();
+
 	//- Private Methods
 
 	// Update is called once per frame
@@ -123,6 +140,10 @@ public abstract class SongStructureManager : MonoBehaviour {
 		currentSongBeat = GetCurrentBeat();
 
 		if(currentSongBeat > previousBeat) {
+			if(currentSongBeat == endBeat) {
+				EndSong();
+			}
+
 			// Play the next phrase
 			if(currentSongBeat == currentSongPhraseEndBeat - 1)
 				QueueNextSongPhrase();
@@ -130,7 +151,9 @@ public abstract class SongStructureManager : MonoBehaviour {
 			// Broadcast this message
 			var beatUpdateInfo = new BeatUpdateInfo();
 			beatUpdateInfo.currentBeat = Mathf.RoundToInt((float)currentSongBeat);
-			beatUpdateInfo.currentSection = songSections[currentSongSectionIndex];
+			if(currentSongSectionIndex < songSections.Length) {
+				beatUpdateInfo.currentSection = songSections[currentSongSectionIndex];
+			}
 			if(currentSongSectionIndex + 1 < songSections.Length) {
 				beatUpdateInfo.nextSection = songSections[currentSongSectionIndex+1];
 				beatUpdateInfo.beatsUntilNextSection = GetStartBeatForSectionIndex(currentSongSectionIndex+1) - Mathf.RoundToInt((float)currentSongBeat);

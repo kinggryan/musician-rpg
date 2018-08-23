@@ -111,9 +111,11 @@ public class MidiFileStreamer: MidiStreamer {
         for(var i = 0 ; i < midiFiles.Count; i++) {
             if(midiFiles[i].loop.name == loop.name) {
                 currentMidiFileIndex = i;
-                break;
+                return;
             }
         }
+
+        Debug.LogError("Couldnt find file with loop " + loop.name);
     }
 
     public void SetCurrentMidiFile(int index) {

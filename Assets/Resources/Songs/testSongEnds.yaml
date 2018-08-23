@@ -13,6 +13,8 @@ sections:
     loops:
     - chord: I
       totalNumBeats: 4
+      npcLoop: Comp_End_Basic
+      playerLoop: Melody_End_Basic
       emotionTags:
       - happy
 structure:

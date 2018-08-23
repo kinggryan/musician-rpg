@@ -105,13 +105,19 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 
 		// Load all the loops
 		knownLoops = new List<AudioLoop>();
+		var allLoopsToLoad = new List<AudioLoop>();
 		foreach(var loopName in knownLoopNames) {
 			var loop = AudioLoop.GetLoopForName(loopName);
 			knownLoops.Add(loop);
+			allLoopsToLoad.Add(loop);
 		}
 
+		// Get the song specific loops
+		var songSpecificLoops = SongSection.GetSongSpecificNPCLoops(songStructureManager.songSections);
+		allLoopsToLoad.AddRange(songSpecificLoops);
+
 		// Add yourself to the midi player
-		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(knownLoops);
+		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(allLoopsToLoad);
 		midiStreamer.outputChannel = channelNumber;
 		midiPlayer.midiSequencer.setProgram(channelNumber, instrumentIndex);
 
@@ -128,7 +134,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
         trackGateVelocity = 79;
         volume = 1;
 
-		loopDecider = new AILeadingLoopDecider(knownLoops, songStructureManager.songSections);
+		loopDecider = new AILeadingLoopDecider(knownLoops, songSpecificLoops, songStructureManager.songSections);
 		var loopToPlay = loopDecider.ChooseLoopToPlay();
 		SetCurrentLoop(loopToPlay);
 	}
@@ -147,15 +153,14 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
-		if(beatInfo.currentBeat % 16 == 15) {
-			var newLoopToPlay = loopDecider.ChooseLoopToPlay();
-			midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
-		}
-
 		loopDecider.DidStartNextBeat();
 		var newLoopDecider = loopDecider.UpdateState();
 		if(newLoopDecider != null)
 			loopDecider = newLoopDecider;
+
+		var newLoopToPlay = loopDecider.ChooseLoopToPlay();
+		if(newLoopToPlay != null)
+			midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
 	}
 
 	private IEnumerator WaitThenChangeGate(int newGateVelo, float timeToWait){

@@ -26,9 +26,19 @@ public class AudioLoop {
 	// Static Methods
 
 	public static AudioLoop GetLoopForName(string name) {
+		if(name == null || name == "") {
+			Debug.LogError("Cannot load loop with null/empty name.");
+			return null;
+		}
+
 		// Initialize the loaded loops if needed
 		if(loadedLoops == null) {
 			loadedLoops = AddLoopsToLoadedLoopsDictionary(LoadAllLoopFilesInDirectory(loopsFileDirectory), new Dictionary<string, AudioLoop>());
+		}
+
+		if(!loadedLoops.ContainsKey(name)) {
+			Debug.LogError("ERROR: No LOop Found With Name " + name);
+			return null;
 		}
 
 		return loadedLoops[name];

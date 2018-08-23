@@ -26,8 +26,9 @@ public abstract class AILoopDecider {
 	
 	private AudioLoop currentPlayerLoop;
 
-	public AILoopDecider(List<AudioLoop> loops, SongSection[] songStructure) {
+	public AILoopDecider(List<AudioLoop> loops, List<AudioLoop> songSpecificLoops, SongSection[] songStructure) {
 		this.knownLoops = loops;
+		this.songSpecificLoops = songSpecificLoops;
 
 		// Set all of the phrases using the song structure
 		foreach(var section in songStructure) {
@@ -99,9 +100,26 @@ public abstract class AILoopDecider {
 			if((currentBeat >= startBeat && currentBeat < endBeat) || (currentBeat < startBeat && phraseEndBeat >= endBeat)) {
 				phrasesInRange.Add(phrase);
 			}
+
+			currentBeat += phrase.TotalBeatLength();
 		}
 
 		return phrasesInRange;
+	}
+
+	protected SongPhrase GetSongPhraseForBeat(int startBeat) {
+		var currentBeat = 0;
+
+		foreach(var phrase in songPhrases) {
+			var songPhraseStart = currentBeat;
+			var songPhraseEnd = currentBeat + phrase.TotalBeatLength();
+			if(startBeat >= songPhraseStart && startBeat < songPhraseEnd) {
+				return phrase;
+			}
+			currentBeat += phrase.TotalBeatLength();
+		}
+
+		return null;
 	}
 
 	protected RhythmString GetRhythmStringForSongRecords(List<SongRecord> songRecords, int endBeat) {
@@ -118,6 +136,18 @@ public abstract class AILoopDecider {
 		var finalRecord = songRecords[songRecords.Count-1];
 		rhythmString = rhythmString.AppendRhythmString(finalRecord.loop.rhythmString.GetRhythmStringForBeatRange(finalRecord.startBeat,endBeat));
 		return rhythmString;
+	}
+
+	/// <summary>
+	/// If the song structure states that there should be an npc loop on the next beat, this function returns that loop.
+	/// Otherwise it returns null.
+	/// </summary>
+	protected AudioLoop GetSongSpecifiedLoopForNextBeat() {
+		var phrase = GetSongPhraseForBeat(currentBeatNumber);
+		if(phrase != null) {
+			return phrase.npcLoop;
+		}
+		return null;
 	}
 
 	protected bool ShouldSwapLead() {

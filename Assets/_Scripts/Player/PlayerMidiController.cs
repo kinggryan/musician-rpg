@@ -55,6 +55,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 
 	List<AudioLoop> playerLoops = new List<AudioLoop>();
 	int currentLoopIndex = 0;
+	private bool loopControlsEnabled = true;
 
 	private List<IPlayerControllerListener> listeners = new List<IPlayerControllerListener>();
 
@@ -72,7 +73,18 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		// Determine the rhythm string for that loop on this beat
 		// Append it to the rhythm string
 		if(beatInfo.currentBeat > 0) {
-			var currentLoop = playerLoops[currentLoopIndex];
+			var currentPhrase = SongSection.GetSongPhraseForBeat(songStructureManager.songSections, beatInfo.currentBeat+1);
+			if(currentPhrase != null) {
+				if(currentPhrase.playerLoop != null) {
+					loopControlsEnabled = false;
+					SetSongSpecificLoop(currentPhrase.playerLoop);
+				} else if (!loopControlsEnabled) {
+					// Resume the loop we were playing before the song specific loop
+					loopControlsEnabled = true;
+					SetCurrentLoop(currentLoopIndex);
+				}
+			}
+			// var currentLoop = playerLoops[currentLoopIndex];
 			// playedRhythmString = playedRhythmString.AppendRhythmString(currentLoop.GetRhythmStringForBeat(beatInfo.currentBeat-1));
 		}
 	}
@@ -93,11 +105,17 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		Cursor.lockState = CursorLockMode.Locked;
 		midiPlayer.midiSequencer.setProgram(outputChannel, playerInstruments[playerInstrumentsIndex]);
 
+		var allLoopsToLoad = new List<AudioLoop>();
 		foreach(var loopName in loopNames) {
-			playerLoops.Add(AudioLoop.GetLoopForName(loopName));
+			var loop = AudioLoop.GetLoopForName(loopName);
+			playerLoops.Add(loop);
+			allLoopsToLoad.Add(loop);
 		}
 
-		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(playerLoops);
+		var songLoops = SongSection.GetSongSpecificPlayerLoops(songStructureManager.songSections);
+		allLoopsToLoad.AddRange(songLoops);
+
+		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(allLoopsToLoad);
 		midiStreamer.outputChannel = outputChannel;
 		
 		gateFilter = new MIDITrackGate();
@@ -334,6 +352,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	}
 
 	void UpdateCurrentMidiFile() {
+		if(!loopControlsEnabled)
+			return;
+
 		// Change the midi file at will
 		if(Input.GetButtonDown("Loop1")) {
 			SetCurrentLoop(0);
@@ -352,6 +373,11 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		foreach(var listener in listeners) {
 			listener.DidChangeLoop(playerLoops[currentLoopIndex]);
 		}
+	}
+
+	void SetSongSpecificLoop(AudioLoop songSpecificLoop) {
+		// TODO: Do we need to notify anyone when this happens?
+		midiStreamer.SetCurrentMidiFileWith(songSpecificLoop);
 	}
 
 	void DidChangeBPM(double bpm) {

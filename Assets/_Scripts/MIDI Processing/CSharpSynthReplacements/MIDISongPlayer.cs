@@ -63,6 +63,11 @@ public class MIDISongPlayer : MonoBehaviour
         midiSequencer.Play();
     }
 
+    public void Stop() {
+        isPlaying = false;
+        midiSequencer.Stop(false);
+    }
+
     public bool IsPlaying() {
         return isPlaying;
     }

@@ -8,9 +8,18 @@ public class AIFollowingLoopDecider : AILoopDecider {
 	private float rhythmScoreWeight = 1;
 
 	public AIFollowingLoopDecider(AILoopDecider decider) : base(decider) {}
-	public AIFollowingLoopDecider(List<AudioLoop> loops, SongSection[] songStructure) : base(loops,songStructure) {}
+	public AIFollowingLoopDecider(List<AudioLoop> loops,  List<AudioLoop> songSpecificLoops, SongSection[] songStructure) : base(loops, songSpecificLoops, songStructure) {}
 
 	public override AudioLoop ChooseLoopToPlay() {
+		// If the song has specific a loop to play, change loops
+		var songSpecificLoopToPlay = GetSongSpecifiedLoopForNextBeat();
+		if(songSpecificLoopToPlay != null)
+			return songSpecificLoopToPlay;
+
+		if(currentBeatNumber % 16 != 0) {
+			return null;
+		}
+
 		// Get the player loops over the past N beats
 		var playerPattern = GetPlayerSongRecordForBeatRange(currentBeatNumber - 16, currentBeatNumber);
 		var playerLoops = new List<AudioLoop>();

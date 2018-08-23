@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 0
-  songFilename: Songs/testSong3
+  songFilename: Songs/testSongEnds
   songPlayer: {fileID: 39149008}
 --- !u!114 &39149017
 MonoBehaviour:
