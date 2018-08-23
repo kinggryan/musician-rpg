@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loopNames:
-  - Test_Monophonic
+  - Melody_Roma_Lyrical
   - Melody_Roma_Peppy
   - Melody_Roma_SyncopatedRiff
   - Melody_Roma_Fanfare

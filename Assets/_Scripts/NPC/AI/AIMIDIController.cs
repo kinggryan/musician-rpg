@@ -132,7 +132,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
 
         trackGateVelocity = 79;
-        volume = 0.5f;
+        volume = 1f;
 
 		loopDecider = new AILeadingLoopDecider(knownLoops, songSpecificLoops, songStructureManager.songSections);
 		var loopToPlay = loopDecider.ChooseLoopToPlay();
