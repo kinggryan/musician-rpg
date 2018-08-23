@@ -1,4 +1,4 @@
- loops:
+loops:
 - name: Comp_Klezmer_Bulgar
   filename: MIDI/Comp/Comp_Klezmer_Bulgar_01.mid
   beatDuration: 8
