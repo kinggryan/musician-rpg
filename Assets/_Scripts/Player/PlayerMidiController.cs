@@ -73,14 +73,16 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		// Determine the rhythm string for that loop on this beat
 		// Append it to the rhythm string
 		if(beatInfo.currentBeat > 0) {
-			var currentPhrase = SongSection.GetSongPhraseForBeat(songStructureManager.songSections, beatInfo.currentBeat);
-			if(currentPhrase.playerLoop != null) {
-				loopControlsEnabled = false;
-				SetSongSpecificLoop(currentPhrase.playerLoop);
-			} else if (!loopControlsEnabled) {
-				// Resume the loop we were playing before the song specific loop
-				loopControlsEnabled = true;
-				SetCurrentLoop(currentLoopIndex);
+			var currentPhrase = SongSection.GetSongPhraseForBeat(songStructureManager.songSections, beatInfo.currentBeat+1);
+			if(currentPhrase != null) {
+				if(currentPhrase.playerLoop != null) {
+					loopControlsEnabled = false;
+					SetSongSpecificLoop(currentPhrase.playerLoop);
+				} else if (!loopControlsEnabled) {
+					// Resume the loop we were playing before the song specific loop
+					loopControlsEnabled = true;
+					SetCurrentLoop(currentLoopIndex);
+				}
 			}
 			// var currentLoop = playerLoops[currentLoopIndex];
 			// playedRhythmString = playedRhythmString.AppendRhythmString(currentLoop.GetRhythmStringForBeat(beatInfo.currentBeat-1));
