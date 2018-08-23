@@ -9,8 +9,14 @@ using UnityEngine.UI;
 public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdateListener, IAIListener {
 
 	public float score  {
-		get {return score;}
-        set { scoreBar.ScaleScoreBar(value / maxScore);}
+		get {
+			return _score;
+		}
+        set { 
+			_score = value;
+			if(scoreBar)
+				scoreBar.ScaleScoreBar(value / maxScore);
+		}
 	}
 	public float maxEmotionPoints = 2;
 	public float maxRhythmPoints = 4;
@@ -37,6 +43,8 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	private AudioLoop currentPlayerLoop;
 	private const int scoreEveryNumBeats = 4;
 	private const int scoreEveryNumBeatsOffset = 1;
+
+	private float _score;
 
 	// To make this work in the most dynamic way possible
 	// it should have a history of what the NPC and the player have played
