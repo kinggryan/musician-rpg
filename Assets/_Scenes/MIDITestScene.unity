@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 0
-  songFilename: Songs/testSongEnds
+  songFilename: Songs/testSong3
   songPlayer: {fileID: 39149008}
 --- !u!114 &39149017
 MonoBehaviour:
@@ -399,13 +399,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8708c66a8ada4fea9a3c16671077cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
   maxEmotionPoints: 2
   maxRhythmPoints: 4
   noEmotionMatchPunishment: 1
   noRhythmMatchPunishment: 1
   minNoOfRhythmStringMatches: 0
+  maxScore: 10
+  scoreEveryNumBeats: 8
+  scoreBar: {fileID: 1816704905}
   playerIsLeading: 0
+  _score: 0
 --- !u!1 &39446230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,6 +1973,7 @@ GameObject:
   - component: {fileID: 1816704902}
   - component: {fileID: 1816704904}
   - component: {fileID: 1816704903}
+  - component: {fileID: 1816704905}
   m_Layer: 5
   m_Name: JammageBarFill
   m_TagString: Untagged
@@ -2029,6 +2033,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1816704901}
   m_CullTransparentMesh: 0
+--- !u!114 &1816704905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1816704901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40542ba8c6343634788a3243ba270c01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1952265589
 GameObject:
   m_ObjectHideFlags: 0
