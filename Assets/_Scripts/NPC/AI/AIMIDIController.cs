@@ -75,7 +75,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private bool gateMatchBuffer;
 
 	private const int channelNumber = 1;
-	private const int instrumentIndex = 21;
+	private const int instrumentIndex = 25;
 
 	private List<IAIListener> listeners = new List<IAIListener>();
 

@@ -22,7 +22,7 @@ public class RhythmString {
 		// Since the rhythm string is eighth notes, we just return the beat plus its upbeat
 		var rhythmStringIndex = beatToUse*2;
 		if(rhythmStringIndex + 1 >= rhythmString.Length) {
-			Debug.LogError("Rhythm string error: index of " + (rhythmStringIndex + 1) + " is outside string " + rhythmString);
+			//Debug.LogError("Rhythm string error: index of " + (rhythmStringIndex + 1) + " is outside string " + rhythmString);
 			return new RhythmString("");
 		}
 
@@ -43,9 +43,11 @@ public class RhythmString {
 		// This is kind of weird but necessary to keep encapsulation working the way intended ie don't expose the underlying data of the rhythm string
 		var numMatchedChars = 0;
 		// TODO: Implement the part where they extend the shorter string
+		
 		for(var i = 0 ; i < Mathf.Min(otherRhythmString.rhythmString.Length, rhythmString.Length); i++) {
-			if(rhythmString[i] == otherRhythmString.rhythmString[i]) 
+			if(rhythmString[i].ToString() == "1" && otherRhythmString.rhythmString[i].ToString() == "1"){
 				numMatchedChars++;
+			}
 		}
 		return numMatchedChars;
 	}
