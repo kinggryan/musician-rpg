@@ -52,6 +52,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	MidiFileStreamer midiStreamer;
 	MIDIVolumeFilter volumeFilter;
 	MIDITrackGate gateFilter;
+	MIDIMonophonicFilter monophonicFilter;
 
 	List<AudioLoop> playerLoops = new List<AudioLoop>();
 	int currentLoopIndex = 0;
@@ -128,6 +129,10 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		volumeFilter.activeChannel = outputChannel;
 		volumeFilter.volumeMultiplier = 1;
 		midiStreamer.AddFilter(volumeFilter);
+
+		// Add the monophonic filter here
+		monophonicFilter = new MIDIMonophonicFilter();
+		midiStreamer.AddFilter(monophonicFilter);
 		
 		currentInstIndex = 0;
 	}

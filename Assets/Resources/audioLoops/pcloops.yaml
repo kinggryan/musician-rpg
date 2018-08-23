@@ -27,6 +27,12 @@ loops:
   rhythmString: 10001000110110101000100011011010
   emotionTags: 
     - happy
+- name: Test_Monophonic
+  filename: MIDI/Melody/TestMonophonic.mid
+  beatDuration: 8
+  rhythmString: 1000000000000000
+  emotionTags:
+    - happy
 - name: Melody_End_Basic
   filename: MIDI/Melody/Melody_End_Basic.mid
   beatDuration: 4
