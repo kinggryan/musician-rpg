@@ -174,6 +174,20 @@ public struct SongSection {
 		}
 		return playerLoop;
 	}
+
+	public static SongPhrase GetSongPhraseForBeat(SongSection[] songSections, int beatNumber) {
+		var currentBeat = 0;
+		foreach(var section in songSections) {
+			foreach(var phrase in section.phrases) {
+				var phraseStart = currentBeat;
+				var phraseEnd = currentBeat + phrase.TotalBeatLength();
+				if(beatNumber >= phraseStart && beatNumber < phraseEnd)
+					return phrase;
+				currentBeat += phrase.TotalBeatLength();
+			}
+		}
+		return null;
+	}
 }
 
 
