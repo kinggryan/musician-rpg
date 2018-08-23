@@ -130,9 +130,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		volumeFilter.volumeMultiplier = 1;
 		midiStreamer.AddFilter(volumeFilter);
 
-		// // Add the monophonic filter here
-		// monophonicFilter = new MIDIMonophonicFilter();
-		// midiStreamer.AddFilter(monophonicFilter);
+		// Add the monophonic filter here
+		monophonicFilter = new MIDIMonophonicFilter();
+		midiStreamer.AddFilter(monophonicFilter);
 		
 		currentInstIndex = 0;
 	}
