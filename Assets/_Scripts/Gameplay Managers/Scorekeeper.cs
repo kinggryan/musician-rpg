@@ -1,11 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// This class tracks the game components needed to "score" how well the player is doing
 /// </summary>
 public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdateListener, IAIListener {
+
+	public float score  {
+		get {return score;}
+        set { scoreBar.ScaleScoreBar(value / maxScore);}
+	}
+	public float maxEmotionPoints = 2;
+	public float maxRhythmPoints = 4;
+	public float noEmotionMatchPunishment = 1;
+	public float noRhythmMatchPunishment = 1;
+	public float minNoOfRhythmStringMatches = 2;
+	public float maxScore = 10;
+
+	public ScoreBar scoreBar;
 
 	private struct SongRecord {
 		public int startBeat;
@@ -75,17 +89,52 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		}
 
 		if(beatInfo.currentBeat > scoreEveryNumBeats && beatInfo.currentBeat % scoreEveryNumBeats == scoreEveryNumBeatsOffset) {
-			Score();
+			GetScoreForBeatRange(beatInfo.currentBeat - scoreEveryNumBeats, beatInfo.currentBeat);
 		}
 	}
 
-	private void Score() {
+	private void GetScoreForBeatRange(int startBeat, int endBeat) {
+		HashSet<string> playerEmotions = GetEmotionsForRecordsInRange(playerSongRecord, startBeat, endBeat);
+		HashSet<string> npcEmotions = GetEmotionsForRecordsInRange(npcSongRecord, startBeat, endBeat);
+		
+		int noOfRhythmStringMatches = GetNoOfRhythmStringMatchesInRange(startBeat, endBeat);
+		int noOfEmotionMatches = GetNoOfRhythmStringMatchesInRange(startBeat,endBeat);
+		int noOfBeats = endBeat - startBeat;
+		int noOfEmotions = playerEmotions.Count + npcEmotions.Count;
+
+		score += noOfEmotionMatches * maxEmotionPoints/noOfEmotions;
+		score += noOfRhythmStringMatches * maxRhythmPoints/noOfBeats;
+
+		if(noOfRhythmStringMatches < minNoOfRhythmStringMatches){
+			score -= noRhythmMatchPunishment;
+		}
+		if(noOfEmotionMatches <= 0){
+			score -= noEmotionMatchPunishment;
+		}
+
+
 		// Do the scoring
-		var score = 0;
-		if(playerIsLeading)
-			score = ScoreForPlayerLeading();
-		else
-			score = ScoreForPlayerFollowing();
+		// var score = 0;
+		// if(playerIsLeading)
+		// 	score = ScoreForPlayerLeading();
+		// else
+		// 	score = ScoreForPlayerFollowing();
+
+
+	}
+
+	private int GetNoOfRhythmStringMatchesInRange(int startBeat, int endBeat){
+		RhythmString playerRhythmString = GetRhythmStringForRecordsInRange(playerSongRecord, startBeat, endBeat);
+		RhythmString npcRhythmString = GetRhythmStringForRecordsInRange(npcSongRecord, startBeat, endBeat);
+		int noOfRhythmStringMatches = playerRhythmString.GetNumRhythmStringMatches(npcRhythmString);
+		return noOfRhythmStringMatches;
+	}
+
+	private int GetNoOfEmotionMatchesInRange(int startBeat, int endBeat){
+		HashSet<string> playerEmotions = GetEmotionsForRecordsInRange(playerSongRecord, startBeat, endBeat);
+		HashSet<string> npcEmotions = GetEmotionsForRecordsInRange(npcSongRecord, startBeat, endBeat);
+		int noOfEmotionMatches = NumMatchedEmotions(playerEmotions,npcEmotions);
+		return noOfEmotionMatches;
 	}
 
 	private int ScoreForPlayerLeading() {
@@ -96,6 +145,15 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	private int ScoreForPlayerFollowing() {
 		// TODO: Implement a scoring algorithm
 		return 0;
+	}
+
+	private int NumMatchedEmotions(HashSet<string> playerEmotions, HashSet<string> npcEmotions) {
+		var count = 0;
+		foreach(string emotion in npcEmotions) {
+			if(playerEmotions.Contains(emotion))
+				count++;
+		}
+		return count;
 	}
 
 	/* *** *** *** *** *** *** *** *** *** *** *** *** *** ***
@@ -156,4 +214,5 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 
 		return recordInRange;
 	}
+	
 }

@@ -5,9 +5,10 @@
 //  Using Virtual Sampler
 
 
-<global>ampeg_release=0.250 group=1 off_by=1 off_mode=normal
-
 <group>
+group=1
+off_by=1
+off_mode=normal
 loop_mode=loop_continuous
 ampeg_release=0.250
 

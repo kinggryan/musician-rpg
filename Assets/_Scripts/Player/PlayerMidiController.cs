@@ -42,7 +42,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	float maxVolume = 2.5f;
 	float minVolume = 0.25f;
 
-	int[] playerInstruments = new int[]{88,127,126,94,98,102,101,108,103,118,110,111,91,88};
+	int[] playerInstruments = new int[]{1,127,126,94,98,102,101,108,103,118,110,111,91,88};
 	int playerInstrumentsIndex = 0;
 
 	float savedGateValue = 0.5f;
