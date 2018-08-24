@@ -121,18 +121,18 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		midiStreamer.outputChannel = channelNumber;
 		midiPlayer.midiSequencer.setProgram(channelNumber, instrumentIndex);
 
-		volumeFilter = new MIDIVolumeFilter();
-		midiStreamer.AddFilter(volumeFilter);
-		volumeFilter.activeChannel = channelNumber;
-
 		gate = new MIDITrackGate();
 		midiStreamer.AddFilter(gate);
 		gate.activeChannel = channelNumber;
 
+		volumeFilter = new MIDIVolumeFilter();
+		midiStreamer.AddFilter(volumeFilter);
+		volumeFilter.activeChannel = channelNumber;
+
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
 
         trackGateVelocity = 79;
-        volume = 1f;
+        volume = 0.8f;
 
 		loopDecider = new AILeadingLoopDecider(knownLoops, songSpecificLoops, songStructureManager.songSections);
 		var loopToPlay = loopDecider.ChooseLoopToPlay();

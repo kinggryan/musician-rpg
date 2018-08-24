@@ -1472,7 +1472,7 @@ MonoBehaviour:
   dynamicsTextColor: {r: 0.4392157, g: 0.9019608, b: 1, a: 1}
   moveColor: {r: 0, g: 0, b: 0, a: 0}
   bufferSize: 1024
-  currentVolume: 0
+  currentVolume: 1
   gateVal: 0
   midiPlayer: {fileID: 39149008}
   aiFeedback: {fileID: 842659071}
