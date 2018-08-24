@@ -19,7 +19,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	public float gateFollowRndm;
 	public float moveMinInterval;
 	public float moveMaxInterval;
-	public float leadInterval;
 	public float playerVolume;
 	public Color gateTextColor;
 	public Color dynamicsTextColor;
@@ -48,7 +47,11 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	public MIDISongPlayer midiPlayer;
 	public AIFeedback aiFeedback;
 	
-	public bool isLeading;
+	public bool isLeading {
+		get {
+			return loopDecider is AILeadingLoopDecider;
+		}
+	}
 	
 	public bool mute;
 	private float moveInterval;
@@ -65,7 +68,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private bool dynMatchBuffer;
 	
 	private float volumeTimer;
-	private float leadTimer;
 	public float dynamicsMatchTimer;
 	
     private bool isPlaying;
@@ -79,7 +81,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 
 	private List<IAIListener> listeners = new List<IAIListener>();
 
-	public void DidChangeLoop(AudioLoop playerLoop) {
+	public void DidChangeLoop(AudioLoop playerLoop, int index) {
 		loopDecider.DidStartPlayerLoop(playerLoop);
 	}
 
@@ -155,13 +157,17 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
 		loopDecider.DidStartNextBeat();
 		var newLoopDecider = loopDecider.UpdateState();
-		if(newLoopDecider != null)
+		if(newLoopDecider != null) {
 			loopDecider = newLoopDecider;
+			DidSwitchLead(isLeading);
+		}
 
 		var newLoopToPlay = loopDecider.ChooseLoopToPlay();
 		if(newLoopToPlay != null)
 			midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
 	}
+
+	public void DidStartSongWithBPM(float bpm) {}
 
 	private IEnumerator WaitThenChangeGate(int newGateVelo, float timeToWait){
 		yield return new WaitForSeconds(timeToWait);
@@ -193,19 +199,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		aiFeedback.ChangeAvatarColorForDuration(moveColor, 1);
 		MakeVolumeMove();
 		MakeGateMove();
-	}
-
-	void SwitchLead(){
-		gateMatchTimer = 0;
-		dynamicsMatchTimer = 0;
-		leadTimer = 0;
-		if (isLeading){
-			aiFeedback.DisplayText("Your Turn!", 2, Color.white);
-			isLeading = false;
-		}else{
-			aiFeedback.DisplayText("I'll lead now!", 2, Color.white);
-			isLeading = true;
-		}
 	}
 
 	bool gatesMatched (){
@@ -250,21 +243,23 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	void Update(){
 		// Switch the lead if it's been long enough
 		// TODO: This should be based on song triggers or number of beats, something like that.
-		leadTimer += Time.deltaTime;
-		if (leadTimer >= leadInterval){
-			SwitchLead();
-		}
-
 		if (mute){
             volumeFilter.volumeMultiplier = 0;
         }
 
-		// // Do the main actions based on whether leading or not
-		// if (isLeading){
-		// 	UpdateLeading();
-		// } else {
-		// 	UpdateFollowing();
-		// }
+		// Do the main actions based on whether leading or not
+		if (isLeading){
+			UpdateLeading();
+		} else {
+			UpdateFollowing();
+		}
+	}
+	
+	void DidSwitchLead(bool npcIsLeading) {
+		if(npcIsLeading)
+			aiFeedback.DisplayText("I'll lead now!", 3f, Color.white);
+		else
+			aiFeedback.DisplayText("Take the lead!", 3f, Color.white);
 	}
 
 	private void UpdateLeading() {

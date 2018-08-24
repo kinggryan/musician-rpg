@@ -13,8 +13,6 @@ public class MIDIVolumeFilter : MIDITrackFilter {
 			// Velocity is parameter 2
 			int velocity = midiEvent.parameter2;
 			if (midiEvent.channel == activeChannel){
-				if(activeChannel == 1) 
-					Debug.Log("BREAK");
 				if(midiEvent.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_On) {
 					newMidiEvent.parameter2 = (byte)Mathf.FloorToInt(volumeMultiplier*(int)newMidiEvent.parameter2);
 				}

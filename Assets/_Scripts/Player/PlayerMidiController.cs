@@ -376,7 +376,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		currentLoopIndex = index;
 		midiStreamer.SetCurrentMidiFile(currentLoopIndex);
 		foreach(var listener in listeners) {
-			listener.DidChangeLoop(playerLoops[currentLoopIndex]);
+			listener.DidChangeLoop(playerLoops[currentLoopIndex], currentLoopIndex);
 		}
 	}
 
@@ -410,5 +410,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		songStructureManager.StartSong();
 
 		SetCurrentLoop(0);
+
+		foreach(var listener in listeners) {
+			listener.DidStartSongWithBPM(bpm);
+		}
 	}
 }

@@ -8,15 +8,15 @@ using UnityEngine.UI;
 /// </summary>
 public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdateListener, IAIListener {
 
-	
 	public float score  {
 		get {
 			return _score;
 		}
         set { 
 			_score = value;
-			if(scoreBar)
-				scoreBar.ScaleScoreBar(value / maxScore);
+			foreach(var listener in listeners) {
+				listener.DidChangeScore(score);
+			}
 		}
 	}
 	public float maxEmotionPoints = 2;
@@ -27,8 +27,6 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	public float maxScore = 10;
 	public int scoreEveryNumBeats = 8;
 	public int stalenessPunishment = 2;
-
-	public ScoreBar scoreBar;
 
 	private struct SongRecord {
 		public int startBeat;
@@ -51,6 +49,8 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	private int lastBeat;
 	private bool loopChangedSinceLastInterval;
 	private int stalenessCounter;
+
+	private List<IScorekeeperListener> listeners = new List<IScorekeeperListener>();
 
 	// To make this work in the most dynamic way possible
 	// it should have a history of what the NPC and the player have played
@@ -76,6 +76,17 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 			}
 		}
 		score = maxScore/2;
+		foreach(var listener in listeners) {
+			listener.DidSetMaxScore(maxScore);
+		}
+	}
+
+	public void AddListener(IScorekeeperListener listener) {
+		listeners.Add(listener);
+	}
+
+	public void RemoveListener(IScorekeeperListener listener) {
+		listeners.Remove(listener);
 	}
 
 	// IAIListener
@@ -85,7 +96,7 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	}
 
 	// IPlayerControllerListener
-	public void DidChangeLoop(AudioLoop newLoop) {
+	public void DidChangeLoop(AudioLoop newLoop, int index) {
 		currentPlayerLoop = newLoop;
 		loopChangedSinceLastInterval = true;
 	}
@@ -111,6 +122,8 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 			GetScoreForBeatRange(beatInfo.currentBeat - scoreEveryNumBeats, beatInfo.currentBeat);
 		}
 	}
+
+	public void DidStartSongWithBPM(float bpm) {}
 
 	private void GetScoreForBeatRange(int startBeat, int endBeat) {
 		
