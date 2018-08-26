@@ -23,20 +23,6 @@ public class MIDIPlayer : MonoBehaviour
     public int midiNoteVolume = 100;
     [Range(0, 127)] //From Piano to Gunshot
     public int midiInstrument = 0;
-    public int trackGateVelocity {
-        get { return playerGate.gateVelocity; }
-        set { 
-            playerGate.gateVelocity = value; 
-            aiMidiContoller.playerGateChange(value);
-        }
-    }
-    public float playerVolume {
-        get { return playerVolumeFilter.volumeMultiplier; }
-        set {
-            playerVolumeFilter.volumeMultiplier = value;
-            aiMidiContoller.playerVolume = value;
-        }
-    }
     public float playbackRate {
         set { midiSequencer.playbackSpeedMultiplier = value; }
         get { return midiSequencer.playbackSpeedMultiplier; }
@@ -62,12 +48,7 @@ public class MIDIPlayer : MonoBehaviour
     // private float sliderValue = 1.0f;
     // private float maxSliderValue = 127.0f;
     public MIDIFilterGroup filterGroup = new MIDIFilterGroup();
-    private MIDITrackGate playerGate = new MIDITrackGate();
-    private MIDIVolumeFilter playerVolumeFilter = new MIDIVolumeFilter();
     public MIDISmartTranspose transposeFilter = new MIDISmartTranspose();
-    //private MIDIVolumeFilter muter = new MIDIVolumeFilter();
-    public MIDIVolumeFilter opponentVolumeFilter = new MIDIVolumeFilter();
-    public MIDITrackGate opponentGate = new MIDITrackGate();
     private bool isPlaying;
 
     // Awake is called when the script instance
@@ -80,14 +61,6 @@ public class MIDIPlayer : MonoBehaviour
         midiStreamSynthesizer.LoadBank(bankFilePath);
 
         midiSequencer = new MusicianRPG.MidiSequencer(midiStreamSynthesizer);
-        // transposeFilter.transposeRules = transposeRules[0];
-        opponentVolumeFilter.activeChannel = 1;
-
-        // filterGroup.filters = new MIDITrackFilter[]{  playerGate, playerVolumeFilter,   opponentGate, opponentVolumeFilter,transposeFilter};
-        
-        trackGateVelocity = 79;
-        playerVolume = 1;
-        
 
         //These will be fired by the midiSequencer when a song plays. Check the console for messages if you uncomment these
         //midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);

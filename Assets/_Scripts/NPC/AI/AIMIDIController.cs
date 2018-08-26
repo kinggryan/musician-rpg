@@ -19,7 +19,11 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	public float gateFollowRndm;
 	public float moveMinInterval;
 	public float moveMaxInterval;
-	public float playerVolume;
+	public float playerVolume {
+		get {
+			return player.volumeMultiplier;
+		}
+	}
 	public Color gateTextColor;
 	public Color dynamicsTextColor;
 	public Color moveColor;
@@ -45,6 +49,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
     //Private 
     
 	public MIDISongPlayer midiPlayer;
+	public PlayerMidiController player;
 	public AIFeedback aiFeedback;
 	
 	public bool isLeading {
@@ -95,7 +100,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 
 	void Awake() {
 		// Do this during awake because we want the player to be fully initialized
-		var player = Object.FindObjectOfType<PlayerMidiController>();
+		player = Object.FindObjectOfType<PlayerMidiController>();
 		player.AddListener(this);
 	}
 
@@ -185,7 +190,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	void MakeVolumeMove(){
 		moveTimer = 0;
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
-		targetVolume = Random.Range(.2f,2);
+		targetVolume = Random.Range(.5f,2);
 		Debug.Log("Making vol move from " + volume + " to " + targetVolume);
 		moving = true;
 	}

@@ -22,6 +22,12 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	public bool mouseControls;
 
 	public Chord chord;
+
+	public float volumeMultiplier {
+		get {
+			return volumeFilter.volumeMultiplier;
+		}
+	}
 	
 	public float keyVolumeIncrement;
 	public int keyControlIndex = 1;
