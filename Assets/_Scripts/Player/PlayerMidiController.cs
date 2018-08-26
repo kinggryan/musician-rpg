@@ -96,6 +96,8 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		}
 	}
 
+	public void DidFinishSong() { }
+
 	// Use this for initialization
 	void Start () {
 		// mouseInput.maxDistance = 250;

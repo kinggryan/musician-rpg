@@ -2,12 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MidiSongStructureManager : SongStructureManager {
+public class MidiSongStructureManager : SongStructureManager, IScorekeeperListener {
 	public MIDISongPlayer songPlayer;
 
 	MIDISmartTranspose transposeFilter;
 
 	const double songBPM = 240;
+
+	public void DidChangeScore(float score) { }
+	public void DidSetMaxScore(float maxScore) { }
+	public void DidWin() { }
+	public void DidLose() {
+		// TODO: Some fancier end effect?
+		songPlayer.Stop();
+	}
+
+	protected override void Awake() {
+		base.Awake();
+		var scorekeeper = Object.FindObjectOfType<Scorekeeper>();
+		scorekeeper.AddListener(this);
+	}
 
 	protected void Start() {
 		// Create and add the transposition filter to the midi player
@@ -28,6 +42,9 @@ public class MidiSongStructureManager : SongStructureManager {
 
 	override protected void EndSong() {
 		songPlayer.Stop();
+		foreach(var listener in songUpdateListeners) {
+			listener.DidFinishSong();
+		}
 	}
 
 	private double GetBeatForSampleTime(int sampleTime) {

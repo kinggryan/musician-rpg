@@ -173,6 +173,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	public void DidStartSongWithBPM(float bpm) {}
+	public void DidFinishSong() {}
 
 	private IEnumerator WaitThenChangeGate(int newGateVelo, float timeToWait){
 		yield return new WaitForSeconds(timeToWait);

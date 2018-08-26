@@ -19,6 +19,9 @@ public class ScorekeeperScorebar : MonoBehaviour, IScorekeeperListener {
 		UpdateSlider();
 	}
 
+	public void DidWin() { }
+	public void DidLose() { }
+
 	void UpdateSlider() {
 		Debug.Log("Score " + score + "/" + maxScore);
 		slider.value = Mathf.Clamp(score/maxScore, 0, 1);

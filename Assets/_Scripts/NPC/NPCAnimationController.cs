@@ -54,4 +54,12 @@ public class NPCAnimationController : MonoBehaviour, IScorekeeperListener, IPlay
 	}
 
 	public void DidChangeLoop(AudioLoop newLoop, int index) { }
+
+	public void DidWin() {
+		animator.SetBool("playing", false);
+	}
+
+	public void DidLose() {
+		animator.SetBool("playing", false);
+	}
 }

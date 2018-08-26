@@ -123,6 +123,13 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		}
 	}
 
+	public void DidFinishSong() {
+		// Player won!
+		foreach(var listener in listeners) {
+			listener.DidWin();
+		}
+	}
+
 	public void DidStartSongWithBPM(float bpm) {}
 	public void DidChangeLead(bool aiIsLeading) {}
 
@@ -160,6 +167,9 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		}
 		loopChangedSinceLastInterval = false;
 
+		if(score <= 0) {
+			Lose();
+		}
 
 		// Do the scoring
 		// var score = 0;
@@ -169,6 +179,12 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 		// 	score = ScoreForPlayerFollowing();
 
 
+	}
+
+	private void Lose() {
+		foreach(var listener in listeners) {
+			listener.DidLose();
+		}
 	}
 
 	private int GetNoOfRhythmStringMatchesInRange(int startBeat, int endBeat){

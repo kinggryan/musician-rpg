@@ -8,4 +8,5 @@ using UnityEngine;
 /// </summary>
 public interface ISongUpdateListener {
 	void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo);
+	void DidFinishSong();
 }
