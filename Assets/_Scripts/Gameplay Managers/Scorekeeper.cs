@@ -124,6 +124,7 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 	}
 
 	public void DidStartSongWithBPM(float bpm) {}
+	public void DidChangeLead(bool aiIsLeading) {}
 
 	private void GetScoreForBeatRange(int startBeat, int endBeat) {
 		

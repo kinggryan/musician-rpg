@@ -260,6 +260,9 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 			aiFeedback.DisplayText("I'll lead now!", 3f, Color.white);
 		else
 			aiFeedback.DisplayText("Take the lead!", 3f, Color.white);
+		foreach(var listener in listeners) {
+			listener.DidChangeLead(npcIsLeading);
+		}
 	}
 
 	private void UpdateLeading() {

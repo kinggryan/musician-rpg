@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IAIListener {
 
 	void DidChangeAILoop(AIMIDIController ai, AudioLoop loop);
-
+	void DidChangeLead(bool aiIsLeading);
 }
