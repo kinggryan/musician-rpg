@@ -8,6 +8,17 @@ using UnityEngine.UI;
 /// </summary>
 public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdateListener, IAIListener {
 
+	public static class Notifications {
+		public static string scoreUpdated = "scoreUpdated";
+		public struct ScoreUpdatedArgs {
+			public float score;
+			public float maxScore;
+			public float emotionPointGain;
+			public float rhythmPointGain;
+			public bool wasStale;
+		}
+	}
+
 	public float score  {
 		get {
 			return _score;
@@ -158,14 +169,26 @@ public class Scorekeeper : MonoBehaviour, IPlayerControllerListener, ISongUpdate
 			score -= noEmotionMatchPunishment;
 			Debug.Log("No Emotion Match");
 		}
+
+		var wasStale = false;
 		if(!loopChangedSinceLastInterval){
 			stalenessCounter++;
 			score -= stalenessCounter * stalenessPunishment;
+			wasStale = true;
 			Debug.Log("Stale Loop");
 		}else{
 			stalenessCounter = 0;
 		}
 		loopChangedSinceLastInterval = false;
+
+		// Send a notification to update others that scoring just happened
+		var notificationInfo = new Notifications.ScoreUpdatedArgs();
+		notificationInfo.score = score;
+		notificationInfo.maxScore = maxScore;
+		notificationInfo.emotionPointGain = adjustedEmotionScore;
+		notificationInfo.rhythmPointGain = adjustedRhythmScore;
+		notificationInfo.wasStale = wasStale;
+		NotificationBoard.SendNotification(Notifications.scoreUpdated, this, notificationInfo);		
 
 		if(score <= 0) {
 			Lose();
