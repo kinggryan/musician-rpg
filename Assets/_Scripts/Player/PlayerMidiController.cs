@@ -5,6 +5,12 @@ using CSharpSynth.Midi;
 
 public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 
+	public static class Notifications {
+		public static string changedSelectedDynamicControl = "playerChangedSelectedDynamicControl";
+		public static string changedVolume = "playerChangedVolume";
+		public static string changedGate = "playerChangedGate";
+	}
+
 	public string[] loopNames;
 
 	public MidiSongStructureManager songStructureManager;
@@ -143,6 +149,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		midiStreamer.AddFilter(monophonicFilter);
 		
 		currentInstIndex = 0;
+
+		NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));	
+		NotificationBoard.SendNotification(Notifications.changedVolume,this,(volumeFilter.volumeMultiplier-minVolume)/(maxVolume-minVolume));	
 	}
 	
 	// Update is called once per frame
@@ -220,21 +229,28 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 				Debug.Log("keyControlIndex: " + keyControlIndex);
 				keyControlDisplay.UpdateDisplayValues();
 			}
+			NotificationBoard.SendNotification(Notifications.changedSelectedDynamicControl,this,keyControlIndex);
 		}
 		if(Input.GetKeyDown(KeyCode.RightArrow)){
 			Debug.Log("RIGHT ARROW PRESSED");
-			if(keyControlIndex < 2){
+			if(keyControlIndex < 1){
 				keyControlIndex++;
 				Debug.Log("keyControlIndex: " + keyControlIndex);
 				keyControlDisplay.UpdateDisplayValues();
+				NotificationBoard.SendNotification(Notifications.changedSelectedDynamicControl,this,keyControlIndex);
 			}
 		}
+		// if(keyControlIndex == 0){
+		// 	UpdateInstrument();
+		// }else if(keyControlIndex == 1){
+		// 	UpdateGate();
+		// }else if(keyControlIndex == 2){
+		// 	UpdateVolume();
+		// }
 		if(keyControlIndex == 0){
-			UpdateInstrument();
-		}else if(keyControlIndex == 1){
-			UpdateGate();
-		}else if(keyControlIndex == 2){
 			UpdateVolume();
+		} else if(keyControlIndex == 1){
+			UpdateGate();
 		}
 	}
 
@@ -261,7 +277,8 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 					gateFilter.gateVelocity++;
 				}
 				Debug.Log("Gate level:" + gateFilter.gateVelocity);
-				keyControlDisplay.UpdateDisplayValues();				
+				keyControlDisplay.UpdateDisplayValues();		
+				NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));		
 			}
 			if(Input.GetKeyDown(KeyCode.UpArrow)){
 				Debug.Log("GATE DOWN");
@@ -270,8 +287,11 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 				}
 				Debug.Log("Gate level:" + gateFilter.gateVelocity);
 				keyControlDisplay.UpdateDisplayValues();
+				NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));		
 			}
 		}
+
+		
 	}
 
 	void UpdateVolume() {
@@ -301,6 +321,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 				Debug.Log("Volume level:" + currentVolume);				
 				volumeFilter.volumeMultiplier = currentVolume;
 				keyControlDisplay.UpdateDisplayValues();
+				NotificationBoard.SendNotification(Notifications.changedVolume,this,(volumeFilter.volumeMultiplier-minVolume)/(maxVolume-minVolume));
 			}
 			if(Input.GetKeyDown(KeyCode.UpArrow)){
 				float currentVolume = volumeFilter.volumeMultiplier;
@@ -311,10 +332,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 				Debug.Log("Volume level:" + currentVolume);				
 				volumeFilter.volumeMultiplier = currentVolume;
 				keyControlDisplay.UpdateDisplayValues();
-			}
-			
+				NotificationBoard.SendNotification(Notifications.changedVolume,this,(volumeFilter.volumeMultiplier-minVolume)/(maxVolume-minVolume));
+			}	
 		}
-		
 	}
 
 	void UpdateInstrument() {
