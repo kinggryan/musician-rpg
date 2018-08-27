@@ -15,12 +15,9 @@ public class NPCAnimationController : MonoBehaviour, IScorekeeperListener, IPlay
 		scorekeeper.AddListener(this);
 		var player = Object.FindObjectOfType<PlayerMidiController>();
 		player.AddListener(this);
-	}
-
-	void Start () {
 		animator = GetComponent<Animator>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -41,6 +38,7 @@ public class NPCAnimationController : MonoBehaviour, IScorekeeperListener, IPlay
 	}
 
 	public void UpdateGroove(float groove) {
+		// TODO: Fix this
 		animator.SetFloat("groove", groove);
 	}
 
