@@ -9,6 +9,10 @@ using MusicianRPG;
 
 public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerControllerListener {
 
+	public static class Notifications {
+		public static string changedLead = "npcDidChangeLead";
+	}
+
 	// The known loops of this character
 	public string[] knownLoopNames;
 
@@ -144,6 +148,8 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		loopDecider = new AILeadingLoopDecider(knownLoops, songSpecificLoops, songStructureManager.songSections);
 		var loopToPlay = loopDecider.ChooseLoopToPlay();
 		SetCurrentLoop(loopToPlay);
+
+		NotificationBoard.SendNotification(Notifications.changedLead, this, true);
 	}
 
 	public void playerGateChange(int playerGate){
@@ -266,9 +272,13 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 			aiFeedback.DisplayText("I'll lead now!", 3f, Color.white);
 		else
 			aiFeedback.DisplayText("Take the lead!", 3f, Color.white);
+
 		foreach(var listener in listeners) {
 			listener.DidChangeLead(npcIsLeading);
 		}
+
+		// Post a notification
+		NotificationBoard.SendNotification(Notifications.changedLead, this, npcIsLeading);
 	}
 
 	private void UpdateLeading() {
