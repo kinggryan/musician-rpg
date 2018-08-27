@@ -148,8 +148,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		loopDecider = new AILeadingLoopDecider(knownLoops, songSpecificLoops, songStructureManager.songSections);
 		var loopToPlay = loopDecider.ChooseLoopToPlay();
 		SetCurrentLoop(loopToPlay);
-
-		NotificationBoard.SendNotification(Notifications.changedLead, this, true);
 	}
 
 	public void playerGateChange(int playerGate){
@@ -178,7 +176,10 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 			midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
 	}
 
-	public void DidStartSongWithBPM(float bpm) {}
+	public void DidStartSongWithBPM(float bpm) {
+		NotificationBoard.SendNotification(Notifications.changedLead, this, true);
+	}
+	
 	public void DidFinishSong() {}
 
 	private IEnumerator WaitThenChangeGate(int newGateVelo, float timeToWait){
