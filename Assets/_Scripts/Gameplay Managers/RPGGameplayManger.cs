@@ -64,6 +64,10 @@ public class RPGGameplayManger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(Input.GetKeyDown(KeyCode.Z)){
+			Debug.Log("Z pressed");
+			NotificationBoard.SendNotification(Notifications.setJammageThreshold,this,5);
+		}
 		
 	}
 }

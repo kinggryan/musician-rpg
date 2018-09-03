@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ScorekeeperScorebar : MonoBehaviour, IScorekeeperListener {
 
-	float score;
-	float maxScore = 1;
+	public float score;
+	public float maxScore = 1;
 	UnityEngine.UI.Slider slider;
 
 	// Use this for initialization
