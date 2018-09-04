@@ -344,7 +344,6 @@ GameObject:
   - component: {fileID: 39149015}
   - component: {fileID: 39149016}
   - component: {fileID: 39149017}
-  - component: {fileID: 39149018}
   - component: {fileID: 39149019}
   m_Layer: 0
   m_Name: GameManager
@@ -602,27 +601,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beatNumber: {fileID: 328300921}
---- !u!114 &39149018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 39149006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8708c66a8ada4fea9a3c16671077cba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxEmotionPoints: 2
-  maxRhythmPoints: 4
-  noEmotionMatchPunishment: 1
-  noRhythmMatchPunishment: 4
-  minNoOfRhythmStringMatches: 2
-  maxScore: 10
-  scoreEveryNumBeats: 8
-  stalenessPunishment: 2
-  playerIsLeading: 0
-  _score: 5
 --- !u!114 &39149019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4287,7 +4265,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1611396600}
   - component: {fileID: 1611396602}
-  - component: {fileID: 1611396601}
   m_Layer: 5
   m_Name: Stamina Bar
   m_TagString: Untagged
@@ -4319,19 +4296,6 @@ RectTransform:
   m_AnchoredPosition: {x: 97.9, y: -543}
   m_SizeDelta: {x: 430, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1611396601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1611396599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ce1cc767afbc47a487ec82775c48871, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 0
-  maxScore: 1
 --- !u!114 &1611396602
 MonoBehaviour:
   m_ObjectHideFlags: 0

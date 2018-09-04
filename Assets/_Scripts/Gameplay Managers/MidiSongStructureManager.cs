@@ -20,7 +20,8 @@ public class MidiSongStructureManager : SongStructureManager, IScorekeeperListen
 	protected override void Awake() {
 		base.Awake();
 		var scorekeeper = Object.FindObjectOfType<Scorekeeper>();
-		scorekeeper.AddListener(this);
+		if(scorekeeper)
+			scorekeeper.AddListener(this);
 	}
 
 	protected void Start() {

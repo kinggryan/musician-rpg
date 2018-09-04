@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -102,13 +102,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		songStructureManager.RegisterSongUpdateListener(this);
 	}
 
-	void Start() {
-		NotificationBoard.SendNotification(Notifications.updatedJammage, this, jammage);
-		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
-		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
-		NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
-	}
-
 	void DidChangeCurrentPlayerLoop(object sender, object arg) {
 		currentPlayerMoveIndex = (int)arg;
 	}
@@ -167,6 +160,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		jammage = 0;
 		previousTurnLoops = new List<int>(currentTurnLoops);
 	
+<<<<<<< HEAD
 		// Send notifications about everything that just updated
 		var previousTurnLoopsNotificationInfo = new Notifications.SetPreviousPhrasePlayerLoopsArgs();
 		previousTurnLoopsNotificationInfo.playerLoops = new List<PlayerMove>();
@@ -189,5 +183,14 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	float GetBonusMultiplierForThisTurn() {
 		// TODO: Want to return if the player and NPC rhytmically matched enough
 		return 1f;
+=======
+	// Update is called once per frame
+	void Update () {
+		if(Input.GetKeyDown(KeyCode.Z)){
+			Debug.Log("Z pressed");
+			NotificationBoard.SendNotification(Notifications.setJammageThreshold,this,5);
+		}
+		
+>>>>>>> ec2a116e21514b39bf35c515ab7a4b02d5f4b100
 	}
 }

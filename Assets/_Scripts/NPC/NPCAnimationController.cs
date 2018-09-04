@@ -12,7 +12,9 @@ public class NPCAnimationController : MonoBehaviour, IScorekeeperListener, IPlay
 	// Use this for initialization
 	void Awake() {
 		var scorekeeper = Object.FindObjectOfType<Scorekeeper>();
-		scorekeeper.AddListener(this);
+		if(scorekeeper)
+			scorekeeper.AddListener(this);
+			
 		var player = Object.FindObjectOfType<PlayerMidiController>();
 		player.AddListener(this);
 		animator = GetComponent<Animator>();
