@@ -9,6 +9,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		public static string changedSelectedDynamicControl = "playerChangedSelectedDynamicControl";
 		public static string changedVolume = "playerChangedVolume";
 		public static string changedGate = "playerChangedGate";
+		public static string changedSelectedLoop = "changedSelectedLoop";
 	}
 
 	public string[] loopNames;
@@ -406,6 +407,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		foreach(var listener in listeners) {
 			listener.DidChangeLoop(playerLoops[currentLoopIndex], currentLoopIndex);
 		}
+		NotificationBoard.SendNotification(Notifications.changedSelectedLoop, this, currentLoopIndex);
 	}
 
 	void SetSongSpecificLoop(AudioLoop songSpecificLoop) {

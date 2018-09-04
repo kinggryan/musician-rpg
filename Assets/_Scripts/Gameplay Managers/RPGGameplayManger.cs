@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RPGGameplayManger : MonoBehaviour {
+public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 	public static class Notifications {
 		/// <summary>
@@ -36,7 +36,7 @@ public class RPGGameplayManger : MonoBehaviour {
 		/// </summary>
 		public static string setPlayerLoopForBeat = "setPlayerLoopForBeat";
 		public struct SetPlayerLoopForBeatArgs {
-			public AudioLoop playerLoop;
+			public PlayerMove playerLoop;
 			public int beatNumber;
 		}
 		/// <summary>
@@ -45,7 +45,7 @@ public class RPGGameplayManger : MonoBehaviour {
 		/// </summary>
 		public static string setPreviousPhrasePlayerLoops = "setPreviousPhrasePlayerLoops";
 		public struct SetPreviousPhrasePlayerLoopsArgs {
-			public List<AudioLoop> playerLoops;
+			public List<PlayerMove> playerLoops;
 		}
 		/// <summary>
 		/// The argument for this notification is an integer - the new number of victory points
@@ -57,13 +57,130 @@ public class RPGGameplayManger : MonoBehaviour {
 		public static string gotRhythmMatchBonus = "gotRhythmMatchBonus";
 	}
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	// The list of the player's moves
+	public List<PlayerMove> playerMoves = new List<PlayerMove>();
 	
-	// Update is called once per frame
-	void Update () {
+	private int currentPlayerMoveIndex = 0;
+	private List<int> currentTurnLoops = new List<int>();
+	private List<int> previousTurnLoops = new List<int>();
+	private int	numMovesPerTurn = 8;
+
+	private int victoryPoints = 0;
+	private int victoryPointGainPerPassedTurn = 2;
+	private int victoryPointLossPerFailedTurn = 1;
+
+	private int jammage = 0;
+	private int jammageThreshold = 8;
+
+	private int stamina = 16;
+	private int maxStamina = 32;
+	private int jammageLossForNotEnoughStamina = 2;
+
+	private int staminaRechargeMeter = 0;
+	private int staminaRechargeMeterThreshold = 6;
+	private int staminaRechargeMeterMax = 7;
+	private int defaultStaminaRechargePerTurn = 4;
+	private int staminaRechargeFromMeterPerTurn = 8;
+
+	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
+		// Do the beat update
+		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, beatInfo.currentBeat);
+
+		// If the turn is complete, handle what we should do for completing it
+		if(IsCurrentTurnComplete()) {
+			CompleteTurn();
+		}
+	}
+
+	public void DidFinishSong() {
+
+	}
+
+	void Awake() {
+		NotificationBoard.AddListener(PlayerMidiController.Notifications.changedSelectedLoop, DidChangeCurrentPlayerLoop);
+		var songStructureManager = Object.FindObjectOfType<MidiSongStructureManager>();
+		songStructureManager.RegisterSongUpdateListener(this);
+	}
+
+	void DidChangeCurrentPlayerLoop(object sender, object arg) {
+		currentPlayerMoveIndex = (int)arg;
+	}
+
+	void UpdateStaminaAndJammageWithNextPlayerMove(int playerMoveIndex, int beatNumber) {
+		currentTurnLoops.Add(playerMoveIndex);
+		var currentPlayerMove = playerMoves[playerMoveIndex];
+		jammage += currentPlayerMove.jammageGain;
 		
+		// If the player doesn't have enough stamina, you lose jammage
+		if(stamina >= currentPlayerMove.staminaCost) {
+			stamina -= currentPlayerMove.staminaCost;
+		} else {
+			stamina = 0;
+			jammage -= jammageLossForNotEnoughStamina;
+		}
+
+		// If the current loop matches the previous loop in the turn, add to the stamina recharge meter
+		var previousTurnMoveIndex = currentTurnLoops.Count - 1;
+		if(previousTurnMoveIndex < previousTurnLoops.Count) {
+			var previousTurnMove = previousTurnLoops[previousTurnMoveIndex];
+			if(previousTurnMove == playerMoveIndex) {
+				staminaRechargeMeter++;
+				NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
+			}
+		}
+
+		// Send all the notifications for things that happened
+		var notificationInfo = new Notifications.SetPlayerLoopForBeatArgs();
+		notificationInfo.playerLoop = currentPlayerMove;
+		notificationInfo.beatNumber = beatNumber;
+		NotificationBoard.SendNotification(Notifications.setPlayerLoopForBeat, this, notificationInfo);
+		NotificationBoard.SendNotification(Notifications.updatedJammage, this, jammage);
+		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
+	}
+
+	void CompleteTurn() {
+		// Do the victory point adding/subtracting
+		var bonusMultiplier = GetBonusMultiplierForThisTurn();
+		if(jammage >= jammageThreshold) {
+			victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
+		} else {
+			// The bonus multiplier is still favorable for VP loss - 
+			// it reduces the amount of VPs you lose when you fail the turn
+			victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
+		}
+
+		// Handle the stamina recharge meter
+		stamina += defaultStaminaRechargePerTurn;
+		if(staminaRechargeMeter >= staminaRechargeMeterThreshold && staminaRechargeMeter <= staminaRechargeMeterMax) {
+			stamina += staminaRechargeFromMeterPerTurn;
+		}
+
+		// Reset everything that needs resetting
+		staminaRechargeMeter = 0;
+		jammage = 0;
+		previousTurnLoops = new List<int>(currentTurnLoops);
+	
+		// Send notifications about everything that just updated
+		var previousTurnLoopsNotificationInfo = new Notifications.SetPreviousPhrasePlayerLoopsArgs();
+		previousTurnLoopsNotificationInfo.playerLoops = new List<PlayerMove>();
+		foreach(var index in previousTurnLoops) {
+			previousTurnLoopsNotificationInfo.playerLoops.Add(playerMoves[index]);
+		}
+		NotificationBoard.SendNotification(Notifications.setPreviousPhrasePlayerLoops, this, previousTurnLoopsNotificationInfo);
+		NotificationBoard.SendNotification(Notifications.staminaRecharged, this, stamina);
+		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
+		NotificationBoard.SendNotification(Notifications.updatedVictoryPoints, this, victoryPoints);
+		if(bonusMultiplier > 1) {
+			NotificationBoard.SendNotification(Notifications.gotRhythmMatchBonus, this, bonusMultiplier);
+		}
+	}
+
+	bool IsCurrentTurnComplete() {
+		return currentTurnLoops.Count == numMovesPerTurn;
+	}
+
+	float GetBonusMultiplierForThisTurn() {
+		// TODO: Want to return if the player and NPC rhytmically matched enough
+		return 1f;
 	}
 }
