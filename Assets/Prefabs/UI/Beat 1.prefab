@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222086703244600324}
   - component: {fileID: 114359531039431810}
   - component: {fileID: 114115551967893734}
+  - component: {fileID: 95524848841640232}
   m_Layer: 5
   m_Name: Beat 1
   m_TagString: Untagged
@@ -46,6 +47,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95524848841640232
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1596688240637472}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c22f2ddf612274822b489e102aac8fee, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114115551967893734
 MonoBehaviour:
   m_ObjectHideFlags: 1

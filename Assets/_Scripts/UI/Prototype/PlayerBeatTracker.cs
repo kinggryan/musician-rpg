@@ -16,6 +16,7 @@ public class PlayerBeatTracker : MonoBehaviour {
 
 	private Sprite nullCurrentBeatSprite;
 	private Sprite nullPreviousBeatSprite;
+	private Animator animator;
 
 	// Use this for initialization
 	void Awake () {
@@ -23,12 +24,14 @@ public class PlayerBeatTracker : MonoBehaviour {
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.setPreviousPhrasePlayerLoops, DidUpdatePreviousLoopBeats);
 		nullCurrentBeatSprite = currentBeatImage.sprite;
 		nullPreviousBeatSprite = previousBeatImage.sprite;
+		animator = GetComponent<Animator>();
 	}
 	
 	void DidSetPlayerLoopForBeat(object sender, object arg) {
 		var playerMoveAndBeat = (RPGGameplayManger.Notifications.SetPlayerLoopForBeatArgs)arg;
 		if(playerMoveAndBeat.beatNumber % 8 == beatNumber) {
 			currentBeatImage.sprite = currentBeatSprites[playerMoveAndBeat.playerMoveIndex];
+			animator.SetTrigger("pulse");
 		} else if(playerMoveAndBeat.beatNumber % 8 == 0) {
 			currentBeatImage.sprite = nullCurrentBeatSprite;
 		}
