@@ -64,6 +64,7 @@ public abstract class AILoopDecider {
 		currentSongPhrase = songPhrase;
 	}
 
+	// TODO: Repair this
 	public void DidStartNextBeat() {
 		if(currentPlayerLoop != null && currentBeatNumber >= 0) {
 			var recordEntry = new SongRecord();
@@ -72,6 +73,10 @@ public abstract class AILoopDecider {
 			playerSongRecord.Add(recordEntry);
 		}
 		currentBeatNumber++;
+	}
+
+	protected void Awake() {
+		// NotificationBoard.AddListener(SongStructureManager.Notifications.)
 	}
 
 	protected List<SongRecord> GetPlayerSongRecordForBeatRange(int startBeat, int endBeat) {

@@ -5,6 +5,10 @@ using UnityEngine.Audio;
 
 public abstract class SongStructureManager : MonoBehaviour {
 
+	public static class Notifications {
+		public static string didStartSong = "didStartSong";
+	}
+
 	public struct BeatUpdateInfo {
 		public int currentBeat;
 		public SongSection currentSection;
@@ -65,6 +69,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 		isSongPlaying = true;
 		QueueNextSongPhrase();
 		BroadcastMessage("DidStartSong",SendMessageOptions.DontRequireReceiver);
+		NotificationBoard.SendNotification(Notifications.didStartSong, this, null);
 	}
 
 	public void RegisterSongUpdateListener(ISongUpdateListener listener) {
@@ -159,7 +164,6 @@ public abstract class SongStructureManager : MonoBehaviour {
 				beatUpdateInfo.beatsUntilNextSection = GetStartBeatForSectionIndex(currentSongSectionIndex+1) - Mathf.RoundToInt((float)currentSongBeat);
 			}
 			
-			BroadcastMessage("DidStartNextBeat", beatUpdateInfo, SendMessageOptions.DontRequireReceiver);
 			foreach(var listener in songUpdateListeners) {
 				listener.DidStartNextBeat(beatUpdateInfo);
 			}

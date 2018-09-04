@@ -36,8 +36,9 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		/// </summary>
 		public static string setPlayerLoopForBeat = "setPlayerLoopForBeat";
 		public struct SetPlayerLoopForBeatArgs {
-			public PlayerMove playerLoop;
+			public PlayerMove playerMove;
 			public int beatNumber;
+			public int playerMoveIndex;
 		}
 		/// <summary>
 		/// This notification is called when a song phrase is complete and the player's previous phrase loops are locked in
@@ -45,7 +46,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		/// </summary>
 		public static string setPreviousPhrasePlayerLoops = "setPreviousPhrasePlayerLoops";
 		public struct SetPreviousPhrasePlayerLoopsArgs {
-			public List<PlayerMove> playerLoops;
+			public List<PlayerMove> playerMoves;
+			public List<int> playerMoveIndices;
 		}
 		/// <summary>
 		/// The argument for this notification is an integer - the new number of victory points
@@ -98,8 +100,10 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 	void Awake() {
 		NotificationBoard.AddListener(PlayerMidiController.Notifications.changedSelectedLoop, DidChangeCurrentPlayerLoop);
+		NotificationBoard.AddListener(SongStructureManager.Notifications.didStartSong, DidStartSong);
 		var songStructureManager = Object.FindObjectOfType<MidiSongStructureManager>();
 		songStructureManager.RegisterSongUpdateListener(this);
+
 	}
 
 	void Start() {
@@ -107,6 +111,10 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
 		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
 		NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
+	}
+
+	void DidStartSong(object sender, object arg) {
+		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, 0);
 	}
 
 	void DidChangeCurrentPlayerLoop(object sender, object arg) {
@@ -138,7 +146,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 		// Send all the notifications for things that happened
 		var notificationInfo = new Notifications.SetPlayerLoopForBeatArgs();
-		notificationInfo.playerLoop = currentPlayerMove;
+		notificationInfo.playerMove = currentPlayerMove;
+		notificationInfo.playerMoveIndex = playerMoveIndex;
 		notificationInfo.beatNumber = beatNumber;
 		NotificationBoard.SendNotification(Notifications.setPlayerLoopForBeat, this, notificationInfo);
 		NotificationBoard.SendNotification(Notifications.updatedJammage, this, jammage);
@@ -166,12 +175,15 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		staminaRechargeMeter = 0;
 		jammage = 0;
 		previousTurnLoops = new List<int>(currentTurnLoops);
+		currentTurnLoops.Clear();
 	
 		// Send notifications about everything that just updated
 		var previousTurnLoopsNotificationInfo = new Notifications.SetPreviousPhrasePlayerLoopsArgs();
-		previousTurnLoopsNotificationInfo.playerLoops = new List<PlayerMove>();
+		previousTurnLoopsNotificationInfo.playerMoves = new List<PlayerMove>();
+		previousTurnLoopsNotificationInfo.playerMoveIndices = new List<int>();
 		foreach(var index in previousTurnLoops) {
-			previousTurnLoopsNotificationInfo.playerLoops.Add(playerMoves[index]);
+			previousTurnLoopsNotificationInfo.playerMoves.Add(playerMoves[index]);
+			previousTurnLoopsNotificationInfo.playerMoveIndices.Add(index);
 		}
 		NotificationBoard.SendNotification(Notifications.setPreviousPhrasePlayerLoops, this, previousTurnLoopsNotificationInfo);
 		NotificationBoard.SendNotification(Notifications.staminaRecharged, this, stamina);
