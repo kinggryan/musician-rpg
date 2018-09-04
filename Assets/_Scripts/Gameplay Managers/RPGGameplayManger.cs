@@ -49,6 +49,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 			public List<PlayerMove> playerMoves;
 			public List<int> playerMoveIndices;
 		}
+		public static string updatedMaxStamina = "updatedMaxStamina";
 		/// <summary>
 		/// The argument for this notification is an integer - the new number of victory points
 		/// </summary>
@@ -111,6 +112,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
 		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
 		NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
+		NotificationBoard.SendNotification(Notifications.updatedMaxStamina, this, maxStamina);
 	}
 
 	void DidStartSong(object sender, object arg) {

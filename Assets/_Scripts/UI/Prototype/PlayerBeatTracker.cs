@@ -18,6 +18,8 @@ public class PlayerBeatTracker : MonoBehaviour {
 	private Sprite nullPreviousBeatSprite;
 	private Animator animator;
 
+	private int queuedPreviousLoopBeatIndex;
+
 	// Use this for initialization
 	void Awake () {
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.setPlayerLoopForBeat, DidSetPlayerLoopForBeat);
@@ -29,21 +31,28 @@ public class PlayerBeatTracker : MonoBehaviour {
 	
 	void DidSetPlayerLoopForBeat(object sender, object arg) {
 		var playerMoveAndBeat = (RPGGameplayManger.Notifications.SetPlayerLoopForBeatArgs)arg;
+
+		// If this is the start of the measure, reset yourself
+		if(playerMoveAndBeat.beatNumber % 8 == 0) {
+			currentBeatImage.sprite = nullCurrentBeatSprite;
+			if(queuedPreviousLoopBeatIndex >= 0)
+				previousBeatImage.sprite = previousBeatSprites[queuedPreviousLoopBeatIndex];
+			else 
+				previousBeatImage.sprite = nullPreviousBeatSprite;
+		}
+
+		// Update your image if this is the current beat
 		if(playerMoveAndBeat.beatNumber % 8 == beatNumber) {
 			currentBeatImage.sprite = currentBeatSprites[playerMoveAndBeat.playerMoveIndex];
 			animator.SetTrigger("pulse");
-		} else if(playerMoveAndBeat.beatNumber % 8 == 0) {
-			currentBeatImage.sprite = nullCurrentBeatSprite;
 		}
 	}
 
+	// Queue up the previous loop beat so that we can update at the top of the next measure
 	void DidUpdatePreviousLoopBeats(object sender, object arg) {
 		var playerMoveAndBeat = (RPGGameplayManger.Notifications.SetPreviousPhrasePlayerLoopsArgs)arg;
 		var index = playerMoveAndBeat.playerMoveIndices[beatNumber % 8];
-		if(index >= 0)
-			previousBeatImage.sprite = previousBeatSprites[index];
-		else 
-			previousBeatImage.sprite = nullPreviousBeatSprite;
+		queuedPreviousLoopBeatIndex = index;
 		
 	}
 }

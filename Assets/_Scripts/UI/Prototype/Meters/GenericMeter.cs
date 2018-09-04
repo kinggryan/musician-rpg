@@ -32,9 +32,13 @@ public class GenericMeter : MonoBehaviour {
 		slider = GetComponent<UnityEngine.UI.Slider>();
 	}
 
+	void Update() {
+		UpdateSlider();
+	}
+
 	void UpdateSlider() {
 		if(maxValue == 0)
 			return;
-		slider.value = Mathf.Clamp(value/maxValue, 0, 1);
+		slider.value = Mathf.Lerp(slider.value, Mathf.Clamp(value/maxValue, 0, 1), 20*Time.deltaTime);
 	}
 }
