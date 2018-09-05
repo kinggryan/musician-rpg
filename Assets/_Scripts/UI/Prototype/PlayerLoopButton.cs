@@ -7,6 +7,8 @@ public class PlayerLoopButton : MonoBehaviour, IPlayerControllerListener {
 	public Sprite deselectedImage;
 	public Sprite selectedImage;
 	public int playerLoopIndex;
+	public UnityEngine.UI.Text jammageText;
+	public UnityEngine.UI.Text staminaText;
 
 	private UnityEngine.UI.Image button;
 
@@ -25,5 +27,9 @@ public class PlayerLoopButton : MonoBehaviour, IPlayerControllerListener {
 		button = GetComponent<UnityEngine.UI.Image>();
 		var playerController = Object.FindObjectOfType<PlayerMidiController>();
 		playerController.AddListener(this);
+
+		var rpgManager = Object.FindObjectOfType<RPGGameplayManger>();
+		jammageText.text = "" + rpgManager.playerMoves[playerLoopIndex].jammageGain;
+		staminaText.text = "" + rpgManager.playerMoves[playerLoopIndex].staminaCost;
 	}
 }
