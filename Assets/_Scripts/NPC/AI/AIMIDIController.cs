@@ -209,6 +209,8 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	void MakeMove(){
+		return;
+
 		aiFeedback.ChangeAvatarColorForDuration(moveColor, 1);
 		MakeVolumeMove();
 		MakeGateMove();
