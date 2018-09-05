@@ -18,7 +18,7 @@ public class PlayerBeatTracker : MonoBehaviour {
 	private Sprite nullPreviousBeatSprite;
 	private Animator animator;
 
-	private int queuedPreviousLoopBeatIndex;
+	private int queuedPreviousLoopBeatIndex = -1;
 
 	// Use this for initialization
 	void Awake () {
@@ -51,8 +51,12 @@ public class PlayerBeatTracker : MonoBehaviour {
 	// Queue up the previous loop beat so that we can update at the top of the next measure
 	void DidUpdatePreviousLoopBeats(object sender, object arg) {
 		var playerMoveAndBeat = (RPGGameplayManger.Notifications.SetPreviousPhrasePlayerLoopsArgs)arg;
-		var index = playerMoveAndBeat.playerMoveIndices[beatNumber % 8];
-		queuedPreviousLoopBeatIndex = index;
-		
+		if(playerMoveAndBeat.playerMoves != null && playerMoveAndBeat.playerMoves.Count > 0) {
+			var index = playerMoveAndBeat.playerMoveIndices[beatNumber % 8];
+			queuedPreviousLoopBeatIndex = index;
+		} else {
+			previousBeatImage.sprite = nullPreviousBeatSprite;
+			queuedPreviousLoopBeatIndex = -1;
+		}
 	}
 }

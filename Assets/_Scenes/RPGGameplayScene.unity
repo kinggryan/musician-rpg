@@ -421,9 +421,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loopNames:
   - Melody_Roma_Lyrical
-  - Melody_Roma_Peppy
-  - Melody_Roma_SyncopatedRiff
   - Melody_Roma_Fanfare
+  - Melody_Roma_SyncopatedRiff
+  - Melody_Roma_Peppy
   songStructureManager: {fileID: 39149016}
   midiPlayer: {fileID: 39149008}
   animationManager: {fileID: 39149012}

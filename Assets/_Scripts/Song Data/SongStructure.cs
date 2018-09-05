@@ -152,6 +152,14 @@ public class SongPhrase {
 public struct SongSection {
 	public string name;
 	public SongPhrase[] phrases;
+	public int beatLength {
+		get {
+			var length = 0;
+			foreach(var phrase in phrases)
+				length += phrase.TotalBeatLength();
+			return length;
+		}
+	}
 
 	public static List<AudioLoop> GetSongSpecificNPCLoops(SongSection[] songSections) {
 		var npcLoops = new List<AudioLoop>();

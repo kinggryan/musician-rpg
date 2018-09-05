@@ -60,11 +60,19 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		public static string gotRhythmMatchBonus = "gotRhythmMatchBonus";
 	}
 
+	private enum TurnResetMode {
+		EveryTurn,
+		EverySection
+	}
+
 	// The list of the player's moves
 	public List<PlayerMove> playerMoves = new List<PlayerMove>();
 
+	private SongStructureManager songStructureManager;
+
 	private int	numMovesPerTurn = 8;
 	private int numBeatsPerMove = 4;
+	private TurnResetMode turnResetMode = TurnResetMode.EverySection;
 	
 	private int currentPlayerMoveIndex = 0;
 	private List<int> currentTurnLoops = new List<int>();
@@ -88,10 +96,11 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	private int staminaRechargeMeterMax = 7;
 	private int defaultStaminaRechargePerTurn = 4;
 	private int staminaRechargeFromMeterPerTurn = 8;
+	private int phraseCompleteStaminaBonus = 4;
 
 	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
 		if(beatInfo.currentBeat % numBeatsPerMove == 0) {
-			DoNextMove(beatInfo.currentBeat / numBeatsPerMove);
+			DoNextMove(beatInfo.currentBeat / numBeatsPerMove, beatInfo);
 		}
 	}
 
@@ -102,7 +111,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	void Awake() {
 		NotificationBoard.AddListener(PlayerMidiController.Notifications.changedSelectedLoop, DidChangeCurrentPlayerLoop);
 		NotificationBoard.AddListener(SongStructureManager.Notifications.didStartSong, DidStartSong);
-		var songStructureManager = Object.FindObjectOfType<MidiSongStructureManager>();
+		songStructureManager = Object.FindObjectOfType<MidiSongStructureManager>();
 		songStructureManager.RegisterSongUpdateListener(this);
 
 	}
@@ -123,10 +132,19 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		currentPlayerMoveIndex = (int)arg;
 	}
 
-	void DoNextMove(int moveNumber) {
+	void DoNextMove(int moveNumber, SongStructureManager.BeatUpdateInfo beatInfo) {
 		// Start the next turn if no moves have been done
 		if(currentTurnLoops.Count == 0) {
 			StartNextTurn();
+		}
+
+		// If this is the start of a new section, we should reset the song history if that's the mode we're doing
+		if(turnResetMode == TurnResetMode.EverySection && beatInfo.beatsUntilNextSection == beatInfo.currentSection.beatLength) {
+			// Reset the previous turn loops if this is the start of a new turn
+			previousTurnLoops.Clear();
+			var previousTurnLoopsNotificationInfo = new Notifications.SetPreviousPhrasePlayerLoopsArgs();
+			NotificationBoard.SendNotification(Notifications.setPreviousPhrasePlayerLoops, this, previousTurnLoopsNotificationInfo);
+			stamina += phraseCompleteStaminaBonus;
 		}
 
 		// Do the beat update
@@ -192,7 +210,9 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		staminaRechargeMeter = 0;
 		jammage = 0;
 		jammageThreshold = Random.Range(minJammageThreshold,maxJammageThreshold);
-		previousTurnLoops = new List<int>(currentTurnLoops);
+		if(turnResetMode == TurnResetMode.EveryTurn || (turnResetMode == TurnResetMode.EverySection && previousTurnLoops.Count == 0)) {
+			previousTurnLoops = new List<int>(currentTurnLoops);
+		}
 		currentTurnLoops.Clear();
 	
 		// Send notifications about everything that just updated
