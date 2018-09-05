@@ -62,11 +62,13 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 	// The list of the player's moves
 	public List<PlayerMove> playerMoves = new List<PlayerMove>();
+
+	private int	numMovesPerTurn = 8;
+	private int numBeatsPerMove = 2;
 	
 	private int currentPlayerMoveIndex = 0;
 	private List<int> currentTurnLoops = new List<int>();
 	private List<int> previousTurnLoops = new List<int>();
-	private int	numMovesPerTurn = 8;
 
 	private int victoryPoints = 0;
 	private int victoryPointGainPerPassedTurn = 2;
@@ -74,6 +76,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 	private int jammage = 0;
 	private int jammageThreshold = 8;
+	private int minJammageThreshold = 8;
+	private int maxJammageThreshold = 12;
 
 	private int stamina = 16;
 	private int maxStamina = 32;
@@ -86,12 +90,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	private int staminaRechargeFromMeterPerTurn = 8;
 
 	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
-		// Do the beat update
-		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, beatInfo.currentBeat);
-
-		// If the turn is complete, handle what we should do for completing it
-		if(IsCurrentTurnComplete()) {
-			CompleteTurn();
+		if(beatInfo.currentBeat % numBeatsPerMove == 0) {
+			DoNextMove(beatInfo.currentBeat / numBeatsPerMove);
 		}
 	}
 
@@ -121,6 +121,16 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 	void DidChangeCurrentPlayerLoop(object sender, object arg) {
 		currentPlayerMoveIndex = (int)arg;
+	}
+
+	void DoNextMove(int moveNumber) {
+		// Do the beat update
+		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, moveNumber);
+
+		// If the turn is complete, handle what we should do for completing it
+		if(IsCurrentTurnComplete()) {
+			CompleteTurn();
+		}
 	}
 
 	void UpdateStaminaAndJammageWithNextPlayerMove(int playerMoveIndex, int beatNumber) {
@@ -176,6 +186,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		// Reset everything that needs resetting
 		staminaRechargeMeter = 0;
 		jammage = 0;
+		jammageThreshold = Random.Range(minJammageThreshold,maxJammageThreshold);
 		previousTurnLoops = new List<int>(currentTurnLoops);
 		currentTurnLoops.Clear();
 	
