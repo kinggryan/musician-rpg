@@ -64,7 +64,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	public List<PlayerMove> playerMoves = new List<PlayerMove>();
 
 	private int	numMovesPerTurn = 8;
-	private int numBeatsPerMove = 2;
+	private int numBeatsPerMove = 4;
 	
 	private int currentPlayerMoveIndex = 0;
 	private List<int> currentTurnLoops = new List<int>();
@@ -124,6 +124,11 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	}
 
 	void DoNextMove(int moveNumber) {
+		// Start the next turn if no moves have been done
+		if(currentTurnLoops.Count == 0) {
+			StartNextTurn();
+		}
+
 		// Do the beat update
 		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, moveNumber);
 
@@ -200,11 +205,14 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		}
 		NotificationBoard.SendNotification(Notifications.setPreviousPhrasePlayerLoops, this, previousTurnLoopsNotificationInfo);
 		NotificationBoard.SendNotification(Notifications.staminaRecharged, this, stamina);
-		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
 		NotificationBoard.SendNotification(Notifications.updatedVictoryPoints, this, victoryPoints);
 		if(bonusMultiplier > 1) {
 			NotificationBoard.SendNotification(Notifications.gotRhythmMatchBonus, this, bonusMultiplier);
 		}
+	}
+
+	void StartNextTurn() {
+		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
 	}
 
 	bool IsCurrentTurnComplete() {
