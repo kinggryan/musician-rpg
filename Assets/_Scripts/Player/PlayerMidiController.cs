@@ -12,6 +12,8 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		public static string changedSelectedLoop = "changedSelectedLoop";
 	}
 
+	// The loopNames are now set by the RPGGameplayManager
+	[HideInInspector]
 	public string[] loopNames;
 
 	public MidiSongStructureManager songStructureManager;
@@ -40,9 +42,6 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	public int keyControlIndex = 1;
 	public int currentInstIndex;
 	public int outputChannel = 0;
-
-	public string[] playerMidiLoops;
-	// public RhythmString playedRhythmString { get; private set; }
 	
 	float songBPM = 240f;
 

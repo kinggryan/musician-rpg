@@ -10,7 +10,10 @@ public class WinLossText : MonoBehaviour, IScorekeeperListener {
 		text = GetComponent<UnityEngine.UI.Text>();
 		text.text = "";
 		var scorekeeper = Object.FindObjectOfType<Scorekeeper>();
-		scorekeeper.AddListener(this);
+		if(scorekeeper != null)
+			scorekeeper.AddListener(this);
+		NotificationBoard.AddListener(RPGGameplayManger.Notifications.playerWon, DidGetPlayerWonNotification);
+		NotificationBoard.AddListener(RPGGameplayManger.Notifications.playerLost, DidGetPlayerLostNotification);
 	}
 
 	// Use this for initialization
@@ -23,5 +26,13 @@ public class WinLossText : MonoBehaviour, IScorekeeperListener {
 
 	public void DidLose() {
 		text.text = "Better luck next time... you lost....";
+	}
+
+	public void DidGetPlayerWonNotification(object sender, object arg) {
+		DidWin();
+	}
+
+	public void DidGetPlayerLostNotification(object sender, object arg) {
+		DidLose();
 	}
 }

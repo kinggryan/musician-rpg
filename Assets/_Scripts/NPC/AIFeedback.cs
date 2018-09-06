@@ -31,6 +31,8 @@ public class AIFeedback : MonoBehaviour {
 	}
 
 	public void DisplayText(string textToDisplay, float timeToDisplayText, Color color){
+		return;
+		
 		text.enabled = true;
 		displayTimer = 0;
 		displayTime = timeToDisplayText;

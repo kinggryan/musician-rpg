@@ -40,7 +40,6 @@ public class RhythmString {
 	}
 
 	public int GetNumRhythmStringMatches(RhythmString otherRhythmString) {
-		// This is kind of weird but necessary to keep encapsulation working the way intended ie don't expose the underlying data of the rhythm string
 		var numMatchedChars = 0;
 		// TODO: Implement the part where they extend the shorter string
 		
@@ -50,6 +49,15 @@ public class RhythmString {
 			}
 		}
 		return numMatchedChars;
+	}
+
+	public int GetMaxNumRhythmStringMatches() {
+		var numOnes = 0;
+		foreach(var cha in rhythmString) {
+			if(cha == '1')
+				numOnes++;
+		}
+		return numOnes;
 	}
 
 	public RhythmString AppendRhythmString(RhythmString otherString) {

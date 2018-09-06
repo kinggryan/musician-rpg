@@ -7,7 +7,18 @@ using UnityEngine;
 /// </summary>
 [System.Serializable]
 public class PlayerMove {
-	public AudioLoop loop;
+	public string loopName;
+	// Lazy load the loop
+	public AudioLoop loop {
+		get {
+			if(_loop == null) {
+				_loop = AudioLoop.GetLoopForName(loopName);
+			}
+			return _loop;
+		}
+	}
 	public int staminaCost;
 	public int jammageGain;
+
+	private AudioLoop _loop;
 }

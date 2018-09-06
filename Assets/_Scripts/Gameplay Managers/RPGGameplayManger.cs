@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
+public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener {
 
 	public static class Notifications {
 		/// <summary>
@@ -58,6 +58,28 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		/// There is no argument for this notification. It is called when the player receives the rhythm match bonus.
 		/// </summary>
 		public static string gotRhythmMatchBonus = "gotRhythmMatchBonus";
+		/// <summary>
+		/// Posted when the player wins
+		/// </summary> 
+		public static string playerWon = "playerWon";
+		/// <summary>
+		/// Posted when the player loses
+		/// </summary>
+		public static string playerLost = "playerLost";
+	}
+
+	private struct SongRecord {
+		public int startBeat;
+		public AudioLoop loop;
+	}
+
+	private struct RhythmStringBonusBracket {
+		public float maxMatchRatio;
+		public float bonusMultiplier;
+		public RhythmStringBonusBracket(float max, float bonus) {
+			maxMatchRatio = max;
+			bonusMultiplier = bonus;
+		}
 	}
 
 	private enum TurnResetMode {
@@ -67,6 +89,9 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 	// The list of the player's moves
 	public List<PlayerMove> playerMoves = new List<PlayerMove>();
+
+	private AudioLoop currentNPCLoop;
+	private List<SongRecord> npcSongRecord = new List<SongRecord>();
 
 	private SongStructureManager songStructureManager;
 
@@ -81,6 +106,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	private int victoryPoints = 0;
 	private int victoryPointGainPerPassedTurn = 2;
 	private int victoryPointLossPerFailedTurn = 1;
+	private int minVPsToWin = 8;
 
 	private int jammage = 0;
 	private int jammageThreshold = 8;
@@ -96,17 +122,15 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	private int staminaRechargeMeterMax = 7;
 	private int defaultStaminaRechargePerTurn = 4;
 	private int staminaRechargeFromMeterPerTurn = 8;
-	private int phraseCompleteStaminaBonus = 4;
+	private int phraseCompleteStaminaBonus = 8;
 
-	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
-		if(beatInfo.currentBeat % numBeatsPerMove == 0) {
-			DoNextMove(beatInfo.currentBeat / numBeatsPerMove, beatInfo);
-		}
-	}
+	// Rhythm bonus stuff
+	RhythmStringBonusBracket[] bonusBrackets = new RhythmStringBonusBracket[2]{
+		new RhythmStringBonusBracket(0.45f,1),
+		new RhythmStringBonusBracket(1f,2)
+	};
 
-	public void DidFinishSong() {
-
-	}
+	// Initialization
 
 	void Awake() {
 		NotificationBoard.AddListener(PlayerMidiController.Notifications.changedSelectedLoop, DidChangeCurrentPlayerLoop);
@@ -114,6 +138,16 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		songStructureManager = Object.FindObjectOfType<MidiSongStructureManager>();
 		songStructureManager.RegisterSongUpdateListener(this);
 
+		var npc = Object.FindObjectOfType<AIMIDIController>();
+		npc.AddListener(this);
+
+		// Initialize the player controller's loop names
+		var playerController = Object.FindObjectOfType<PlayerMidiController>();
+		var loopNames = new List<string>();
+		foreach(var move in playerMoves) {
+			loopNames.Add(move.loopName);
+		}
+		playerController.loopNames = loopNames.ToArray();
 	}
 
 	void Start() {
@@ -123,6 +157,36 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
 		NotificationBoard.SendNotification(Notifications.updatedMaxStamina, this, maxStamina);
 	}
+
+	// Public functions
+	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
+		// Add to NPC song record
+		var newSongRecordEntry = new SongRecord();
+		newSongRecordEntry.loop = currentNPCLoop;
+		newSongRecordEntry.startBeat = beatInfo.currentBeat;
+		npcSongRecord.Add(newSongRecordEntry);
+
+		if(beatInfo.currentBeat % numBeatsPerMove == 0) {
+			DoNextMove(beatInfo.currentBeat / numBeatsPerMove, beatInfo);
+		}
+	}
+
+	public void DidFinishSong() { 
+		if(victoryPoints >= minVPsToWin) {
+			NotificationBoard.SendNotification(Notifications.playerWon, this, null);
+		} else {
+			NotificationBoard.SendNotification(Notifications.playerLost, this, null);
+		}
+	}
+
+	// IAIListener
+	public void DidChangeAILoop(AIMIDIController ai, AudioLoop loop) {
+		currentNPCLoop = loop;
+	}
+
+	public void DidChangeLead(bool aiIsLeading) {}
+
+	// Private Methods
 
 	void DidStartSong(object sender, object arg) {
 		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, 0);
@@ -192,6 +256,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 	void CompleteTurn() {
 		// Do the victory point adding/subtracting
 		var bonusMultiplier = GetBonusMultiplierForThisTurn();
+		Debug.Log("MULTIPLIER: " + bonusMultiplier);
 		if(jammage >= jammageThreshold) {
 			victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
 		} else {
@@ -229,6 +294,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 		if(bonusMultiplier > 1) {
 			NotificationBoard.SendNotification(Notifications.gotRhythmMatchBonus, this, bonusMultiplier);
 		}
+		npcSongRecord.Clear();
 	}
 
 	void StartNextTurn() {
@@ -241,6 +307,34 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener {
 
 	float GetBonusMultiplierForThisTurn() {
 		// TODO: Want to return if the player and NPC rhytmically matched enough
+		// Get the player's rhythm string over that time
+		var playerRhythmString = new RhythmString("");
+		foreach(var playerMoveIndex in currentTurnLoops) {
+			var loop = playerMoves[playerMoveIndex].loop;
+			var beatStart = playerMoveIndex*numBeatsPerMove;
+			var beatEnd = beatStart+numBeatsPerMove;
+			playerRhythmString = playerRhythmString.AppendRhythmString(loop.rhythmString.GetRhythmStringForBeatRange(beatStart,beatEnd));
+		}	
+
+		// Get NPC rhythm string
+		var npcRhythmString = new RhythmString("");
+		foreach(var record in npcSongRecord) {
+			npcRhythmString = npcRhythmString.AppendRhythmString(record.loop.rhythmString.GetRhythmStringForBeat(record.startBeat));
+		}
+
+		// Compare the two rhythm strings
+		var numMatches = playerRhythmString.GetNumRhythmStringMatches(npcRhythmString);
+		var maxNumMatches = npcRhythmString.GetMaxNumRhythmStringMatches();
+		var matchRatio = (float)numMatches/maxNumMatches;
+
+		Debug.Log("MATCH RATIO: " + matchRatio);
+
+		foreach(var bracket in bonusBrackets) {
+			if(matchRatio <= bracket.maxMatchRatio) {
+				return bracket.bonusMultiplier;
+			}
+		}
+
 		return 1f;
 	}
 }
