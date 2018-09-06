@@ -96,7 +96,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private SongStructureManager songStructureManager;
 
 	private int	numMovesPerTurn = 8;
-	private int numBeatsPerMove = 4;
+	private int numBeatsPerMove = 2;
 	private TurnResetMode turnResetMode = TurnResetMode.EverySection;
 	
 	private int currentPlayerMoveIndex = 0;

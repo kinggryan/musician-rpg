@@ -96,7 +96,7 @@ sections:
       - sad
 structure:
   - A
-  - B
   - A
-  - B
+  - A
+  - A
   - End

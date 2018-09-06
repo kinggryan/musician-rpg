@@ -16,6 +16,8 @@ public class MidiFileStreamer: MidiStreamer {
         public MidiFile file { get; private set; }
         public int eventIndex;
         public bool looping;
+        // The time at which to loop
+        public int loopSampleTime;
 
         public void SetMidiFile(MidiFile newFile, int sampleRate, int sampleTime = 0) {
             // What we need to do here is set the eventIndex based on the current sample
@@ -37,6 +39,8 @@ public class MidiFileStreamer: MidiStreamer {
             }
             //Set total time to proper value
             file.Tracks[0].TotalTime = file.Tracks[0].MidiEvents[file.Tracks[0].MidiEvents.Length - 1].deltaTime;
+            // Calculate the time at which to loop according to the beat duration of the loop
+            loopSampleTime = (int)(loop.beatDuration * 60 / file.BeatsPerMinute * sampleRate);
             //reset tempo
             file.BeatsPerMinute = 120;
             //mark midi as ready for sequencing
@@ -97,8 +101,8 @@ public class MidiFileStreamer: MidiStreamer {
                 continue;
             }
 
-            newDynamicFile.SetMidiFile(file, sampleRate);
             newDynamicFile.loop = loop;
+            newDynamicFile.SetMidiFile(file, sampleRate);
 
             midiFiles.Add(newDynamicFile);
         }
@@ -135,7 +139,7 @@ public class MidiFileStreamer: MidiStreamer {
                 && IsFrameInRangeWithLoopingFile(file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime, 
                 sampleTime, 
                 Mathf.FloorToInt(sampleTime + numFrames * playbackSpeedMultiplier), 
-                (int)file.file.Tracks[0].TotalTime))
+                file.loopSampleTime))
             {
                 // Only actually output this midi event if this is the active file
                 // We actually need to still send note_off events IF those notes are still on from a previos file
@@ -145,7 +149,7 @@ public class MidiFileStreamer: MidiStreamer {
                 
                     // Because of looping, we might end up with a deltatime that is less than the sample time. If this is the case, fix the deltatime
                     while(newMidiEvent.deltaTime < sampleTime) {
-                        newMidiEvent.deltaTime += (uint)file.file.Tracks[0].TotalTime;
+                        newMidiEvent.deltaTime += (uint)file.loopSampleTime;
                     }
 
                     // Add this to the dictionary of currently sustained notes
