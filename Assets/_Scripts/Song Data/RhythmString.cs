@@ -51,6 +51,30 @@ public class RhythmString {
 		return numMatchedChars;
 	}
 
+	public int GetNumRhythmStringMatchesOnDownbeat(RhythmString otherRhythmString) {
+		var numMatchedChars = 0;
+		// TODO: Implement the part where they extend the shorter string
+		
+		for(var i = 0 ; i < Mathf.Min(otherRhythmString.rhythmString.Length, rhythmString.Length); i += 2) {
+			if(rhythmString[i].ToString() == "1" && otherRhythmString.rhythmString[i].ToString() == "1"){
+				numMatchedChars++;
+			}
+		}
+		return numMatchedChars;
+	}
+
+	public int GetNumRhythmStringMatchesOnUpbeat(RhythmString otherRhythmString) {
+		var numMatchedChars = 0;
+		// TODO: Implement the part where they extend the shorter string
+		
+		for(var i = 1 ; i < Mathf.Min(otherRhythmString.rhythmString.Length, rhythmString.Length); i += 2) {
+			if(rhythmString[i].ToString() == "1" && otherRhythmString.rhythmString[i].ToString() == "1"){
+				numMatchedChars++;
+			}
+		}
+		return numMatchedChars;
+	}
+
 	public int GetMaxNumRhythmStringMatches() {
 		var numOnes = 0;
 		foreach(var cha in rhythmString) {

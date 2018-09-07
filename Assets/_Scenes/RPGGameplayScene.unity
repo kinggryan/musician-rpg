@@ -113,6 +113,48 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &2758037
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -2.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &15171536
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 0
-  songFilename: Songs/testSongTerkisherBug
+  songFilename: Songs/testSong5
   songPlayer: {fileID: 39149008}
 --- !u!114 &39149017
 MonoBehaviour:
@@ -1922,6 +1964,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avatar: {fileID: 0}
+--- !u!1001 &854698414
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 2.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -2.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0.9994853
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.03208138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941063966581664, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_Name
+      value: NoteParticleSystem (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318612053367322, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 176.32301
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73e1af9c789584fd4910e3fc12a2fd2c, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &903294696
 GameObject:
   m_ObjectHideFlags: 0
@@ -2993,6 +3085,48 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224402601499490974, guid: e1e7541823ac246dca931c3fc19f2fb7,
     type: 2}
   m_PrefabInternal: {fileID: 1328589930}
+--- !u!1 &1447569375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1447569377}
+  - component: {fileID: 1447569376}
+  m_Layer: 0
+  m_Name: pcNoteSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1447569376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1447569375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 404ef2cf3dded4068b6eb20316ee247f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteToSpawn: {fileID: 1227244189171160, guid: 59c02b9a111f547669e9e7455cfaf7d1,
+    type: 2}
+--- !u!4 &1447569377
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1447569375}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.16, y: 0.68, z: -1.4913139}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1460372590
 Prefab:
   m_ObjectHideFlags: 0
@@ -3941,3 +4075,45 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2063836232}
   m_CullTransparentMesh: 0
+--- !u!1 &2083479907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083479908}
+  - component: {fileID: 2083479909}
+  m_Layer: 0
+  m_Name: npcNoteSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2083479908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2083479907}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.62059, y: 1.9930601, z: -1.4913139}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2083479909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2083479907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 404ef2cf3dded4068b6eb20316ee247f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteToSpawn: {fileID: 1143736964390304, guid: 1347345f0615845cfb9eba9388f11a90,
+    type: 2}

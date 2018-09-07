@@ -59,6 +59,10 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		/// </summary>
 		public static string gotRhythmMatchBonus = "gotRhythmMatchBonus";
 		/// <summary>
+		/// Posted when the player and npc match on a quarter or eighth note
+		/// </summary>
+		public static string playerAndNPCRhythmMatchedOnPulse = "playerAndNPCRhythmMatchedOnPulse";
+		/// <summary>
 		/// Posted when the player wins
 		/// </summary> 
 		public static string playerWon = "playerWon";
@@ -169,6 +173,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		if(beatInfo.currentBeat % numBeatsPerMove == 0) {
 			DoNextMove(beatInfo.currentBeat / numBeatsPerMove, beatInfo);
 		}
+
+		CheckForPlayerAndNPCRhythmMatchesOnPulses(beatInfo.currentBeat);
 	}
 
 	public void DidFinishSong() { 
@@ -299,6 +305,31 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 
 	void StartNextTurn() {
 		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
+	}
+
+	void CheckForPlayerAndNPCRhythmMatchesOnPulses(int beatNumber) {
+		// Right now and in one eighth note, do this check
+		StartCoroutine(CheckForRhythmMatch(0,beatNumber,false));
+		StartCoroutine(CheckForRhythmMatch(0.5f / (float)songStructureManager.bpm * 60, beatNumber, true));
+	}
+
+	IEnumerator CheckForRhythmMatch(float inTime, int beatNumber, bool checkUpbeat) {
+		yield return new WaitForSeconds(inTime);
+
+		if(npcSongRecord.Count > 0) {
+			// Now do the check
+			var npcRhythmSubstring = npcSongRecord[npcSongRecord.Count-1].loop.rhythmString.GetRhythmStringForBeat(beatNumber);
+			var playerRhythmSubstring = playerMoves[currentPlayerMoveIndex].loop.rhythmString.GetRhythmStringForBeat(beatNumber);
+			var numMatches = 0;
+			if(!checkUpbeat) {
+				numMatches = playerRhythmSubstring.GetNumRhythmStringMatchesOnDownbeat(npcRhythmSubstring);
+			} else {
+				numMatches = playerRhythmSubstring.GetNumRhythmStringMatchesOnUpbeat(npcRhythmSubstring);
+			}
+			if(numMatches > 0) {
+				NotificationBoard.SendNotification(Notifications.playerAndNPCRhythmMatchedOnPulse,this,null);
+			}
+		}	
 	}
 
 	bool IsCurrentTurnComplete() {
