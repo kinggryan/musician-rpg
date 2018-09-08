@@ -28,6 +28,11 @@ public class PlayerBeatTracker : MonoBehaviour {
 		nullPreviousBeatSprite = previousBeatImage.sprite;
 		animator = GetComponent<Animator>();
 	}
+
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setPlayerLoopForBeat, DidSetPlayerLoopForBeat);
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setPreviousPhrasePlayerLoops, DidUpdatePreviousLoopBeats);
+	}
 	
 	void DidSetPlayerLoopForBeat(object sender, object arg) {
 		var playerMoveAndBeat = (RPGGameplayManger.Notifications.SetPlayerLoopForBeatArgs)arg;

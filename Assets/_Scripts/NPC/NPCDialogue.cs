@@ -15,6 +15,10 @@ public class NPCDialogue : MonoBehaviour {
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.gotRhythmMatchBonus, GotRhythmBonus);
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.gotRhythmMatchBonus, GotRhythmBonus);
+	}
+
 	void ChangedLead(object npc, object npcIsLeading) {
 		var npcLeadingCast = (bool) npcIsLeading;
 		if(npcLeadingCast) {

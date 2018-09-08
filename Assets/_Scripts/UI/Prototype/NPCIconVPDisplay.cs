@@ -19,6 +19,10 @@ public class NPCIconVPDisplay : MonoBehaviour {
 		sadEmote.SetActive(false);
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedVictoryPoints, DidScoreVictoryPoints);
+	}
+
 	// Update is called once per frame
 	void DidScoreVictoryPoints(object sender, object arg) {
 		var numPoints = (int)arg;

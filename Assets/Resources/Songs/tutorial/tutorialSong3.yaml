@@ -1,0 +1,102 @@
+sections:
+  - name: A
+    loops:
+    - chord: i
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+    - chord: iv
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+    - chord: i
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+    - chord: V
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+    - chord: i
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+    - chord: iv
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+    - chord: V
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+    - chord: i
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Terkisher
+  - name: B
+    loops:
+    - chord: I
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - happy
+      - sentimental
+    - chord: iv
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - happy
+      - sentimental
+    - chord: bVII
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - happy
+      - sentimental
+    - chord: bIII
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - happy
+      - sentimental
+    - chord: bVI
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - sad
+      - happy
+      - cool
+    - chord: i
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - sad
+      - sentimental
+      - cool
+    - chord: iv
+      totalNumBeats: 4
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - sad
+      - sentimental
+      - cool
+    - chord: V
+      totalNumBeats: 4
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - sad
+      - sentimental
+      - cool
+    - chord: i
+      totalNumBeats: 8
+      npcLoop: Comp_Klezmer_Bulgar
+      emotionTags:
+      - sad
+      - sentimental
+      - cool
+  - name: End
+    loops:
+    - chord: i
+      totalNumBeats: 4
+      npcLoop: Comp_End_Basic
+      playerLoop: Melody_End_Basic
+      emotionTags:
+      - sad
+structure:
+  - A
+  - B
+  - A
+  - B
+  - End

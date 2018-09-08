@@ -13,6 +13,10 @@ public class ScoreChangedText : MonoBehaviour {
 		NotificationBoard.AddListener(Scorekeeper.Notifications.scoreUpdated, ScoreUpdated);
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(Scorekeeper.Notifications.scoreUpdated, ScoreUpdated);
+	}
+
 	// Use this for initialization
 	void ScoreUpdated(object scorekeeper, object args) {
 		var scoreArgs = (Scorekeeper.Notifications.ScoreUpdatedArgs)args;

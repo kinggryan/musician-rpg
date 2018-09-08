@@ -16,6 +16,11 @@ public class WinLossText : MonoBehaviour, IScorekeeperListener {
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.playerLost, DidGetPlayerLostNotification);
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.playerWon, DidGetPlayerWonNotification);
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.playerLost, DidGetPlayerLostNotification);
+	}
+
 	// Use this for initialization
 	public void DidChangeScore(float score) {}
 	public void DidSetMaxScore(float maxScore) {}

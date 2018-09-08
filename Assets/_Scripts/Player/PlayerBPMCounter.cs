@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerBPMCounter : MonoBehaviour {
 
+	private struct CalculateBPMResult {
+		public double bpm;
+		public bool wasInTime;
+	}
+
 	public PlayerCountoffDisplay countoffDisplay;
 	public List<double> playerBeats;
 	public double bpm;

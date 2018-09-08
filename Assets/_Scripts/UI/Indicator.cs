@@ -12,6 +12,10 @@ public class Indicator : MonoBehaviour {
 		meter = Object.FindObjectOfType<JammageMeter>();
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.setJammageThreshold, UpdateIndicator);
 	}
+
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setJammageThreshold, UpdateIndicator);	
+	}
 	
 	void UpdateIndicator(object sender, object newJammageThreshold){
  		float scoreBarWidth = background.GetComponent<RectTransform>().rect.width;

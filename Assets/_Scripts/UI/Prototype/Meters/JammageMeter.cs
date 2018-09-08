@@ -13,6 +13,10 @@ public class JammageMeter : GenericMeter {
 		maxValue = 16; 
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedJammage, DidUpdateJammage);
+	}
+
 	void DidUpdateJammage(object sender, object arg) {
 		value = (int)arg;
 	}

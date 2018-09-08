@@ -16,6 +16,10 @@ public class IconBasedLeadDisplay : MonoBehaviour {
 		npcLeadingIcon.SetActive(false);
 		pcLeadingIcon.SetActive(false);
 	}
+
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(AIMIDIController.Notifications.changedLead,DidChangeLead);
+	}
 	
 	// Update is called once per frame
 	void DidChangeLead(object npc, object npcIsLeading) {

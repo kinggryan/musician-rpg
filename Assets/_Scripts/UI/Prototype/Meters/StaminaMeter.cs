@@ -12,6 +12,11 @@ public class StaminaMeter : GenericMeter {
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedMaxStamina, DidUpdateMaxStamina);
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedStamina, DidUpdateStamina);
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedMaxStamina, DidUpdateMaxStamina);
+	}
+
 	void DidUpdateStamina(object sender, object arg) {
 		value = (int)arg;
 	}

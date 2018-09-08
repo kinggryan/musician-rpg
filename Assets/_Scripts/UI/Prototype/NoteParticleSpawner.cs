@@ -12,6 +12,10 @@ public class NoteParticleSpawner : MonoBehaviour {
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.playerAndNPCRhythmMatchedOnPulse, DidPulse);
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.playerAndNPCRhythmMatchedOnPulse, DidPulse);
+	}
+
 	void DidPulse(object sender, object arg) {
 		p.Emit(1);
 	}

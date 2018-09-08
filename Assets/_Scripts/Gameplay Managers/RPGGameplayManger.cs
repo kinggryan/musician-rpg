@@ -117,16 +117,16 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private int minJammageThreshold = 8;
 	private int maxJammageThreshold = 12;
 
-	private int stamina = 16;
+	public int stamina = 8;
 	private int maxStamina = 32;
 	private int jammageLossForNotEnoughStamina = 2;
 
 	private int staminaRechargeMeter = 0;
-	private int staminaRechargeMeterThreshold = 6;
+	private int staminaRechargeMeterThreshold = 4;
 	private int staminaRechargeMeterMax = 7;
-	private int defaultStaminaRechargePerTurn = 4;
-	private int staminaRechargeFromMeterPerTurn = 8;
-	private int phraseCompleteStaminaBonus = 8;
+	private int defaultStaminaRechargePerTurn = 0;
+	public int staminaRechargeFromMeterPerTurn = 4;
+	private int phraseCompleteStaminaBonus = 4;
 
 	// Rhythm bonus stuff
 	RhythmStringBonusBracket[] bonusBrackets = new RhythmStringBonusBracket[2]{
@@ -160,6 +160,11 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
 		NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
 		NotificationBoard.SendNotification(Notifications.updatedMaxStamina, this, maxStamina);
+	}
+
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(PlayerMidiController.Notifications.changedSelectedLoop, DidChangeCurrentPlayerLoop);
+		NotificationBoard.RemoveListener(SongStructureManager.Notifications.didStartSong, DidStartSong);
 	}
 
 	// Public functions

@@ -563,7 +563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 0
-  songFilename: Songs/testSong5
+  songFilename: Songs/tutorial/tutorialSong1
   songPlayer: {fileID: 39149008}
 --- !u!114 &39149017
 MonoBehaviour:
@@ -601,6 +601,7 @@ MonoBehaviour:
   - loopName: Melody_Roma_Peppy
     staminaCost: 1
     jammageGain: 2
+  stamina: 100
 --- !u!1 &39446230
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &100471870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1683,7 +1684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &536232311
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1827,7 +1828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &835841339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3132,6 +3133,30 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: f5e164bb706304a078288203f7647db1,
         type: 3}
+    - target: {fileID: 1462078371875784, guid: e1e7541823ac246dca931c3fc19f2fb7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513106056167466, guid: e1e7541823ac246dca931c3fc19f2fb7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578918097963384, guid: e1e7541823ac246dca931c3fc19f2fb7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393166859075482, guid: e1e7541823ac246dca931c3fc19f2fb7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1296205271736616, guid: e1e7541823ac246dca931c3fc19f2fb7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1533154251454942, guid: e1e7541823ac246dca931c3fc19f2fb7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1e7541823ac246dca931c3fc19f2fb7, type: 2}
   m_IsPrefabAsset: 0
@@ -3316,16 +3341,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1541447871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a33417beca1f4be892b425d7747c1a1, type: 3}
+  m_Script: {fileID: 11500000, guid: b656456ef2dc94d508751395140eca57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextLevelText: Tutorial_Part2
 --- !u!114 &1541447874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1541447871}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -3637,7 +3663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1769652138
 RectTransform:
   m_ObjectHideFlags: 0

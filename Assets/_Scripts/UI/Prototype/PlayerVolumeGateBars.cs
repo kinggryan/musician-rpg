@@ -22,6 +22,12 @@ public class PlayerVolumeGateBars : MonoBehaviour {
 		volumeSelectedIcon.enabled = false;
 	}
 
+	void OnDestroy() {
+		NotificationBoard.RemoveListener(PlayerMidiController.Notifications.changedSelectedDynamicControl, ChangeSelectedDynamicsControl);
+		NotificationBoard.RemoveListener(PlayerMidiController.Notifications.changedVolume, DidUpdatePlayerVolume);
+		NotificationBoard.RemoveListener(PlayerMidiController.Notifications.changedGate, DidUpdatePlayerGate);
+	}
+
 	// Update is called once per frame
 	void DidUpdatePlayerVolume(object playerController, object volume) {
 		var volCast = (float)volume;
