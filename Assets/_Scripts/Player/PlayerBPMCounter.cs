@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerBPMCounter : MonoBehaviour {
 
+	public static class Notifications {
+		public static string playerCountoffFailed = "playerCountoffFailed";
+	}
+
 	private struct CalculateBPMResult {
 		public double bpm;
 		public bool wasInTime;
@@ -26,13 +30,20 @@ public class PlayerBPMCounter : MonoBehaviour {
 				playerBeats.RemoveAt(0);
 			}
 			if(playerBeats.Count > minNumPlayerBeats) {
-				bpm = CalculateBPM();
-				BroadcastMessage("DidChangeBPM",bpm,SendMessageOptions.DontRequireReceiver);
+				var result = CalculateBPM();
+				if(result.wasInTime) {
+					bpm = result.bpm;
+					BroadcastMessage("DidChangeBPM",bpm,SendMessageOptions.DontRequireReceiver);
+				} else {
+					playerBeats.Clear();
+					countoffDisplay.Reset();
+					NotificationBoard.SendNotification(Notifications.playerCountoffFailed,this,null);
+				}
 			}
 		}
 	}
 
-	double CalculateBPM() {
+	CalculateBPMResult CalculateBPM() {
 		// Get a list of all the times between beats so we can do any calculations that we have to do
 		var timeBetweenBeats = new List<double>();
 		for(var i = 1 ; i < playerBeats.Count ; i++) {
@@ -53,6 +64,7 @@ public class PlayerBPMCounter : MonoBehaviour {
 			// upperBound = q3+1.5*iqr;
 		}
 
+
 		foreach(var timeBetweenBeat in timeBetweenBeats) {
 			if(timeBetweenBeat >= lowerBound && timeBetweenBeat <= upperBound)
 				averageTimeBetweenBeats += timeBetweenBeat;
@@ -61,6 +73,17 @@ public class PlayerBPMCounter : MonoBehaviour {
 		}
 
 		averageTimeBetweenBeats /= timeBetweenBeats.Count;
-		return 60 / averageTimeBetweenBeats;
+		var result = new CalculateBPMResult();
+		result.bpm = 60 / averageTimeBetweenBeats;
+		result.wasInTime = true;
+
+		// Check to see if any times between beats were too inaccurate to work properly
+		foreach(var timeBetweenBeat in timeBetweenBeats) {
+			if(Mathf.Abs((float)(timeBetweenBeat - averageTimeBetweenBeats)) >= 0.5f*averageTimeBetweenBeats) {
+				result.wasInTime = false;
+			}
+		}
+
+		return result;
 	} 
 }

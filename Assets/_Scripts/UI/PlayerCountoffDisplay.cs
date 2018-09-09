@@ -10,16 +10,22 @@ public class PlayerCountoffDisplay : MonoBehaviour {
 	void PulseWithText(string text) {
 		// lol
 		this.text.text = text;
-		// this.text.fontSize = textPulsedFontSize;
-
 	}
 
 	public void NextBeat() {
 		countOff++;
 		if(countOff > 4) {
 			text.enabled = false;
-		} else {
+		} else if(countOff > 0) {
 			PulseWithText("" + countOff + "!");
+		} else {
+			PulseWithText("Ready?");
 		}
+	}
+
+	public void Reset() {
+		countOff = -1;
+		text.enabled = true;
+		text.text = "Hmm, why don't you try counting in again?";
 	}
 }
