@@ -222,6 +222,8 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	// }
 
 	void UpdateKeyControls(){
+		return;
+
 		if(Input.GetKeyDown(KeyCode.LeftArrow)){
 			Debug.Log("LEFT ARROW PRESSED");
 			if(keyControlIndex > 0){

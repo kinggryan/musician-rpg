@@ -143,8 +143,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private int maxJammageThreshold = 12;
 
 	// The following are only used in jammage mode = target
-	private int jammageTargetLower = 8;
-	private int jammageTargetUpper = 10;
+	private int jammageTargetLower = 10;
+	private int jammageTargetUpper = 14;
 	private int minJammageTarget = 8;
 	private int maxJammageTarget = 28;
 	private int jammageTargetRange = 6;
@@ -192,6 +192,11 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
 		NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
 		NotificationBoard.SendNotification(Notifications.updatedMaxStamina, this, maxStamina);
+
+		var args = new Notifications.SetJammageTargetRangeArgs();
+		args.lowerTarget = jammageTargetLower;
+		args.upperTarget = jammageTargetUpper;
+		NotificationBoard.SendNotification(Notifications.setJammageTargetRange, this, args);
 	}
 
 	void OnDestroy() {
@@ -240,6 +245,13 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	}
 
 	void DoNextMove(int moveNumber, SongStructureManager.BeatUpdateInfo beatInfo) {
+		// If this is the start of a new section, we actually set the jammage target to something that is possible - ie don't account for doubling.
+		if(beatInfo.beatsUntilNextSection == beatInfo.currentSection.beatLength) {
+			// Set the jammage target to within a smaller.
+			jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget/2);
+			jammageTargetUpper = jammageTargetLower + jammageTargetRange;
+		}	
+
 		// Start the next turn if no moves have been done
 		if(currentTurnLoops.Count == 0) {
 			StartNextTurn();
@@ -252,6 +264,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 			var previousTurnLoopsNotificationInfo = new Notifications.SetPreviousPhrasePlayerLoopsArgs();
 			NotificationBoard.SendNotification(Notifications.setPreviousPhrasePlayerLoops, this, previousTurnLoopsNotificationInfo);
 			stamina += phraseCompleteStaminaBonus;
+
 		}
 
 		// Do the beat update
