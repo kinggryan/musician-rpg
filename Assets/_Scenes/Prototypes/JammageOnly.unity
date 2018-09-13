@@ -744,7 +744,7 @@ MonoBehaviour:
     jammageGain: 1
   - loopName: Melody_Roma_SyncopatedRiff
     staminaCost: 0
-    jammageGain: 2
+    jammageGain: 3
   stamina: 8
   staminaRechargeFromMeterPerTurn: 4
 --- !u!1 &39446230

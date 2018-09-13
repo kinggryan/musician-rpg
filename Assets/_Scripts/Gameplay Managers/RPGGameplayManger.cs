@@ -146,8 +146,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private int jammageTargetLower = 8;
 	private int jammageTargetUpper = 10;
 	private int minJammageTarget = 8;
-	private int maxJammageTarget = 24;
-	private int jammageTargetRange = 2;
+	private int maxJammageTarget = 28;
+	private int jammageTargetRange = 6;
 
 	public int stamina = 8;
 	private int maxStamina = 32;
