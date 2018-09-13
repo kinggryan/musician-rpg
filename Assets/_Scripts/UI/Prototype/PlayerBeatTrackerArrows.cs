@@ -13,6 +13,7 @@ public class PlayerBeatTrackerArrows : MonoBehaviour {
 	public UnityEngine.UI.Image nullBeatImage;
 
 	public Sprite[] arrowSprites;
+	public Color[] arrowColors;
 
 	private Animator animator;
 
@@ -38,6 +39,10 @@ public class PlayerBeatTrackerArrows : MonoBehaviour {
 			currentBeatImage.enabled = false;
 			if(queuedPreviousLoopBeatIndex >= 0) {
 				previousBeatImage.sprite = arrowSprites[queuedPreviousLoopBeatIndex];
+				// Use a transparent version of the color for the background arrow
+				var pColor = arrowColors[queuedPreviousLoopBeatIndex];
+				pColor.a = previousBeatImage.color.a;
+				previousBeatImage.color = pColor;
 				previousBeatImage.enabled = true;
 				nullBeatImage.enabled = false;
 			}
@@ -50,6 +55,7 @@ public class PlayerBeatTrackerArrows : MonoBehaviour {
 		// Update your image if this is the current beat
 		if(playerMoveAndBeat.beatNumber % 8 == beatNumber) {
 			currentBeatImage.sprite = arrowSprites[playerMoveAndBeat.playerMoveIndex];
+			currentBeatImage.color = arrowColors[playerMoveAndBeat.playerMoveIndex];
 			currentBeatImage.enabled = true;
 			animator.SetTrigger("pulse");
 		}
