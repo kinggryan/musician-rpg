@@ -30,6 +30,7 @@ public class PlayerLoopButton : MonoBehaviour, IPlayerControllerListener {
 
 		var rpgManager = Object.FindObjectOfType<RPGGameplayManger>();
 		jammageText.text = "" + rpgManager.playerMoves[playerLoopIndex].jammageGain;
-		staminaText.text = "" + rpgManager.playerMoves[playerLoopIndex].staminaCost;
+		if(staminaText != null)
+			staminaText.text = "" + rpgManager.playerMoves[playerLoopIndex].staminaCost;
 	}
 }

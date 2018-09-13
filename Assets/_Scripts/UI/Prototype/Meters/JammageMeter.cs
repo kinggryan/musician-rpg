@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JammageMeter : GenericMeter {
 
-	int jammageThreshold = 16;
+	int jammageThreshold = 100;
 	Animator animator;
 
 	// Use this for initialization
@@ -14,14 +14,14 @@ public class JammageMeter : GenericMeter {
 		animator = GetComponent<Animator>();
 
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedJammage, DidUpdateJammage);
-		NotificationBoard.AddListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
+		// NotificationBoard.AddListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
 		// TODO: Set this value in a real way
-		maxValue = 16; 
+		maxValue = 32; 
 	}
 
 	void OnDestroy() {
 		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedJammage, DidUpdateJammage);
-		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
+		// NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
 	}
 
 	void DidUpdateJammage(object sender, object arg) {

@@ -31,14 +31,14 @@ public class PlayerBPMCounter : MonoBehaviour {
 			}
 			if(playerBeats.Count > minNumPlayerBeats) {
 				var result = CalculateBPM();
-				if(result.wasInTime) {
+				// if(result.wasInTime) {
 					bpm = result.bpm;
 					BroadcastMessage("DidChangeBPM",bpm,SendMessageOptions.DontRequireReceiver);
-				} else {
-					playerBeats.Clear();
-					countoffDisplay.Reset();
-					NotificationBoard.SendNotification(Notifications.playerCountoffFailed,this,null);
-				}
+				// } else {
+				// 	playerBeats.Clear();
+				// 	countoffDisplay.Reset();
+				// 	NotificationBoard.SendNotification(Notifications.playerCountoffFailed,this,null);
+				// }
 			}
 		}
 	}

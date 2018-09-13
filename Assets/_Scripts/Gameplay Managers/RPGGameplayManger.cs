@@ -9,6 +9,14 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		/// The argument for this notification is an integer - the new jammage threshold
 		/// </summary>
 		public static string setJammageThreshold = "setJammageThreshold";
+		public struct SetJammageTargetRangeArgs {
+			public int lowerTarget;
+			public int upperTarget;
+		}
+		/// <summary>
+		/// The argument for this notification is a struct
+		/// </summary>
+		public static string setJammageTargetRange = "setJammageTargetRange";
 		/// <summary>
 		/// The argument for this notification is an integer - the new jammage 
 		/// </summary>
@@ -91,8 +99,23 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		EverySection
 	}
 
+	private enum TurnMatchAction {
+		RechargeMeter,
+		JammageMultiplier
+	}
+
+	private enum JammageMode {
+		JammageThreshold,
+		JammageTarget
+	}
+
 	// The list of the player's moves
 	public List<PlayerMove> playerMoves = new List<PlayerMove>();
+
+	// Gameplay options
+	private TurnResetMode turnResetMode = TurnResetMode.EverySection;
+	private TurnMatchAction turnMatchAction = TurnMatchAction.JammageMultiplier;
+	private JammageMode jammageMode = JammageMode.JammageTarget;
 
 	private AudioLoop currentNPCLoop;
 	private List<SongRecord> npcSongRecord = new List<SongRecord>();
@@ -101,7 +124,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 
 	private int	numMovesPerTurn = 8;
 	private int numBeatsPerMove = 2;
-	private TurnResetMode turnResetMode = TurnResetMode.EverySection;
 	
 	private int currentPlayerMoveIndex = 0;
 	private List<int> currentTurnLoops = new List<int>();
@@ -113,9 +135,19 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private int minVPsToWin = 8;
 
 	private int jammage = 0;
+	private int jammageMatchMultiplier = 2;
+	
+	// The following are only used in jammage mode = threshold
 	private int jammageThreshold = 8;
 	private int minJammageThreshold = 8;
 	private int maxJammageThreshold = 12;
+
+	// The following are only used in jammage mode = target
+	private int jammageTargetLower = 8;
+	private int jammageTargetUpper = 10;
+	private int minJammageTarget = 8;
+	private int maxJammageTarget = 24;
+	private int jammageTargetRange = 2;
 
 	public int stamina = 8;
 	private int maxStamina = 32;
@@ -234,14 +266,14 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	void UpdateStaminaAndJammageWithNextPlayerMove(int playerMoveIndex, int beatNumber) {
 		currentTurnLoops.Add(playerMoveIndex);
 		var currentPlayerMove = playerMoves[playerMoveIndex];
-		jammage += currentPlayerMove.jammageGain;
+		var thisTurnJammage = currentPlayerMove.jammageGain;
 		
 		// If the player doesn't have enough stamina, you lose jammage
 		if(stamina >= currentPlayerMove.staminaCost) {
 			stamina -= currentPlayerMove.staminaCost;
 		} else {
 			stamina = 0;
-			jammage -= jammageLossForNotEnoughStamina;
+			thisTurnJammage -= jammageLossForNotEnoughStamina;
 		}
 
 		// If the current loop matches the previous loop in the turn, add to the stamina recharge meter
@@ -249,10 +281,17 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		if(previousTurnMoveIndex < previousTurnLoops.Count) {
 			var previousTurnMove = previousTurnLoops[previousTurnMoveIndex];
 			if(previousTurnMove == playerMoveIndex) {
-				staminaRechargeMeter++;
-				NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
+				if(turnMatchAction == TurnMatchAction.RechargeMeter) {
+					staminaRechargeMeter++;
+					NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
+				} else if(turnMatchAction == TurnMatchAction.JammageMultiplier) {
+					thisTurnJammage *= jammageMatchMultiplier; 
+				}	
+
 			}
 		}
+
+		jammage += thisTurnJammage;
 
 		// Send all the notifications for things that happened
 		var notificationInfo = new Notifications.SetPlayerLoopForBeatArgs();
@@ -268,12 +307,23 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		// Do the victory point adding/subtracting
 		var bonusMultiplier = GetBonusMultiplierForThisTurn();
 		Debug.Log("MULTIPLIER: " + bonusMultiplier);
-		if(jammage >= jammageThreshold) {
-			victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
-		} else {
-			// The bonus multiplier is still favorable for VP loss - 
-			// it reduces the amount of VPs you lose when you fail the turn
-			victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
+
+		if(jammageMode == JammageMode.JammageThreshold) {
+			if(jammage >= jammageThreshold) {
+				victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
+			} else {
+				// The bonus multiplier is still favorable for VP loss - 
+				// it reduces the amount of VPs you lose when you fail the turn
+				victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
+			}
+		} else if(jammageMode == JammageMode.JammageTarget) {
+			if(jammage >= jammageTargetLower && jammage <= jammageTargetUpper) {
+				victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
+			} else {
+				// The bonus multiplier is still favorable for VP loss - 
+				// it reduces the amount of VPs you lose when you fail the turn
+				victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
+			}
 		}
 
 		// Handle the stamina recharge meter
@@ -286,6 +336,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		staminaRechargeMeter = 0;
 		jammage = 0;
 		jammageThreshold = Random.Range(minJammageThreshold,maxJammageThreshold);
+		jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget - jammageTargetRange);
+		jammageTargetUpper = jammageTargetLower + jammageTargetRange;
 		if(turnResetMode == TurnResetMode.EveryTurn || (turnResetMode == TurnResetMode.EverySection && previousTurnLoops.Count == 0)) {
 			previousTurnLoops = new List<int>(currentTurnLoops);
 		}
@@ -310,6 +362,10 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 
 	void StartNextTurn() {
 		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
+		var args = new Notifications.SetJammageTargetRangeArgs();
+		args.lowerTarget = jammageTargetLower;
+		args.upperTarget = jammageTargetUpper;
+		NotificationBoard.SendNotification(Notifications.setJammageTargetRange, this, args);
 	}
 
 	void CheckForPlayerAndNPCRhythmMatchesOnPulses(int beatNumber) {
