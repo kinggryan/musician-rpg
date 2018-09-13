@@ -326,6 +326,7 @@ GameObject:
   - component: {fileID: 39149017}
   - component: {fileID: 39149019}
   - component: {fileID: 39149011}
+  - component: {fileID: 39149018}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -498,7 +499,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 39149006}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07383042940484b378dae73ea3317ef3, type: 3}
   m_Name: 
@@ -581,6 +582,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beatNumber: {fileID: 328300921}
+--- !u!114 &39149018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 39149006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7014050ecabd248f0b8e11b3c10188dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bpm: 120
+  countoffDisplay: {fileID: 1952265593}
 --- !u!114 &39149019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2844,7 +2858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &497446742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2900,7 +2914,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &497446745
 RectTransform:
@@ -2922,7 +2936,7 @@ RectTransform:
   - {fileID: 1041122940}
   - {fileID: 1012182649}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3023,7 +3037,7 @@ RectTransform:
   - {fileID: 1646292731}
   - {fileID: 1391067067}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9418,7 +9432,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1952265589}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78ea42684370c4ad5a8e5d7b1fe35417, type: 3}
   m_Name: 
