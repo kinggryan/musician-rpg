@@ -71,6 +71,10 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		/// </summary>
 		public static string playerAndNPCRhythmMatchedOnPulse = "playerAndNPCRhythmMatchedOnPulse";
 		/// <summary>
+		/// Posted when the player passes a turn perfectly
+		/// </summary>
+		public static string playerGotPerfectTurn = "playerGotPerfectTurn";
+		/// <summary>
 		/// Posted when the player wins
 		/// </summary> 
 		public static string playerWon = "playerWon";
@@ -147,7 +151,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private int jammageTargetUpper = 14;
 	private int minJammageTarget = 8;
 	private int maxJammageTarget = 28;
-	private int jammageTargetRange = 6;
+	private int maxJammageTargetRange = 6;
+	private int currentJammageTargetRange = 6;
 
 	public int stamina = 8;
 	private int maxStamina = 32;
@@ -248,8 +253,9 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		// If this is the start of a new section, we actually set the jammage target to something that is possible - ie don't account for doubling.
 		if(beatInfo.beatsUntilNextSection == beatInfo.currentSection.beatLength) {
 			// Set the jammage target to within a smaller.
+			currentJammageTargetRange = maxJammageTargetRange;
 			jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget/2);
-			jammageTargetUpper = jammageTargetLower + jammageTargetRange;
+			jammageTargetUpper = jammageTargetLower + currentJammageTargetRange;
 		}	
 
 		// Start the next turn if no moves have been done
@@ -332,6 +338,10 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		} else if(jammageMode == JammageMode.JammageTarget) {
 			if(jammage >= jammageTargetLower && jammage <= jammageTargetUpper) {
 				victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
+				// A perfect turn is if the player gets to the upper limit without going over.
+				if(jammage == jammageTargetUpper) {
+					NotificationBoard.SendNotification(Notifications.playerGotPerfectTurn, this, null);
+				}
 			} else {
 				// The bonus multiplier is still favorable for VP loss - 
 				// it reduces the amount of VPs you lose when you fail the turn
@@ -349,8 +359,9 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		staminaRechargeMeter = 0;
 		jammage = 0;
 		jammageThreshold = Random.Range(minJammageThreshold,maxJammageThreshold);
-		jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget - jammageTargetRange);
-		jammageTargetUpper = jammageTargetLower + jammageTargetRange;
+		jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget - currentJammageTargetRange);
+		jammageTargetUpper = jammageTargetLower + currentJammageTargetRange;
+		currentJammageTargetRange = Mathf.Max(0, currentJammageTargetRange - (Random.value < 0.5f ? 1 : 2));
 		if(turnResetMode == TurnResetMode.EveryTurn || (turnResetMode == TurnResetMode.EverySection && previousTurnLoops.Count == 0)) {
 			previousTurnLoops = new List<int>(currentTurnLoops);
 		}

@@ -13,10 +13,12 @@ public class NPCDialogue : MonoBehaviour {
 		text = GetComponent<UnityEngine.UI.Text>();
 		// NotificationBoard.AddListener(AIMIDIController.Notifications.changedLead, ChangedLead);
 		NotificationBoard.AddListener(RPGGameplayManger.Notifications.gotRhythmMatchBonus, GotRhythmBonus);
+		NotificationBoard.AddListener(RPGGameplayManger.Notifications.playerGotPerfectTurn, GotPerfectTurn);
 	}
 
 	void OnDestroy() {
 		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.gotRhythmMatchBonus, GotRhythmBonus);
+		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.playerGotPerfectTurn, GotPerfectTurn);
 	}
 
 	void ChangedLead(object npc, object npcIsLeading) {
@@ -36,5 +38,9 @@ public class NPCDialogue : MonoBehaviour {
 	void GotRhythmBonus(object sender, object arg) {
 		var randomIndex = Random.Range(0, rhythmBonusPhrases.Length);
 		SayPhrase(rhythmBonusPhrases[randomIndex]);
+	}
+
+	void GotPerfectTurn(object sender, object arg) {
+		SayPhrase("Perfect!!");
 	}
 }
