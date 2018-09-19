@@ -1,12 +1,10 @@
 using UnityEngine;
 using UnityEditor;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
-using Ink.Runtime;
 
 /// <summary>
 /// Holds a reference to an InkFile object for every .ink file detected in the Assets folder.
@@ -16,22 +14,37 @@ namespace Ink.UnityIntegration {
 	public class InkLibrary : ScriptableObject {
 		public static bool created {
 			get {
-				return _Instance != null || FindLibrary() != null;
+				// If it's null, there's no InkLibrary asset in the project
+				return _Instance != null;
 			}
 		}
 		private static InkLibrary _Instance;
 		public static InkLibrary Instance {
 			get {
-				if(_Instance == null)
-					_Instance = FindOrCreateLibrary();
+				if(_Instance == null) {
+					if(InkEditorUtils.FindOrCreateSingletonScriptableObjectOfType<InkLibrary>(defaultPath, out _Instance)) {
+						Rebuild();
+					}
+				}
 				return _Instance;
 			}
 		}
 		public const string defaultPath = "Assets/InkLibrary.asset";
-		public const string pathPlayerPrefsKey = "InkLibraryAssetPath";
 
 		public List<InkFile> inkLibrary = new List<InkFile>();
+		// If InkSettings' delayInPlayMode option is true, dirty files are added here when they're changed in play mode
+		// This ensures they're remembered when you exit play mode and can be compiled
+		public List<string> pendingCompilationStack = new List<string>();
+		// The state of files currently being compiled. You can ignore this!
 		public List<InkCompiler.CompilationStackItem> compilationStack = new List<InkCompiler.CompilationStackItem>();
+
+		private void OnEnable() {
+			_Instance = this;
+		}
+
+		private void OnDisable() {
+			_Instance = null;
+		}
 
 		/// <summary>
 		/// Removes and null references in the library
@@ -44,61 +57,19 @@ namespace Ink.UnityIntegration {
 			}
 		}
 
-		private static InkLibrary FindLibrary () {
-			if(EditorPrefs.HasKey(pathPlayerPrefsKey)) {
-				InkLibrary library = AssetDatabase.LoadAssetAtPath<InkLibrary>(EditorPrefs.GetString(pathPlayerPrefsKey));
-				if(library != null) return library;
-				else EditorPrefs.DeleteKey(pathPlayerPrefsKey);
-			}
-
-			string[] GUIDs = AssetDatabase.FindAssets("t:"+typeof(InkLibrary).Name);
-			if(GUIDs.Length > 0) {
-				if(GUIDs.Length > 1) {
-					for(int i = 1; i < GUIDs.Length; i++) {
-						AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(GUIDs[i]));
-					}
-					Debug.LogWarning("More than one InkLibrary was found. Deleted excess asset instances.");
-				}
-				string path = AssetDatabase.GUIDToAssetPath(GUIDs[0]);
-				EditorPrefs.SetString(pathPlayerPrefsKey, path);
-				return AssetDatabase.LoadAssetAtPath<InkLibrary>(path);
-			}
-			return null;
-		}
-
-		private static InkLibrary FindOrCreateLibrary () {
-			InkLibrary tmpSettings = FindLibrary();
-			// If we couldn't find the asset in the project, create a new one.
-			if(tmpSettings == null) {
-				tmpSettings = CreateInkLibrary ();
-				Debug.Log("Created a new InkLibrary file at "+defaultPath+" because one was not found.");
-				InkLibrary.Rebuild();
-			}
-			return tmpSettings;
-		}
-		
-		private static InkLibrary CreateInkLibrary () {
-			var asset = ScriptableObject.CreateInstance<InkLibrary>();
-			AssetDatabase.CreateAsset (asset, defaultPath);
-			AssetDatabase.SaveAssets ();
-			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(asset));
-			EditorPrefs.SetString(pathPlayerPrefsKey, defaultPath);
-			return asset;
-		}
-
 		/// <summary>
 		/// Updates the ink library. Executed whenever an ink file is changed by InkToJSONPostProcessor
 		/// Can be called manually, but incurs a performance cost.
 		/// </summary>
 		public static void Rebuild () {
-			Debug.Log("Rebuilding Ink Library...");
-
 			string[] inkFilePaths = GetAllInkFilePaths();
 
+			bool inkLibraryChanged = false;
 			List<InkFile> newInkLibrary = new List<InkFile>(inkFilePaths.Length);
 			for (int i = 0; i < inkFilePaths.Length; i++) {
 				InkFile inkFile = GetInkFileWithAbsolutePath(inkFilePaths [i]);
 				if(inkFile == null) {
+					inkLibraryChanged = true;
 					string localAssetPath = InkEditorUtils.AbsoluteToUnityRelativePath(inkFilePaths [i]);
 					DefaultAsset inkFileAsset = AssetDatabase.LoadAssetAtPath<DefaultAsset>(localAssetPath);
 					// If the ink file can't be found, it might not yet have been imported. We try to manually import it to fix this.
@@ -114,19 +85,35 @@ namespace Ink.UnityIntegration {
 				}
 				newInkLibrary.Add(inkFile);
 			}
+			if(inkLibraryChanged)
+				Instance.inkLibrary = newInkLibrary;
 
-			Instance.inkLibrary = newInkLibrary;
+			var metaFiles = Instance.inkLibrary.Select(x => x.metaInfo).ToList();
+			bool metaFilesChanged = InkMetaLibrary.Instance.metaLibrary.SequenceEqual(metaFiles);
+			if(metaFilesChanged) InkMetaLibrary.Instance.metaLibrary = metaFiles;
 
-			InkMetaLibrary.Instance.metaLibrary.Clear();
-			foreach (InkFile inkFile in Instance.inkLibrary) {
-				InkMetaLibrary.Instance.metaLibrary.Add(inkFile.metaInfo);
-			}
 			InkMetaLibrary.RebuildInkFileConnections();
 
-			foreach (InkFile inkFile in Instance.inkLibrary) {
-				inkFile.FindCompiledJSONAsset();
-			}
+			foreach (InkFile inkFile in Instance.inkLibrary) inkFile.FindCompiledJSONAsset();
 			Save();
+
+			Debug.Log("Ink Library was rebuilt.");
+		}
+
+		public static void CreateOrReadUpdatedInkFiles (List<string> importedInkAssets) {
+			foreach (var importedAssetPath in importedInkAssets) {
+				InkFile inkFile = InkLibrary.GetInkFileWithPath(importedAssetPath);
+				if(inkFile == null) {
+					DefaultAsset asset = AssetDatabase.LoadAssetAtPath<DefaultAsset>(importedAssetPath);
+					inkFile = new InkFile(asset);
+					Instance.inkLibrary.Add(inkFile);
+					InkMetaLibrary.Instance.metaLibrary.Add(new InkMetaFile(inkFile));
+				} else {
+					inkFile.metaInfo.ParseContent();
+				}
+			}
+			// Now we've updated all the include paths for the ink library we can create master/child references between them.
+			InkMetaLibrary.RebuildInkFileConnections();
 		}
 
 		private static string[] GetAllInkFilePaths () {
@@ -143,15 +130,29 @@ namespace Ink.UnityIntegration {
 			EditorApplication.RepaintProjectWindow();
 		}
 
-		public static List<InkFile> GetMasterInkFiles () {
-			List<InkFile> masterInkFiles = new List<InkFile>();
-			if(Instance.inkLibrary == null) return masterInkFiles;
+		// All the master files
+		public static IEnumerable<InkFile> GetMasterInkFiles () {
+			if(Instance.inkLibrary == null) yield break;
 			foreach (InkFile inkFile in Instance.inkLibrary) {
-				if(inkFile.metaInfo.isMaster) {
-					masterInkFiles.Add(inkFile);
-				}
+				if(inkFile.metaInfo.isMaster) 
+					yield return inkFile;
 			}
-			return masterInkFiles;
+		}
+
+		// All the master files which are dirty and are set to compile
+		public static IEnumerable<InkFile> GetFilesRequiringRecompile () {
+			foreach(InkFile inkFile in InkLibrary.GetMasterInkFiles ()) {
+				if(inkFile.metaInfo.requiresCompile && (InkSettings.Instance.compileAutomatically || inkFile.compileAutomatically)) 
+					yield return inkFile;
+			}
+		}
+
+		// All the master files which are set to compile
+		public static IEnumerable<InkFile> FilesCompiledByRecompileAll () {
+			foreach(InkFile inkFile in InkLibrary.GetMasterInkFiles ()) {
+				if(InkSettings.Instance.compileAutomatically || inkFile.compileAutomatically) 
+					yield return inkFile;
+			}
 		}
 
 		/// <summary>
@@ -161,7 +162,7 @@ namespace Ink.UnityIntegration {
 		/// <param name="path">Path.</param>
 		public static InkFile GetInkFileWithFile (DefaultAsset file) {
 			if(InkLibrary.Instance.inkLibrary == null) return null;
-			foreach(InkFile inkFile in InkLibrary.Instance.inkLibrary) {
+			foreach(InkFile inkFile in Instance.inkLibrary) {
 				if(inkFile.inkAsset == file) {
 					return inkFile;
 				}
@@ -191,7 +192,7 @@ namespace Ink.UnityIntegration {
 		/// <param name="path">Path.</param>
 		public static InkFile GetInkFileWithAbsolutePath (string absolutePath) {
 			if(InkLibrary.Instance.inkLibrary == null) return null;
-			foreach(InkFile inkFile in InkLibrary.Instance.inkLibrary) {
+			foreach(InkFile inkFile in Instance.inkLibrary) {
 				if(inkFile.absoluteFilePath == absolutePath) {
 					return inkFile;
 				}

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -19,6 +18,7 @@ namespace Ink.UnityIntegration {
 				return InkLibrary.Instance.compilationStack.Count > 0;
 			}
 		}
+		static bool playModeBlocked = false;
 
 		public delegate void OnCompileInkEvent (InkFile inkFile);
 		public static event OnCompileInkEvent OnCompileInk;
@@ -47,13 +47,22 @@ namespace Ink.UnityIntegration {
 		}
 
 		static InkCompiler () {
-			EditorApplication.playmodeStateChanged += OnPlayModeChange;
+			#if UNITY_2017_1_OR_NEWER
+			EditorApplication.playModeStateChanged += OnPlayModeChange;
+			#else
+			EditorApplication.playmodeStateChanged += LegacyOnPlayModeChange;
+			#endif
 			EditorApplication.update += Update;
 		}
 
 		private static void Update () {
 			if(!InkLibrary.created) 
 				return;
+
+			// When all files have compiled, run the complete function.
+			if(compiling && InkLibrary.FilesInCompilingStackInState(CompilationStackItem.State.Compiling).Count == 0) {
+				DelayedComplete();
+			}
 
 			for (int i = InkLibrary.Instance.compilationStack.Count - 1; i >= 0; i--) {
 				var compilingFile = InkLibrary.Instance.compilationStack [i];
@@ -64,51 +73,122 @@ namespace Ink.UnityIntegration {
 							compilingFile.process.Exited -= OnCompileProcessComplete;
 							compilingFile.process.Kill ();
 						}
-						InkLibrary.Instance.compilationStack.RemoveAt(i);
-						if(InkLibrary.Instance.compilationStack.Count == 0) EditorUtility.ClearProgressBar();
-						Debug.LogError("Ink Compiler timed out for "+compilingFile.inkAbsoluteFilePath+".\n. Compilation should never take more than a few seconds, but for large projects or slow computers you may want to increase the timeout time in the InkSettings file.\nIf this persists there may be another issue; or else check an ink file exists at this path and try Assets/Recompile Ink, else please report as a bug with the following error log at this address: https://github.com/inkle/ink/issues\nError log:\n"+compilingFile.errorOutput);
+						RemoveCompilingFile(i);
+						Debug.LogError("Ink Compiler timed out for "+compilingFile.inkAbsoluteFilePath+".\nCompilation should never take more than a few seconds, but for large projects or slow computers you may want to increase the timeout time in the InkSettings file.\nIf this persists there may be another issue; or else check an ink file exists at this path and try Assets/Recompile Ink, else please report as a bug with the following error log at this address: https://github.com/inkle/ink/issues\nError log:\n"+string.Join("\n",compilingFile.errorOutput.ToArray()));
 					}
 				} else if (compilingFile.state == CompilationStackItem.State.Importing) {
-					// This covers a rare bug that I've not pinned down
+					// This covers a rare bug that I've not pinned down. It seems to happen when importing new assets.
+					// DOES THIS STILL OCCUR? I FIXED A BUG.
 					var timeTaken = (float)((DateTime.Now - compilingFile.startTime).TotalSeconds);
 					if (timeTaken > InkSettings.Instance.compileTimeout + 2) {
-						if (compilingFile.process != null) {	
+						if (compilingFile.process != null && !compilingFile.process.HasExited) {
 							compilingFile.process.Exited -= OnCompileProcessComplete;
 							compilingFile.process.Kill ();
 						}
-						InkLibrary.Instance.compilationStack.RemoveAt(i);
-						if(InkLibrary.Instance.compilationStack.Count == 0) EditorUtility.ClearProgressBar();
-						Debug.LogError("Ink Compiler timed out for "+compilingFile.inkAbsoluteFilePath+" while the file was importing.\n. Please report as a bug with the following error log at this address: https://github.com/inkle/ink/issues\nError log:\n"+compilingFile.errorOutput);
+						// Can remove this if it never fires
+						Debug.Assert(InkLibrary.FilesInCompilingStackInState(CompilationStackItem.State.Compiling).Count != 0);
+						RemoveCompilingFile(i);
+						Debug.LogError("Ink Compiler timed out for "+compilingFile.inkAbsoluteFilePath+" while the file was importing.\nPlease report as a bug with the following error log at this address: https://github.com/inkle/ink/issues\nError log:\n"+compilingFile.errorOutput);
 					}
 				}
 			}
-			if(InkLibrary.Instance.compilationStack.Count > 0) {
-				int numCompiling = InkLibrary.FilesInCompilingStackInState(CompilationStackItem.State.Compiling).Count;
-				string message = "Compiling .Ink File "+(InkLibrary.Instance.compilationStack.Count-numCompiling)+" of "+InkLibrary.Instance.compilationStack.Count;
-				float progress = 0;
-				foreach (var compilingFile in InkLibrary.Instance.compilationStack) {
-					if (compilingFile.state == CompilationStackItem.State.Compiling)
-						progress += compilingFile.timeTaken / InkSettings.Instance.compileTimeout;
-					if (compilingFile.state == CompilationStackItem.State.Importing)
-						progress += 1;
-				}
-				progress /= InkLibrary.Instance.compilationStack.Count;
-				EditorUtility.DisplayProgressBar("Compiling Ink...", message, progress);
-			}
+
+			// If we're not showing a progress bar in Linux this whole step is superfluous
+			#if !UNITY_EDITOR_LINUX
+			UpdateProgressBar();
+			#endif
 		}
 
-		private static void OnPlayModeChange () {
-			if(EditorApplication.isPlayingOrWillChangePlaymode) {
-				if(compiling)
-					Debug.LogWarning("Entered Play Mode while Ink was still compiling. Recommend exiting and re-entering play mode.");
+		static void RemoveCompilingFile (int index) {
+			InkLibrary.Instance.compilationStack.RemoveAt(index);
+			InkLibrary.Save();
+			// Progress bar prevents delayCall callback from firing in Linux Editor, locking the
+			// compilation until it times out. Let's just not show progress bars in Linux Editor	
+			#if !UNITY_EDITOR_LINUX
+			if (InkLibrary.Instance.compilationStack.Count == 0) EditorUtility.ClearProgressBar();
+			#endif
+		}
+
+		static void UpdateProgressBar () {
+			if(InkLibrary.Instance.compilationStack.Count == 0) return;
+			int numCompiling = InkLibrary.FilesInCompilingStackInState(CompilationStackItem.State.Compiling).Count;
+			string message = "Compiling .Ink File "+(InkLibrary.Instance.compilationStack.Count-numCompiling)+" of "+InkLibrary.Instance.compilationStack.Count+".";
+			if(playModeBlocked) message += " Will enter play mode when complete.";
+			if(playModeBlocked) EditorUtility.DisplayProgressBar("Compiling Ink...", message, GetEstimatedCompilationProgress());
+			else EditorUtility.ClearProgressBar();
+		}
+
+		public static float GetEstimatedCompilationProgress () {
+			if(!compiling) return 1;
+			float progress = 0;
+			foreach (var compilingFile in InkLibrary.Instance.compilationStack) {
+				if (compilingFile.state == CompilationStackItem.State.Compiling)
+					progress += compilingFile.timeTaken / InkSettings.Instance.compileTimeout;
+				if (compilingFile.state == CompilationStackItem.State.Importing)
+					progress += 1;
 			}
+			progress /= InkLibrary.Instance.compilationStack.Count;
+			return progress;
+		}
+
+		#if UNITY_2017_1_OR_NEWER
+		static void OnPlayModeChange (PlayModeStateChange mode) {
+			if(mode == PlayModeStateChange.EnteredEditMode && InkLibrary.Instance.pendingCompilationStack.Count > 0)
+				CompilePendingFiles();
+			if(mode == PlayModeStateChange.ExitingEditMode && compiling)
+				BlockPlayMode();
+			if(mode == PlayModeStateChange.EnteredPlayMode && compiling)
+				EnteredPlayModeWhenCompiling();
+		}
+		
+		#else
+		
+		static void LegacyOnPlayModeChange () {
+			if(!EditorApplication.isPlayingOrWillChangePlaymode && EditorApplication.isPlaying && InkLibrary.Instance.pendingCompilationStack.Count > 0) 
+				CompilePendingFiles();
+			if(EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying && compiling)
+				BlockPlayMode();
+			if(EditorApplication.isPlayingOrWillChangePlaymode && EditorApplication.isPlaying && compiling)
+				EnteredPlayModeWhenCompiling();
+		}
+		#endif
+
+		static void CompilePendingFiles () {
+			InkLibrary.CreateOrReadUpdatedInkFiles (InkLibrary.Instance.pendingCompilationStack);
+			foreach (var pendingFile in GetUniqueMasterInkFilesToCompile(InkLibrary.Instance.pendingCompilationStack))
+				InkCompiler.CompileInk(pendingFile);
+			InkLibrary.Instance.pendingCompilationStack.Clear();
+		}
+
+		static void BlockPlayMode () {
+			EditorApplication.isPlaying = false;
+			var percentage = String.Format("{0:P0}.", GetEstimatedCompilationProgress());
+			Debug.LogWarning("Delayed entering play mode because Ink is still compiling ("+percentage+"). Will enter play mode on completion.");
+			playModeBlocked = true;
+		}
+
+		static void EnteredPlayModeWhenCompiling () {
+			Debug.LogError("Entered Play Mode while Ink was still compiling. Story will not be up to date. This should never happen. Recommend exiting and re-entering play mode.");
+		}
+
+		public static void CompileInk (params InkFile[] inkFiles) {
+			StringBuilder filesCompiledLog = new StringBuilder("Files compiled:");
+			foreach (var inkFile in inkFiles) filesCompiledLog.AppendLine().Append(inkFile.filePath);
+			
+			StringBuilder outputLog = new StringBuilder ();
+			outputLog.Append ("Ink compilation started at ");
+			outputLog.AppendLine (DateTime.Now.ToLongTimeString ());
+			outputLog.Append (filesCompiledLog.ToString());
+			Debug.Log(outputLog);
+			
+			foreach(var inkFile in inkFiles) CompileInkInternal (inkFile);
 		}
 
 		/// <summary>
 		/// Starts a System.Process that compiles a master ink file, creating a playable JSON file that can be parsed by the Ink.Story class
 		/// </summary>
 		/// <param name="inkFile">Ink file.</param>
-		public static void CompileInk (InkFile inkFile) {
+		internal static void CompileInkInternal (InkFile inkFile) {
 			if(inkFile == null) {
 				Debug.LogError("Tried to compile ink file "+inkFile.filePath+", but input was null.");
 				return;
@@ -137,7 +217,7 @@ namespace Ink.UnityIntegration {
 				Debug.LogWarning("Inklecate path should not contain a space. This might lead to compilation failing. Path is '"+inklecatePath+"'. If you don't see any compilation errors, you can ignore this warning.");
 			}*/
 			string inputPath = InkEditorUtils.CombinePaths(inkFile.absoluteFolderPath, Path.GetFileName(inkFile.filePath));
-			string outputPath = InkEditorUtils.CombinePaths(inkFile.absoluteFolderPath, Path.GetFileNameWithoutExtension(Path.GetFileName(inkFile.filePath))) + ".json";
+			string outputPath = inkFile.absoluteJSONPath;
 			string inkArguments = InkSettings.Instance.customInklecateOptions.additionalCompilerOptions + " -c -o " + "\"" + outputPath + "\" \"" + inputPath + "\"";
 
 			CompilationStackItem pendingFile = new CompilationStackItem();
@@ -150,12 +230,13 @@ namespace Ink.UnityIntegration {
 
 			Process process = new Process();
 			if( InkSettings.Instance.customInklecateOptions.runInklecateWithMono && Application.platform != RuntimePlatform.WindowsEditor ) {
-				if(File.Exists(_libraryMono)) {
-					process.StartInfo.FileName = _libraryMono;
-				} else if(File.Exists(_usrMono)) {
-					process.StartInfo.FileName = _usrMono;
-				} else {
-					Debug.LogError("Mono was not found on machine");
+				foreach (var path in InkSettings.Instance.customInklecateOptions.monoPaths) {
+					if (File.Exists(path)) {
+						process.StartInfo.FileName = path;
+					}
+				}
+				if (process.StartInfo.FileName == null) {
+					Debug.LogError("Mono was not found on machine, please edit the mono paths in settings to include a valid one for your machine.");
 					return;
 				}
 				process.StartInfo.Arguments = inklecatePath + " " + inkArguments;
@@ -195,10 +276,6 @@ namespace Ink.UnityIntegration {
 			Process process = (Process)sender;
 			CompilationStackItem pendingFile = InkLibrary.GetCompilationStackItem(process);
 			pendingFile.state = CompilationStackItem.State.Importing;
-			if(InkLibrary.FilesInCompilingStackInState(CompilationStackItem.State.Compiling).Count == 0) {
-				// This event runs in another thread, preventing us from calling some UnityEditor functions directly. Instead, we delay till the next inspector update.
-				EditorApplication.delayCall += Delay;
-			}
 		}
 
 		private static void ProcessOutput (Process process, string message) {
@@ -209,13 +286,18 @@ namespace Ink.UnityIntegration {
 		}
 
 		private static void ProcessError (Process process, string message) {
-			if (message == null || message.Length == 0 || message == "???")
+			message = message.Trim(new char[]{'\uFEFF','\u200B'});
+			if (InkEditorUtils.IsNullOrWhiteSpace(message) || message == "???")
 				return;
+			Debug.Log(message[0]);
+			Debug.Log(char.IsWhiteSpace(message[0]));
+			Debug.Log((int)(message[0]));
 			CompilationStackItem compilingFile = InkLibrary.GetCompilationStackItem(process);
 			compilingFile.errorOutput.Add(message);
 		}
 
-		private static void Delay () {
+		// When all files in stack have been compiled. This is called via update because Process events run in another thread.
+		private static void DelayedComplete () {
 			if(InkLibrary.FilesInCompilingStackInState(CompilationStackItem.State.Compiling).Count > 0) {
 				Debug.LogWarning("Delayed, but a file is now compiling! You can ignore this warning.");
 				return;
@@ -286,14 +368,28 @@ namespace Ink.UnityIntegration {
 				outputLog.Append (filesCompiledLog.ToString());
 				Debug.Log(outputLog);
 			}
-			InkLibrary.Instance.compilationStack.Clear();
 
+			InkLibrary.Instance.compilationStack.Clear();
 			InkLibrary.Save();
 			InkMetaLibrary.Save();
 
+			#if !UNITY_EDITOR_LINUX
 			EditorUtility.ClearProgressBar();
+			#endif
 			if(EditorApplication.isPlayingOrWillChangePlaymode) {
 				Debug.LogWarning("Ink just finished recompiling while in play mode. Your runtime story may not be up to date.");
+			}
+
+			if(playModeBlocked) {
+				if(!errorsFound) {
+					// Delaying gives the editor a frame to clear the progress bar.
+					EditorApplication.delayCall += () => {
+						Debug.Log("Compilation completed, entering play mode.");
+						EditorApplication.isPlaying = true;
+					};
+				} else {
+					Debug.LogWarning("Play mode not entered after ink compilation because ink had errors.");
+				}
 			}
 		}
 
@@ -355,9 +451,6 @@ namespace Ink.UnityIntegration {
 			}
 		}
 
-		private const string _usrMono = "/usr/local/bin/mono";
-		private const string _libraryMono = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/mono";
-
 		private static Regex _errorRegex = new Regex(@"(?<errorType>ERROR|WARNING|TODO|RUNTIME ERROR):(?:\s(?:'(?<filename>[^']*)'\s)?line (?<lineNo>\d+):)?(?<message>.*)");
 
 		// The asset store version of this plugin removes execute permissions. We can't run unless they're restored.
@@ -372,6 +465,24 @@ namespace Ink.UnityIntegration {
 			process.EnableRaisingEvents = true;
 			process.Start();
 			process.WaitForExit();
+		}
+
+		public static List<InkFile> GetUniqueMasterInkFilesToCompile (List<string> importedInkAssets) {
+			List<InkFile> masterInkFiles = new List<InkFile>();
+			foreach (var importedAssetPath in importedInkAssets) {
+				InkFile inkFile = InkLibrary.GetInkFileWithPath(importedAssetPath);
+				// Trying to catch a rare (and not especially important) bug that seems to happen occasionally when opening a project
+				// It's probably this - I've noticed it before in another context.
+				Debug.Assert(InkSettings.Instance != null, "No ink settings file. This is a bug. For now you should be able to fix this via Assets > Rebuild Ink Library");
+				// I've caught it here before
+				Debug.Assert(inkFile != null, "No internal InkFile reference at path "+importedAssetPath+". This is a bug. For now you can fix this via Assets > Rebuild Ink Library");
+				Debug.Assert(inkFile.metaInfo != null);
+				Debug.Assert(inkFile.metaInfo.masterInkFileIncludingSelf != null);
+				if (!masterInkFiles.Contains(inkFile.metaInfo.masterInkFileIncludingSelf) && (InkSettings.Instance.compileAutomatically || inkFile.metaInfo.masterInkFileIncludingSelf.compileAutomatically)) {
+					masterInkFiles.Add(inkFile.metaInfo.masterInkFileIncludingSelf);
+				}
+			}
+			return masterInkFiles;
 		}
 	}
 }

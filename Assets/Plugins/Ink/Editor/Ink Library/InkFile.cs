@@ -1,19 +1,7 @@
 using UnityEngine;
 using UnityEditor;
-using System;
 using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using Debug = UnityEngine.Debug;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-using Object = UnityEngine.Object;
 
 namespace Ink.UnityIntegration {
 	// Helper class for ink files that maintains INCLUDE connections between ink files
@@ -23,6 +11,9 @@ namespace Ink.UnityIntegration {
 		public bool compileAutomatically = false;
 		// A reference to the ink file
 		public DefaultAsset inkAsset;
+
+        //specify json destination folder (if None, default to same folder as ink file)
+        public DefaultAsset jsonAssetPath;
 
 		// The compiled json file. Use this to start a story.
 		public TextAsset jsonAsset;
@@ -64,14 +55,48 @@ namespace Ink.UnityIntegration {
 			}
 		}
 
+		// The path of any compiled json file. Relative to assets folder.
+        public string jsonPath {
+			get {
+                DefaultAsset jsonFolder = jsonAssetPath;
+                if (jsonFolder == null) // no path specified for this specific file
+                {
+                    if(InkSettings.Instance.defaultJsonAssetPath != null) 
+                    {
+                        // use default path in InkSettings
+                        jsonFolder = InkSettings.Instance.defaultJsonAssetPath;
+                    }
+
+                    if (jsonFolder == null)
+                    {
+                        //fallback to same folder as .ink file
+                        jsonFolder = AssetDatabase.LoadAssetAtPath<DefaultAsset>(Path.GetDirectoryName(filePath));
+                    }
+                }
+
+                string jsonPath = AssetDatabase.GetAssetPath(jsonFolder);
+                string strJsonAssetPath = InkEditorUtils.CombinePaths(jsonPath, Path.GetFileNameWithoutExtension(filePath)) + ".json";
+
+                return InkEditorUtils.SanitizePathString(strJsonAssetPath);
+			}
+		}
+
+		public string absoluteJSONPath {
+			get {
+				if(inkAsset == null) 
+					return null;
+				return InkEditorUtils.UnityRelativeToAbsolutePath(jsonPath);
+			}
+		}
+
 		public InkFile (DefaultAsset inkAsset) {
 			Debug.Assert(inkAsset != null);
 			this.inkAsset = inkAsset;
 		}
 
 		public void FindCompiledJSONAsset () {
-			string jsonAssetPath = InkEditorUtils.CombinePaths(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath)) + ".json";
-			jsonAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(jsonAssetPath);
+            Debug.Assert(inkAsset != null);
+            jsonAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(jsonPath);
 		}
 
 		public override string ToString () {

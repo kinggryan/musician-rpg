@@ -1,32 +1,29 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Diagnostics;
-using UnityEditorInternal;
-using Debug = UnityEngine.Debug;
 using Ink.Runtime;
 using UnityEditor.ProjectWindowCallback;
+using UnityEditor.Callbacks;
 
 namespace Ink.UnityIntegration {
 
 	class CreateInkAssetAction : EndNameEditAction {
 		public override void Action(int instanceId, string pathName, string resourceFile) {
-			UnityEngine.Object asset = CreateScriptAssetFromTemplate(pathName, resourceFile);
-			ProjectWindowUtil.ShowCreatedAsset(asset);
-		}
-		
-		internal static UnityEngine.Object CreateScriptAssetFromTemplate(string pathName, string templateFilePath) {
-			string fullPath = Path.GetFullPath(pathName);
-			string text = "";
-			if(File.Exists(templateFilePath)) {
-				StreamReader streamReader = new StreamReader(templateFilePath);
+			var text = "";
+			if(File.Exists(resourceFile)) {
+				StreamReader streamReader = new StreamReader(resourceFile);
 				text = streamReader.ReadToEnd();
 				streamReader.Close();
 			}
+			UnityEngine.Object asset = CreateScriptAsset(pathName, text);
+			ProjectWindowUtil.ShowCreatedAsset(asset);
+		}
+		
+		internal static UnityEngine.Object CreateScriptAsset(string pathName, string text) {
+			string fullPath = Path.GetFullPath(pathName);
 			UTF8Encoding encoding = new UTF8Encoding(true, false);
 			bool append = false;
 			StreamWriter streamWriter = new StreamWriter(fullPath, append, encoding);
@@ -65,12 +62,17 @@ namespace Ink.UnityIntegration {
 			InkLibrary.Rebuild();
 		}
 
-		[MenuItem("Assets/Recompile All Ink", false, 61)]
+		[MenuItem("Assets/Recompile Ink", false, 61)]
 		public static void RecompileAll() {
-			InkLibrary.Rebuild();
-			List<InkFile> masterInkFiles = InkLibrary.GetMasterInkFiles ();
-			foreach(InkFile masterInkFile in masterInkFiles)
+			List<string> compiledFiles = new List<string>();
+			foreach(InkFile masterInkFile in InkLibrary.FilesCompiledByRecompileAll()) {
 				InkCompiler.CompileInk(masterInkFile);
+				compiledFiles.Add(Path.GetFileName(masterInkFile.filePath));
+			}
+			string logString = compiledFiles.Count == 0 ? 
+				"No valid ink found. Note that only files with 'Compile Automatic' checked are compiled if not set to compile all files automatically in InkSettings file." :
+				"Recompile All will compile "+string.Join(", ", compiledFiles.ToArray());
+			Debug.Log(logString);
 		}
 
 
@@ -86,16 +88,16 @@ namespace Ink.UnityIntegration {
 		}
 
 		private static string GetSelectedPathOrFallback() {
-	         string path = "Assets";
-	         foreach (UnityEngine.Object obj in Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.Assets)) {
-	             path = AssetDatabase.GetAssetPath(obj);
-	             if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
-	                 path = Path.GetDirectoryName(path);
-	                 break;
-	             }
-	         }
-	         return path;
-	     }
+			string path = "Assets";
+			foreach (UnityEngine.Object obj in Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.Assets)) {
+				path = AssetDatabase.GetAssetPath(obj);
+				if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
+					path = Path.GetDirectoryName(path);
+					break;
+				}
+			}
+			return path;
+		}
 
 		
 
@@ -107,6 +109,18 @@ namespace Ink.UnityIntegration {
 		[MenuItem("Help/Ink/API Documentation...")]
 		public static void OpenWritingDocumentation() {
 			Application.OpenURL("https://github.com/inkle/ink/blob/master/Documentation/RunningYourInk.md");
+		}
+
+		[MenuItem("Help/Ink/Donate...")]
+		public static void Donate() {
+			Application.OpenURL("https://www.patreon.com/inkle");
+		}
+
+		[PostProcessBuildAttribute(-1)]
+		public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
+			if(!Debug.isDebugBuild) {
+				Debug.Log("<color=blue>Thanks for using ink, and best of luck with your release!\nIf you're doing well, please help fund the project via Patreon https://www.patreon.com/inkle</color>");
+			}
 		}
 
 		public static TextAsset CreateStoryStateTextFile (string jsonStoryState, string defaultPath = "Assets/Ink", string defaultName = "storyState") {
@@ -237,7 +251,7 @@ namespace Ink.UnityIntegration {
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.PrefixLabel(label);
 			if(EditorApplication.isPlaying && story != null) {
-				if(EditorWindow.focusedWindow is InkPlayerWindow) {
+				if(InkPlayerWindow.isOpen) {
 					InkPlayerWindow window = InkPlayerWindow.GetWindow(false);
 					if(window.attached && window.story == story) {
 						if(GUILayout.Button("Detach")) {
@@ -285,6 +299,77 @@ namespace Ink.UnityIntegration {
 				GUI.Button(position, "Enter play mode to attach to editor");
 				EditorGUI.EndDisabledGroup();
 			}
+		}
+
+		public static bool FindOrCreateSingletonScriptableObjectOfType<T>(string defaultPath, out T obj) where T : ScriptableObject {
+			obj = FastFindAndEnforceSingletonScriptableObjectOfType<T>();
+			if (obj != null) return false;
+			// If we couldn't find the asset in the project, create a new one.
+			obj = CreateScriptableObject<T>(defaultPath);
+			Debug.Log("Created a new " + typeof(T).Name + " file at " + defaultPath + " because one was not found.");
+			return true;
+		}
+
+		static T CreateScriptableObject<T> (string defaultPath) where T : ScriptableObject {
+			var asset = ScriptableObject.CreateInstance<T>();
+			AssetDatabase.CreateAsset (asset, defaultPath);
+			AssetDatabase.SaveAssets ();
+			AssetDatabase.Refresh ();
+			return asset;
+		}
+
+		public static T FastFindAndEnforceSingletonScriptableObjectOfType<T> () where T : ScriptableObject {
+			return FindAndEnforceSingletonScriptableObjectOfType<T>();
+		}
+
+		static T FindAndEnforceSingletonScriptableObjectOfType<T> () where T : ScriptableObject {
+			string typeName = typeof(T).Name;
+			string[] GUIDs = AssetDatabase.FindAssets("t:"+typeName);
+			if(GUIDs.Length > 0) {
+				string path = AssetDatabase.GUIDToAssetPath(GUIDs[0]);
+				if(GUIDs.Length > 1) {
+					var remainingGUID = DeleteAllButOldestScriptableObjects(GUIDs, typeName);
+					path = AssetDatabase.GUIDToAssetPath(remainingGUID);
+				}
+				return AssetDatabase.LoadAssetAtPath<T>(path);
+			} 
+			return null;
+		}
+
+		public static string DeleteAllButOldestScriptableObjects (string[] GUIDs, string typeName) {
+			if(GUIDs.Length == 0) return null;
+			if(GUIDs.Length == 1) return GUIDs[0];
+			int oldestIndex = -1;
+			DateTime oldestTime = DateTime.Now;
+			for(int i = 0; i < GUIDs.Length; i++) {
+				var path = AssetDatabase.GUIDToAssetPath(GUIDs[i]);
+				var absolutePath = UnityRelativeToAbsolutePath(path);
+				var lastWriteTime = File.GetLastWriteTime(absolutePath);
+				if(oldestIndex == -1 || lastWriteTime < oldestTime) {
+					oldestTime = lastWriteTime;
+					oldestIndex = i;
+				}
+			}
+			for(int i = 0; i < GUIDs.Length; i++) {
+				if(i == oldestIndex) continue;
+				var path = AssetDatabase.GUIDToAssetPath(GUIDs[i]);
+				AssetDatabase.DeleteAsset(path);
+			}
+			Debug.LogWarning("More than one "+typeName+" was found. Deleted newer excess asset instances.");
+			return GUIDs[oldestIndex];
+		}
+
+		//Replacement until Unity upgrades .Net
+		public static bool IsNullOrWhiteSpace(string s){
+			return (string.IsNullOrEmpty(s) || IsWhiteSpace(s));
+		}
+
+		//Returns true if string is only white space
+		public static bool IsWhiteSpace(string s){
+			foreach(char c in s){
+				if(c != ' ' && c != '\t') return false;
+			}
+			return true;
 		}
 	}
 }

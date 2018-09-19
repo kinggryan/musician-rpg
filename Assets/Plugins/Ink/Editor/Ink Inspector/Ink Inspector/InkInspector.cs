@@ -2,12 +2,8 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.IO;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using Ink.Runtime;
 using UnityEditorInternal;
-using System.Text.RegularExpressions;
 using Object = UnityEngine.Object;
 
 namespace Ink.UnityIntegration {
@@ -212,11 +208,11 @@ namespace Ink.UnityIntegration {
 				EditorGUILayout.HelpBox("File is compiling...", MessageType.Info);
 				return;
 			}
-			InkFile masterInkFile = inkFile;
+			
+			InkFile masterInkFile = inkFile.metaInfo.masterInkFileIncludingSelf;
 			if(inkFile.metaInfo.isMaster) {
 				DrawMasterFileHeader();
 			} else {
-				masterInkFile = inkFile.metaInfo.masterInkFile;
 				DrawSubFileHeader(masterInkFile);
 			}
 
@@ -291,10 +287,10 @@ namespace Ink.UnityIntegration {
 
 		void DrawEditAndCompileDates (InkFile masterInkFile) {
 			string editAndCompileDateString = "";
-			DateTime lastEditDate = File.GetLastWriteTime(inkFile.absoluteFilePath);
+			DateTime lastEditDate = inkFile.metaInfo.lastEditDate;
 			editAndCompileDateString += "Last edit date "+lastEditDate.ToString();
 			if(masterInkFile.jsonAsset != null) {
-				DateTime lastCompileDate = File.GetLastWriteTime(InkEditorUtils.CombinePaths(Application.dataPath, AssetDatabase.GetAssetPath(masterInkFile.jsonAsset).Substring(7)));
+				DateTime lastCompileDate = masterInkFile.metaInfo.lastCompileDate;
 				editAndCompileDateString += "\nLast compile date "+lastCompileDate.ToString();
 				if(lastEditDate > lastCompileDate) {
 					EditorGUILayout.HelpBox(editAndCompileDateString, MessageType.Warning);

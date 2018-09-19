@@ -1,4 +1,4 @@
-- I looked at Monsieur Fogg 
+- I looked at Mr. Frog
 *   ... and I could contain myself no longer.
     'What is the purpose of our journey, Monsieur?'
     'A wager,' he replied.
