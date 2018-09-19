@@ -6,8 +6,6 @@ using Ink.Runtime;
 
 public class DialogueManager : MonoBehaviour {
 
-	[SerializeField]
-	private TextAsset inkJSONAsset;
 	private Story story;
 
 	[SerializeField]
@@ -18,15 +16,54 @@ public class DialogueManager : MonoBehaviour {
 	private OverworldDialogueDisplay npcDialogueDisplay;
 
 	[SerializeField]
-	private Button buttonPrefab;
+	private PlayerChoice buttonPrefab;
+
+	private bool canContinueText;
+	private List<PlayerChoice> choices = new List<PlayerChoice>();
+	private int currentChoiceIndex = 0;
 
 	void Awake () {
-		StartStory();
+		
 	}
 
-	void StartStory () {
-		story = new Story (inkJSONAsset.text);
+	void Start() {
+		canvas.enabled = false;
+	}
+
+	void Update() {
+		if(story != null) {
+			if(story.currentChoices.Count > 0) {
+				if(Input.GetButtonDown("Left")) {
+					choices[currentChoiceIndex].Unhighlight();
+					currentChoiceIndex = Mathf.Max(0, currentChoiceIndex - 1);
+					choices[currentChoiceIndex].Highlight();
+				} else if(Input.GetButtonDown("Right")) {
+					choices[currentChoiceIndex].Unhighlight();
+					currentChoiceIndex = Mathf.Min(story.currentChoices.Count - 1, currentChoiceIndex + 1);
+					choices[currentChoiceIndex].Highlight();
+				} else if(Input.GetButtonDown("Select")) {
+					story.ChooseChoiceIndex (currentChoiceIndex);
+					RefreshView();
+				}
+			} else if(canContinueText && Input.GetButtonDown("Select")) {
+				RefreshView();
+			}
+		}
+	}
+
+	public void StartStory (TextAsset inkJSONAsset) {
+		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
+		player.enabled = false;
+		this.story = new Story (inkJSONAsset.text);
+		canvas.enabled = true;
 		RefreshView();
+	}
+
+	void EndStory() {
+		this.story = null;
+		canvas.enabled = false;
+		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
+		player.enabled = true;
 	}
 
 	void RefreshView () {
@@ -35,40 +72,43 @@ public class DialogueManager : MonoBehaviour {
 		if (story.canContinue) {
 			string text = story.Continue ().Trim();
 			ShowNPCDialogue(text);
-		}
-
-		if(story.currentChoices.Count > 0) {
-			for (int i = 0; i < story.currentChoices.Count; i++) {
-				Choice choice = story.currentChoices [i];
-				Button button = CreateChoiceView (choice.text.Trim ());
-				button.onClick.AddListener (delegate {
-					OnClickChoiceButton (choice);
-				});
-			}
-		} else if(story.canContinue) {
-			Button choice = CreateChoiceView("(Continue)");
-			choice.onClick.AddListener(delegate{
-				RefreshView();
-			});
 		} else {
-			Button choice = CreateChoiceView("End of story.\nRestart?");
-			choice.onClick.AddListener(delegate{
-				StartStory();
-			});
+			EndStory();
 		}
 	}
 
-	void OnClickChoiceButton (Choice choice) {
-		story.ChooseChoiceIndex (choice.index);
-		RefreshView();
-	}
+	//  when the story text callback happens
+	// 	if there are story choices
+	// 	make those appear
+	// 	else if the story can continue
+	// 	enable it to continue
 
 	void ShowNPCDialogue (string text) {
-		npcDialogueDisplay.SetText(text, null);
+		canContinueText = false;
+		npcDialogueDisplay.SetText(text, FinishedShowingNPCDialogue);
 	}
 
-	Button CreateChoiceView (string text) {
-		Button choice = Instantiate (buttonPrefab) as Button;
+	void FinishedShowingNPCDialogue() {
+		if(story.currentChoices.Count > 0) {
+			choices.Clear();
+			for (int i = 0; i < story.currentChoices.Count; i++) {
+				Choice choice = story.currentChoices [i];
+				PlayerChoice button = CreateChoiceView (choice.text.Trim ());
+				choices.Add(button);
+			}
+			currentChoiceIndex = 0;
+			choices[0].Highlight();
+		} else {
+			canContinueText = true;
+		}
+		// 	if there are story choices
+		// 	make those appear
+		// 	else if the story can continue
+		// 	enable it to continue
+	}
+
+	PlayerChoice CreateChoiceView (string text) {
+		PlayerChoice choice = Instantiate (buttonPrefab) as PlayerChoice;
 		choice.transform.SetParent (pcDialogueOptionsParent, false);
 
 		Text choiceText = choice.GetComponentInChildren<Text> ();

@@ -1395,11 +1395,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c8d148174f448f3810bee982bd1706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSONAsset: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
   canvas: {fileID: 1068183327}
   pcDialogueOptionsParent: {fileID: 785087600}
   npcDialogueDisplay: {fileID: 138422330}
-  buttonPrefab: {fileID: 114140589912760780, guid: 0ba65178c89bd4eaab8af44fea638c5c,
+  buttonPrefab: {fileID: 114325126519332294, guid: 0ba65178c89bd4eaab8af44fea638c5c,
     type: 2}
 --- !u!4 &346016455
 Transform:
@@ -3928,6 +3927,7 @@ GameObject:
   - component: {fileID: 1603227909}
   - component: {fileID: 1603227908}
   - component: {fileID: 1603227907}
+  - component: {fileID: 1603227911}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -4003,6 +4003,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1603227911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1603227906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527b37ff48e7d4ad38e09c9711483295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inkJSONAsset: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
 --- !u!1 &1633647441
 GameObject:
   m_ObjectHideFlags: 0

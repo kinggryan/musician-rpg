@@ -8,7 +8,7 @@ public class OverworldDialogueDisplay : MonoBehaviour {
 
 	private float lettersPerSecond = 30;
 	private float letterTypeTimer = 0f;
-	private string targetText;
+	private string targetText = "";
 	private SetTextCallback textCompleteCallback;
 	[SerializeField]
 	private UnityEngine.UI.Text text;
