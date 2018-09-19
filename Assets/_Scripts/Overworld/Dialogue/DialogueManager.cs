@@ -15,9 +15,7 @@ public class DialogueManager : MonoBehaviour {
 	[SerializeField]
 	private RectTransform pcDialogueOptionsParent;
 	[SerializeField]
-	private Text npcNameText;
-	[SerializeField]
-	private Text npcDialogueText;
+	private OverworldDialogueDisplay npcDialogueDisplay;
 
 	[SerializeField]
 	private Button buttonPrefab;
@@ -66,7 +64,7 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	void ShowNPCDialogue (string text) {
-		npcDialogueText.text = text;
+		npcDialogueDisplay.SetText(text, null);
 	}
 
 	Button CreateChoiceView (string text) {
