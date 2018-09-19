@@ -391,13 +391,13 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 			return;
 
 		// Change the midi file at will
-		if(Input.GetButtonDown("Loop1")) {
+		if(Input.GetButtonDown("Left")) {
 			SetCurrentLoop(0);
-		} else if(Input.GetButtonDown("Loop2")) {
+		} else if(Input.GetButtonDown("Right")) {
 			SetCurrentLoop(1);
-		} else if(Input.GetButtonDown("Loop3")) {
+		} else if(Input.GetButtonDown("Up")) {
 			SetCurrentLoop(2);
-		} else if(Input.GetButtonDown("Loop4")) {
+		} else if(Input.GetButtonDown("Down")) {
 			SetCurrentLoop(3);
 		}
 	}
