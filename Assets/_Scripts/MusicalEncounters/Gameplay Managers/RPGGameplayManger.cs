@@ -230,6 +230,14 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		} else {
 			NotificationBoard.SendNotification(Notifications.playerLost, this, null);
 		}
+
+		// In whatever tracks musical encounters, update information about the current musical encounter
+		// Determine the success level for the number of VPs we have
+		var successLevel = GetSuccessLevel();
+		MusicalEncounterManager.CompletedMusicalEncounter(successLevel);
+
+		// DEBUG
+		StartCoroutine(ReturnToOverworld());
 	}
 
 	// IAIListener
@@ -240,6 +248,12 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	public void DidChangeLead(bool aiIsLeading) {}
 
 	// Private Methods
+
+	private IEnumerator ReturnToOverworld() {
+		yield return new WaitForSeconds(3f);
+		var transitionManager = Object.FindObjectOfType<TransitionManager>();
+		transitionManager.ReturnToOverworld();
+	}
 
 	void DidStartSong(object sender, object arg) {
 		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, 0);
@@ -452,5 +466,21 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		}
 
 		return 1f;
+	}
+
+	private MusicalEncounterManager.SuccessLevel GetSuccessLevel() {
+		// TODO: This should be calculatd in a way that scales appropriately for a given song
+		var successRatio = victoryPoints / 32f;
+		if(successRatio >= 1f) {
+			return MusicalEncounterManager.SuccessLevel.Perfect;
+		} else if (successRatio >= 0.75f) {
+			return MusicalEncounterManager.SuccessLevel.Excel;
+		} else if (successRatio >= 0.5f) {
+			return MusicalEncounterManager.SuccessLevel.Pass;
+		} else if (successRatio >= 0.25f) {
+			return MusicalEncounterManager.SuccessLevel.PartialFailure;
+		} else {
+			return MusicalEncounterManager.SuccessLevel.TotalFailure;
+		}
 	}
 }

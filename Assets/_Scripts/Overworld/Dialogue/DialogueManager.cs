@@ -7,8 +7,11 @@ using Ink.Runtime;
 
 public class DialogueManager : MonoBehaviour {
 
+
 	private Story story;
+	private string musicalEncounterSongfileName;
 	private TransitionManager transitionManager;
+	private LevelManager levelManager;
 
 	[SerializeField]
 	private Canvas canvas;
@@ -29,6 +32,7 @@ public class DialogueManager : MonoBehaviour {
 
 	void Awake () {
 		transitionManager = UnityEngine.Object.FindObjectOfType<TransitionManager>();
+		levelManager = UnityEngine.Object.FindObjectOfType<LevelManager>();
 	}
 
 	void Start() {
@@ -56,10 +60,15 @@ public class DialogueManager : MonoBehaviour {
 		}
 	}
 
-	public void StartStory (TextAsset inkJSONAsset) {
+	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename) {
+		musicalEncounterSongfileName = musicalEncounterFilename;
+		StartStory(new Story (inkJSONAsset.text));
+	}
+
+	void StartStory(Story story) {
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = false;
-		this.story = new Story (inkJSONAsset.text);
+		this.story = story;
 		canvas.enabled = true;
 		RefreshView();
 	}
@@ -76,7 +85,12 @@ public class DialogueManager : MonoBehaviour {
 
 		// If the current story point starts a musical encounter, start the musical encounter
 		if(story.currentTags.Contains("start_encounter")) {
+			canContinueText = false;
 			StartMusicalEncounter();
+			// There should always be one JUNK line after the start of a musical encounter, so we proceed here knowing that this line will be thrown away
+			if(story.canContinue)
+				story.Continue().Trim();
+			return;
 		}
 
 		if (story.canContinue) {
@@ -136,6 +150,12 @@ public class DialogueManager : MonoBehaviour {
 
 	void StartMusicalEncounter() {
 		// Load the game scene
+		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
+		levelManager.SetOverworldReturnMap(player.transform.position, delegate {
+			var dialogueManager = UnityEngine.Object.FindObjectOfType<DialogueManager>();
+			dialogueManager.StartStory(story);
+		});
+		MusicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
 		transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);
 	}
 }

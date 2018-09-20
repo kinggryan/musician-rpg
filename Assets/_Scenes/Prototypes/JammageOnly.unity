@@ -328,6 +328,7 @@ GameObject:
   - component: {fileID: 39149011}
   - component: {fileID: 39149018}
   - component: {fileID: 39149020}
+  - component: {fileID: 39149021}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -634,6 +635,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuName: JammageOnlyMenu
+--- !u!114 &39149021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 39149006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c596cf851c2984768a2565b10fbeba64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionAnimator: {fileID: 363904440}
 --- !u!1 &39446230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,6 +2204,11 @@ Prefab:
 --- !u!224 &363904439 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224648082392083830, guid: c14f8b2fd8c3443f5bef469294a832a3,
+    type: 2}
+  m_PrefabInternal: {fileID: 363904438}
+--- !u!95 &363904440 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95225160600775868, guid: c14f8b2fd8c3443f5bef469294a832a3,
     type: 2}
   m_PrefabInternal: {fileID: 363904438}
 --- !u!1 &365089146

@@ -79,6 +79,10 @@ public abstract class SongStructureManager : MonoBehaviour {
 	//-- Protected Functions
 	protected virtual void Awake() {
 		// Do this during Awake because other classes may need to  know the song structure to initialize themselves
+		var savedSongFileName = MusicalEncounterManager.GetCurrentMusicalEncounterSongFile();
+		if(savedSongFileName != "")
+			songFilename = savedSongFileName;
+
 		songSections = SongFileReader.ReadSongFile(songFilename);
 	}
 
