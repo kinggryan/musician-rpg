@@ -23,7 +23,7 @@ public class NPCDialogueScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Pulse")) {
+		if(Input.GetButtonDown("Select")) {
 			ShowNextText();
 		}	
 	}

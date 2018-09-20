@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Ink.Runtime;
 
 public class DialogueManager : MonoBehaviour {
 
 	private Story story;
+	private TransitionManager transitionManager;
 
 	[SerializeField]
 	private Canvas canvas;
@@ -17,13 +19,16 @@ public class DialogueManager : MonoBehaviour {
 
 	[SerializeField]
 	private PlayerChoice buttonPrefab;
+	
+	[SerializeField]
+	private string musicalEncounterScene;
 
 	private bool canContinueText;
 	private List<PlayerChoice> choices = new List<PlayerChoice>();
 	private int currentChoiceIndex = 0;
 
 	void Awake () {
-		
+		transitionManager = UnityEngine.Object.FindObjectOfType<TransitionManager>();
 	}
 
 	void Start() {
@@ -68,6 +73,11 @@ public class DialogueManager : MonoBehaviour {
 
 	void RefreshView () {
 		RemoveChoices ();
+
+		// If the current story point starts a musical encounter, start the musical encounter
+		if(story.currentTags.Contains("start_encounter")) {
+			StartMusicalEncounter();
+		}
 
 		if (story.canContinue) {
 			string text = story.Continue ().Trim();
@@ -122,5 +132,10 @@ public class DialogueManager : MonoBehaviour {
 		for (int i = childCount - 1; i >= 0; --i) {
 			GameObject.Destroy (pcDialogueOptionsParent.transform.GetChild (i).gameObject);
 		}
+	}
+
+	void StartMusicalEncounter() {
+		// Load the game scene
+		transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);
 	}
 }

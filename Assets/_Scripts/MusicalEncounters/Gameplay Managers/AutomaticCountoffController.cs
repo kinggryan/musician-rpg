@@ -23,7 +23,7 @@ public class AutomaticCountoffController : MonoBehaviour {
 			if(nextBeatTimer <= 0)
 				Countoff();
 		} else {
-			if(Input.GetButtonDown("Pulse")) {
+			if(Input.GetButtonDown("Select")) {
 				StartCountoff();
 			}
 		}

@@ -13,4 +13,5 @@ I love this time of night.
 You seem fresh. 
 Your beat's just begun, I take it. 
 And you feel bad for missing home already.
+Let's play music # start_encounter
 -> END
