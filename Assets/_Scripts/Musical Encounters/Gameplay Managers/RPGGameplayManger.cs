@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener {
+public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener {
 
 	public static class Notifications {
 		public struct SetJammageTargetRangeArgs {
@@ -62,6 +62,14 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		public static string playerLost = "playerLost";
 	}
 
+	public class EncounterEffect {
+		/// <summary>
+		/// This function is called after the standard updates for the move take place but BEFORE the turn completion methods are called
+		/// </summary>
+		public virtual void DoNextMove(RPGGameplayManger gameplayManger) {}
+		public virtual bool ShouldBeRemoved(RPGGameplayManger gameplayManger) { return false; }
+	}
+
 	private struct SongRecord {
 		public int startBeat;
 		public AudioLoop loop;
@@ -84,6 +92,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private AudioLoop currentNPCLoop;
 	private List<SongRecord> npcSongRecord = new List<SongRecord>();
 
+	private List<EncounterEffect> encounterEffects = new List<EncounterEffect>();
+
 	private int	numMovesPerTurn = 8;
 	private int numBeatsPerMove = 2;
 	
@@ -91,7 +101,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private List<int> currentTurnLoops = new List<int>();
 	private List<int> previousTurnLoops = new List<int>();
 
-	private int victoryPoints = 0;
+	protected int victoryPoints = 0;
 	private int victoryPointGainPerPassedTurn = 2;
 	private int victoryPointLossPerFailedTurn = 1;
 	private int minVPsToWin = 8;
@@ -228,9 +238,25 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		// Do the beat update
 		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, moveNumber);
 
+		// For all of the effects, let them know that a new turn started
+		foreach(var effect in encounterEffects) {
+			effect.DoNextMove(this);
+		}
+
 		// If the turn is complete, handle what we should do for completing it
 		if(IsCurrentTurnComplete()) {
 			CompleteTurn();
+		}
+
+		// TODO: Call effect turn complete methods
+
+		// Then remove any effects that should be removed
+		for(var i = 0 ; i < encounterEffects.Count ; ) {
+			if(encounterEffects[i].ShouldBeRemoved(this)) {
+				encounterEffects.RemoveAt(i);
+			} else {
+				i++;
+			}
 		}
 	}
 
