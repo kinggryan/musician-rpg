@@ -67,6 +67,7 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 		/// This function is called after the standard updates for the move take place but BEFORE the turn completion methods are called
 		/// </summary>
 		public virtual void DoNextMove(RPGGameplayManger gameplayManger) {}
+		public virtual void FinishedTurn(RPGGameplayManger gameplayManger) {}
 		public virtual bool ShouldBeRemoved(RPGGameplayManger gameplayManger) { return false; }
 	}
 
@@ -248,8 +249,6 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 			CompleteTurn();
 		}
 
-		// TODO: Call effect turn complete methods
-
 		// Then remove any effects that should be removed
 		for(var i = 0 ; i < encounterEffects.Count ; ) {
 			if(encounterEffects[i].ShouldBeRemoved(this)) {
@@ -300,6 +299,12 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 			// The bonus multiplier is still favorable for VP loss - 
 			// it reduces the amount of VPs you lose when you fail the turn
 			victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
+		}
+
+		// Update the status effects before we reset all of the turn's parameters
+		// Note: Should we do this before calculating VPs? 
+		foreach(var effect in encounterEffects) {
+			effect.FinishedTurn(this);
 		}
 
 		// Reset everything that needs resetting
