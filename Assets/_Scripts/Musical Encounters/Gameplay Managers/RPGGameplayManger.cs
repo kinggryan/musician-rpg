@@ -98,13 +98,13 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		}
 	}
 
+	private SongStructureManager songStructureManager;
+
 	// The list of the player's moves
 	public List<PlayerMove> playerMoves = new List<PlayerMove>();
 
 	private AudioLoop currentNPCLoop;
 	private List<SongRecord> npcSongRecord = new List<SongRecord>();
-
-	private SongStructureManager songStructureManager;
 
 	private int	numMovesPerTurn = 8;
 	private int numBeatsPerMove = 2;
@@ -134,15 +134,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	private int maxJammageTargetRange = 6;
 	private int currentJammageTargetRange = 6;
 
-	public int stamina = 8;
-	private int maxStamina = 32;
-	private int jammageLossForNotEnoughStamina = 2;
-
-	private int staminaRechargeMeter = 0;
-	private int staminaRechargeMeterThreshold = 4;
-	private int staminaRechargeMeterMax = 7;
-	private int defaultStaminaRechargePerTurn = 0;
-	public int staminaRechargeFromMeterPerTurn = 4;
 	private int phraseCompleteStaminaBonus = 4;
 
 	// Rhythm bonus stuff
@@ -174,9 +165,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	void Start() {
 		NotificationBoard.SendNotification(Notifications.updatedJammage, this, jammage);
 		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
-		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
-		NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
-		NotificationBoard.SendNotification(Notifications.updatedMaxStamina, this, maxStamina);
 
 		var args = new Notifications.SetJammageTargetRangeArgs();
 		args.lowerTarget = jammageTargetLower;
@@ -263,8 +251,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 			previousTurnLoops.Clear();
 			var previousTurnLoopsNotificationInfo = new Notifications.SetPreviousPhrasePlayerLoopsArgs();
 			NotificationBoard.SendNotification(Notifications.setPreviousPhrasePlayerLoops, this, previousTurnLoopsNotificationInfo);
-			stamina += phraseCompleteStaminaBonus;
-
 		}
 
 		// Do the beat update
@@ -280,14 +266,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		currentTurnLoops.Add(playerMoveIndex);
 		var currentPlayerMove = playerMoves[playerMoveIndex];
 		var thisTurnJammage = currentPlayerMove.jammageGain;
-		
-		// If the player doesn't have enough stamina, you lose jammage
-		if(stamina >= currentPlayerMove.staminaCost) {
-			stamina -= currentPlayerMove.staminaCost;
-		} else {
-			stamina = 0;
-			thisTurnJammage -= jammageLossForNotEnoughStamina;
-		}
 
 		// If the current loop matches the previous loop in the turn, add to the stamina recharge meter
 		var previousTurnMoveIndex = currentTurnLoops.Count - 1;
@@ -307,7 +285,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		notificationInfo.beatNumber = beatNumber;
 		NotificationBoard.SendNotification(Notifications.setPlayerLoopForBeat, this, notificationInfo);
 		NotificationBoard.SendNotification(Notifications.updatedJammage, this, jammage);
-		NotificationBoard.SendNotification(Notifications.updatedStamina, this, stamina);
 	}
 
 	void CompleteTurn() {
@@ -327,14 +304,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 			victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
 		}
 
-		// Handle the stamina recharge meter
-		stamina += defaultStaminaRechargePerTurn;
-		if(staminaRechargeMeter >= staminaRechargeMeterThreshold && staminaRechargeMeter <= staminaRechargeMeterMax) {
-			stamina += staminaRechargeFromMeterPerTurn;
-		}
-
 		// Reset everything that needs resetting
-		staminaRechargeMeter = 0;
 		jammage = 0;
 		jammageThreshold = Random.Range(minJammageThreshold,maxJammageThreshold);
 		jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget - currentJammageTargetRange);
@@ -354,7 +324,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 			previousTurnLoopsNotificationInfo.playerMoveIndices.Add(index);
 		}
 		NotificationBoard.SendNotification(Notifications.setPreviousPhrasePlayerLoops, this, previousTurnLoopsNotificationInfo);
-		NotificationBoard.SendNotification(Notifications.staminaRecharged, this, stamina);
 		NotificationBoard.SendNotification(Notifications.updatedVictoryPoints, this, victoryPoints);
 		if(bonusMultiplier > 1) {
 			NotificationBoard.SendNotification(Notifications.gotRhythmMatchBonus, this, bonusMultiplier);
