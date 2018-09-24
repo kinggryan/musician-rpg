@@ -98,28 +98,8 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		}
 	}
 
-	private enum TurnResetMode {
-		EveryTurn,
-		EverySection
-	}
-
-	private enum TurnMatchAction {
-		RechargeMeter,
-		JammageMultiplier
-	}
-
-	private enum JammageMode {
-		JammageThreshold,
-		JammageTarget
-	}
-
 	// The list of the player's moves
 	public List<PlayerMove> playerMoves = new List<PlayerMove>();
-
-	// Gameplay options
-	private TurnResetMode turnResetMode = TurnResetMode.EverySection;
-	private TurnMatchAction turnMatchAction = TurnMatchAction.JammageMultiplier;
-	private JammageMode jammageMode = JammageMode.JammageTarget;
 
 	private AudioLoop currentNPCLoop;
 	private List<SongRecord> npcSongRecord = new List<SongRecord>();
@@ -278,7 +258,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		}
 
 		// If this is the start of a new section, we should reset the song history if that's the mode we're doing
-		if(turnResetMode == TurnResetMode.EverySection && beatInfo.beatsUntilNextSection == beatInfo.currentSection.beatLength) {
+		if(beatInfo.beatsUntilNextSection == beatInfo.currentSection.beatLength) {
 			// Reset the previous turn loops if this is the start of a new turn
 			previousTurnLoops.Clear();
 			var previousTurnLoopsNotificationInfo = new Notifications.SetPreviousPhrasePlayerLoopsArgs();
@@ -314,13 +294,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		if(previousTurnMoveIndex < previousTurnLoops.Count) {
 			var previousTurnMove = previousTurnLoops[previousTurnMoveIndex];
 			if(previousTurnMove == playerMoveIndex) {
-				if(turnMatchAction == TurnMatchAction.RechargeMeter) {
-					staminaRechargeMeter++;
-					NotificationBoard.SendNotification(Notifications.updatedStaminaRechargeMeter, this, staminaRechargeMeter);
-				} else if(turnMatchAction == TurnMatchAction.JammageMultiplier) {
-					thisTurnJammage *= jammageMatchMultiplier; 
-				}	
-
+				thisTurnJammage *= jammageMatchMultiplier;
 			}
 		}
 
@@ -341,26 +315,16 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		var bonusMultiplier = GetBonusMultiplierForThisTurn();
 		Debug.Log("MULTIPLIER: " + bonusMultiplier);
 
-		if(jammageMode == JammageMode.JammageThreshold) {
-			if(jammage >= jammageThreshold) {
-				victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
-			} else {
-				// The bonus multiplier is still favorable for VP loss - 
-				// it reduces the amount of VPs you lose when you fail the turn
-				victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
+		if(jammage >= jammageTargetLower && jammage <= jammageTargetUpper) {
+			victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
+			// A perfect turn is if the player gets to the upper limit without going over.
+			if(jammage == jammageTargetUpper) {
+				NotificationBoard.SendNotification(Notifications.playerGotPerfectTurn, this, null);
 			}
-		} else if(jammageMode == JammageMode.JammageTarget) {
-			if(jammage >= jammageTargetLower && jammage <= jammageTargetUpper) {
-				victoryPoints += Mathf.FloorToInt(bonusMultiplier * victoryPointGainPerPassedTurn);
-				// A perfect turn is if the player gets to the upper limit without going over.
-				if(jammage == jammageTargetUpper) {
-					NotificationBoard.SendNotification(Notifications.playerGotPerfectTurn, this, null);
-				}
-			} else {
-				// The bonus multiplier is still favorable for VP loss - 
-				// it reduces the amount of VPs you lose when you fail the turn
-				victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
-			}
+		} else {
+			// The bonus multiplier is still favorable for VP loss - 
+			// it reduces the amount of VPs you lose when you fail the turn
+			victoryPoints -= Mathf.FloorToInt(victoryPointLossPerFailedTurn / bonusMultiplier);
 		}
 
 		// Handle the stamina recharge meter
@@ -376,7 +340,7 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget - currentJammageTargetRange);
 		jammageTargetUpper = jammageTargetLower + currentJammageTargetRange;
 		currentJammageTargetRange = Mathf.Max(0, currentJammageTargetRange - (Random.value < 0.5f ? 1 : 2));
-		if(turnResetMode == TurnResetMode.EveryTurn || (turnResetMode == TurnResetMode.EverySection && previousTurnLoops.Count == 0)) {
+		if(previousTurnLoops.Count == 0) {
 			previousTurnLoops = new List<int>(currentTurnLoops);
 		}
 		currentTurnLoops.Clear();
