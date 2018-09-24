@@ -10,11 +10,11 @@ public class Indicator : MonoBehaviour {
 	// Use this for initialization
 	void Awake(){
 		meter = Object.FindObjectOfType<JammageMeter>();
-		NotificationBoard.AddListener(RPGGameplayManger.Notifications.setJammageThreshold, UpdateIndicator);
+		// NotificationBoard.AddListener(RPGGameplayManger.Notifications.setJammageThreshold, UpdateIndicator);
 	}
 
 	void OnDestroy() {
-		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setJammageThreshold, UpdateIndicator);	
+		// NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setJammageThreshold, UpdateIndicator);	
 	}
 	
 	void UpdateIndicator(object sender, object newJammageThreshold){

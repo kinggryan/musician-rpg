@@ -8,13 +8,13 @@ public class JammageThresholdMeter : GenericMeter {
 	override protected void Awake () {
 		base.Awake();
 
-		NotificationBoard.AddListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
+		// NotificationBoard.AddListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
 		// TODO: Set this value in a real way
 		maxValue = 16; 
 	}
 
 	void OnDestroy() {
-		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
+		// NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.setJammageThreshold, DidUpdateJammageThreshold);
 	}
 
 	void DidUpdateJammageThreshold(object sender, object arg) {

@@ -8,13 +8,13 @@ public class StaminaMeter : GenericMeter {
 	override protected void Awake () {
 		base.Awake();
 
-		NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedStamina, DidUpdateStamina);
-		NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedMaxStamina, DidUpdateMaxStamina);
+		// NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedStamina, DidUpdateStamina);
+		// NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedMaxStamina, DidUpdateMaxStamina);
 	}
 
 	void OnDestroy() {
-		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedStamina, DidUpdateStamina);
-		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedMaxStamina, DidUpdateMaxStamina);
+		// NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedStamina, DidUpdateStamina);
+		// NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedMaxStamina, DidUpdateMaxStamina);
 	}
 
 	void DidUpdateStamina(object sender, object arg) {

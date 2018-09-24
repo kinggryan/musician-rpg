@@ -8,11 +8,11 @@ public class StaminaRechargeMeter : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedStaminaRechargeMeter, DidUpdateStaminaRechargeMeter);
+		// NotificationBoard.AddListener(RPGGameplayManger.Notifications.updatedStaminaRechargeMeter, DidUpdateStaminaRechargeMeter);
 	}
 
 	void OnDestroy() {
-		NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedStaminaRechargeMeter, DidUpdateStaminaRechargeMeter);
+		// NotificationBoard.RemoveListener(RPGGameplayManger.Notifications.updatedStaminaRechargeMeter, DidUpdateStaminaRechargeMeter);
 	}
 	
 	// Update is called once per frame

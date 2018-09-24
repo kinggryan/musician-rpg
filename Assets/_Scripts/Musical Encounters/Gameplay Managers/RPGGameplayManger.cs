@@ -5,10 +5,6 @@ using UnityEngine;
 public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener {
 
 	public static class Notifications {
-		/// <summary>
-		/// The argument for this notification is an integer - the new jammage threshold
-		/// </summary>
-		public static string setJammageThreshold = "setJammageThreshold";
 		public struct SetJammageTargetRangeArgs {
 			public int lowerTarget;
 			public int upperTarget;
@@ -21,23 +17,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 		/// The argument for this notification is an integer - the new jammage 
 		/// </summary>
 		public static string updatedJammage = "updatedJammage";
-		/// <summary>
-		/// The argument for this notification is an integer - the new stamina 
-		/// </summary>
-		public static string updatedStamina = "updatedStamina";
-		/// <summary>
-		/// The argument for this notification is an integer - the new stamina recharge meter level
-		/// </summary>
-		public static string updatedStaminaRechargeMeter = "updatedStaminaRechargeMeter";
-		/// <summary>
-		/// There is no argument for this notification. It is called when the stamina recharges via the recharge meter
-		/// </summary>
-		public static string staminaRecharged = "staminaRecharged";
-		/// <summary>
-		/// There is no argument for this notification. 
-		/// It is called when the stamina recharge meter is overfilled, causing the player to lose their stamina recharge.
-		/// </summary>
-		public static string staminaRechargeMeterOverloaded = "staminaRechargeMeterOverloaded";
 		/// <summary>
 		/// This notification is called when the player's loop is set for the next beat of the song.
 		/// The argument is of type SetPlayerLoopForBeatArgs
@@ -57,7 +36,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 			public List<PlayerMove> playerMoves;
 			public List<int> playerMoveIndices;
 		}
-		public static string updatedMaxStamina = "updatedMaxStamina";
 		/// <summary>
 		/// The argument for this notification is an integer - the new number of victory points
 		/// </summary>
@@ -120,11 +98,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 
 	private int jammage = 0;
 	private int jammageMatchMultiplier = 2;
-	
-	// The following are only used in jammage mode = threshold
-	private int jammageThreshold = 8;
-	private int minJammageThreshold = 8;
-	private int maxJammageThreshold = 12;
 
 	// The following are only used in jammage mode = target
 	private int jammageTargetLower = 10;
@@ -164,7 +137,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 
 	void Start() {
 		NotificationBoard.SendNotification(Notifications.updatedJammage, this, jammage);
-		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
 
 		var args = new Notifications.SetJammageTargetRangeArgs();
 		args.lowerTarget = jammageTargetLower;
@@ -306,7 +278,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 
 		// Reset everything that needs resetting
 		jammage = 0;
-		jammageThreshold = Random.Range(minJammageThreshold,maxJammageThreshold);
 		jammageTargetLower = Random.Range(minJammageTarget,maxJammageTarget - currentJammageTargetRange);
 		jammageTargetUpper = jammageTargetLower + currentJammageTargetRange;
 		currentJammageTargetRange = Mathf.Max(0, currentJammageTargetRange - (Random.value < 0.5f ? 1 : 2));
@@ -332,7 +303,6 @@ public class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAIListener
 	}
 
 	void StartNextTurn() {
-		NotificationBoard.SendNotification(Notifications.setJammageThreshold, this, jammageThreshold);
 		var args = new Notifications.SetJammageTargetRangeArgs();
 		args.lowerTarget = jammageTargetLower;
 		args.upperTarget = jammageTargetUpper;
