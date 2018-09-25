@@ -7,7 +7,9 @@ using Ink.Runtime;
 
 public class DialogueManager : MonoBehaviour {
 
-
+	public GameObject player;
+	public GameObject npc;
+	public GameObject jamInterface;
 	private Story story;
 	private string musicalEncounterSongfileName;
 	private TransitionManager transitionManager;
@@ -155,7 +157,12 @@ public class DialogueManager : MonoBehaviour {
 			var dialogueManager = UnityEngine.Object.FindObjectOfType<DialogueManager>();
 			dialogueManager.StartStory(story);
 		});
+		Transform camera = GameObject.FindObjectOfType<Camera>().transform;
+		camera.position = new Vector3 (camera.position.x + 4,camera.position.y,camera.position.z);
+		npc.transform.position = new Vector3 (player.transform.position.x + 8,player.transform.position.y,player.transform.position.z);
 		MusicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
-		transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);
+		jamInterface.SetActive(true);
+		
+		//transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);
 	}
 }
