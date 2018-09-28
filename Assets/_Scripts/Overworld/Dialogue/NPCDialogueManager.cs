@@ -10,6 +10,8 @@ public class NPCDialogueManager : MonoBehaviour {
 	private TextAsset inkJSONAsset;
 	[SerializeField]
 	private string songFileName;
+	[SerializeField]
+	private OverworldDialogueDisplay dialogueBox;
 	private DialogueManager dialogueManager;
 
 	// Use this for initialization
@@ -24,6 +26,6 @@ public class NPCDialogueManager : MonoBehaviour {
 
 	// Update is called once per frame
 	public void StartConversation () {
-		dialogueManager.StartStory(inkJSONAsset, songFileName);
+		dialogueManager.StartStory(inkJSONAsset, songFileName, dialogueBox);
 	}
 }

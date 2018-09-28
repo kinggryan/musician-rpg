@@ -154,7 +154,7 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 		args.upperTarget = jammageTargetUpper;
 		NotificationBoard.SendNotification(Notifications.setJammageTargetRange, this, args);
 
-		encounterEffects.Add(new StatusForcedVariety());
+		// encounterEffects.Add(new StatusForcedVariety());
 	}
 
 	void OnDestroy() {

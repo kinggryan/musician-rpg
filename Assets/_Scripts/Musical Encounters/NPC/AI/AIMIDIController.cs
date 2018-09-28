@@ -139,6 +139,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		volumeFilter = new MIDIVolumeFilter();
 		midiStreamer.AddFilter(volumeFilter);
 		volumeFilter.activeChannel = channelNumber;
+		volumeFilter.volumeMultiplier = 0.8f;
 
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
 
