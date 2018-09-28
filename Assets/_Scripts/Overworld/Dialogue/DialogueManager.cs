@@ -31,6 +31,9 @@ public class DialogueManager : MonoBehaviour {
 	private bool canContinueText;
 	private List<PlayerChoice> choices = new List<PlayerChoice>();
 	private int currentChoiceIndex = 0;
+	private bool moveCamera = false;
+	private bool moveNPC = false;
+	private Transform camera;
 
 	void Awake () {
 		transitionManager = UnityEngine.Object.FindObjectOfType<TransitionManager>();
@@ -39,6 +42,7 @@ public class DialogueManager : MonoBehaviour {
 
 	void Start() {
 		canvas.enabled = false;
+		camera = GameObject.FindObjectOfType<Camera>().transform;
 	}
 
 	void Update() {
@@ -58,6 +62,25 @@ public class DialogueManager : MonoBehaviour {
 				}
 			} else if(canContinueText && Input.GetButtonDown("Select")) {
 				RefreshView();
+			}
+		}
+		if(moveCamera){
+			if (camera.position.x < player.transform.position.x + 4){
+			camera.position = new Vector3 (camera.position.x + 0.1f,camera.position.y,camera.position.z);
+			}else{
+				moveCamera = false;
+			}
+		}
+		if(moveNPC){
+			if(npc.transform.position.x < player.transform.position.x + 8){
+				npc.transform.position = new Vector3 (npc.transform.position.x + 0.1f,npc.transform.position.y,npc.transform.position.z);
+			}else if(npc.transform.position.y < player.transform.position.y - 0.05){
+				npc.transform.position = new Vector3 (npc.transform.position.x,npc.transform.position.y + 0.1f,npc.transform.position.z);
+			}else if(npc.transform.position.y > player.transform.position.y + 0.05){
+				npc.transform.position = new Vector3 (npc.transform.position.x,npc.transform.position.y - 0.1f,npc.transform.position.z);
+			}else{
+				Debug.Log("NPC moved");
+				moveNPC = false;
 			}
 		}
 	}
@@ -157,9 +180,8 @@ public class DialogueManager : MonoBehaviour {
 			var dialogueManager = UnityEngine.Object.FindObjectOfType<DialogueManager>();
 			dialogueManager.StartStory(story);
 		});
-		Transform camera = GameObject.FindObjectOfType<Camera>().transform;
-		camera.position = new Vector3 (camera.position.x + 4,camera.position.y,camera.position.z);
-		npc.transform.position = new Vector3 (player.transform.position.x + 8,player.transform.position.y,player.transform.position.z);
+		moveCamera = true;
+		moveNPC = true;
 		MusicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
 		jamInterface.SetActive(true);
 		
