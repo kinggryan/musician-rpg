@@ -15,8 +15,8 @@ public class DialogueManager : MonoBehaviour {
 	private TransitionManager transitionManager;
 	private LevelManager levelManager;
 
-	[SerializeField]
-	private Canvas canvas;
+	// [SerializeField]
+	// private Canvas canvas;
 	[SerializeField]
 	private RectTransform pcDialogueOptionsParent;
 	[SerializeField]
@@ -38,7 +38,7 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	void Start() {
-		canvas.enabled = false;
+		// canvas.enabled = false;
 	}
 
 	void Update() {
@@ -62,22 +62,28 @@ public class DialogueManager : MonoBehaviour {
 		}
 	}
 
-	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename) {
+	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, OverworldDialogueDisplay dialogueBox) {
 		musicalEncounterSongfileName = musicalEncounterFilename;
-		StartStory(new Story (inkJSONAsset.text));
+		StartStory(new Story (inkJSONAsset.text), dialogueBox);
 	}
 
-	void StartStory(Story story) {
+	void StartStory(Story story, OverworldDialogueDisplay dialogueBox) {
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = false;
 		this.story = story;
-		canvas.enabled = true;
+
+		// Get the canvas of the dialogue box
+		npcDialogueDisplay = dialogueBox;
+		npcDialogueDisplay.gameObject.SetActive(true);
+		// var npcCanvas = dialogueBox.GetComponent<Canvas>();
+		// npcCanvas.enabled = true;
 		RefreshView();
 	}
 
 	void EndStory() {
 		this.story = null;
-		canvas.enabled = false;
+		// canvas.enabled = false;
+		npcDialogueDisplay.gameObject.SetActive(false);
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = true;
 	}
@@ -155,7 +161,7 @@ public class DialogueManager : MonoBehaviour {
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		levelManager.SetOverworldReturnMap(player.transform.position, delegate {
 			var dialogueManager = UnityEngine.Object.FindObjectOfType<DialogueManager>();
-			dialogueManager.StartStory(story);
+			dialogueManager.StartStory(story,npcDialogueDisplay);
 		});
 		Transform camera = GameObject.FindObjectOfType<Camera>().transform;
 		camera.position = new Vector3 (camera.position.x + 4,camera.position.y,camera.position.z);
