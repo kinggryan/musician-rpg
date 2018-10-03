@@ -304,6 +304,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114804057708016734, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: knownLoopNames.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4467846904523170, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
       propertyPath: m_LocalPosition.x
       value: 462.10477
@@ -335,6 +340,91 @@ Prefab:
     - target: {fileID: 4467846904523170, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105839668330498, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224192857292965880, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224972074201650134, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224972074201650134, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537415784518110, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537415784518110, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537415784518110, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224768974769316418, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224768974769316418, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224606771303424670, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224606771303424670, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224606771303424670, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114804057708016734, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[3]
+      value: SensitiveHarp_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 114804057708016734, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[0]
+      value: SensitiveHarp_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114804057708016734, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[1]
+      value: SensitiveHarp_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114804057708016734, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[2]
+      value: SensitiveHarp_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 114452864646348676, guid: 061927a4767d5f340bcded8b32b4f854,
+        type: 2}
+      propertyPath: songFilename
+      value: Songs/SensitiveHarp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}

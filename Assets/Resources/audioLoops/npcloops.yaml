@@ -33,3 +33,27 @@ loops:
   emotionTags: 
     - happy
     - sad
+- name: SensitiveHarp_01
+  filename: MIDI/Comp/SensitiveHarp_01.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: SensitiveHarp_02
+  filename: MIDI/Comp/SensitiveHarp_02.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: SensitiveHarp_03
+  filename: MIDI/Comp/SensitiveHarp_02.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
