@@ -79,8 +79,8 @@ sections:
       npcLoop: SensitiveHarp_03
 structure:
   - A
-  - B
-  - A
-  - C
-  - B
-  - A
+  # - B
+  # - A
+  # - C
+  # - B
+  # - A

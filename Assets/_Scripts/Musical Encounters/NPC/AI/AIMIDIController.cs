@@ -133,7 +133,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		midiPlayer.midiSequencer.setProgram(channelNumber, instrumentIndex);
 
 		gate = new MIDITrackGate();
-		midiStreamer.AddFilter(gate);
+		// midiStreamer.AddFilter(gate);
 		gate.activeChannel = channelNumber;
 
 		volumeFilter = new MIDIVolumeFilter();
