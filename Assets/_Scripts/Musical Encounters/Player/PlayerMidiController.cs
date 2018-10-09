@@ -32,11 +32,11 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 
 	public Chord chord;
 
-	public float volumeMultiplier {
-		get {
-			return volumeFilter.volumeMultiplier;
-		}
-	}
+	// public float volumeMultiplier {
+	// 	get {
+	// 		return volumeFilter.volumeMultiplier;
+	// 	}
+	// }
 	
 	public float keyVolumeIncrement;
 	public int keyControlIndex = 1;
@@ -133,7 +133,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(allLoopsToLoad);
 		midiStreamer.outputChannel = outputChannel;
 		
-		gateFilter = new MIDITrackGate();
+		//gateFilter = new MIDITrackGate();
 		gateFilter.activeChannel = outputChannel;
 		gateFilter.gateVelocity = maxGate;
 		midiStreamer.AddFilter(gateFilter);

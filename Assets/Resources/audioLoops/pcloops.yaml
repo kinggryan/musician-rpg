@@ -40,3 +40,31 @@ loops:
   emotionTags: 
     - happy
     - sad
+- name: SensitiveFlute_01
+  filename: MIDI/Melody/SensitiveFlute_01.mid
+  beatDuration: 16
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+- name: SensitiveFlute_02
+  filename: MIDI/Melody/SensitiveFlute_02.mid
+  beatDuration: 16
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+- name: SensitiveFlute_03
+  filename: MIDI/Melody/SensitiveFlute_03.mid
+  beatDuration: 16
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+- name: SensitiveFlute_04
+  filename: MIDI/Melody/SensitiveFlute_04.mid
+  beatDuration: 16
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad

@@ -77,9 +77,10 @@ sections:
       emotionTags:
       - sentimental
 structure:
-  - C
+  - A
   - A
   - B
+  - A
   - A
   - C
   - A

@@ -23,11 +23,11 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	public float gateFollowRndm;
 	public float moveMinInterval;
 	public float moveMaxInterval;
-	public float playerVolume {
-		get {
-			return player.volumeMultiplier;
-		}
-	}
+	// public float playerVolume {
+	// 	get {
+	// 		return player.volumeMultiplier;
+	// 	}
+	// }
 	public Color gateTextColor;
 	public Color dynamicsTextColor;
 	public Color moveColor;
@@ -229,13 +229,13 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		}
 	}
 
-	bool dynamicsMatched(){
-		if (Mathf.Abs(volume - playerVolume) <= 0.1f){
-			return true;
-		}else{
-			return false;
-		}
-	}
+	// bool dynamicsMatched(){
+	// 	if (Mathf.Abs(volume - playerVolume) <= 0.1f){
+	// 		return true;
+	// 	}else{
+	// 		return false;
+	// 	}
+	// }
 
 	//I was trying to make all the junk in the update neater by using this funciton but couldn't get it to work for some reason
 	void CheckIfMatchedAndGiveFeedBack(bool valuesAreMatched, float feedbackTimer, bool bufferBool, string textToDislplay){
@@ -286,19 +286,19 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	private void UpdateLeading() {
-		if(dynamicsMatched() && !dynMatchBuffer){
-			dynamicsMatchTimer += Time.deltaTime;
-			if (dynamicsMatchTimer >= 2){
-				dynMatchBuffer = true;
-				Debug.Log("Dynamics Matched");
-				aiFeedback.DisplayText("Tasty!", 1, dynamicsTextColor);
-			}
-		}else if(!dynamicsMatched()){
-			dynMatchBuffer = false;
-			dynamicsMatchTimer = 0;
-		}else{
-			dynamicsMatchTimer = 0;
-		}
+		// if(dynamicsMatched() && !dynMatchBuffer){
+		// 	dynamicsMatchTimer += Time.deltaTime;
+		// 	if (dynamicsMatchTimer >= 2){
+		// 		dynMatchBuffer = true;
+		// 		Debug.Log("Dynamics Matched");
+		// 		aiFeedback.DisplayText("Tasty!", 1, dynamicsTextColor);
+		// 	}
+		// }else if(!dynamicsMatched()){
+		// 	dynMatchBuffer = false;
+		// 	dynamicsMatchTimer = 0;
+		// }else{
+		// 	dynamicsMatchTimer = 0;
+		// }
 
 		if(gatesMatched() && !gateMatchBuffer){
 			gateMatchTimer += Time.deltaTime;
@@ -327,19 +327,19 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	private void UpdateFollowing() {
-		if(dynamicsMatched() && !dynMatchBuffer){
-			dynamicsMatchTimer += Time.deltaTime;
-			if (dynamicsMatchTimer >= 2){
-				dynMatchBuffer = true;
-				Debug.Log("Dynamics Matched");
-				aiFeedback.DisplayText("Cool!", 1, dynamicsTextColor);
-			}
-		}else if(!dynamicsMatched()){
-			dynMatchBuffer = false;
-			dynamicsMatchTimer = 0;
-		}else{
-			dynamicsMatchTimer = 0;
-		}
+		// if(dynamicsMatched() && !dynMatchBuffer){
+		// 	dynamicsMatchTimer += Time.deltaTime;
+		// 	if (dynamicsMatchTimer >= 2){
+		// 		dynMatchBuffer = true;
+		// 		Debug.Log("Dynamics Matched");
+		// 		aiFeedback.DisplayText("Cool!", 1, dynamicsTextColor);
+		// 	}
+		// }else if(!dynamicsMatched()){
+		// 	dynMatchBuffer = false;
+		// 	dynamicsMatchTimer = 0;
+		// }else{
+		// 	dynamicsMatchTimer = 0;
+		// }
 
 		if(gatesMatched() && !gateMatchBuffer){
 			gateMatchTimer += Time.deltaTime;
@@ -354,12 +354,12 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		}else{
 			gateMatchTimer = 0;
 		}	
-		if (volume != playerVolume){
-			float random = Random.Range(0, volumeFollowRndm);
-			volumeTimer += Time.deltaTime / (volumeFollow + random);
-			volume = Mathf.Lerp(volume, playerVolume, volumeTimer);
-		}else{
-			volumeTimer = 0;
-		}
+		// if (volume != playerVolume){
+		// 	float random = Random.Range(0, volumeFollowRndm);
+		// 	volumeTimer += Time.deltaTime / (volumeFollow + random);
+		// 	volume = Mathf.Lerp(volume, playerVolume, volumeTimer);
+		// }else{
+		// 	volumeTimer = 0;
+		// }
 	}
 }
