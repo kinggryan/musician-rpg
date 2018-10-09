@@ -45,19 +45,13 @@ sections:
   - name: C
     loops:
     - chord: vi
-      totalNumBeats: 2
-      npcLoop: SensitiveHarp_03
-    - chord: vi
-      totalNumBeats: 2
+      totalNumBeats: 4
       npcLoop: SensitiveHarp_03
     - chord: iii
       totalNumBeats: 4
       npcLoop: SensitiveHarp_03
     - chord: vi
-      totalNumBeats: 2
-      npcLoop: SensitiveHarp_03
-    - chord: vi
-      totalNumBeats: 2
+      totalNumBeats: 4
       npcLoop: SensitiveHarp_03
     - chord: iii
       totalNumBeats: 4
@@ -68,19 +62,25 @@ sections:
     - chord: I
       totalNumBeats: 4
       npcLoop: SensitiveHarp_03
-    - chord: IV
+    - chord: ii
       totalNumBeats: 4
       npcLoop: SensitiveHarp_03
-    - chord: ii
-      totalNumBeats: 2
-      npcLoop: SensitiveHarp_03
     - chord: V
-      totalNumBeats: 2
+      totalNumBeats: 4
       npcLoop: SensitiveHarp_03
+  - name: End
+    loops:
+    - chord: I
+      totalNumBeats: 4
+      npcLoop: Comp_End_Basic
+      playerLoop: Melody_End_Basic
+      emotionTags:
+      - sentimental
 structure:
+  - C
   - A
   - B
   - A
   - C
-  - B
   - A
+  - End
