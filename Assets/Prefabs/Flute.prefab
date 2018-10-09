@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1035925557082706}
+  m_IsPrefabAsset: 1
+--- !u!1 &1035925557082706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4809555052811690}
+  - component: {fileID: 114694269102144788}
+  m_Layer: 0
+  m_Name: Flute
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4809555052811690
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035925557082706}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114694269102144788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1035925557082706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95436fd6a87fc8468c03395cb9fe372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  output: {fileID: 243750746878056370, guid: 6cf47a62dad67a842a1a790aebc61a50, type: 2}
+  layer1:
+  - {fileID: 8300000, guid: dc3ab6b6b13d0cf4b956b6fa50d919c0, type: 3}
+  - {fileID: 8300000, guid: 2daf1c74ee4635543852eac53dfa6257, type: 3}
+  layer2:
+  - {fileID: 0}
+  - {fileID: 0}
+  layer3:
+  - {fileID: 0}
+  - {fileID: 0}
+  layer4:
+  - {fileID: 8300000, guid: dc3ab6b6b13d0cf4b956b6fa50d919c0, type: 3}
+  - {fileID: 8300000, guid: 2daf1c74ee4635543852eac53dfa6257, type: 3}
+  pitchBreakPoint: 4000000043000000
+  rootNote: 320000003e000000
+  velBreakPoint: 000000000000000000000000
+  transpose: 0
+  clip: 0
+  velSensitivity: 0.5
+  attack: 1
+  decay: 0.05
+  sustain: 1
+  release: 0.05

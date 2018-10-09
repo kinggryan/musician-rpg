@@ -1850,10 +1850,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMoves:
-  - loopName: SensitiveFlute_04
+  - loopName: SensitiveFlute_01
     staminaCost: 0
     jammageGain: 1
-  - loopName: SensitiveFlute_01
+  - loopName: SensitiveFlute_04
     staminaCost: 0
     jammageGain: 1
   - loopName: SensitiveFlute_02
