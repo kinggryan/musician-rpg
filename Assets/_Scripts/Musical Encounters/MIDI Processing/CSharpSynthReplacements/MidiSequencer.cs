@@ -22,6 +22,7 @@ namespace MusicianRPG
         private MidiSequencerEvent seqEvt;
         private int sampleTime;
         private int eventIndex;
+        private Sampler playerInstrument;
         //--Events
         public delegate void NoteOnEventHandler(int channel, int note, int velocity);
         public event NoteOnEventHandler NoteOnEvent;
@@ -63,6 +64,7 @@ namespace MusicianRPG
                 midiStreamerGroup.playbackSpeedMultiplier = value;
             }
         }
+        
         //--Public Methods
         public MidiSequencer(StreamSynthesizer synth)
         {
@@ -180,11 +182,14 @@ namespace MusicianRPG
                         }
                         break;
                     case MidiHelper.MidiChannelEvent.Note_On:
+                        Debug.Log("channel: " + midiEvent.channel + " parameter1: " + midiEvent.parameter1 + " parameter2: " +  midiEvent.parameter2 + " program: " +  currentPrograms);
                         if (blockList.Contains(midiEvent.channel))
                             return;
                         if (this.NoteOnEvent != null)
-                            this.NoteOnEvent(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2);
-                        synth.NoteOn(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2, currentPrograms[midiEvent.channel]);
+                        
+                            //this.NoteOnEvent(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2);
+                            //synth.NoteOn(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2, currentPrograms[midiEvent.channel]);
+                            Debug.Log("channel: " + midiEvent.channel + " parameter1: " + midiEvent.parameter1 + " parameter2: " +  midiEvent.parameter2 + " program: " +  currentPrograms);
                         break;
                     case MidiHelper.MidiChannelEvent.Note_Off:
                         if (this.NoteOffEvent != null)
@@ -253,6 +258,7 @@ namespace MusicianRPG
         // {
         //     return SynthHelper.getSampleFromTime(synth.SampleRate, (DeltaTime * (60.0f / (((int)_MidiFile.BeatsPerMinute) * _MidiFile.MidiHeader.DeltaTiming))));
         // }
+
         private void SetTime(TimeSpan time)
         {
             int _stime = SynthHelper.getSampleFromTime(synth.SampleRate, (float)time.TotalSeconds);

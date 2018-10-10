@@ -32,7 +32,7 @@ public class Sampler : MonoBehaviour {
 
     
     
-    public void PlayNote (int pitch, float vel, float length)
+    public void NoteOn (int pitch, float vel)
     {
         
         //print("Length = " + length);
@@ -43,32 +43,90 @@ public class Sampler : MonoBehaviour {
         //print("vel = " + vel);
         ClipBreak(pitch, noOfBreakPoints);
         //***Velocity***//
-        if (vel >= velBreakPoint[2])
-        {
-            source.clip = layer4[clip];
-        } 
-        else if (vel >= velBreakPoint[1])
-        {
-            source.clip = layer3[clip];
-        }
-        else if (vel >= velBreakPoint[0])
-        {
-            source.clip = layer2[clip];
-        }
-        else if (vel < velBreakPoint[0])
-        {
-            source.clip = layer1[clip];
-        }
+
+        source.clip = FindVelocityLayer(vel);
+
+        // if (vel >= velBreakPoint[2])
+        // {
+        //     source.clip = layer4[clip];
+        // } 
+        // else if (vel >= velBreakPoint[1])
+        // {
+        //     source.clip = layer3[clip];
+        // }
+        // else if (vel >= velBreakPoint[0])
+        // {
+        //     source.clip = layer2[clip];
+        // }
+        // else if (vel < velBreakPoint[0])
+        // {
+        //     source.clip = layer1[clip];
+        // }
         //source.volume = ((vel/127)+((1-(vel/127))*(1-velSensitivity)));
         source.volume = 0;
         source.pitch = Mathf.Pow(1.05946f, (pitch - rootNote[clip]));
         
         source.outputAudioMixerGroup = output;
         source.Play();
-        StartCoroutine(Attack(source, vel, length));
+        StartCoroutine(Attack(source, vel));
         //StartCoroutine(Sustain(source, vel, length));
     }
+ public void NoteOff(int pitch, float vel){
+     AudioSource[] sources = GetComponents<AudioSource>();
+     pitch = (pitch + transpose);
+        int noOfBreakPoints = (pitchBreakPoint.Length - 1);
+        //print("vel = " + vel);
+        ClipBreak(pitch, noOfBreakPoints);
+        AudioClip sourceClip = null;
+        //***Velocity***//
+        sourceClip = FindVelocityLayer(vel);
         
+        // if (vel >= velBreakPoint[2])
+        // {
+        //     sourceClip = layer4[clip];
+        // } 
+        // else if (vel >= velBreakPoint[1])
+        // {
+        //     sourceClip = layer3[clip];
+        // }
+        // else if (vel >= velBreakPoint[0])
+        // {
+        //     sourceClip = layer2[clip];
+        // }
+        // else if (vel < velBreakPoint[0])
+        // {
+        //     sourceClip = layer1[clip];
+        // }
+
+        float noteOffPitch = Mathf.Pow(1.05946f, (pitch - rootNote[clip]));
+     foreach(AudioSource source in sources){
+         if (sourceClip != null && source.clip == sourceClip && noteOffPitch == source.pitch){
+             StartCoroutine(Release(source));
+         }
+     }
+ }       
+
+AudioClip FindVelocityLayer(float vel){
+    if (vel >= velBreakPoint[2])
+        {
+            return layer4[clip];
+        } 
+        else if (vel >= velBreakPoint[1])
+        {
+            return layer3[clip];
+        }
+        else if (vel >= velBreakPoint[0])
+        {
+            return layer2[clip];
+        }
+        else if (vel < velBreakPoint[0])
+        {
+            return layer1[clip];
+        }else{
+            Debug.LogError("Error determining velocity layer");
+            return null;
+        }
+}
 
 void ClipBreak (int pitch, int clipChecked)
     {
@@ -92,7 +150,7 @@ void ClipBreak (int pitch, int clipChecked)
     
     
 
-    IEnumerator Attack (AudioSource source, float vel, float length)
+    IEnumerator Attack (AudioSource source, float vel)
     {
         
         if (source.volume < ((vel/127) + ((1 - (vel/127))*velSensitivity)))
@@ -103,16 +161,16 @@ void ClipBreak (int pitch, int clipChecked)
              //print("vel = " + vel);
              source.volume = (source.volume + attack);
              yield return new WaitForSeconds(.01f);
-             StartCoroutine(Attack(source, vel, length));
+             StartCoroutine(Attack(source, vel));
              
         }
         else
         {
-            StopCoroutine(Attack(source, vel, length)); 
-            StartCoroutine(Sustain(source, vel, length));
+            StopCoroutine(Attack(source, vel)); 
+            //StartCoroutine(Sustain(source, vel));
         }
     }
-    IEnumerator Decay (AudioSource source, float vel, float length)
+    IEnumerator Decay (AudioSource source, float vel)
     {
     
         if (source.volume > (((vel/127) + ((1 - (vel/127))*velSensitivity))*sustain))
@@ -121,31 +179,31 @@ void ClipBreak (int pitch, int clipChecked)
              //print("decay vol = " + source.volume);
              //print("decay com = " + ((vel/127)*sustain));
              yield return new WaitForSeconds(.01f);
-             StartCoroutine(Decay(source, vel, length));
+             StartCoroutine(Decay(source, vel));
              //print("dec " + source.volume);
         }
-        else
-        {
-             StartCoroutine(Sustain(source, vel, length));
-        }
+        // else
+        // {
+        //      StartCoroutine(Sustain(source, vel));
+        // }
     }
-    IEnumerator Sustain (AudioSource source, float vel, float length)
-    {
-                //source.volume = ((vel/127)*sustain);        
-                yield return new WaitForSeconds(length);
-                StartCoroutine(Release(source, vel, length));
-                //print("sus " + source.volume);
-                //print("sustain");
+    // IEnumerator Sustain (AudioSource source, float vel)
+    // {
+    //             //source.volume = ((vel/127)*sustain);        
+    //             yield return new WaitForSeconds(length);
+    //             StartCoroutine(Release(source));
+    //             //print("sus " + source.volume);
+    //             //print("sustain");
                 
-    }
-    IEnumerator Release (AudioSource source, float vel, float length)
+    // }
+    IEnumerator Release (AudioSource source)
     {
         
         if (source.volume >= 0.1f)
         {
             source.volume = (source.volume - release);
             yield return new WaitForSeconds(.01f);
-            StartCoroutine(Release(source, vel, length));
+            StartCoroutine(Release(source));
             //print("rel " + source.volume);
         }
         else
