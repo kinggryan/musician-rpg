@@ -1,0 +1,65 @@
+//  ***** gm - Harp *****
+//  Soundfont converted using sfZed
+//  SoundFont version 2.1
+//  E-mu 10K1
+//  Using Virtual Sampler
+
+
+<group>
+loop_mode=no_loop
+ampeg_attack=0
+ampeg_sustain=1
+ampeg_release=.25
+
+
+<region>
+sample=FLUTE_60.wav
+hikey=61
+pitch_keycenter=60
+
+<region>
+sample=FLUTE_63.wav
+lokey=62
+hikey=64
+pitch_keycenter=63
+
+<region>
+sample=FLUTE_66.wav
+lokey=65
+hikey=67
+pitch_keycenter=66
+
+<region>
+sample=FLUTE_69.wav
+lokey=68
+hikey=69
+pitch_keycenter=69
+
+<region>
+sample=FLUTE_72.wav
+lokey=71
+hikey=73
+pitch_keycenter=72
+
+<region>
+sample=FLUTE_75.wav
+lokey=74
+hikey=76
+pitch_keycenter=75
+
+<region>
+sample=FLUTE_78.wav
+lokey=77
+hikey=79
+pitch_keycenter=78
+
+<region>
+sample=FLUTE_81.wav
+lokey=80
+hikey=82
+pitch_keycenter=81
+
+<region>
+sample=FLUTE_84.wav
+lokey=83
+pitch_keycenter=84

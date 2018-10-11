@@ -122,11 +122,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4759055934584510, guid: 2417e07399d894cbda90e93920c850b3, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -4.44
+      value: 438
       objectReference: {fileID: 0}
     - target: {fileID: 4759055934584510, guid: 2417e07399d894cbda90e93920c850b3, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.09
+      value: 286
       objectReference: {fileID: 0}
     - target: {fileID: 4759055934584510, guid: 2417e07399d894cbda90e93920c850b3, type: 2}
       propertyPath: m_LocalPosition.z
@@ -255,11 +255,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4794352766485524, guid: 1bb76f81feb034b7490bfb7eba9564b6, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4.8
+      value: 447.24002
       objectReference: {fileID: 0}
     - target: {fileID: 4794352766485524, guid: 1bb76f81feb034b7490bfb7eba9564b6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.17
+      value: 288.26
       objectReference: {fileID: 0}
     - target: {fileID: 4794352766485524, guid: 1bb76f81feb034b7490bfb7eba9564b6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -306,15 +306,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4467846904523170, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 462.10477
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4467846904523170, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 318.42795
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4467846904523170, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 4.375
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4467846904523170, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
       propertyPath: m_LocalRotation.x
@@ -390,6 +390,14 @@ Prefab:
         type: 2}
       propertyPath: playerMoves.Array.data[1].loopName
       value: SensitiveFlute_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1409067773772570, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4410260679325872, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}

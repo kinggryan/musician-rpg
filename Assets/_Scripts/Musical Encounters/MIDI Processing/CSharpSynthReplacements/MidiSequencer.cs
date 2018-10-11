@@ -182,14 +182,13 @@ namespace MusicianRPG
                         }
                         break;
                     case MidiHelper.MidiChannelEvent.Note_On:
-                        Debug.Log("channel: " + midiEvent.channel + " parameter1: " + midiEvent.parameter1 + " parameter2: " +  midiEvent.parameter2 + " program: " +  currentPrograms);
+                        //Debug.Log("channel: " + midiEvent.channel + " parameter1: " + midiEvent.parameter1 + " parameter2: " +  midiEvent.parameter2 + " program: " +  currentPrograms);
                         if (blockList.Contains(midiEvent.channel))
                             return;
                         if (this.NoteOnEvent != null)
                         
-                            //this.NoteOnEvent(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2);
-                            //synth.NoteOn(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2, currentPrograms[midiEvent.channel]);
-                            Debug.Log("channel: " + midiEvent.channel + " parameter1: " + midiEvent.parameter1 + " parameter2: " +  midiEvent.parameter2 + " program: " +  currentPrograms);
+                            this.NoteOnEvent(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2);
+                            synth.NoteOn(midiEvent.channel, midiEvent.parameter1, midiEvent.parameter2, currentPrograms[midiEvent.channel]);
                         break;
                     case MidiHelper.MidiChannelEvent.Note_Off:
                         if (this.NoteOffEvent != null)

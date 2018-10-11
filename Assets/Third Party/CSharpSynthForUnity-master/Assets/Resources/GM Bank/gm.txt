@@ -73,7 +73,7 @@ Bassoon/sfz/70/70/i/
 Clarinet/sfz/71/71/i/
 Piccolo/sfz/72/72/i/
 Flute/sfz/73/73/i/
-Recorder/sfz/74/74/i/
+SilverFlute/sfz/74/74/i/
 PanFlute/sfz/75/75/i/
 BottleBlow/sfz/76/76/i/
 Shakuhachi/sfz/77/77/i/

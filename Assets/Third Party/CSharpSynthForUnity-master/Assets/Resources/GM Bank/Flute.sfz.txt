@@ -7,6 +7,10 @@
 
 <group>
 loop_mode=loop_continuous
+ampeg_attack=10
+ampeg_hold=0
+ampeg_decay=0
+ampeg_sustain=1
 ampeg_release=0.250
 
 <region>

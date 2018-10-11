@@ -6,41 +6,32 @@
 
 
 <group>
-loop_mode=loop_continuous
-ampeg_release=0.250
+loop_mode=one_shot
+ampeg_attack=0
+ampeg_hold=1
+ampeg_decay=2
+ampeg_sustain=0
+ampeg_release=0
+
 
 <region>
-sample=HARP_57A.wav
+sample=HARP_57.wav
 hikey=62
-loop_start=3340
-loop_end=3840
 pitch_keycenter=57
-volume=-1.800
 
 <region>
-sample=HARP_70A.wav
+sample=HARP_70.wav
 lokey=63
 hikey=76
-loop_start=2937
-loop_end=3456
-tune=-1
 pitch_keycenter=70
-volume=-1.800
 
 <region>
-sample=HARP_83A.wav
+sample=HARP_83.wav
 lokey=77
 hikey=86
-loop_start=2290
-loop_end=2758
-tune=1
 pitch_keycenter=83
 
 <region>
-sample=HARP_96A.wav
+sample=HARP_96.wav
 lokey=87
-loop_start=2033
-loop_end=2180
-tune=6
 pitch_keycenter=96
-volume=-7
