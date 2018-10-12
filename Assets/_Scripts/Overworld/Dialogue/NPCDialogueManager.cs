@@ -13,11 +13,12 @@ public class NPCDialogueManager : MonoBehaviour {
 	[SerializeField]
 	private OverworldDialogueDisplay dialogueBox;
 	private DialogueManager dialogueManager;
-
+	private SoundEngine soundEngine;
 	// Use this for initialization
 	void Awake () {
 		player = Object.FindObjectOfType<PlayerController>();
 		dialogueManager = Object.FindObjectOfType<DialogueManager>();
+		soundEngine = Object.FindObjectOfType<SoundEngine>();
 	}
 	
 	public bool CanStartConversation() {
@@ -27,5 +28,6 @@ public class NPCDialogueManager : MonoBehaviour {
 	// Update is called once per frame
 	public void StartConversation () {
 		dialogueManager.StartStory(inkJSONAsset, songFileName, dialogueBox);
+		soundEngine.StopSoundWithName("HarpSong");
 	}
 }

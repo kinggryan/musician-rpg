@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1534187732333814}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1534187732333814
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4074639596060092}
   - component: {fileID: 114681082245522420}
@@ -30,7 +30,7 @@ GameObject:
 --- !u!4 &4074639596060092
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534187732333814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -43,7 +43,7 @@ Transform:
 --- !u!114 &114681082245522420
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534187732333814}
   m_Enabled: 1
@@ -51,9 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86dd0732abf60614ba9e025e4a569742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: 0
+  activeAudioSource: []
+  activeAudioSourceArray: []
   random: 0
-  sequence: 0
   playOnAwake: 0
   volume: 1
   pitch: 0
@@ -61,16 +61,22 @@ MonoBehaviour:
   fadeInTime: 0
   fadeOutTime: 0
   fadeOutTimer: 1
+  startDelay: 0
   audioClip:
   - {fileID: 0}
   waitTime: 0
   waitRange: 0
   listener: {fileID: 0}
-  threeDee: 0
-  threeDeeMultiplier: 1
-  panMultiplier: 0
+  threeD: 0
+  rolloff: 0
+  minDistance: 0
+  maxDistance: 0
   externalVolumeModifier: 1
   externalPitchModifier: 0
   output: {fileID: 0}
-  elementToLoop: 0
+  clipToLoop: 0
   playerXDistance: 0
+  voiceLimited: 0
+  voiceLimit: 0
+  type: 0
+  timer: 0

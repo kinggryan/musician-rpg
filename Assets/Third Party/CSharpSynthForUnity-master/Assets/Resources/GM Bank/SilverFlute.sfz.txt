@@ -12,6 +12,7 @@ ampeg_sustain=1
 ampeg_release=.25
 
 
+
 <region>
 sample=FLUTE_60.wav
 hikey=61
@@ -40,26 +41,31 @@ sample=FLUTE_72.wav
 lokey=71
 hikey=73
 pitch_keycenter=72
+volume=-24
 
 <region>
 sample=FLUTE_75.wav
 lokey=74
 hikey=76
 pitch_keycenter=75
+volume=-24
 
 <region>
 sample=FLUTE_78.wav
 lokey=77
 hikey=79
 pitch_keycenter=78
+volume=-24
 
 <region>
 sample=FLUTE_81.wav
 lokey=80
 hikey=82
 pitch_keycenter=81
+volume=-24
 
 <region>
 sample=FLUTE_84.wav
 lokey=83
 pitch_keycenter=84
+volume=-24

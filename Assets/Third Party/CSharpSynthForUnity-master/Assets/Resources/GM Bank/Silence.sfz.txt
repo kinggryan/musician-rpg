@@ -1,0 +1,19 @@
+//  ***** gm - Harp *****
+//  Soundfont converted using sfZed
+//  SoundFont version 2.1
+//  E-mu 10K1
+//  Using Virtual Sampler
+
+
+<group>
+loop_mode=one_shot
+ampeg_attack=0
+ampeg_hold=1
+ampeg_decay=2
+ampeg_sustain=0
+ampeg_release=0
+
+
+<region>
+sample=Silence.wav
+pitch_keycenter=57
