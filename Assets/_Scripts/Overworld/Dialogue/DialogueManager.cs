@@ -100,6 +100,12 @@ public class DialogueManager : MonoBehaviour {
 		npcDialogueDisplay.gameObject.SetActive(false);
 	}
 
+	public void ResumeStory() {
+		npcDialogueDisplay.gameObject.SetActive(true);
+		jamInterface.SetActive(false);
+		RefreshView();
+	}
+
 	void EndStory() {
 		this.story = null;
 		// canvas.enabled = false;
@@ -179,11 +185,7 @@ public class DialogueManager : MonoBehaviour {
 	void StartMusicalEncounter() {
 		// Load the game scene
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
-		levelManager.SetOverworldReturnMap(player.transform.position, delegate {
-			var dialogueManager = UnityEngine.Object.FindObjectOfType<DialogueManager>();
-			dialogueManager.StartStory(story,npcDialogueDisplay);
-		});
-		
+
 		PauseStory();
 		var cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
 		cameraController.TransitionToMusicalEncounterCam();
