@@ -24,17 +24,14 @@ public class CameraController : MonoBehaviour {
 
 	private CameraState currentState;
 
-	private Camera camera;
-
-	void Awake() {
-		camera = GetComponent<Camera>();
-	}
+	[SerializeField]
+	private Camera[] cameras;
 
 	// Use this for initialization
 	void Start () {
 		normalState = new CameraState();
 		normalState.localPosition = transform.localPosition;
-		normalState.fov = camera.fieldOfView;
+		normalState.fov = cameras[0].fieldOfView;
 		normalState.localRotation = transform.localRotation;
 
 		currentState = normalState;
@@ -42,14 +39,17 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown("t")) {
-			TransitionToMusicalEncounterCam();
-		}
+		// if(Input.GetKeyDown("t")) {
+		// 	TransitionToMusicalEncounterCam();
+		// }
 
 		// Lerp
-		transform.localPosition = Vector3.Lerp(transform.localPosition, currentState.localPosition, lerpRate*Time.deltaTime);
-		transform.localRotation = Quaternion.Slerp(transform.localRotation, currentState.localRotation, lerpRate*Time.deltaTime);
-		camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, currentState.fov, lerpRate*Time.deltaTime);
+		foreach(var cam in cameras) {
+			cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, currentState.localPosition, lerpRate*Time.deltaTime);
+			cam.transform.localRotation = Quaternion.Slerp(cam.transform.localRotation, currentState.localRotation, lerpRate*Time.deltaTime);
+			cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, currentState.fov, lerpRate*Time.deltaTime);
+		}
+		
 	}
 
 	public void TransitionToMusicalEncounterCam() {

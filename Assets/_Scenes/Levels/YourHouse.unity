@@ -1094,7 +1094,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 107932561}
   m_LocalRotation: {x: 0.44079778, y: -0, z: -0, w: 0.89760643}
-  m_LocalPosition: {x: 0.9478493, y: 8.000103, z: -30.753677}
+  m_LocalPosition: {x: 0, y: 12.56, z: -9.960001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1827485124}
@@ -4449,12 +4449,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 448625653}
   m_LocalRotation: {x: 0.44079778, y: -0, z: -0, w: 0.89760643}
-  m_LocalPosition: {x: 0.9478493, y: 8.000103, z: -30.753677}
+  m_LocalPosition: {x: 0, y: 12.56, z: -9.960001}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 711157729}
+  m_Children: []
   m_Father: {fileID: 1827485124}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 52.31, y: 0, z: 0}
 --- !u!114 &448625657
 MonoBehaviour:
@@ -4467,6 +4466,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8805bb626f564dfe9fe47f0a41c185b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameras:
+  - {fileID: 448625655}
+  - {fileID: 711157733}
 --- !u!114 &448625658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6714,8 +6716,6 @@ GameObject:
   m_Component:
   - component: {fileID: 711157729}
   - component: {fileID: 711157733}
-  - component: {fileID: 711157732}
-  - component: {fileID: 711157731}
   - component: {fileID: 711157730}
   m_Layer: 5
   m_Name: UICam
@@ -6730,12 +6730,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 711157728}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.44079778, y: -0, z: -0, w: 0.89760643}
+  m_LocalPosition: {x: 0, y: 12.56, z: -9.960001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 448625656}
-  m_RootOrder: 0
+  m_Father: {fileID: 1827485124}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 52.31, y: 0, z: 0}
 --- !u!114 &711157730
 MonoBehaviour:
@@ -6803,24 +6803,6 @@ MonoBehaviour:
   m_AfterStackBundles:
   - assemblyQualifiedName: EdgeDetect_AfterStack, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &711157731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 711157728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8805bb626f564dfe9fe47f0a41c185b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!81 &711157732
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 711157728}
-  m_Enabled: 1
 --- !u!20 &711157733
 Camera:
   m_ObjectHideFlags: 0
@@ -17013,7 +16995,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1348622085}
   m_LocalRotation: {x: 0.44079778, y: -0, z: -0, w: 0.89760643}
-  m_LocalPosition: {x: 0.9478493, y: 8.000103, z: -30.753677}
+  m_LocalPosition: {x: 0, y: 12.56, z: -9.960001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1827485124}
@@ -25642,11 +25624,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1827485123}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9478493, y: 4.5598974, z: 20.793676}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1348622086}
   - {fileID: 107932562}
+  - {fileID: 711157729}
   - {fileID: 448625656}
   m_Father: {fileID: 1206546726}
   m_RootOrder: 1
