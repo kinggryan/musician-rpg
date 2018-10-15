@@ -21,6 +21,8 @@ public class DialogueManager : MonoBehaviour {
 	private RectTransform pcDialogueOptionsParent;
 	[SerializeField]
 	private DialogueBubble npcDialogueDisplay;
+	[SerializeField]
+	private NPCMovementController npcMovementController;
 
 	[SerializeField]
 	private PlayerChoice buttonPrefab;
@@ -31,7 +33,6 @@ public class DialogueManager : MonoBehaviour {
 	private bool canContinueText;
 	private List<PlayerChoice> choices = new List<PlayerChoice>();
 	private int currentChoiceIndex = 0;
-	private bool moveNPC = false;
 	private Transform camera;
 
 	void Awake () {
@@ -63,27 +64,14 @@ public class DialogueManager : MonoBehaviour {
 				RefreshView();
 			}
 		}
-		
-		if(moveNPC){
-			if(npc.transform.position.x < player.transform.position.x + 8){
-				npc.transform.position = new Vector3 (npc.transform.position.x + 0.1f,npc.transform.position.y,npc.transform.position.z);
-			}else if(npc.transform.position.y < player.transform.position.y - 0.05){
-				npc.transform.position = new Vector3 (npc.transform.position.x,npc.transform.position.y + 0.1f,npc.transform.position.z);
-			}else if(npc.transform.position.y > player.transform.position.y + 0.05){
-				npc.transform.position = new Vector3 (npc.transform.position.x,npc.transform.position.y - 0.1f,npc.transform.position.z);
-			}else{
-				Debug.Log("NPC moved");
-				moveNPC = false;
-			}
-		}
 	}
 
-	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, DialogueBubble dialogueBox) {
+	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, DialogueBubble dialogueBox, NPCMovementController movementController) {
 		musicalEncounterSongfileName = musicalEncounterFilename;
-		StartStory(new Story (inkJSONAsset.text), dialogueBox);
+		StartStory(new Story (inkJSONAsset.text), dialogueBox, movementController);
 	}
 
-	void StartStory(Story story, DialogueBubble dialogueBox) {
+	void StartStory(Story story, DialogueBubble dialogueBox, NPCMovementController movementController) {
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = false;
 		this.story = story;
@@ -91,6 +79,7 @@ public class DialogueManager : MonoBehaviour {
 		// Get the canvas of the dialogue box
 		npcDialogueDisplay = dialogueBox;
 		npcDialogueDisplay.SetVisible(true, RefreshView);
+		npcMovementController = movementController;
 
 		// RefreshView();
 	}
@@ -188,9 +177,13 @@ public class DialogueManager : MonoBehaviour {
 		var cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
 		cameraController.TransitionToMusicalEncounterCam();
 
-		moveNPC = true;
-		MusicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
-		jamInterface.SetActive(true);
+		// TODO: The dialoguemanager should talk to an NPC controller, rather than smaller components of that controller
+		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
+		// Don't display the UI elements until the npc has 
+		npcMovementController.MoveToMusicalEncounterPosition(delegate() {
+			MusicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
+			jamInterface.SetActive(true);
+		});
 		
 		//transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);
 	}

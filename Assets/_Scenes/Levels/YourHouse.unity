@@ -112,7 +112,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 841df65431080417f98e8092507fa0b4, type: 2}
 --- !u!1 &6127187
 GameObject:
   m_ObjectHideFlags: 0
@@ -3759,6 +3759,7 @@ MonoBehaviour:
   jamInterface: {fileID: 1319751427}
   pcDialogueOptionsParent: {fileID: 785087600}
   npcDialogueDisplay: {fileID: 0}
+  npcMovementController: {fileID: 0}
   buttonPrefab: {fileID: 114325126519332294, guid: 0ba65178c89bd4eaab8af44fea638c5c,
     type: 2}
   musicalEncounterScene: JammageOnly
@@ -23336,6 +23337,8 @@ GameObject:
   - component: {fileID: 1603227908}
   - component: {fileID: 1603227907}
   - component: {fileID: 1603227911}
+  - component: {fileID: 1603227913}
+  - component: {fileID: 1603227912}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -23426,6 +23429,40 @@ MonoBehaviour:
   inkJSONAsset: {fileID: 4900000, guid: ccf2d443cb61044f39b8f889dd7f0d82, type: 3}
   songFileName: Songs/testSongShort
   dialogueBox: {fileID: 697402469}
+  movementController: {fileID: 1603227912}
+--- !u!114 &1603227912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1603227906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b3f78bfb77b4d808feaa1175514ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1206546726}
+--- !u!195 &1603227913
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1603227906}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1612169647
 GameObject:
   m_ObjectHideFlags: 0

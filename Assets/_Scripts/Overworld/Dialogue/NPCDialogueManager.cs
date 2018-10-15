@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Rename this class to like NPC Manager or something
 public class NPCDialogueManager : MonoBehaviour {
 
 	private PlayerController player;
@@ -12,6 +13,8 @@ public class NPCDialogueManager : MonoBehaviour {
 	private string songFileName;
 	[SerializeField]
 	private DialogueBubble dialogueBox;
+	[SerializeField]
+	private NPCMovementController movementController;
 	private DialogueManager dialogueManager;
 
 	// Use this for initialization
@@ -26,6 +29,6 @@ public class NPCDialogueManager : MonoBehaviour {
 
 	// Update is called once per frame
 	public void StartConversation () {
-		dialogueManager.StartStory(inkJSONAsset, songFileName, dialogueBox);
+		dialogueManager.StartStory(inkJSONAsset, songFileName, dialogueBox, movementController);
 	}
 }
