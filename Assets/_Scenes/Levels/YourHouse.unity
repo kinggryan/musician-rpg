@@ -3758,7 +3758,7 @@ MonoBehaviour:
   npc: {fileID: 1603227906}
   jamInterface: {fileID: 1319751427}
   pcDialogueOptionsParent: {fileID: 785087600}
-  npcDialogueDisplay: {fileID: 138422330}
+  npcDialogueDisplay: {fileID: 0}
   buttonPrefab: {fileID: 114325126519332294, guid: 0ba65178c89bd4eaab8af44fea638c5c,
     type: 2}
   musicalEncounterScene: JammageOnly
@@ -6520,14 +6520,14 @@ GameObject:
   - component: {fileID: 697402467}
   - component: {fileID: 697402466}
   - component: {fileID: 697402465}
-  - component: {fileID: 697402468}
+  - component: {fileID: 697402469}
   m_Layer: 5
   m_Name: ExpressionCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &697402464
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6535,7 +6535,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 697402463}
   m_LocalRotation: {x: 0.44196355, y: -0, z: -0, w: 0.897033}
-  m_LocalPosition: {x: 0, y: 0, z: 2.56}
+  m_LocalPosition: {x: 0, y: 0, z: 1.0980301}
   m_LocalScale: {x: 0.012879999, y: 0.008779996, z: 1}
   m_Children:
   - {fileID: 318906899}
@@ -6545,9 +6545,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 52.458004, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.38, y: 2.74}
+  m_AnchoredPosition: {x: 0.6504003, y: 1.6165063}
   m_SizeDelta: {x: 800, y: 600}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.6, y: 0.15}
 --- !u!114 &697402465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6605,7 +6605,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &697402468
+--- !u!114 &697402469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6613,10 +6613,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 697402463}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81b62812517344daba8edab1e9588507, type: 3}
+  m_Script: {fileID: 11500000, guid: 917008746afca41379ccf2909bef0bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 824876130}
+  image: {fileID: 318906900}
 --- !u!1 &700053956
 GameObject:
   m_ObjectHideFlags: 0
@@ -23442,7 +23443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inkJSONAsset: {fileID: 4900000, guid: ccf2d443cb61044f39b8f889dd7f0d82, type: 3}
   songFileName: Songs/testSongShort
-  dialogueBox: {fileID: 697402468}
+  dialogueBox: {fileID: 697402469}
 --- !u!1 &1612169647
 GameObject:
   m_ObjectHideFlags: 0

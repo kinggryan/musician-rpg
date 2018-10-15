@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class NPCMovementController : MonoBehaviour {
 
 	// Use this for initialization

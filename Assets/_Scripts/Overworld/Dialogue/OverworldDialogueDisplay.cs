@@ -11,10 +11,10 @@ public class OverworldDialogueDisplay : MonoBehaviour {
 	private string targetText = "";
 	private SetTextCallback textCompleteCallback;
 	[SerializeField]
-	private UnityEngine.UI.Text text;
+	protected UnityEngine.UI.Text text;
 
 	// Update is called once per frame
-	void Update () {
+	protected virtual void Update () {
 		letterTypeTimer -= Time.deltaTime;
 		if(letterTypeTimer <= 0) {
 			// Type more if needed

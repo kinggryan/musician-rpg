@@ -20,7 +20,7 @@ public class DialogueManager : MonoBehaviour {
 	[SerializeField]
 	private RectTransform pcDialogueOptionsParent;
 	[SerializeField]
-	private OverworldDialogueDisplay npcDialogueDisplay;
+	private DialogueBubble npcDialogueDisplay;
 
 	[SerializeField]
 	private PlayerChoice buttonPrefab;
@@ -78,38 +78,36 @@ public class DialogueManager : MonoBehaviour {
 		}
 	}
 
-	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, OverworldDialogueDisplay dialogueBox) {
+	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, DialogueBubble dialogueBox) {
 		musicalEncounterSongfileName = musicalEncounterFilename;
 		StartStory(new Story (inkJSONAsset.text), dialogueBox);
 	}
 
-	void StartStory(Story story, OverworldDialogueDisplay dialogueBox) {
+	void StartStory(Story story, DialogueBubble dialogueBox) {
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = false;
 		this.story = story;
 
 		// Get the canvas of the dialogue box
 		npcDialogueDisplay = dialogueBox;
-		npcDialogueDisplay.gameObject.SetActive(true);
-		// var npcCanvas = dialogueBox.GetComponent<Canvas>();
-		// npcCanvas.enabled = true;
-		RefreshView();
+		npcDialogueDisplay.SetVisible(true, RefreshView);
+
+		// RefreshView();
 	}
 
 	void PauseStory() {
-		npcDialogueDisplay.gameObject.SetActive(false);
+		npcDialogueDisplay.SetVisible(false, null);
 	}
 
 	public void ResumeStory() {
-		npcDialogueDisplay.gameObject.SetActive(true);
+		npcDialogueDisplay.SetVisible(true, RefreshView);
 		jamInterface.SetActive(false);
-		RefreshView();
 	}
 
 	void EndStory() {
 		this.story = null;
 		// canvas.enabled = false;
-		npcDialogueDisplay.gameObject.SetActive(false);
+		npcDialogueDisplay.SetVisible(false, null);
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = true;
 	}
