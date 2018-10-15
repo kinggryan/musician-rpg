@@ -89,8 +89,11 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	public void ResumeStory() {
-		npcDialogueDisplay.SetVisible(true, RefreshView);
+		// TODO: This should be in a function that is explicitly called when a musical encounter ends, not just a generic ResumeStory() function
 		jamInterface.SetActive(false);
+		npcMovementController.ReturnToConversationalPosition(delegate() {
+			npcDialogueDisplay.SetVisible(true, RefreshView);
+		});
 	}
 
 	void EndStory() {

@@ -21,6 +21,7 @@ public class NPCMovementController : MonoBehaviour {
 	Transform player;
 	
 	MovementCompleteCallback movementCompleteCallback;
+	Vector3 conversationalPosition;
 	State state = State.Idle;
 
 	// Use this for initialization
@@ -50,6 +51,19 @@ public class NPCMovementController : MonoBehaviour {
 		// When movement is complete, callback
 		NavMeshHit info;
 		NavMesh.SamplePosition(player.transform.position + distanceToPlayerForMusicalEncounter*Vector3.right,out info, Mathf.Infinity, NavMesh.AllAreas);
+		agent.SetDestination(info.position);
+		movementCompleteCallback = callback;
+		state = State.Walking;
+		conversationalPosition = transform.position;
+	}
+
+	public void ReturnToConversationalPosition(MovementCompleteCallback callback) {
+		// To move to a valid musical encounter position
+		// Find a point on the navmesh which is closest to player.position + distanceToPlayerForMusicalEncounter*Vector3.right;
+		// Move to that position
+		// When movement is complete, callback
+		NavMeshHit info;
+		NavMesh.SamplePosition(conversationalPosition, out info, Mathf.Infinity, NavMesh.AllAreas);
 		agent.SetDestination(info.position);
 		movementCompleteCallback = callback;
 		state = State.Walking;
