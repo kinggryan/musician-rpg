@@ -67,6 +67,7 @@ public class DialogueBubble : OverworldDialogueDisplay {
 		if(visible) {
 			image.enabled = true;
 			text.enabled = true;
+			text.text = "";
 		}
 		this.animationCompleteCallback = callback;
 	}
