@@ -11,7 +11,7 @@ public class NPCDialogueManager : MonoBehaviour {
 	[SerializeField]
 	private string songFileName;
 	[SerializeField]
-	private OverworldDialogueDisplay dialogueBox;
+	private DialogueBubble dialogueBox;
 	private DialogueManager dialogueManager;
 	private SoundEngine soundEngine;
 	// Use this for initialization

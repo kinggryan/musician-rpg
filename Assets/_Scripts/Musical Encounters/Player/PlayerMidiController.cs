@@ -63,7 +63,6 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	
 	MidiFileStreamer midiStreamer;
 	MIDIVolumeFilter volumeFilter;
-	MIDITrackGate gateFilter;
 	MIDIMonophonicFilter monophonicFilter;
 
 	List<AudioLoop> playerLoops = new List<AudioLoop>();
@@ -112,9 +111,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		targetBPM = songBPM;
 		currentBPM = songBPM;
 
-		volumeArrow.mouseInput = volumeMouseInput;
-		gateArrow.mouseInput = gateMouseInput;
-		instrumentArrow.mouseInput = instrumentMouseInput;
+		// volumeArrow.mouseInput = volumeMouseInput;
+		// gateArrow.mouseInput = gateMouseInput;
+		// instrumentArrow.mouseInput = instrumentMouseInput;
 
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
@@ -134,9 +133,9 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		midiStreamer.outputChannel = outputChannel;
 		
 		//gateFilter = new MIDITrackGate();
-		gateFilter.activeChannel = outputChannel;
-		gateFilter.gateVelocity = maxGate;
-		midiStreamer.AddFilter(gateFilter);
+		// gateFilter.activeChannel = outputChannel;
+		// gateFilter.gateVelocity = maxGate;
+		// midiStreamer.AddFilter(gateFilter);
 
 		// Add the volume after the gate filter so it doesn't affect the gate
 		volumeFilter = new MIDIVolumeFilter();
@@ -150,7 +149,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		
 		currentInstIndex = 0;
 
-		NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));	
+		// NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));	
 		NotificationBoard.SendNotification(Notifications.changedVolume,this,(volumeFilter.volumeMultiplier-minVolume)/(maxVolume-minVolume));	
 	}
 	
@@ -270,27 +269,27 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 				savedGateValue = gateMouseInput.GetMouseValue();
 				int veloGate = maxGate - Mathf.RoundToInt((maxGate - minGate)*((savedGateValue + 1)/2f));
 				// Debug.Log("Gate: " + veloGate);
-				gateFilter.gateVelocity = veloGate;
+				// gateFilter.gateVelocity = veloGate;
 			}
 		}else{
-			if(Input.GetKeyDown(KeyCode.DownArrow)){
-				Debug.Log("GATE UP");
-				if(gateFilter.gateVelocity < maxGate){
-					gateFilter.gateVelocity++;
-				}
-				Debug.Log("Gate level:" + gateFilter.gateVelocity);
-				keyControlDisplay.UpdateDisplayValues();		
-				NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));		
-			}
-			if(Input.GetKeyDown(KeyCode.UpArrow)){
-				Debug.Log("GATE DOWN");
-				if(gateFilter.gateVelocity > minGate){
-					gateFilter.gateVelocity--;
-				}
-				Debug.Log("Gate level:" + gateFilter.gateVelocity);
-				keyControlDisplay.UpdateDisplayValues();
-				NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));		
-			}
+			// if(Input.GetKeyDown(KeyCode.DownArrow)){
+			// 	Debug.Log("GATE UP");
+			// 	if(gateFilter.gateVelocity < maxGate){
+			// 		gateFilter.gateVelocity++;
+			// 	}
+			// 	Debug.Log("Gate level:" + gateFilter.gateVelocity);
+			// 	keyControlDisplay.UpdateDisplayValues();		
+			// 	NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));		
+			// }
+			// if(Input.GetKeyDown(KeyCode.UpArrow)){
+			// 	Debug.Log("GATE DOWN");
+			// 	if(gateFilter.gateVelocity > minGate){
+			// 		gateFilter.gateVelocity--;
+			// 	}
+			// 	Debug.Log("Gate level:" + gateFilter.gateVelocity);
+			// 	keyControlDisplay.UpdateDisplayValues();
+			// 	NotificationBoard.SendNotification(Notifications.changedGate,this,1-(1f*gateFilter.gateVelocity-minGate)/(maxGate-minGate));		
+			// }
 		}
 
 		

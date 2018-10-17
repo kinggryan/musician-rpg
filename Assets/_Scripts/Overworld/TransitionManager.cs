@@ -20,7 +20,14 @@ public class TransitionManager : MonoBehaviour {
 	}
 
 	public void ReturnToOverworld() {
-		TransitionSyncToOverworld();
+		var cameraController = Object.FindObjectOfType<CameraController>();
+		cameraController.TransitionToNormalCam();
+		var dialogueManager = Object.FindObjectOfType<DialogueManager>();
+		dialogueManager.ResumeStory();
+		// var jamInterface
+		// var levelManager = Object.FindObjectOfType<LevelManager>();
+		// levelManager.ReturnToLevel();
+		// TransitionSyncToOverworld();
 	}
 
 	IEnumerator TransitionAsync(string sceneName) {

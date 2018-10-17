@@ -20,7 +20,7 @@ public class DialogueManager : MonoBehaviour {
 	[SerializeField]
 	private RectTransform pcDialogueOptionsParent;
 	[SerializeField]
-	private OverworldDialogueDisplay npcDialogueDisplay;
+	private DialogueBubble npcDialogueDisplay;
 
 	[SerializeField]
 	private PlayerChoice buttonPrefab;
@@ -31,7 +31,6 @@ public class DialogueManager : MonoBehaviour {
 	private bool canContinueText;
 	private List<PlayerChoice> choices = new List<PlayerChoice>();
 	private int currentChoiceIndex = 0;
-	private bool moveCamera = false;
 	private bool moveNPC = false;
 	private Transform camera;
 
@@ -64,13 +63,7 @@ public class DialogueManager : MonoBehaviour {
 				RefreshView();
 			}
 		}
-		if(moveCamera){
-			if (camera.position.x < player.transform.position.x + 4){
-			camera.position = new Vector3 (camera.position.x + 0.1f,camera.position.y,camera.position.z);
-			}else{
-				moveCamera = false;
-			}
-		}
+		
 		if(moveNPC){
 			if(npc.transform.position.x < player.transform.position.x + 8){
 				npc.transform.position = new Vector3 (npc.transform.position.x + 0.1f,npc.transform.position.y,npc.transform.position.z);
@@ -85,28 +78,36 @@ public class DialogueManager : MonoBehaviour {
 		}
 	}
 
-	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, OverworldDialogueDisplay dialogueBox) {
+	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, DialogueBubble dialogueBox) {
 		musicalEncounterSongfileName = musicalEncounterFilename;
 		StartStory(new Story (inkJSONAsset.text), dialogueBox);
 	}
 
-	void StartStory(Story story, OverworldDialogueDisplay dialogueBox) {
+	void StartStory(Story story, DialogueBubble dialogueBox) {
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = false;
 		this.story = story;
 
 		// Get the canvas of the dialogue box
 		npcDialogueDisplay = dialogueBox;
-		npcDialogueDisplay.gameObject.SetActive(true);
-		// var npcCanvas = dialogueBox.GetComponent<Canvas>();
-		// npcCanvas.enabled = true;
-		RefreshView();
+		npcDialogueDisplay.SetVisible(true, RefreshView);
+
+		// RefreshView();
+	}
+
+	void PauseStory() {
+		npcDialogueDisplay.SetVisible(false, null);
+	}
+
+	public void ResumeStory() {
+		npcDialogueDisplay.SetVisible(true, RefreshView);
+		jamInterface.SetActive(false);
 	}
 
 	void EndStory() {
 		this.story = null;
 		// canvas.enabled = false;
-		npcDialogueDisplay.gameObject.SetActive(false);
+		npcDialogueDisplay.SetVisible(false, null);
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = true;
 	}
@@ -182,11 +183,11 @@ public class DialogueManager : MonoBehaviour {
 	void StartMusicalEncounter() {
 		// Load the game scene
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
-		levelManager.SetOverworldReturnMap(player.transform.position, delegate {
-			var dialogueManager = UnityEngine.Object.FindObjectOfType<DialogueManager>();
-			dialogueManager.StartStory(story,npcDialogueDisplay);
-		});
-		moveCamera = true;
+
+		PauseStory();
+		var cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
+		cameraController.TransitionToMusicalEncounterCam();
+
 		moveNPC = true;
 		MusicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
 		jamInterface.SetActive(true);

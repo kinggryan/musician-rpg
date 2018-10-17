@@ -26,13 +26,13 @@ public class KeyControlDisplay : MonoBehaviour {
 			int index = childProperties.index;
 			Text text = child.GetComponent<Text>();
 			//Highlight Active Control
-			if(playerMidiController.keyControlIndex == index){
-				text.color = highlightedColor;
-				childProperties.isActive = true;
-			}else{
-				text.color = childProperties.color;
-				childProperties.isActive = false;
-			}
+			// if(playerMidiController.keyControlIndex == index){
+			// 	text.color = highlightedColor;
+			// 	childProperties.isActive = true;
+			// }else{
+			// 	text.color = childProperties.color;
+			// 	childProperties.isActive = false;
+			// }
 
 			//Set Text To Current Value
 			// if(index == 0){
