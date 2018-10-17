@@ -5154,6 +5154,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4865960791025516, guid: a022b6294d5967e499a6638d8af5a54a,
     type: 2}
   m_PrefabInternal: {fileID: 527884172}
+--- !u!114 &530900295 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114529403735256778, guid: c9045275e6d2a4148a793fe2c5f001bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 780072558}
+  m_Script: {fileID: 11500000, guid: 917008746afca41379ccf2909bef0bf2, type: 3}
 --- !u!4 &559747877 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4074639596060092, guid: 0d4d3d146a2d25e43af16aeebf676272,
@@ -9930,6 +9936,7 @@ GameObject:
   - component: {fileID: 1206546727}
   - component: {fileID: 1206546723}
   - component: {fileID: 1206546728}
+  - component: {fileID: 1206546729}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -10044,7 +10051,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicalEncounterSongfileName: Songs/SoloJam
+  countoffDisplay: {fileID: 0}
   jamInterface: {fileID: 1454000062}
+--- !u!114 &1206546729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1206546722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bddabe1de3a84ee39a89b408affca65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1966091229}
+  dialogueBubble: {fileID: 530900295}
 --- !u!1 &1216243121
 GameObject:
   m_ObjectHideFlags: 0
@@ -14672,6 +14693,12 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1963831011}
   m_CullTransparentMesh: 0
+--- !u!114 &1966091229 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114410887782775712, guid: c9045275e6d2a4148a793fe2c5f001bf,
+    type: 2}
+  m_PrefabInternal: {fileID: 780072558}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &2001384492
 GameObject:
   m_ObjectHideFlags: 0

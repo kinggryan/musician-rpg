@@ -6,6 +6,8 @@ public class SoloJamController : MonoBehaviour {
 
 	public string musicalEncounterSongfileName;
 	private MusicalEncounterManager musicalEncounterManager;
+	[SerializeField]
+	private SpeechBubbleCountoffDisplay countoffDisplay;
 	public GameObject jamInterface;
 	private bool isSoloJamming = false;
 
@@ -14,7 +16,8 @@ public class SoloJamController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		musicalEncounterManager = UnityEngine.Object.FindObjectOfType<MusicalEncounterManager>();
-		var cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
+		cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
+		countoffDisplay = GetComponent<SpeechBubbleCountoffDisplay>();
 	}
 	
 	// Update is called once per frame
@@ -32,13 +35,12 @@ public class SoloJamController : MonoBehaviour {
 		// Load the game scene
 		// var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 
-		cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
 		cameraController.TransitionToMusicalEncounterCam();
 
 		// TODO: The dialoguemanager should talk to an NPC controller, rather than smaller components of that controller
 		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
 		// Don't display the UI elements until the npc has 
-		musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
+		musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName,countoffDisplay);
 		jamInterface.SetActive(true);
 		isSoloJamming = true;
 		
@@ -47,7 +49,6 @@ public class SoloJamController : MonoBehaviour {
 
 	void EndMusicalEncounter(){
 		jamInterface.SetActive(false);
-		cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
 		cameraController.TransitionToNormalCam();
 		isSoloJamming = false;
 	}

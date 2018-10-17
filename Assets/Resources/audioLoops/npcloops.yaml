@@ -59,5 +59,9 @@ loops:
     - sentimental
 - name: Silence
   filename: MIDI/SilentMidi.mid
-  beatDuration: 4
-  rhythmString: 0000
+  beatDuration: 1
+  rhythmString: 00
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
