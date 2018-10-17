@@ -85,6 +85,7 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 		}
 	}
 
+	private MusicalEncounterManager musicalEncounterManager;
 	private SongStructureManager songStructureManager;
 
 	// The list of the player's moves
@@ -144,6 +145,8 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 			loopNames.Add(move.loopName);
 		}
 		playerController.loopNames = loopNames.ToArray();
+
+		musicalEncounterManager = Object.FindObjectOfType<MusicalEncounterManager>();
 	}
 
 	void Start() {
@@ -187,7 +190,7 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 		// In whatever tracks musical encounters, update information about the current musical encounter
 		// Determine the success level for the number of VPs we have
 		var successLevel = GetSuccessLevel();
-		MusicalEncounterManager.CompletedMusicalEncounter(successLevel);
+		musicalEncounterManager.CompletedMusicalEncounter(successLevel);
 
 		// DEBUG
 		StartCoroutine(ReturnToOverworld());

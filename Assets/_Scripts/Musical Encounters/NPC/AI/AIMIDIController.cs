@@ -123,10 +123,6 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 			allLoopsToLoad.Add(loop);
 		}
 
-		// Get the song specific loops
-		var songSpecificLoops = SongSection.GetSongSpecificNPCLoops(songStructureManager.songSections);
-		allLoopsToLoad.AddRange(songSpecificLoops);
-
 		// Add yourself to the midi player
 		midiStreamer = midiPlayer.CreateNewMidiFileStreamer(allLoopsToLoad);
 		midiStreamer.outputChannel = channelNumber;
@@ -145,6 +141,23 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 
         trackGateVelocity = 79;
         volume = 0.8f;
+	}
+
+	public void LoadSong() {
+		// Load all the loops
+		knownLoops = new List<AudioLoop>();
+		var allLoopsToLoad = new List<AudioLoop>();
+		foreach(var loopName in knownLoopNames) {
+			var loop = AudioLoop.GetLoopForName(loopName);
+			knownLoops.Add(loop);
+			allLoopsToLoad.Add(loop);
+		}
+
+		// Get the song specific loops
+		var songStructureManager = Object.FindObjectOfType<SongStructureManager>();
+		var songSpecificLoops = SongSection.GetSongSpecificNPCLoops(songStructureManager.songSections);
+		allLoopsToLoad.AddRange(songSpecificLoops);
+		midiStreamer.LoadMidiFiles(allLoopsToLoad);
 
 		loopDecider = new AILeadingLoopDecider(knownLoops, songSpecificLoops, songStructureManager.songSections);
 		var loopToPlay = loopDecider.ChooseLoopToPlay();
@@ -212,9 +225,9 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	void MakeMove(){
 		return;
 
-		aiFeedback.ChangeAvatarColorForDuration(moveColor, 1);
-		MakeVolumeMove();
-		MakeGateMove();
+		// aiFeedback.ChangeAvatarColorForDuration(moveColor, 1);
+		// MakeVolumeMove();
+		// MakeGateMove();
 	}
 
 	bool gatesMatched (){

@@ -8,7 +8,7 @@ public class AIFeedback : MonoBehaviour {
 	private Text text;
 	private float displayTimer;
 	private bool isTextEnabled;
-	private float displayTime;
+	private float displayTime = 1;
 	public Image avatar;
 	private Color avatarStartColor = Color.white;
 	private float colorTimer;
@@ -33,12 +33,12 @@ public class AIFeedback : MonoBehaviour {
 	public void DisplayText(string textToDisplay, float timeToDisplayText, Color color){
 		return;
 		
-		text.enabled = true;
-		displayTimer = 0;
-		displayTime = timeToDisplayText;
-		isTextEnabled = true;
-		text.color = color;
-		text.text = textToDisplay;
+		// text.enabled = true;
+		// displayTimer = 0;
+		// displayTime = timeToDisplayText;
+		// isTextEnabled = true;
+		// text.color = color;
+		// text.text = textToDisplay;
 		
 	}
 

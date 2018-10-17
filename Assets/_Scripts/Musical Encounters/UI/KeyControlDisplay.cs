@@ -22,9 +22,9 @@ public class KeyControlDisplay : MonoBehaviour {
 
 	public void UpdateDisplayValues(){
 		foreach(Transform child in transform){
-			KeyControlValue childProperties = child.GetComponent<KeyControlValue>();
-			int index = childProperties.index;
-			Text text = child.GetComponent<Text>();
+			// KeyControlValue childProperties = child.GetComponent<KeyControlValue>();
+			// int index = childProperties.index;
+			// Text text = child.GetComponent<Text>();
 			//Highlight Active Control
 			// if(playerMidiController.keyControlIndex == index){
 			// 	text.color = highlightedColor;

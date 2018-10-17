@@ -14,7 +14,8 @@ public class NPCDialogueScript : MonoBehaviour {
 	void Awake () {
 		text = GetComponent<UnityEngine.UI.Text>();
 		bpmCounter = Object.FindObjectOfType<PlayerBPMCounter>();
-		bpmCounter.enabled = false;
+		if(bpmCounter != null)
+			bpmCounter.enabled = false;
 	}
 
 	void Start() {

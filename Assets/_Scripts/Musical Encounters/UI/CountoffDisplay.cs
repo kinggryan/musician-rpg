@@ -8,7 +8,6 @@ public class CountoffDisplay : MonoBehaviour {
 	public Color textUnpulsedColor;
 	public Color textPulsedColor;
 
-	float bpm;
 	int currentBeat;
 	int finalBeat = 4;
 	float timeTillNextBeat;
@@ -31,7 +30,6 @@ public class CountoffDisplay : MonoBehaviour {
 	}
 
 	void DidStartCountoff(float bpm) {
-		this.bpm = bpm;
 		currentBeat = 1;
 		beatDuration = 60/bpm;
 		timeTillNextBeat = beatDuration;

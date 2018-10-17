@@ -14,7 +14,7 @@ public class MIDIVolumeFilter : MIDITrackFilter {
 			int velocity = midiEvent.parameter2;
 			if (midiEvent.channel == activeChannel){
 				if(midiEvent.midiChannelEvent == MidiHelper.MidiChannelEvent.Note_On) {
-					newMidiEvent.parameter2 = (byte)Mathf.FloorToInt(volumeMultiplier*(int)newMidiEvent.parameter2);
+					newMidiEvent.parameter2 = (byte)Mathf.FloorToInt(volumeMultiplier*velocity);
 				}
 			}
 			filteredEvents.Add(newMidiEvent);

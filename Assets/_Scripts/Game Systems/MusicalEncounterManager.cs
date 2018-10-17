@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class MusicalEncounterManager {
+// <summary>
+// This class handles the transition to and from musical encounters, without dealing with the actual gameplay of the encounter
+// There should only be one in a scene
+// </summary>
+public class MusicalEncounterManager: MonoBehaviour {
 
 	public enum SuccessLevel {
 		TotalFailure,
@@ -18,17 +22,35 @@ public static class MusicalEncounterManager {
 		public SuccessLevel successLevel;
 	}
 
-	private static MusicalEncounterInfo currentEncounterInfo;
+	// Oddly, the countoff controller is what's needed to really start the song. 
+	public AutomaticCountoffController countoffController;
+	public PlayerMidiController playerMidiController;
+	public SongStructureManager songStructureManager;
+	public AIMIDIController aiMIDIController;
+	// TODO: In our current configuration, there should really only be one canvas
+	public Canvas[] jamCanvas;
 
-	public static void StartedMusicalEncounter(string songFileName) {
-		currentEncounterInfo.songFileName = songFileName;
-	}
+	private MusicalEncounterInfo currentEncounterInfo;
 
-	public static void CompletedMusicalEncounter(SuccessLevel successLevel) {
-		currentEncounterInfo.successLevel = successLevel;
-	}
-
-	public static string GetCurrentMusicalEncounterSongFile() {
+	public  string GetCurrentMusicalEncounterSongFile() {
 		return currentEncounterInfo.songFileName;
+	}
+
+	public void StartedMusicalEncounter(string songFileName) {
+		currentEncounterInfo.songFileName = songFileName;
+		songStructureManager.LoadSong(songFileName);
+		aiMIDIController.LoadSong();
+		countoffController.enabled = true;
+		playerMidiController.enabled = true;
+		foreach(var c in jamCanvas)
+			c.enabled = true;
+	}
+
+	public void CompletedMusicalEncounter(SuccessLevel successLevel) {
+		currentEncounterInfo.successLevel = successLevel;
+		countoffController.enabled = false;
+		playerMidiController.enabled = false;
+		foreach(var c in jamCanvas)
+			c.enabled = false;
 	}
 }

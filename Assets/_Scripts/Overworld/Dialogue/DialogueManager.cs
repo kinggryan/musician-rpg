@@ -12,8 +12,7 @@ public class DialogueManager : MonoBehaviour {
 	public GameObject jamInterface;
 	private Story story;
 	private string musicalEncounterSongfileName;
-	private TransitionManager transitionManager;
-	private LevelManager levelManager;
+	private MusicalEncounterManager musicalEncounterManager;
 
 	// [SerializeField]
 	// private Canvas canvas;
@@ -33,16 +32,9 @@ public class DialogueManager : MonoBehaviour {
 	private bool canContinueText;
 	private List<PlayerChoice> choices = new List<PlayerChoice>();
 	private int currentChoiceIndex = 0;
-	private Transform camera;
 
 	void Awake () {
-		transitionManager = UnityEngine.Object.FindObjectOfType<TransitionManager>();
-		levelManager = UnityEngine.Object.FindObjectOfType<LevelManager>();
-	}
-
-	void Start() {
-		//canvas.enabled = false;
-		camera = GameObject.FindObjectOfType<Camera>().transform;
+		musicalEncounterManager = UnityEngine.Object.FindObjectOfType<MusicalEncounterManager>();
 	}
 
 	void Update() {
@@ -174,7 +166,7 @@ public class DialogueManager : MonoBehaviour {
 
 	void StartMusicalEncounter() {
 		// Load the game scene
-		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
+		// var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 
 		PauseStory();
 		var cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
@@ -184,7 +176,7 @@ public class DialogueManager : MonoBehaviour {
 		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
 		// Don't display the UI elements until the npc has 
 		npcMovementController.MoveToMusicalEncounterPosition(delegate() {
-			MusicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
+			musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
 			jamInterface.SetActive(true);
 		});
 		

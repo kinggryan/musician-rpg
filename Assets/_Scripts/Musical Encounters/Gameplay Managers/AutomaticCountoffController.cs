@@ -42,7 +42,7 @@ public class AutomaticCountoffController : MonoBehaviour {
 		countoffDisplay.NextBeat();
 		if(currentBeat > 4) {
 			BroadcastMessage("DidChangeBPM",bpm,SendMessageOptions.DontRequireReceiver);
-			Object.Destroy(this);
+			this.enabled = false;
 		}
 	}
 }

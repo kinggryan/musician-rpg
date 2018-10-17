@@ -41,8 +41,6 @@ public class MIDISongPlayer : MonoBehaviour
     private float[] sampleBuffer;
     private float gain = 1f;
 
-    private float sliderValue = 1.0f;
-    private float maxSliderValue = 127.0f;
     private bool isPlaying;
 
     // Awake is called when the script instance
