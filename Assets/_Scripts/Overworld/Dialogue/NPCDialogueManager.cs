@@ -15,6 +15,8 @@ public class NPCDialogueManager : MonoBehaviour {
 	private DialogueBubble dialogueBox;
 	[SerializeField]
 	private NPCMovementController movementController;
+	[SerializeField]
+	private SpeechBubbleCountoffDisplay countoffDisplay;
 	private DialogueManager dialogueManager;
 	private SoundEngine soundEngine;
 	// Use this for initialization
@@ -30,7 +32,7 @@ public class NPCDialogueManager : MonoBehaviour {
 
 	// Update is called once per frame
 	public void StartConversation () {
-		dialogueManager.StartStory(inkJSONAsset, songFileName, dialogueBox, movementController);
+		dialogueManager.StartStory(inkJSONAsset, songFileName, dialogueBox, movementController, countoffDisplay);
 		soundEngine.StopSoundWithName("HarpSong");
 	}
 }

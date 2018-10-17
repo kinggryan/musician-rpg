@@ -71,4 +71,8 @@ public class DialogueBubble : OverworldDialogueDisplay {
 		}
 		this.animationCompleteCallback = callback;
 	}
+
+	public bool GetVisible() {
+		return state == State.Speaking;
+	}
 }
