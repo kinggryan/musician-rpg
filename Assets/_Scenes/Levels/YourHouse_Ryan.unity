@@ -12364,8 +12364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527b37ff48e7d4ad38e09c9711483295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSONAsset: {fileID: 4900000, guid: ccf2d443cb61044f39b8f889dd7f0d82, type: 3}
-  songFileName: Songs/testSongShort
+  inkJSONAsset: {fileID: 4900000, guid: 929dbb0dd7db94ba39198504796105b7, type: 3}
+  songFileName: Songs/SensitiveHarp
   dialogueBox: {fileID: 697402469}
   movementController: {fileID: 1603227912}
 --- !u!114 &1603227912
