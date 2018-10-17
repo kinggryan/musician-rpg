@@ -22,6 +22,7 @@ public class DialogueManager : MonoBehaviour {
 	private DialogueBubble npcDialogueDisplay;
 	[SerializeField]
 	private NPCMovementController npcMovementController;
+	private SpeechBubbleCountoffDisplay countoffDisplay;
 
 	[SerializeField]
 	private PlayerChoice buttonPrefab;
@@ -58,12 +59,12 @@ public class DialogueManager : MonoBehaviour {
 		}
 	}
 
-	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, DialogueBubble dialogueBox, NPCMovementController movementController) {
+	public void StartStory (TextAsset inkJSONAsset, string musicalEncounterFilename, DialogueBubble dialogueBox, NPCMovementController movementController, SpeechBubbleCountoffDisplay countoff) {
 		musicalEncounterSongfileName = musicalEncounterFilename;
-		StartStory(new Story (inkJSONAsset.text), dialogueBox, movementController);
+		StartStory(new Story (inkJSONAsset.text), dialogueBox, movementController, countoff);
 	}
 
-	void StartStory(Story story, DialogueBubble dialogueBox, NPCMovementController movementController) {
+	void StartStory(Story story, DialogueBubble dialogueBox, NPCMovementController movementController, SpeechBubbleCountoffDisplay countoff) {
 		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 		player.enabled = false;
 		this.story = story;
@@ -72,6 +73,7 @@ public class DialogueManager : MonoBehaviour {
 		npcDialogueDisplay = dialogueBox;
 		npcDialogueDisplay.SetVisible(true, RefreshView);
 		npcMovementController = movementController;
+		countoffDisplay = countoff;
 
 		// RefreshView();
 	}
@@ -176,7 +178,7 @@ public class DialogueManager : MonoBehaviour {
 		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
 		// Don't display the UI elements until the npc has 
 		npcMovementController.MoveToMusicalEncounterPosition(delegate() {
-			musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName);
+			musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName, countoffDisplay);
 			jamInterface.SetActive(true);
 		});
 		

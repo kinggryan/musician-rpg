@@ -36,11 +36,13 @@ public class MusicalEncounterManager: MonoBehaviour {
 		return currentEncounterInfo.songFileName;
 	}
 
-	public void StartedMusicalEncounter(string songFileName) {
+	// TODO: This should be modified once we have the unified NPC manager to take an NPC manager rather than the component pieces
+	public void StartedMusicalEncounter(string songFileName, PlayerCountoffDisplay countoffDisplay) {
 		currentEncounterInfo.songFileName = songFileName;
 		songStructureManager.LoadSong(songFileName);
 		aiMIDIController.LoadSong();
 		countoffController.enabled = true;
+		countoffController.countoffDisplay = countoffDisplay;
 		playerMidiController.enabled = true;
 		foreach(var c in jamCanvas)
 			c.enabled = true;
