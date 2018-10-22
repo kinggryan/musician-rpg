@@ -157,6 +157,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		var songStructureManager = Object.FindObjectOfType<SongStructureManager>();
 		var songSpecificLoops = SongSection.GetSongSpecificNPCLoops(songStructureManager.songSections);
 		allLoopsToLoad.AddRange(songSpecificLoops);
+		Debug.Log("AI is loading " + allLoopsToLoad.Count + " loops.");
 		midiStreamer.LoadMidiFiles(allLoopsToLoad);
 
 		loopDecider = new AILeadingLoopDecider(knownLoops, songSpecificLoops, songStructureManager.songSections);

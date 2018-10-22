@@ -18,15 +18,6 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 
 	public MidiSongStructureManager songStructureManager;
 	public MIDISongPlayer midiPlayer;
-	public CharacterAnimationManager animationManager;
-	public PlayerPowerArrow volumeArrow;
-	public PlayerPowerArrow gateArrow;
-	public PlayerPowerArrow instrumentArrow;
-
-	public PlayerMouseSpringInput gateMouseInput;
-	public PlayerMouseSpringInput volumeMouseInput;
-	public PlayerMouseSpringInput instrumentMouseInput;
-	public PowerCircleAnimationController[] circleAnimator;
 	public KeyControlDisplay keyControlDisplay;
 	public bool mouseControls;
 
@@ -169,25 +160,16 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		}
 	}
 
-	void StartSongWithBPM(float bpm) {
-		for (int i = 0; i < circleAnimator.Length; i++){
-			if(circleAnimator[i].isActiveAndEnabled)
-				circleAnimator[i].StartSong(bpm);
-		}
-
-		animationManager.SetBPM(bpm);
-		animationManager.DidStartSong();
-		animationManager.UpdateGroove(1f);
-
-		midiPlayer.playbackRate = bpm / songBPM;
-		midiPlayer.Play();
-		songStructureManager.bpm = bpm;
-		songStructureManager.StartSong();
+	public void StartSongWithBPM(float bpm) {
 
 		SetCurrentLoop(0);
 
 		foreach(var listener in listeners) {
 			listener.DidStartSongWithBPM(bpm);
 		}
+	}
+
+	public void Stop() {
+		// midiStreamer.
 	}
 }

@@ -134,6 +134,11 @@ public class MidiFileStreamer: MidiStreamer {
         // HACK: We shouldn't constantly have to do this - we should be able to just calculate the current event index when we change files but this is a easier/less efficient way of doing it
         for(var i = 0 ; i < midiFiles.Count; i++) {
             var file = midiFiles[i];
+            
+            // If the file is blank, just continue
+            if(file.loopSampleTime == 0)
+                continue;
+
             while (
                 file.eventIndex < file.file.Tracks[0].EventCount
                 && IsFrameInRangeWithLoopingFile(file.file.Tracks[0].MidiEvents[file.eventIndex].deltaTime, 
@@ -193,9 +198,12 @@ public class MidiFileStreamer: MidiStreamer {
     }
 
     public override void PrepareToPlay() {
+        base.PrepareToPlay();
         // TODO: Get rid of this weird 120 bpm stuff. It feels like a hack in the original sequencer
-        foreach(var midiFile in midiFiles)
+        foreach(var midiFile in midiFiles) {
             midiFile.file.BeatsPerMinute = 120;
+            midiFile.eventIndex = 0;
+        }
     }
 
     public override void Dispose() 

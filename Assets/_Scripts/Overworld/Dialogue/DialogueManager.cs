@@ -9,7 +9,6 @@ public class DialogueManager : MonoBehaviour {
 
 	public GameObject player;
 	public GameObject npc;
-	public GameObject jamInterface;
 	private Story story;
 	private string musicalEncounterSongfileName;
 	private MusicalEncounterManager musicalEncounterManager;
@@ -84,7 +83,6 @@ public class DialogueManager : MonoBehaviour {
 
 	public void ResumeStory() {
 		// TODO: This should be in a function that is explicitly called when a musical encounter ends, not just a generic ResumeStory() function
-		jamInterface.SetActive(false);
 		npcMovementController.ReturnToConversationalPosition(delegate() {
 			npcDialogueDisplay.SetVisible(true, RefreshView);
 		});
@@ -179,7 +177,6 @@ public class DialogueManager : MonoBehaviour {
 		// Don't display the UI elements until the npc has 
 		npcMovementController.MoveToMusicalEncounterPosition(delegate() {
 			musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName, countoffDisplay);
-			jamInterface.SetActive(true);
 		});
 		
 		//transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);

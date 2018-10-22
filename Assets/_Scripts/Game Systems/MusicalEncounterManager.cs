@@ -8,12 +8,17 @@ using UnityEngine;
 // </summary>
 public class MusicalEncounterManager: MonoBehaviour {
 
+	// This class should drive coordination between the various classes
+	// Meaning that when the countoff is done, it should actually talk to THIS class, which tells the other classes to begin playing
+	// 
+
 	public enum SuccessLevel {
 		TotalFailure,
 		PartialFailure,
 		Pass,
 		Excel,
-		Perfect
+		Perfect,
+		None
 	}
 
 	struct MusicalEncounterInfo {
@@ -30,9 +35,18 @@ public class MusicalEncounterManager: MonoBehaviour {
 	// TODO: In our current configuration, there should really only be one canvas
 	public Canvas[] jamCanvas;
 
+	private MIDISongPlayer songPlayer;
 	private MusicalEncounterInfo currentEncounterInfo;
+	
+	// TODO: This should probably be read from the song file
+	private const float songBPM = 240f;
 
-	public  string GetCurrentMusicalEncounterSongFile() {
+	public void Awake() {
+		songPlayer = Object.FindObjectOfType<MIDISongPlayer>();
+		NotificationBoard.AddListener(AutomaticCountoffController.Notifications.countoffComplete, CountoffComplete);
+	}
+
+	public string GetCurrentMusicalEncounterSongFile() {
 		return currentEncounterInfo.songFileName;
 	}
 
@@ -50,9 +64,30 @@ public class MusicalEncounterManager: MonoBehaviour {
 
 	public void CompletedMusicalEncounter(SuccessLevel successLevel) {
 		currentEncounterInfo.successLevel = successLevel;
+		songPlayer.Stop();
+		playerMidiController.Stop();
+		songStructureManager.StopSong();
 		countoffController.enabled = false;
 		playerMidiController.enabled = false;
 		foreach(var c in jamCanvas)
 			c.enabled = false;
+	}
+
+	public void CountoffComplete(object sender, object obj) {
+		var bpm = (float)obj;
+		StartSongWithBPM(bpm);
+	}
+
+	void StartSongWithBPM(float bpm) {
+		// animationManager.SetBPM(bpm);
+		// animationManager.DidStartSong();
+		// animationManager.UpdateGroove(1f);
+
+		songPlayer.playbackRate = bpm / songBPM;
+		songPlayer.Play();
+		songStructureManager.bpm = bpm;
+		songStructureManager.StartSong();
+
+		playerMidiController.StartSongWithBPM(bpm);
 	}
 }

@@ -77,6 +77,15 @@ public abstract class SongStructureManager : MonoBehaviour {
 		NotificationBoard.SendNotification(Notifications.didStartSong, this, null);
 	}
 
+	public virtual void StopSong() {
+		isSongPlaying = false;
+		currentSongBeat = 0;
+		currentSongSectionIndex = 0;
+		currentSongPhraseEndBeat = 0;
+		currentSongPhraseIndex = -1;
+		currentSongPhraseNumRepeatsRemaining = 0;
+	}
+
 	public void RegisterSongUpdateListener(ISongUpdateListener listener) {
 		songUpdateListeners.Add(listener);
 	}

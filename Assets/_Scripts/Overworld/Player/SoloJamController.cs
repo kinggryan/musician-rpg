@@ -41,15 +41,12 @@ public class SoloJamController : MonoBehaviour {
 		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
 		// Don't display the UI elements until the npc has 
 		musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName,countoffDisplay);
-		jamInterface.SetActive(true);
 		isSoloJamming = true;
-		
-		//transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);
 	}
 
 	void EndMusicalEncounter(){
-		jamInterface.SetActive(false);
 		cameraController.TransitionToNormalCam();
+		musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.None);
 		isSoloJamming = false;
 	}
 }

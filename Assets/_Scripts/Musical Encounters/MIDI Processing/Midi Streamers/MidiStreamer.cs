@@ -33,7 +33,10 @@ public abstract class MidiStreamer {
         return new List<MidiEvent>();
     }
 
-    public abstract void PrepareToPlay();
+    public virtual void PrepareToPlay() {
+        sampleTime = 0;
+    }
+    
     public abstract void Dispose();
 
     public void AddFilter(MIDITrackFilter filter) {
