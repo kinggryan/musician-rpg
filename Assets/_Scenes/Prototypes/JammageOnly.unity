@@ -297,6 +297,12 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bb76f81feb034b7490bfb7eba9564b6, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &1487650902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114804057708016734, guid: 061927a4767d5f340bcded8b32b4f854,
+    type: 2}
+  m_PrefabInternal: {fileID: 1516850158}
+  m_Script: {fileID: 11500000, guid: 2b091114be8beed499bca756bbd03db5, type: 3}
 --- !u!1001 &1516850158
 Prefab:
   m_ObjectHideFlags: 0
@@ -417,3 +423,42 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 061927a4767d5f340bcded8b32b4f854, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1582724920 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1789064015079052, guid: 061927a4767d5f340bcded8b32b4f854,
+    type: 2}
+  m_PrefabInternal: {fileID: 1516850158}
+--- !u!114 &1582724924 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114976821733757964, guid: 061927a4767d5f340bcded8b32b4f854,
+    type: 2}
+  m_PrefabInternal: {fileID: 1516850158}
+  m_Script: {fileID: 11500000, guid: 7014050ecabd248f0b8e11b3c10188dd, type: 3}
+--- !u!114 &1582724928 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114452864646348676, guid: 061927a4767d5f340bcded8b32b4f854,
+    type: 2}
+  m_PrefabInternal: {fileID: 1516850158}
+  m_Script: {fileID: 11500000, guid: f360830de15ae4e8092e9a24a75a9445, type: 3}
+--- !u!114 &1582724933 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114881472269164080, guid: 061927a4767d5f340bcded8b32b4f854,
+    type: 2}
+  m_PrefabInternal: {fileID: 1516850158}
+  m_Script: {fileID: 11500000, guid: ae2c8c5db22a44dcab296cdc3298f8cd, type: 3}
+--- !u!114 &1582724936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1582724920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b63532504d114cf38fb4debae54586e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countoffController: {fileID: 1582724924}
+  playerMidiController: {fileID: 1582724933}
+  songStructureManager: {fileID: 1582724928}
+  aiMIDIController: {fileID: 1487650902}
+  jamCanvas: []

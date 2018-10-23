@@ -8,7 +8,6 @@ public class SoloJamController : MonoBehaviour {
 	private MusicalEncounterManager musicalEncounterManager;
 	[SerializeField]
 	private SpeechBubbleCountoffDisplay countoffDisplay;
-	public GameObject jamInterface;
 	private bool isSoloJamming = false;
 
 	private CameraController cameraController;

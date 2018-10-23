@@ -13721,6 +13721,7 @@ GameObject:
   - component: {fileID: 1206546724}
   - component: {fileID: 1206546727}
   - component: {fileID: 1206546723}
+  - component: {fileID: 1206546728}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -13790,7 +13791,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1206546722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -221.1, y: 11, z: 123.5}
+  m_LocalPosition: {x: -180.1, y: 11, z: 154.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1319751428}
@@ -13823,6 +13824,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1206546728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1206546722}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d39125d2f66472468210ae118db4fd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicalEncounterSongfileName: Songs/SoloJam
+  countoffDisplay: {fileID: 0}
 --- !u!1 &1218304002
 GameObject:
   m_ObjectHideFlags: 0
