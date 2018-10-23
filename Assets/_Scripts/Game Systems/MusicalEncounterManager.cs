@@ -32,6 +32,7 @@ public class MusicalEncounterManager: MonoBehaviour {
 	public PlayerMidiController playerMidiController;
 	public SongStructureManager songStructureManager;
 	public AIMIDIController aiMIDIController;
+	public EncounterParticleController particleController;
 	// TODO: In our current configuration, there should really only be one canvas
 	public Canvas[] jamCanvas;
 
@@ -58,6 +59,7 @@ public class MusicalEncounterManager: MonoBehaviour {
 		countoffController.enabled = true;
 		countoffController.countoffDisplay = countoffDisplay;
 		playerMidiController.enabled = true;
+
 		foreach(var c in jamCanvas)
 			c.enabled = true;
 	}
@@ -69,6 +71,8 @@ public class MusicalEncounterManager: MonoBehaviour {
 		songStructureManager.StopSong();
 		countoffController.enabled = false;
 		playerMidiController.enabled = false;
+		particleController.EndSong();
+
 		foreach(var c in jamCanvas)
 			c.enabled = false;
 	}
@@ -89,5 +93,8 @@ public class MusicalEncounterManager: MonoBehaviour {
 		songStructureManager.StartSong();
 
 		playerMidiController.StartSongWithBPM(bpm);
+
+		// TODO: Don't turn this on if it's just practice mode
+		particleController.StartSong();
 	}
 }
