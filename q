@@ -1,0 +1,1577 @@
+[33mcommit 1362694c1f48a284fe345664d0df73cd635f3156[m[33m ([m[1;36mHEAD -> [m[1;32mjammageonly[m[33m, [m[1;31morigin/jammageonly[m[33m)[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 22 18:38:57 2018 -0700
+
+    Added particles for musical encounter
+
+[33mcommit 10b76bf8fdafd5e292289e20c7cd19217ba98b2f[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 22 17:26:12 2018 -0700
+
+    Moved player closer to NPC
+
+[33mcommit 5f5797a105ca95d09833ec2558c375b17f40d3a0[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 22 15:22:09 2018 -0700
+
+    Tweaks; Moved NPC to correct position
+
+[33mcommit 9b310a313d962426633378a3661e1a40b1f655a7[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 22 14:42:49 2018 -0700
+
+    Environment prefabs added
+
+[33mcommit 5915bf39e28fe85bb1cd43d1638445aa3acd1683[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 22 14:01:14 2018 -0700
+
+    Fixed playing different songs bug
+
+[33mcommit 5205f41948248a3a3eb07558a89d27263656aeae[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Oct 19 14:09:52 2018 -0700
+
+    Imported potential basic character assets; blocked out waterfall portion of level
+
+[33mcommit a8a5acebb84f30086ce2937f443362af27534d53[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 17:02:04 2018 -0700
+
+    Reduced solo jam song length as hacky fix for audio glitches
+
+[33mcommit 61353d50fcaaa00acd6472fd56e537ed5a60a5e3[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Oct 17 16:49:53 2018 -0700
+
+    added solo jam interface
+
+[33mcommit 13dd9eaed453be3dd536bce91e61678db199dba0[m
+Merge: 44ccd11 a535220
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Oct 17 16:08:22 2018 -0700
+
+    Merge branch 'jammageonly' of https://github.com/kinggryan/musician-rpg into jammageonly
+
+[33mcommit 44ccd11539c9e8de087d6755f46d6b18c5f9e358[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Oct 17 16:08:07 2018 -0700
+
+    started working on free jam
+
+[33mcommit a535220f603fcfe046cf34ec6d4286b17eca1c2b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 15:48:46 2018 -0700
+
+    Countoff now done with a dialogue bubble
+
+[33mcommit 26dbb500113d9b717d73f6d03e0928634dfb6946[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 15:14:53 2018 -0700
+
+    Deleted GIT scene files
+
+[33mcommit 63904d32c6a920d3811712689a6203b53a5c0e0d[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 15:14:16 2018 -0700
+
+    Added changes to travis' scene file
+
+[33mcommit 7b3a5b23e89ef8baea6b36067611d8045146af8d[m
+Merge: 4019e97 555e09a
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 14:55:04 2018 -0700
+
+    Merge branch 'jammageonly' of https://github.com/kinggryan/musician-rpg into fix
+
+[33mcommit 4019e9771f761be2a88fd5626fdc33d84ea32f16[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 14:54:47 2018 -0700
+
+    Maybe fixed note off bug; added quick test story
+
+[33mcommit 555e09ac6a30a26bd21e46108c21bff8e152ac22[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Oct 17 14:52:17 2018 -0700
+
+    added amience sfx and harp song
+
+[33mcommit 9562345f8ca3f3e716c66bfb29532546c4aea1d9[m
+Merge: 53ef4a4 4071086
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 14:27:57 2018 -0700
+
+    Cleaned up musical encounter start.
+
+[33mcommit 53ef4a4461c9bdacc1e00a909e8fe8fe87425654[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Oct 17 13:28:15 2018 -0700
+
+    Added Ryan's copy of scene
+
+[33mcommit 4071086ba49bf525341a3d214dd420647ecd416a[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Oct 17 11:47:03 2018 -0700
+
+    merging
+
+[33mcommit 49ca00f68572d7212685a5d0f45dea381474fe51[m
+Merge: dc95cd2 8ea4dc6
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Oct 17 11:45:33 2018 -0700
+
+    merging
+
+[33mcommit 2f97d827cee32251379afd2ece2198722952f05b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 17:00:46 2018 -0700
+
+    Cleaned up minor resume conversational bug
+
+[33mcommit 381324b81c3594fcc6cc07663ec0f5a87938f90a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 16:33:08 2018 -0700
+
+    Fixed dialogue bubble position after end of musical encounter
+
+[33mcommit 279d0e6e2da788d97b9e87b973502f2072e71ead[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 16:21:48 2018 -0700
+
+    NPC returns to conersational position at end of convo
+
+[33mcommit f58b68b4b892f5882e10cf4a1dbbbd810fcea56b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 16:14:52 2018 -0700
+
+    New NPC Movement controller
+
+[33mcommit 8ea4dc6bc69975de8c308bf94cdcfa69bfa32d07[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 15:34:40 2018 -0700
+
+    Improvements to typing effect for dialogue
+
+[33mcommit 10e962b91f7bd3f08c651b53ec3de3bfa4da857b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 15:19:53 2018 -0700
+
+    Fixed cameras for musical encounter
+
+[33mcommit 25d4a837219e362dcfd2cc5ecc4a7ddb9d6cf9a5[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 15:07:32 2018 -0700
+
+    Animate in/out dialogue bubble
+
+[33mcommit ac9e5858741c930ed29048c9860724169f996a12[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 12:40:17 2018 -0700
+
+    Added handwritten looking font for speech bubbles
+
+[33mcommit a1e9557cc839bf135f16cc447b5215afe67be2a3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 12:33:41 2018 -0700
+
+    Added improved speech bubble
+
+[33mcommit 58e2d562ce898a5d508f3af9348943aa96e9ba31[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Oct 15 12:05:09 2018 -0700
+
+    Removed UI from effects layers
+
+[33mcommit 9414e45a44f8ba562a6f24d283ac731c3d2159e3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Oct 14 19:53:09 2018 -0700
+
+    Added color grading for 'watercolor' effect...?
+
+[33mcommit 0b059a7ca73a774a886a7425b3c3f54bdc498393[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Oct 14 19:44:14 2018 -0700
+
+    Improved efficiency of oil painting shader
+
+[33mcommit 4233e3aec354f1f22b2685735f06086cb66b3744[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Oct 14 13:14:26 2018 -0700
+
+    Retrofitted oil painting shader - not optimized in teh slightest
+
+[33mcommit dc95cd279e2b164c488f91c564c8d1be7b961d31[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Oct 12 16:19:09 2018 -0700
+
+    add some environmental SFX and music
+
+[33mcommit 4c123a24447c32b7c5f80247492c05562f44cdf6[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Oct 12 13:56:19 2018 -0700
+
+    Some more improvements to the musical encounter transition
+
+[33mcommit 9ae5dd648f80456993e9bc0e476157cd1d0c7cc9[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Oct 12 13:18:06 2018 -0700
+
+    Jam Interface is in world space
+
+[33mcommit f28f93cbe81ffd099a085078f56bfae5d2397b5a[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Thu Oct 11 12:31:06 2018 -0700
+
+    started creating custom harp and flute sounds
+
+[33mcommit 83ef78236894ae9ceacdc2828f2ef9c00524d992[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Tue Oct 9 17:01:06 2018 -0700
+
+    added note off functionality to new sampler/synth
+
+[33mcommit 858b8fb9e0ba3174cb50531cc007c1060cb980f2[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Tue Oct 9 12:34:46 2018 -0700
+
+    imported new synth assets
+
+[33mcommit cad68a43f6f7ffd7eae789c3592c3ee884cbcc79[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Mon Oct 8 21:41:03 2018 -0700
+
+    incorporated into overworld scene
+
+[33mcommit 583ed2113663fc9b049c97d105200a1a5fb7ce2b[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Mon Oct 8 21:37:35 2018 -0700
+
+    added new player loops
+
+[33mcommit be6d610e4e8340d89a99901e119de7a8717f5c57[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Mon Oct 8 20:40:01 2018 -0700
+
+    edited and updated sensitive harp song
+
+[33mcommit 4208b9b76e6d0ad162c6e14efefb07ccf482afca[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Oct 7 14:14:28 2018 -0700
+
+    Restored harp yaml
+
+[33mcommit 8217b12cdcf5824dbb206af84f637a52246335ce[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Oct 7 14:12:01 2018 -0700
+
+    Removed NPC gate
+
+[33mcommit c4257efa380b34ff68d477249a36cd2db9e100df[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Oct 3 15:12:53 2018 -0700
+
+    attempted to create new sensitive harp song, ran into error
+
+[33mcommit db2166f9197d98915cf3aa9b6fdbc9e34872267c[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Sep 28 10:28:24 2018 -0700
+
+    Maybe changes?
+
+[33mcommit ce3f76939aef607707cba616dbe8d8c476adfded[m
+Merge: ba916cb 2a5203d
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Sep 28 10:24:53 2018 -0700
+
+    added made camera and NPC move into poisition during jam
+
+[33mcommit ba916cb6eda6f9e8bb2a08f7d1859d402bcccb36[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Sep 28 10:19:49 2018 -0700
+
+    added made camera and NPC move into poisition during jam
+
+[33mcommit 2a5203dabc372273d0c8e5177269c27ab3bff493[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Sep 28 08:18:27 2018 -0700
+
+    Moved dialogue to overhead dialogue boxes
+
+[33mcommit b0e37dd2800183c845fb4be689163fdeacf504f8[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Sep 27 17:47:05 2018 -0700
+
+    Fixed starting song from song scene bug
+
+[33mcommit 79a60fc12a17df913edbcc540145576b4d23ab6a[m
+Merge: 390fb4c dd35100
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 26 08:09:34 2018 -0700
+
+    Merge branch 'jammageonly' of https://github.com/kinggryan/musician-rpg into jammageonly
+
+[33mcommit dd351008ef0d04b6bcb8fde117da42686e498761[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Tue Sep 25 15:26:52 2018 -0700
+
+    integrated jammagejam interface into overworld
+
+[33mcommit 390fb4ccbfa35d2baa6620fbd5f560fe7e0844e8[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 25 07:45:31 2018 -0700
+
+    Modified FOV of main and musical encounter cameras
+
+[33mcommit 8b7aef8ffb7ae2ff72135dc1536014d880a9053c[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Sep 24 07:54:20 2018 -0700
+
+    Re-enabled dialoge objects in game scene
+
+[33mcommit d3c4fcf2d60d1a6d376eec5f558bc09f31ae2cfb[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Sep 24 07:50:56 2018 -0700
+
+    Completed (not tested) repeating loop status effect
+
+[33mcommit 15a588035acb1ae15895ad31a220cb24ad287520[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Sep 24 07:41:11 2018 -0700
+
+    Created basic encounter effects structure
+
+[33mcommit 89a634370520a626ebc4797258596c98e465f2fe[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Sep 23 20:09:02 2018 -0700
+
+    Got rid of stamina stuff
+
+[33mcommit 3f7bbf862be524951188d113f2e5747ff26924a0[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Sep 23 20:06:55 2018 -0700
+
+    Cleanup: Removed stamina from RPGGameplayManager
+
+[33mcommit e5a12bbe8847f28225e9e7286fc38503849c3bb8[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Sep 23 20:03:37 2018 -0700
+
+    Removed gameplay options from rpg gameplay manager to clean it up
+
+[33mcommit da4671cbdd1cee35bb2cfd4206f48d94ae307176[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Sep 23 19:29:35 2018 -0700
+
+    Orthographic Projection
+
+[33mcommit 44ea21b18ed34583704f64b72830b1504ef02f92[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Sep 20 19:10:00 2018 -0700
+
+    UI Experimentation
+
+[33mcommit 9051d0aec1ba02d667ba8db10b562dc9a4dcec86[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Sep 20 15:41:52 2018 -0700
+
+    Player can enter and exit musical encounters
+
+[33mcommit cca0edf53cc2aef96bc49666fdb7496c6d6661c2[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 19 17:59:23 2018 -0700
+
+    Made it so you can transitionn into a song from dialogue
+
+[33mcommit 5d08ca10702c75a8c0c555514a84aa1192767caf[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 19 14:41:20 2018 -0700
+
+    Fixed ink compiler
+
+[33mcommit 404587e9f0021248fe3d27145645ab2837d3771a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 19 14:00:48 2018 -0700
+
+    Renamed some buttons in player controller
+
+[33mcommit 7afc427e9e48adeafdb1b7e1717e351c62f70f40[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 19 13:59:19 2018 -0700
+
+    Cleaned up dialogue system to use arrows/space/enter
+
+[33mcommit 62c9c87f38edbb429f16885b1257f169ef121e22[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 19 13:06:50 2018 -0700
+
+    Typing dialogue stuff
+
+[33mcommit a4b1e8928d8798130162c886f47e27f42fc884b0[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 19 11:07:57 2018 -0700
+
+    Added basic display of ink story
+
+[33mcommit b6581e5c8224fab76eb0c02a8cfe9f281affda34[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 18 20:17:39 2018 -0700
+
+    Imported Ink;  Started overworld scene
+
+[33mcommit 144d32345bad487a6d59abcb0998231a48977346[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Sep 17 11:48:08 2018 -0700
+
+    Repositioned gameplay elements slightly
+
+[33mcommit 455d9234b28d8e46f9556eef07b1e7ed7f96e61a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Sep 17 11:41:45 2018 -0700
+
+    Added 'perfect' feedback when player perfectly matches upper limit; target range shrinks over section
+
+[33mcommit d61f111d29944c3b79d8923bc379b7c83d76c4be[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Sep 14 14:12:24 2018 -0700
+
+    Added menu and free play scene
+
+[33mcommit a99baa5a4b5a718d32fede62fab5f59c8c6e226a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Sep 13 10:58:53 2018 -0700
+
+    Made each arrow have a unique color so as to make them easier to tell apart peripherally
+
+[33mcommit 51ade92a51753ea067eff925bba880302daa8bbd[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Sep 13 10:46:31 2018 -0700
+
+    Countoff is automatic
+
+[33mcommit 52dacb9d6b008f2c3ddb9c299e3ab722cdab242a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 12 18:03:05 2018 -0700
+
+    Some additional numerical tweaks/using 4 loops instead of 2
+
+[33mcommit ce24dcb39f2303e1e240de28f6cc969cb07ffe14[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 12 17:44:48 2018 -0700
+
+    Tweaked some numbers to improve gameplay
+
+[33mcommit 7e4dcfd22c4a8d40e242bf19dcce67454ea84680[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 12 17:40:04 2018 -0700
+
+    Jammage only initial commit
+
+[33mcommit 5f3b7e703e5fde48bdd37ec8b881e2a1217a2bc8[m[33m ([m[1;31morigin/loops_rpg[m[33m, [m[1;32mloops_rpg[m[33m)[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Sep 8 19:32:50 2018 -0700
+
+    BPM won't proceed if the rhythm is too iffy
+
+[33mcommit 7f48a1562925f3b00765561d821837f0d2479134[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Sep 8 19:10:58 2018 -0700
+
+    Changed how jammage bar is displayed
+
+[33mcommit ba432442483fac2680f0a92aa20651ea42898e46[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Sep 8 13:55:30 2018 -0700
+
+    Show jammage threshold with meter size
+
+[33mcommit e77bf858e0aa91b2e090f4aec082c3d6a9795ec6[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Sep 8 13:23:37 2018 -0700
+
+    Tutorial!
+
+[33mcommit e540cfa5ad19a840fa3c31559e89c9cc6b11139d[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Sep 7 11:03:16 2018 -0700
+
+    Made quarter note particle color better
+
+[33mcommit f1ae580d6d572d425cd0b4fbabf9401e7c777de7[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Sep 7 10:57:30 2018 -0700
+
+    Added particles that spawn on notes that you are matching with the npc
+
+[33mcommit c1e0f6fc39cd58f31025aeaf08e71d0c1f565c4a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Sep 6 14:37:39 2018 -0700
+
+    Fixed looping at different rates bug
+
+[33mcommit 2a32edc128a37657da584d5da85ed70814c4a5a2[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Sep 6 12:44:51 2018 -0700
+
+    Display vps/display rhythm bonus/display victory loss
+
+[33mcommit 61ef921b3c90c5ef33bb1b4ca685e8fd0daae2fc[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 5 15:25:00 2018 -0700
+
+    Made it so phrases only reset at the start of new sections; added section start stamina bonus
+
+[33mcommit 09cc1570dd0bcb7d6b6d385e34183b88f568f2de[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 5 10:51:21 2018 -0700
+
+    Quickly disabled npc gate/volume AI to test song with loops
+
+[33mcommit c8bdd460cc0ee3b0f33f7937d67075a7d323e7cd[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Sep 5 10:40:07 2018 -0700
+
+    Modified the jammage threshold to update at the start of hte next turn, rather than end of previous turn
+
+[33mcommit 56bbba8e0bc6f9f64bbc66c748bd3f84fea0abb9[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 20:26:23 2018 -0700
+
+    Added num beats per move parameter
+
+[33mcommit b3e545ae98729782866778d84ef122c8eb6b5b7f[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 18:12:48 2018 -0700
+
+    Display jammage and stamina numbers for player moves
+
+[33mcommit 31713bcdae094999e9f475778e4218bcbee34fc3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 15:58:08 2018 -0700
+
+    Added stamina recharge meter
+
+[33mcommit f1186ff31f35974c6a71fa3c55c792232d7c5575[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 14:56:01 2018 -0700
+
+    Added stamina meter
+
+[33mcommit 62c7c2695a2a8fd81165d93ec81b177ea47b6d7e[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 14:44:45 2018 -0700
+
+    Added animation for rhythm pulsing
+
+[33mcommit 832eb46ad1c0594dd6cf75e477e40729f10155f2[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 12:00:15 2018 -0700
+
+    Added beat display
+
+[33mcommit 6e7f0ce3c35779b78aceb04857212fe8c6334c78[m
+Merge: 5657c45 ec2a116
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 10:23:37 2018 -0700
+
+    Merge branch 'loops_rpg' of https://github.com/kinggryan/musician-rpg into loops_rpg
+
+[33mcommit 5657c456f5834935a5c34c223f18051a58a6e6e4[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Sep 4 10:08:27 2018 -0700
+
+    Added core gameplay functionality
+
+[33mcommit ec2a116e21514b39bf35c515ab7a4b02d5f4b100[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Mon Sep 3 10:50:00 2018 -0700
+
+    added jammage indicator
+
+[33mcommit 57e03ef75734496977d435626a9ebdb6fab6a1e7[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 29 08:00:32 2018 -0700
+
+    Added rpg gameplay manager notifications
+
+[33mcommit 043a08bbfecac0db32ba7afa7ef7a2306dc2d360[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Aug 27 15:58:54 2018 -0700
+
+    Scoring feedback
+
+[33mcommit 1e2dfcdebb995d34c3b6cca19e5171e794c1edf0[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Aug 27 14:56:44 2018 -0700
+
+    Added npc dialogue
+
+[33mcommit 2a1291db3d2738fdae04cd60363837b8ad526dc9[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Aug 27 14:36:43 2018 -0700
+
+    Added lead display using icons
+
+[33mcommit 3b9ecd7484a32921c45b276815f45fcd63fe54f3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Aug 27 13:36:06 2018 -0700
+
+    Added sound/gate displays to prototype scene
+
+[33mcommit 652c358314fdc13da10ef37c96ac014a3e4374e8[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Aug 27 11:36:51 2018 -0700
+
+    Added player to scene with prototype graphics
+
+[33mcommit 89eb987788341117198ec7313f7f0eb6a28e07c8[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Aug 26 16:30:34 2018 -0700
+
+    Win/Loss State
+
+[33mcommit d4d3ad92e2c83958f39db71d764acd57c9e7633a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Aug 26 14:04:23 2018 -0700
+
+    Fixed npc volume filter
+
+[33mcommit 7a968287e0f1f5502ecf48b9c4498faf47e04217[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Aug 26 13:57:14 2018 -0700
+
+    Always display who is leading
+
+[33mcommit 14db5296024988821a4c5a008c99aba07dc95732[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Aug 24 16:52:38 2018 -0700
+
+    Added in NPC with animation
+
+[33mcommit a6d7f91a9511993d0c580fe7a9bd3d2d6a7ea4e9[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Aug 24 13:28:00 2018 -0700
+
+    Fixed volume/gate ordering in npc
+
+[33mcommit f93c339e450fd23afaf581c36d30e7832e51add5[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 23 16:54:12 2018 -0700
+
+    Enabled monophonic filter for player
+
+[33mcommit 65bd13be9646a063f3c8819323bc241625e556a5[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 23 16:15:11 2018 -0700
+
+    Tweaks to visuals scene
+
+[33mcommit 48d9e8099e7b41c151dfc45c0c06ad35efcb52ff[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 23 16:09:58 2018 -0700
+
+    Visual design scene changes; monophonic tweaks
+
+[33mcommit d99764506fac66e32f17687ec55dc840c37b8c5c[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 23 14:01:47 2018 -0700
+
+    Gate filter fixed; monophonic filter WIP
+
+[33mcommit 5702d915909b9ba04893bd71c2e6429f970bf59f[m
+Merge: 2f47543 eb99d99
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 23 10:38:09 2018 -0700
+
+    Merge branch 'loops_rpg' of https://github.com/kinggryan/musician-rpg into loops_rpg
+
+[33mcommit 2f475431249ce05a1053d9f810f050938b89a846[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 23 10:37:12 2018 -0700
+
+    Added player to visuals test scene
+
+[33mcommit eb99d99bd585d79ce2bc1dfd4c26df0af6e2a999[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Aug 22 21:26:17 2018 -0700
+
+    updated scoring algorithm + created new song + updated loop metadata
+
+[33mcommit 72dd3705fd74991520cbc59ebf2bdc4c71acb903[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Aug 22 18:40:18 2018 -0700
+
+    working on scorekeeper
+
+[33mcommit 49dabeb324047c9ebbbdbd216ae04027f132c3ee[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 17:44:39 2018 -0700
+
+    Fixed unity crash'
+
+[33mcommit 903cf1768f486b0615dc2be51f2bbe4c0451dc74[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 17:30:12 2018 -0700
+
+    Fixed npc yaml file
+
+[33mcommit 32cd420d16c9d9be9e01550e4a29b289a3ae53ad[m
+Merge: a2e5cb5 d1466f1
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Aug 22 17:23:17 2018 -0700
+
+    Merge branch 'loops_rpg' of https://github.com/kinggryan/musician-rpg into loops_rpg
+
+[33mcommit a2e5cb5398e4d8d747ad0ad958b8c9799733677d[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Aug 22 17:23:11 2018 -0700
+
+    added scoring algorithm and started work on scoreBar display
+
+[33mcommit d1466f1aaad9c1f34bff601f29716533d5f4a685[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 17:16:10 2018 -0700
+
+    Player Loop end works
+
+[33mcommit 25f7b5a8d8312f9162e684d73322e1b929555fd3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 17:07:36 2018 -0700
+
+    Song ending progress
+
+[33mcommit 535a175c229e95ef31486f7082787480b28d643b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 16:49:49 2018 -0700
+
+    Song ends in song structure manager; NPC can play loops specific in song file
+
+[33mcommit 97cbe253487a64d654979ef03c92a7195400cf1e[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 15:24:58 2018 -0700
+
+    Added utility methods for scorekeeper and audio loops
+
+[33mcommit a1789300c1d912528bc1fb1d429a05181ec4b144[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 14:57:27 2018 -0700
+
+    Song Endings WIP - song files can specificy player/npc loops optionally
+
+[33mcommit df41e8dda7f8c567fca02c46303c826f1dce97e4[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 13:48:55 2018 -0700
+
+    Scorekeeper has leading/following property
+
+[33mcommit babe1ddd1303006adffdc6493f78588d704845df[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 13:45:45 2018 -0700
+
+    Added scorekeeper object. Scoring algorithm not implemented
+
+[33mcommit ad8119f9df465db14232fa7da4e2d097a11ecc40[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 12:56:47 2018 -0700
+
+    Fixed compilation errors due to reorganization
+
+[33mcommit 65b23906b62f9e51f0d459aeb439834ac8e19443[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 12:53:30 2018 -0700
+
+    Reorganized and deleted things
+
+[33mcommit c90ed75806e54fb5d15b19bcfce4b12111a009c3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 12:17:37 2018 -0700
+
+    Fixed instruments for different characters
+
+[33mcommit 3c8edccb519b43fd6a77af7b2dc8fd15bd175474[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 11:23:52 2018 -0700
+
+    Made some tweaks; tested leading controller with emotion tags
+
+[33mcommit f01bbd632e607bc749b17ad335162a1e69023a3f[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 10:13:32 2018 -0700
+
+    Added leading AI and state transitions
+
+[33mcommit 2d044b53af85a0c7209ff5bfb671907d1f099cde[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 22 10:06:06 2018 -0700
+
+    Added logic to switch between leading and following loop deciders
+
+[33mcommit f2710f00b3445d634921c45d99fc5cedcb5d66aa[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 21:48:17 2018 -0700
+
+    Placeholder sprite scene WIP
+
+[33mcommit c6087a5b1c4731ad96c7bd9021fb37fe79ceb530[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 19:18:10 2018 -0700
+
+    AI Changes loops to match player
+
+[33mcommit 466395ab29e4452dc74c52a3953ffa2d5949d32b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 17:22:27 2018 -0700
+
+    Added new rhythm string class
+
+[33mcommit d12bce8e6a4fc60524f9570f6e37ce6af59b9309[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 15:04:59 2018 -0700
+
+    Player keeps track of rhythm string that has been played
+
+[33mcommit e961e712f8668d56e5e9885ea4cae9cd9cef905d[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 13:36:22 2018 -0700
+
+    Added rhythm strings for the Comp_Klezmer loops
+
+[33mcommit 2687026a35b0ddadafbfaf76bbfd3cc3cc189fef[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 13:23:54 2018 -0700
+
+    Fixed transposition filter bug
+
+[33mcommit 38b5058771b720f68c6d0dc1ee8f03dd1324d02b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 13:18:13 2018 -0700
+
+    Transpotiion filter uses a queue to better handle transpositions
+
+[33mcommit 2ac246c7bee7197b0ebb34a3250600c8da46159b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 13:12:58 2018 -0700
+
+    Fixing some bugs
+
+[33mcommit 06be67c79ed7811ec5f2a4f712fa4e95ef6d32e8[m
+Merge: 7ca2548 e0730e8
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Tue Aug 21 12:17:36 2018 -0700
+
+    Merge branch 'loops_rpg' of https://github.com/kinggryan/musician-rpg into loops_rpg
+
+[33mcommit 7ca2548ef6288c85de911a63dab695e3ade27b75[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Tue Aug 21 12:04:18 2018 -0700
+
+    added new loops and updated and textloops yaml
+
+[33mcommit e0730e8cb79fbabf80ec896a86cbb107b6f14b4f[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 21 11:53:53 2018 -0700
+
+    HACK?: Fixed chord transition on correct beat
+
+[33mcommit 98bc25c7da27263bd83452bbc6d919c0ffc9c65a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Aug 20 17:09:08 2018 -0700
+
+    Added loop decider class. WIP connecting with AI
+
+[33mcommit 15f9727e8bea06c169edbdafb44d0a01a5acc705[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Aug 20 11:12:45 2018 -0700
+
+    Added song update listener interface; AI implements it
+
+[33mcommit 312566de25669a713c776636feaefc45338ac391[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Aug 19 15:33:39 2018 -0700
+
+    Song files can now omit looops and instead just specify beat length
+
+[33mcommit c198acefd746f0af987a7498d483f6fe411d4d32[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Aug 19 14:51:38 2018 -0700
+
+    Added ability to load loops from loop files
+
+[33mcommit 8a69c7f073a7447cc0bb3bdc5626177b9c960a17[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Aug 17 13:53:19 2018 -0700
+
+    Fixed gate initialization for player controller
+
+[33mcommit 04c6e383e616eb56a8a4df62430c55c719bc8371[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Aug 17 13:48:01 2018 -0700
+
+    Swapped order of volume and gate filters to fix player midi streamer
+
+[33mcommit bd0a289912350ab40526d39d4854b2c98a2fafa4[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Aug 17 13:43:36 2018 -0700
+
+    Fixed sustained note problem when switching files; can now switch midi files with player
+
+[33mcommit 145884a191a31b5f881dab8be621b1416a1361af[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Aug 17 11:59:20 2018 -0700
+
+    Added mildly hacky fix for multiinstrumental transpotiion filter
+
+[33mcommit 9d46b1493438f07efb7e73586af6b195936e15e1[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 17:18:29 2018 -0700
+
+    Fixed issue with note off events in transposition filter
+
+[33mcommit 4f6845f98a9bae02eb1cb403b68af72b5cf2ddd5[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 17:05:29 2018 -0700
+
+    MidiSongStructureManager now connected to transposition filter
+
+[33mcommit 71eafe636d408c122487d406164316b2140adc3a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 14:39:52 2018 -0700
+
+    Midi Song Player can add filters to main midi streamer group
+
+[33mcommit d0fb781c703941b973cd216f2bb6e6352a71befd[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 14:36:10 2018 -0700
+
+    Transpose filter can queue up transposition rules at given sample times
+
+[33mcommit 03300a53127188ec3f4c95a33768a4444c31b4fb[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 14:10:54 2018 -0700
+
+    Added transpositions rules for all relative chords
+
+[33mcommit 2e3e62644cb6136e1b24a6db01cc1d5e909be670[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 14:03:57 2018 -0700
+
+    Added transposition rules
+
+[33mcommit 4a0686318c0581a1875b094cc16615b1f6cf2232[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 13:51:31 2018 -0700
+
+    Added relative chords to Chord enum
+
+[33mcommit e28cdae02a0d59639f8437be7917c74049fe5578[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 13:18:23 2018 -0700
+
+    Moving Transposition Logic Around
+
+[33mcommit 7b5255d632e867c105994d203112e1c00ea45d9e[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Aug 16 11:34:12 2018 -0700
+
+    Song structure separated from all audio logic
+
+[33mcommit f02c5e9a3feb06170c6925f01799fb8ad86d30b0[m[33m ([m[1;31morigin/dynamic_midi[m[33m)[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 15 17:40:10 2018 -0700
+
+    Multiple streamers can now be added to the midi system
+
+[33mcommit caf78e9d02f5dd4d41107ea39d6eb721747c3406[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 15 15:47:25 2018 -0700
+
+    Added new midi streamer superclass and midistreamergroup class
+
+[33mcommit 2957fd336d15e05ae34de9bd7c8b370757de5d28[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 15 14:02:07 2018 -0700
+
+    Midi System Rearchitecture WIP - Midi Player holds its own filters
+
+[33mcommit 9cd83ede7c2082115648a0569d3d65505bb746a0[m
+Merge: 6d94047 ea9bb1c
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 15 10:33:03 2018 -0700
+
+    Merge branch 'loops_rpg' into dynamic_midi
+
+[33mcommit 6d9404792856a77cd18310b6d347bf3792562015[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Tue Aug 14 11:01:21 2018 -0700
+
+    Looping now works
+
+[33mcommit c159a2cf5617c1138b09e206b18eb2bb84e87013[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Aug 12 14:08:38 2018 -0700
+
+    Changing of midi during playback works; architecturally pretty loose
+
+[33mcommit f45393f1a64fdabd3bde871e03277cab9060544a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Aug 12 12:10:27 2018 -0700
+
+    Got more midi working
+
+[33mcommit ea9bb1cecbccce341c74e745a8192bfa11b6d2c0[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Aug 11 20:47:00 2018 -0700
+
+    added velo gate ai and feedback when player is leading
+
+[33mcommit 75043f39be78dc7b10d3c84a236d063dcb0bed57[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Aug 10 13:09:52 2018 -0700
+
+    added ai for volume control
+
+[33mcommit 4213d78ef27c94fc5057e71391fa8232f20b7634[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Aug 10 08:52:30 2018 -0700
+
+    added midi transpose system
+
+[33mcommit 25d2a1799155fb22859ce688a3310f9bb1cfee0f[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Aug 8 21:56:10 2018 -0700
+
+    Normal playback now works with MidiStreamer class
+
+[33mcommit 86c176042c660e7f1da690c3a218212711fce42e[m
+Author: Ryan King <kinggryan@gmail.com>
+Date:   Sun Aug 5 21:45:23 2018 -0700
+
+    Dynamic Midi WIp
+
+[33mcommit 907d7530ee363c7b86e7c9c236bba419298c3b05[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Tue Jul 31 16:54:11 2018 -0700
+
+    added key controls and UI for toybox functions
+
+[33mcommit b4cfbb46afa2e4a784854a65fee74fbc985b1a06[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 27 13:30:12 2018 -0700
+
+    Added rock paper scissors prototype
+
+[33mcommit 79c6296957ead91c40b2657fc40619071d7e85b6[m[33m ([m[1;32mmidi[m[33m)[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Jul 23 22:28:13 2018 -0700
+
+    Created new musical roles RPG style prototype
+
+[33mcommit e0c1d83f161e116bf38285825aa8fe2cb9ec6677[m
+Merge: 843d51b 8b727c4
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Jul 23 21:07:25 2018 -0700
+
+    Merge branch 'midi' of https://github.com/kinggryan/musician-rpg into midi
+
+[33mcommit 8b727c43d9883c5dfe91d6aa1216dddfd1ab11a4[m[33m ([m[1;31morigin/midi[m[33m)[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Mon Jul 23 12:51:50 2018 -0700
+
+    updated gm ban/sounds
+
+[33mcommit 843d51b9675cd242ece3fde624c80bd38e1344ba[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Jul 23 10:04:27 2018 -0700
+
+    Messing around with various instruments for the player
+
+[33mcommit 3f52c924bf4f595bc4294ef22a07df56306762ee[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Jul 23 09:51:19 2018 -0700
+
+    Added increased tempo of midi track so buffer overflow doesn't happen
+
+[33mcommit 7be6833b0d2ad08aa44fb84600073e3aa7555e15[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Jul 23 09:26:37 2018 -0700
+
+    Got filters working with new song
+
+[33mcommit bf690cd3fea0d2639c25430755f8845d97901013[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Jul 21 13:50:59 2018 -0700
+
+    added new midi song Medieval_01.mid
+
+[33mcommit 63488df302258485accd99e1139429c9c3d1cec3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 16:58:14 2018 -0700
+
+    Added different voice controls
+
+[33mcommit 896325d2380a366f4d70335a7735eabb8b22fa35[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 16:04:16 2018 -0700
+
+    Added a gate arrow
+
+[33mcommit 2b27a196fc88e42c2aecd467b060bddb12cb77da[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 15:54:52 2018 -0700
+
+    Increased volume filter multiplier - maybe it is doing these tools properly now?
+
+[33mcommit 13717c3369feab263559a9009c94b35e7341a790[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 15:32:42 2018 -0700
+
+    thumping musical overlay
+
+[33mcommit 63503ca496354a090fb58d1b42dfe3e9259848c2[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 15:19:31 2018 -0700
+
+    Added display for volume filter
+
+[33mcommit 0b4875630a36922805a795d2e8546a1b4f330d6e[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 14:12:07 2018 -0700
+
+    Added volume filter
+
+[33mcommit d211fdac81adc226d7e057d81c0cbefed9594e3d[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 13:02:30 2018 -0700
+
+    Display countoff when player does countoff
+
+[33mcommit 065102c493be1457a20607764d9b65f50f4111dc[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 20 12:51:41 2018 -0700
+
+    Added NPC to midi game scene
+
+[33mcommit 61c64328ce7880f77e2777cb9652cdda9c315608[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 19 18:04:55 2018 -0700
+
+    Changed pulse thing to 180 bpm
+
+[33mcommit f6e861a38e0b1b1f2bbaf2ae7a7da085effc476b[m
+Merge: 3f2528e b58f130
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 19 18:02:28 2018 -0700
+
+    Merge branch 'midi' of https://github.com/kinggryan/musician-rpg into midi
+
+[33mcommit 3f2528e2c024ae12b08b5649f482c43c91eec3e3[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 19 18:01:32 2018 -0700
+
+    Tempo via spacebar
+
+[33mcommit b58f1308420f35f89594f896cb1477d267d7713f[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Thu Jul 19 18:00:53 2018 -0700
+
+    updated tempo and made gate only on one channel
+
+[33mcommit 2c60b9b50e39dcc9f75b27674df608ff96c3b110[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 19 17:41:08 2018 -0700
+
+    Fixed gate filter
+
+[33mcommit 97ab96bfc79decb3535394732cf0db9d8930e2fa[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Thu Jul 19 17:08:39 2018 -0700
+
+    added megaman midi
+
+[33mcommit 6bfbbb19a11dabdbe76e7babca9cb31fc58b97e8[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 19 16:03:45 2018 -0700
+
+    Adjust playrate using mouse
+
+[33mcommit d07d18622b99358def0ce67b839d906d8f4e2fc9[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Thu Jul 19 15:19:40 2018 -0700
+
+    added velocity gate + set up midi player
+
+[33mcommit 38c62505655c65739bad5056b7493a3a49725018[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Wed Jul 18 15:12:56 2018 -0700
+
+    Added song progress bar
+
+[33mcommit e34a308cada79134582b4fa1309609966a2ee09d[m
+Merge: 7c0b31c 171b62b
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 17:52:59 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit 7c0b31ca655e4e2d9143185829250cb151ef8dbe[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 17:52:54 2018 -0700
+
+    audio ersources name fixes
+
+[33mcommit 171b62b8154ecac9d92e04c2955821d7c3bd2d6d[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 17:52:42 2018 -0700
+
+    Removed some useless logging
+
+[33mcommit c00dae2db0cb97c325ee3d4e99fe3f24e2f598a6[m
+Merge: cfc3375 26ec850
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 17:40:41 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit cfc3375aa1746712c47c8934753fd05312ad6639[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 17:36:46 2018 -0700
+
+    Countoff display fixes
+
+[33mcommit 26ec8508a5716ead033ed69dbf30b44927c6e8ec[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 17:33:35 2018 -0700
+
+    update flute loops again
+
+[33mcommit aafe491951645a5dc34ab7fe550236e0ec4275e6[m
+Merge: 6dae544 624a16a
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 16:53:32 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit 6dae54405bae55d078f730c8db74366da3e083c4[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 16:53:25 2018 -0700
+
+    updated fluteLoops
+
+[33mcommit 624a16af849b833d1c00c35d983da17baade25b4[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 16:37:32 2018 -0700
+
+    Countoff when going to next section
+
+[33mcommit fca21ea1af6dccd67aacd1c24266f9ff0d3d2558[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 15:26:46 2018 -0700
+
+    Refactored song player to keep song structure data after loading
+
+[33mcommit acc46b0dd190ac86f76a10dc1ab587a579ecc77a[m
+Merge: dc8d408 df063f8
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 14:39:28 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit dc8d408786eb0e89484bfbcb33e07bbe109054dd[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 14:39:09 2018 -0700
+
+    added mixer outputs for player and NPC
+
+[33mcommit df063f84c1ee9200dcecfbdf2904ed9562f48bde[m
+Merge: 54409df b3c1e64
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 14:37:47 2018 -0700
+
+    Song file reader now can do guitar and flutes
+
+[33mcommit 54409df549c95ba1412be09fedde8a1c4322ac9f[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 14:26:54 2018 -0700
+
+    Got rid of numbeats property in song files
+
+[33mcommit b3c1e6430bd2ad7cee6cc9d17dc678bb08408866[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 14:23:32 2018 -0700
+
+    added flute and guitar loops
+
+[33mcommit fdc4b8ddee4bf418aff14f2da82796f9b62c53a6[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 14:17:38 2018 -0700
+
+    Made song shorter
+
+[33mcommit b5f327d6e2bfc2612cb5c489a3c32721af4a6178[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 14:16:17 2018 -0700
+
+    Song File reader now working
+
+[33mcommit c3c5e0d8bdf116194c8958235ec2dca1bebd4302[m
+Merge: 8534f68 d73dd09
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Fri Jul 13 12:33:59 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit d73dd0935735f8754e4cf2fabcf65696bd9338c8[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 12:32:27 2018 -0700
+
+    Changed loop player a bit
+
+[33mcommit 68c8c115737fb93ee555fa39bc15dc803003dfbb[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 11:05:21 2018 -0700
+
+    Added but disabled UI stuff
+
+[33mcommit abe493655ef4690aceb170116ef482151fde724a[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 13 10:49:41 2018 -0700
+
+    Player can now record loops
+
+[33mcommit 8534f68878917e3588ecb215906db69bed53cde3[m
+Merge: 807e4ec 66adfee
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Wed Jul 11 11:11:20 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit 9d00f3e37bdff98df5fcc222a311db949f9e66bc[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 17:23:05 2018 -0700
+
+    Adjusted latter drum pattern?
+
+[33mcommit 66adfeedd6ebf5ea7e9e4dc889ad39cbd626fc04[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 17:15:12 2018 -0700
+
+    Added blend tree to show groove without the bar
+
+[33mcommit fa0bff60f65e635583ff3cece28f950fbcb8d009[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 16:47:34 2018 -0700
+
+    Modified sample song
+
+[33mcommit fcf7d79c48b8ef272a878237b0c4dd63fbe227db[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 16:32:20 2018 -0700
+
+    Added song sections so as to make things slightly easier to make long songs
+
+[33mcommit 443d170be1280bfe9301572999e7ccdf4c2d0fad[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 12:07:38 2018 -0700
+
+    NPC now animates beautifully when the song starts
+
+[33mcommit eec5d7bf3d326cab1bead4164021ed4b5ba09f8e[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 11:58:31 2018 -0700
+
+    Wow added some PROGRAMMER art
+
+[33mcommit 84ea848a7abf50cda91e035e6a82fe6e230fd2db[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 11:39:18 2018 -0700
+
+    Added song countoff visuals, no audio
+
+[33mcommit 6a20848ab183417790043d73d0167372be6df330[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 10:01:38 2018 -0700
+
+    Added lerp to comparison algorithm display
+
+[33mcommit 09970c11659f50c139c3428c26be29b754858649[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Fri Jul 6 09:59:18 2018 -0700
+
+    Basic comparison algorithm working
+
+[33mcommit 807e4ec03438188dd14c7b594f598eface9b9775[m
+Merge: 78d8e38 b9d7688
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Thu Jul 5 13:40:13 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit b9d76882afed496cefa01486af9aff70d31ee888[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 5 13:25:44 2018 -0700
+
+    Added Derbakki as loops
+
+[33mcommit 78d8e38d75f4cc8f4709db88c9f042a6979bca10[m
+Merge: ac1d51c c5ade77
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Thu Jul 5 13:01:09 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit ac1d51ccc695edbf98fde6b2268f456ee83c4937[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Thu Jul 5 13:00:55 2018 -0700
+
+    commiting to merge
+
+[33mcommit c5ade776db2b166f166e023bfba3e6745d2bbcc5[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 5 12:52:48 2018 -0700
+
+    Added highlighting and playback animations; first selected track visuals are glitched
+
+[33mcommit d6846201f6b80eaf924401172a7f001f1a911786[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 5 11:56:24 2018 -0700
+
+    Added fourth player loop
+
+[33mcommit 2c770a755afeb578f324376e9bff4669c7fbab02[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 5 11:35:20 2018 -0700
+
+    Fixed num repeats for final song phrase bug
+
+[33mcommit 9766879ceb5fbf453a7b99a50f58ca6a93b11524[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 5 11:32:46 2018 -0700
+
+    Modified song player code to have an accurate current and next player loop
+
+[33mcommit c76da747a308d73f4f4dbd54ddcc3ea3321235f6[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 5 11:00:51 2018 -0700
+
+    Song Player now plays correct chord for player loops
+
+[33mcommit fab7dbb4553051b031101d0eeb0b1672efca9837[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Thu Jul 5 10:32:21 2018 -0700
+
+    Imported Oud Loops; Got chord working for song player
+
+[33mcommit 1e7428fb8d751cda11b5c4aeb134d3c6ef5abe73[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Mon Jul 2 08:08:06 2018 -0700
+
+    Added debug display for which track is being played
+
+[33mcommit dbbfd20604ccc99f79a7ef31a0a3cbf8bbce5e41[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 23 18:43:10 2018 -0700
+
+    Song phrases now can have a duration in number of repeats
+
+[33mcommit 97bf7dd44d560e6081ee566c6f5bb17030f929dd[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 23 18:30:23 2018 -0700
+
+    Player can now play loops; player loops repeat indefinitely until changed
+
+[33mcommit 37c4bc8f8e68cfd45937c9edf88b9a446e1d624b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sun Jun 17 17:31:44 2018 -0700
+
+    Song can now be looped
+
+[33mcommit f7dab4d2ae3401dff8825b3d523fa8785786d95b[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 17:45:03 2018 -0700
+
+    Thing
+
+[33mcommit 7e0f3fe079985b0c90b1fb096e77d75c57b13e51[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 17:43:41 2018 -0700
+
+    Song phrases
+
+[33mcommit b0c02c4374858ab8e551917bc4c6abf6188e287e[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 17:17:04 2018 -0700
+
+    Loops start playing at end of current loop
+
+[33mcommit 4b46a42cd5d463145e6708241cbdcc9fa2800ab7[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Jun 16 17:07:30 2018 -0700
+
+    setup scene
+
+[33mcommit 778394d75d96f276283696a252a30063df0f27e1[m
+Merge: d25c243 293368d
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Jun 16 17:01:04 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit d25c2434aa0b29290799f06b842a88c6f7a46314[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Jun 16 16:59:53 2018 -0700
+
+    setting stuff up
+
+[33mcommit 293368dfb2798016fe8f6c85d3bbd36afacbb5ba[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 16:54:18 2018 -0700
+
+    Start song on start
+
+[33mcommit d1c57e493eed19e3930447bf16f555fc190bdf44[m
+Merge: c0ee6be f862e50
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Jun 16 16:50:30 2018 -0700
+
+    Merge branch 'develop' of https://github.com/kinggryan/musician-rpg into develop
+
+[33mcommit c0ee6be2038e060b0926e1dc59af38c337ebf89f[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Jun 16 16:50:27 2018 -0700
+
+    sound event and audio loop
+
+[33mcommit f862e505560aee4cbcb971630cbc703fe7edf68f[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 16:46:31 2018 -0700
+
+    Song player has song metrics
+
+[33mcommit c8c862f687f134d8eae2a7896c8870339a437d21[m
+Author: traviswhendrix <traviswhendrix@gmail.com>
+Date:   Sat Jun 16 16:31:04 2018 -0700
+
+    added SoundEvent class
+
+[33mcommit 1ee69bf89ff6cce3deb9382578043bc4b78cba8b[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 16:23:26 2018 -0700
+
+    Renamed scenes and scripts folders
+
+[33mcommit 596974f0193eb58955986fbe940e53fd79af9267[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 16:17:51 2018 -0700
+
+    Something
+
+[33mcommit 8c518753b7605006922cf21f7f351875a6056a1e[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 16:13:26 2018 -0700
+
+    Random starts of scripts
+
+[33mcommit 8f63cde6b6ac5dae7a6f451eaaeed27670958b25[m
+Author: Ryan King <ryan@helloworldeng.com>
+Date:   Sat Jun 16 16:04:40 2018 -0700
+
+    Initial Commit
