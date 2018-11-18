@@ -8,6 +8,7 @@ public class Move {
 	public int emo;
 	public int power;
 	public int Pp;
+	public string loopName;
 }
 [System.Serializable]
 public class MoveSet {

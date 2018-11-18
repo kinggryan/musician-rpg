@@ -35,7 +35,6 @@ public class MusicalEncounterManager: MonoBehaviour {
 	public EncounterParticleController particleController;
 	// TODO: In our current configuration, there should really only be one canvas
 	public Canvas[] jamCanvas;
-
 	private MIDISongPlayer songPlayer;
 	private MusicalEncounterInfo currentEncounterInfo;
 	
@@ -95,6 +94,6 @@ public class MusicalEncounterManager: MonoBehaviour {
 		playerMidiController.StartSongWithBPM(bpm);
 
 		// TODO: Don't turn this on if it's just practice mode
-		particleController.StartSong();
+		//particleController.StartSong();
 	}
 }

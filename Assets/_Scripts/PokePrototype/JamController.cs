@@ -16,6 +16,9 @@ public class JamController : MonoBehaviour {
 	public Text turnDisplay;
 	public Text emoDisplay;
 	public Text dialogueDisplay;
+	public MusicalEncounterManager musicalEncounterManager;
+	public PlayerCountoffDisplay countoffDisplay;
+	public string songFileName;
 	enum Turn {Player,NPC};
 	Turn turn;
 	
@@ -42,6 +45,9 @@ public class JamController : MonoBehaviour {
 			player.isPlayerTurn = false;
 			ai.MakeMove();		
 		}
+	}
+	void Start(){
+		musicalEncounterManager.StartedMusicalEncounter(songFileName, countoffDisplay);
 	}
 	public void UpdateScore(){
 		switch(turn) {

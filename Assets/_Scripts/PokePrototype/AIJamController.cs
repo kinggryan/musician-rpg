@@ -6,13 +6,16 @@ using UnityEngine.UI;
 public class AIJamController : MonoBehaviour {
 
 	private CharacterJamController characterJamController;
-	public JamController jamController;
+	private JamController jamController;
 	public Text currentMoveDisplay;
 	public Text dialogueText;
+	private AIMIDIController aiMidiController;
 
 	// Use this for initialization
 	void Awake () {
 		characterJamController = GetComponent<CharacterJamController>();
+		jamController = Object.FindObjectOfType<JamController>();
+		aiMidiController = Object.FindObjectOfType<AIMIDIController>();
 	}
 
 	public void MakeMove(){
@@ -26,11 +29,13 @@ public class AIJamController : MonoBehaviour {
 
 	void PickMove(){
 		int move = Random.Range(0,characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves.Length + 1);
-		if (move < characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves.Length){
+		Move[] moveSet = characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves;
+		if (move < moveSet.Length){
 			Debug.Log("AI Selecting Move");
-			if(characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves[move].Pp > 0){
+			if(moveSet[move].Pp > 0){
 				characterJamController.SelectMove(move);
-				currentMoveDisplay.text = characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves[move].name;
+				currentMoveDisplay.text = moveSet[move].name;
+				aiMidiController.SetCurrentLoopWithName(moveSet[move].loopName);
 				dialogueText.text = "NPC used " + characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves[move].name + "!";
 			}else{
 				Debug.Log("AI repicking move cuz out of PP");
@@ -38,8 +43,8 @@ public class AIJamController : MonoBehaviour {
 			}
 		}else{
 			Debug.Log("AI Changing Moveset");
-			int moveSet = Random.Range(0,characterJamController.moveSets.moveSets.Length - 1);
-			characterJamController.ChangeMoveSet(moveSet);
+			int newMoveSet = Random.Range(0,characterJamController.moveSets.moveSets.Length - 1);
+			characterJamController.ChangeMoveSet(newMoveSet);
 			dialogueText.text = "NPC changed styles!";
 		}
 	}

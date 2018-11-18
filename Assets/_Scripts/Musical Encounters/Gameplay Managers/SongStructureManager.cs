@@ -63,6 +63,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 	//-- Public functions
 
 	public void LoadSong(string songFilename) {
+		Debug.Log("Lodeing song " + songFilename);
 		this.songFilename = songFilename;
 		songSections = SongFileReader.ReadSongFile(songFilename);
 	}

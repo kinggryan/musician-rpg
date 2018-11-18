@@ -10,11 +10,12 @@ public class PlayerJamMenu : MonoBehaviour {
 	public GameObject styleButton;
 	public bool isPlayerTurn = false;
 	public Text dialogueText;
+	public PlayerMidiController playerMidiController;
 
 	private Move[] moveSet;
 	public CharacterJamController player;
 	private int rowHeight = 32;
-	private int menuIndex = 0;
+	public int menuIndex = 0;
 	private GameObject menuCursor;
 	enum List {MoveList,StyleList};
 	private List list;
@@ -45,13 +46,16 @@ public class PlayerJamMenu : MonoBehaviour {
 	}
 
 	void OnSelect(){
+		
 		if(list == List.MoveList){
 			if(menuIndex == moveSet.Length){
 				PopulateStyleList();
 			}else{
-				if(player.moveSets.moveSets[player.currentMoveSet].moves[menuIndex].Pp > 0){
+				Move currentMove = player.moveSets.moveSets[player.currentMoveSet].moves[menuIndex];
+				if(currentMove.Pp > 0){
 					player.SelectMove(menuIndex);
-					dialogueText.text = "You used " + player.moveSets.moveSets[player.currentMoveSet].moves[menuIndex].name + "!";
+					playerMidiController.SetCurrentMidiFileWithName(currentMove.loopName);
+					dialogueText.text = "You used " + currentMove.name + "!";
 					UpdateMenuValues();
 				}else{
 					dialogueText.text = "Out of PP!";
@@ -122,6 +126,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	void UpdateMenuValues(){
 		int i = 0;
 		foreach(Transform child in transform){
+			if(i < player.moveSets.moveSets[player.currentMoveSet].moves.Length && child.gameObject.tag == "menuRow"){
 			var move = player.moveSets.moveSets[player.currentMoveSet].moves[i];
 			var menuRow = child.gameObject.GetComponent<JamMenuRow>();
 			menuRow.rowItems[0].text = move.name;
@@ -129,6 +134,7 @@ public class PlayerJamMenu : MonoBehaviour {
 			menuRow.rowItems[2].text = move.emo.ToString();
 			menuRow.rowItems[3].text = move.Pp.ToString();
 			i++;
+			}
 		}
 	}
 

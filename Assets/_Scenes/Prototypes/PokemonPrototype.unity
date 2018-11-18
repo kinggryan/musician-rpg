@@ -530,6 +530,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &495279599 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114818015279635062, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2066943366}
+  m_Script: {fileID: 11500000, guid: 5be8765d5b2254a2e8cfafdeaa5c6e15, type: 3}
 --- !u!1 &588061679
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,9 +749,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda14ab7a218fe14d943e6bc92b22098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSets: {fileID: 0}
-  characterJamController: {fileID: 0}
-  jamController: {fileID: 0}
 --- !u!114 &825439265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,6 +767,7 @@ MonoBehaviour:
     emo: 0
     power: 0
     Pp: 0
+    loopName: 
 --- !u!114 &825439266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,30 +786,36 @@ MonoBehaviour:
       emo: 0
       power: 4
       Pp: 1
+      loopName: SensitiveFlute_01
     - name: Energetic Rock
       emo: 5
       power: 2
       Pp: 3
+      loopName: SensitiveFlute_04
   - name: Folk
     moves:
     - name: Sentimental Folk
       emo: 2
       power: 4
       Pp: 1
+      loopName: SensitiveFlute_02
     - name: Sad Folk
       emo: 3
       power: 2
       Pp: 3
+      loopName: SensitiveFlute_03
   - name: Jazz
     moves:
     - name: Happy Swing
       emo: 0
       power: 4
       Pp: 1
+      loopName: 
     - name: Sentimental Jazz
       emo: 2
       power: 2
       Pp: 3
+      loopName: 
 --- !u!4 &825439267
 Transform:
   m_ObjectHideFlags: 0
@@ -1174,6 +1184,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 73}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1423210428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114812546603149670, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2066943366}
+  m_Script: {fileID: 11500000, guid: 9b63532504d114cf38fb4debae54586e, type: 3}
+--- !u!114 &1423210440 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114204891874136292, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2066943366}
+  m_Script: {fileID: 11500000, guid: ae2c8c5db22a44dcab296cdc3298f8cd, type: 3}
 --- !u!1 &1692184956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,7 +1250,9 @@ MonoBehaviour:
     type: 2}
   isPlayerTurn: 0
   dialogueText: {fileID: 1412358649}
+  playerMidiController: {fileID: 1423210440}
   player: {fileID: 825439265}
+  menuIndex: 0
 --- !u!222 &1692184960
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1428,6 +1452,7 @@ MonoBehaviour:
     emo: 0
     power: 0
     Pp: 0
+    loopName: 
   activeEmo: 0
   score: 0
   hp: 13
@@ -1444,6 +1469,9 @@ MonoBehaviour:
   turnDisplay: {fileID: 588061681}
   emoDisplay: {fileID: 621401897}
   dialogueDisplay: {fileID: 1412358649}
+  musicalEncounterManager: {fileID: 1423210428}
+  countoffDisplay: {fileID: 495279599}
+  songFileName: Songs/SensitiveHarp
 --- !u!4 &2004015210
 Transform:
   m_ObjectHideFlags: 0
@@ -1457,6 +1485,160 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2066943366
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1898549169864528, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773929919038454, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224182849842024756, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224182849842024756, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224124650960783474, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224124650960783474, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224124650960783474, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224384008651152634, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224384008651152634, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224457815911168650, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224457815911168650, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224457815911168650, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441229448383790, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1421681706973274, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114027399412401930, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114589811651053258, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114473743801322984, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114812546603149670, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: testSong
+      value: Songs/SensitiveHarp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114831516731254862, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1843341214228934, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224579634965033398, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 494
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105169013090306, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -781
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[3]
+      value: SensitiveHarp_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114027399412401930, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+    - {fileID: 114589811651053258, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+    - {fileID: 114473743801322984, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+  m_SourcePrefab: {fileID: 100100000, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &2112295614
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,7 +1734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070e50a724d9680468dd35213215ec7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jamController: {fileID: 0}
   currentMoveDisplay: {fileID: 98083681}
   dialogueText: {fileID: 1412358649}
 --- !u!114 &2136257228
@@ -1573,6 +1754,7 @@ MonoBehaviour:
     emo: 0
     power: 0
     Pp: 0
+    loopName: 
 --- !u!114 &2136257229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1591,30 +1773,36 @@ MonoBehaviour:
       emo: 4
       power: 4
       Pp: 1
+      loopName: SensitiveHarp_01
     - name: Sad Rock
       emo: 3
       power: 2
       Pp: 3
+      loopName: SensitiveHarp_02
   - name: Pop
     moves:
     - name: Sentimental Pop
       emo: 2
       power: 4
       Pp: 1
+      loopName: SensitiveHarp_03
     - name: Romantic Pop
       emo: 1
       power: 2
       Pp: 3
+      loopName: SensitiveHarp_03
   - name: Country
     moves:
     - name: Happy Country
       emo: 0
       power: 4
       Pp: 1
+      loopName: SensitiveHarp_01
     - name: Romantic Counrty
       emo: 1
       power: 2
       Pp: 3
+      loopName: SensitiveHarp_02
 --- !u!4 &2136257230
 Transform:
   m_ObjectHideFlags: 0

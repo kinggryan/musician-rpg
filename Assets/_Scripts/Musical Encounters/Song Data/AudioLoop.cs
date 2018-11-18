@@ -37,7 +37,7 @@ public class AudioLoop {
 		}
 
 		if(!loadedLoops.ContainsKey(name)) {
-			Debug.LogError("ERROR: No LOop Found With Name " + name);
+			Debug.LogError("ERROR: No Loop Found With Name " + name);
 			return null;
 		}
 

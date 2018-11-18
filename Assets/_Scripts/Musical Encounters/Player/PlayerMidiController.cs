@@ -129,18 +129,19 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 			return;
 
 		// Change the midi file at will
-		if(Input.GetButtonDown("Left")) {
-			SetCurrentLoop(0);
-		} else if(Input.GetButtonDown("Right")) {
-			SetCurrentLoop(1);
-		} else if(Input.GetButtonDown("Up")) {
-			SetCurrentLoop(2);
-		} else if(Input.GetButtonDown("Down")) {
-			SetCurrentLoop(3);
-		}
+		//Disable while testing pokemon menu controls
+	// 	if(Input.GetButtonDown("Left")) {
+	// 		SetCurrentLoop(0);
+	// 	} else if(Input.GetButtonDown("Right")) {
+	// 		SetCurrentLoop(1);
+	// 	} else if(Input.GetButtonDown("Up")) {
+	// 		SetCurrentLoop(2);
+	// 	} else if(Input.GetButtonDown("Down")) {
+	// 		SetCurrentLoop(3);
+	// 	}
 	}
 
-	void SetCurrentLoop(int index) {
+	public void SetCurrentLoop(int index) {
 		currentLoopIndex = index;
 		midiStreamer.SetCurrentMidiFile(currentLoopIndex);
 		foreach(var listener in listeners) {
@@ -167,6 +168,10 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		foreach(var listener in listeners) {
 			listener.DidStartSongWithBPM(bpm);
 		}
+	}
+
+	public void SetCurrentMidiFileWithName(string loopName){
+		midiStreamer.SetCurrentMidiFileWithName(loopName);
 	}
 
 	public void Stop() {

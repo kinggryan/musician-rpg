@@ -187,8 +187,9 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		}
 
 		var newLoopToPlay = loopDecider.ChooseLoopToPlay();
-		if(newLoopToPlay != null)
-			midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
+		//Removed by Travis for PokePrototype
+		// if(newLoopToPlay != null)
+		// 	midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
 	}
 
 	public void DidStartSongWithBPM(float bpm) {
@@ -204,10 +205,14 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	void SetCurrentLoop(AudioLoop loop) {
-		midiStreamer.SetCurrentMidiFileWith(loop);
-		foreach(var listener in listeners) {
-			listener.DidChangeAILoop(this, loop);
-		}
+		// midiStreamer.SetCurrentMidiFileWith(loop);
+		// foreach(var listener in listeners) {
+		// 	listener.DidChangeAILoop(this, loop);
+		// }
+	}
+
+	public void SetCurrentLoopWithName(string loopName){
+		midiStreamer.SetCurrentMidiFileWithName(loopName);
 	}
 
 	void MakeVolumeMove(){
