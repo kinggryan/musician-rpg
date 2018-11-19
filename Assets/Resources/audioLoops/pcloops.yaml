@@ -68,3 +68,46 @@ loops:
   emotionTags: 
     - happy
     - sad
+- name: Flute_Celtic_Happy
+  filename: MIDI/Melody/Flute_Celtic_Happy.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+- name: Flute_Celtic_Romantic
+  filename: MIDI/Melody/Flute_Celtic_Romantic.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+- name: Flute_Jazz_Energetic
+  filename: MIDI/Melody/Flute_Jazz_Energetic.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+- name: Flute_Jazz_Sentimental
+  filename: MIDI/Melody/Flute_Jazz_Sentimental.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+- name: Flute_Rock_Energetic
+  filename: MIDI/Melody/Flute_Rock_Energetic.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+- name: Flute_Rock_Happy
+  filename: MIDI/Melody/Flute_Rock_Happy.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    

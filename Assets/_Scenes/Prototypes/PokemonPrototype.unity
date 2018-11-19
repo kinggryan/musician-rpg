@@ -784,38 +784,38 @@ MonoBehaviour:
     moves:
     - name: Happy Rock
       emo: 0
-      power: 4
-      Pp: 1
-      loopName: SensitiveFlute_01
+      power: 2
+      Pp: 3
+      loopName: Flute_Rock_Happy
     - name: Energetic Rock
       emo: 5
-      power: 2
-      Pp: 3
-      loopName: SensitiveFlute_04
-  - name: Folk
-    moves:
-    - name: Sentimental Folk
-      emo: 2
       power: 4
       Pp: 1
-      loopName: SensitiveFlute_02
-    - name: Sad Folk
-      emo: 3
-      power: 2
-      Pp: 3
-      loopName: SensitiveFlute_03
+      loopName: Flute_Rock_Energetic
   - name: Jazz
     moves:
-    - name: Happy Swing
-      emo: 0
-      power: 4
-      Pp: 1
-      loopName: 
     - name: Sentimental Jazz
       emo: 2
       power: 2
       Pp: 3
-      loopName: 
+      loopName: Flute_Jazz_Sentimental
+    - name: Energetic Jazz
+      emo: 5
+      power: 4
+      Pp: 1
+      loopName: Flute_Jazz_Energetic
+  - name: Celtic
+    moves:
+    - name: Romantic Celtic
+      emo: 1
+      power: 2
+      Pp: 3
+      loopName: Flute_Celtic_Romantic
+    - name: Happy Celtic
+      emo: 2
+      power: 4
+      Pp: 1
+      loopName: Flute_Celtic_Happy
 --- !u!4 &825439267
 Transform:
   m_ObjectHideFlags: 0
@@ -1492,6 +1492,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 2}
       propertyPath: knownLoopNames.Array.size
@@ -1672,6 +1677,55 @@ Prefab:
         type: 2}
       propertyPath: knownLoopNames.Array.data[2]
       value: Guitar_Jazz_Happy
+      objectReference: {fileID: 0}
+    - target: {fileID: 224196177050647576, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 745
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863988455918280, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[4].loopName
+      value: Flute_Rock_Energetic
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[4].jammageGain
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[5].loopName
+      value: Flute_Rock_Happy
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[5].jammageGain
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[0].loopName
+      value: Flute_Celtic_Happy
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[1].loopName
+      value: Flute_Celtic_Romantic
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[2].loopName
+      value: Flute_Jazz_Energetic
+      objectReference: {fileID: 0}
+    - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: playerMoves.Array.data[3].loopName
+      value: Flute_Jazz_Sentimental
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114027399412401930, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
