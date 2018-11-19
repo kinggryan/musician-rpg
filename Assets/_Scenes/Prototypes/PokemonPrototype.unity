@@ -1492,6 +1492,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.size
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1631,7 +1636,42 @@ Prefab:
     - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 2}
       propertyPath: knownLoopNames.Array.data[3]
-      value: SensitiveHarp_03
+      value: Guitar_Jazz_Romantic
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[4]
+      value: Guitar_Jazz_Sentimental
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[5]
+      value: Guitar_Rock_Angry
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[6]
+      value: Guitar_Rock_Energetic
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[7]
+      value: Guitar_Rock_Sensitive
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[0]
+      value: Guitar_Folk_Energetic
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[1]
+      value: Guitar_Folk_Sentimental
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 2}
+      propertyPath: knownLoopNames.Array.data[2]
+      value: Guitar_Jazz_Happy
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114027399412401930, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 2}
@@ -1773,36 +1813,36 @@ MonoBehaviour:
       emo: 4
       power: 4
       Pp: 1
-      loopName: SensitiveHarp_01
-    - name: Sad Rock
-      emo: 3
+      loopName: Guitar_Rock_Angry
+    - name: Energetic Rock
+      emo: 5
       power: 2
       Pp: 3
-      loopName: SensitiveHarp_02
-  - name: Pop
+      loopName: Guitar_Rock_Energetic
+  - name: Jazz
     moves:
-    - name: Sentimental Pop
-      emo: 2
-      power: 4
-      Pp: 1
-      loopName: SensitiveHarp_03
-    - name: Romantic Pop
-      emo: 1
-      power: 2
-      Pp: 3
-      loopName: SensitiveHarp_03
-  - name: Country
-    moves:
-    - name: Happy Country
+    - name: Happy Jazz
       emo: 0
       power: 4
       Pp: 1
-      loopName: SensitiveHarp_01
-    - name: Romantic Counrty
+      loopName: Guitar_Jazz_Happy
+    - name: Romantic Jazz
       emo: 1
       power: 2
       Pp: 3
-      loopName: SensitiveHarp_02
+      loopName: Guitar_Jazz_Romantic
+  - name: Folk
+    moves:
+    - name: Energetic Folk
+      emo: 5
+      power: 4
+      Pp: 1
+      loopName: Guitar_Folk_Energetic
+    - name: Sentimental Folk
+      emo: 3
+      power: 2
+      Pp: 3
+      loopName: Guitar_Folk_Sentimental
 --- !u!4 &2136257230
 Transform:
   m_ObjectHideFlags: 0

@@ -1,0 +1,3 @@
+[BankFile]
+SilverFlute/sfz/0/0/i/
+Harp/sfz/1/1/i/

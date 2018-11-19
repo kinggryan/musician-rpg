@@ -10,6 +10,7 @@ public class AIJamController : MonoBehaviour {
 	public Text currentMoveDisplay;
 	public Text dialogueText;
 	private AIMIDIController aiMidiController;
+	private bool lastMoveWasStyleChange;
 
 	// Use this for initialization
 	void Awake () {
@@ -28,24 +29,51 @@ public class AIJamController : MonoBehaviour {
 	}
 
 	void PickMove(){
-		int move = Random.Range(0,characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves.Length + 1);
 		Move[] moveSet = characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves;
-		if (move < moveSet.Length){
+		int totalPp = 0;
+		foreach(Move moveToCheck in moveSet){
+			totalPp ++;
+		}
+		if(totalPp <= 0){
+			Debug.Log("AI Changing Moveset");
+			int newMoveSet = Random.Range(0,characterJamController.moveSets.moveSets.Length);
+			characterJamController.ChangeMoveSet(newMoveSet);
+			dialogueText.text = "NPC changed styles!";
+			lastMoveWasStyleChange = true;
+		}else if(!lastMoveWasStyleChange){
+			int move = Random.Range(0,characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves.Length + 1);
+			if (move < moveSet.Length){
+				Debug.Log("AI Selecting Move");
+				if(moveSet[move].Pp > 0){
+					characterJamController.SelectMove(move);
+					currentMoveDisplay.text = moveSet[move].name;
+					aiMidiController.SetCurrentLoopWithName(moveSet[move].loopName);
+					dialogueText.text = "NPC used " + characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves[move].name + "!";
+					lastMoveWasStyleChange = false;
+				}else{
+					Debug.Log("AI repicking move cuz out of PP");
+					PickMove();
+				}
+			}else{
+				Debug.Log("AI Changing Moveset");
+				int newMoveSet = Random.Range(0,characterJamController.moveSets.moveSets.Length);
+				characterJamController.ChangeMoveSet(newMoveSet);
+				dialogueText.text = "NPC changed styles!";
+				lastMoveWasStyleChange = true;
+			}
+		}else{
+			int move = Random.Range(0,characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves.Length);
 			Debug.Log("AI Selecting Move");
 			if(moveSet[move].Pp > 0){
 				characterJamController.SelectMove(move);
 				currentMoveDisplay.text = moveSet[move].name;
 				aiMidiController.SetCurrentLoopWithName(moveSet[move].loopName);
 				dialogueText.text = "NPC used " + characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves[move].name + "!";
+				lastMoveWasStyleChange = false;
 			}else{
 				Debug.Log("AI repicking move cuz out of PP");
 				PickMove();
 			}
-		}else{
-			Debug.Log("AI Changing Moveset");
-			int newMoveSet = Random.Range(0,characterJamController.moveSets.moveSets.Length - 1);
-			characterJamController.ChangeMoveSet(newMoveSet);
-			dialogueText.text = "NPC changed styles!";
 		}
 	}
 

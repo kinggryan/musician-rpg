@@ -24,7 +24,7 @@ Accordion/sfz/21/21/i/
 Harmonica/sfz/22/22/i/
 Bandoneon/sfz/23/23/i/
 Harpsichord/sfz/24/24/i/
-SteelGtr/sfz/25/25/i/
+AcousticGuitar_01/sfz/25/25/i/
 JazzGtr/sfz/26/26/i/
 CleanGtr/sfz/27/27/i/
 MuteGtr/sfz/28/28/i/

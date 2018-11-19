@@ -57,6 +57,70 @@ loops:
     - happy
     - sad
     - sentimental
+- name: Guitar_Folk_Energetic
+  filename: MIDI/Comp/Guitar_Folk_Energetic.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Folk_Sentimental
+  filename: MIDI/Comp/Guitar_Folk_Sentimental.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Jazz_Happy
+  filename: MIDI/Comp/Guitar_Jazz_Happy.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Jazz_Romantic
+  filename: MIDI/Comp/Guitar_Jazz_Romantic.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Jazz_Sentimental
+  filename: MIDI/Comp/Guitar_Jazz_Sentimental.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Rock_Angry
+  filename: MIDI/Comp/Guitar_Rock_Angry.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Rock_Energetic
+  filename: MIDI/Comp/Guitar_Rock_Energetic.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Rock_Sensitive
+  filename: MIDI/Comp/Guitar_Rock_Sensitive.mid
+  beatDuration: 4
+  rhythmString: 1000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
 - name: Silence
   filename: MIDI/SilentMidi.mid
   beatDuration: 1
