@@ -33,6 +33,7 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	public int keyControlIndex = 1;
 	public int currentInstIndex;
 	public int outputChannel = 0;
+	public bool mute;
 	
 	float songBPM = 240f;
 
@@ -119,6 +120,12 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (mute){
+			volumeFilter.volumeMultiplier = 0;
+		}else{
+			volumeFilter.volumeMultiplier = 1;
+		}
 		
         UpdateCurrentMidiFile();
 

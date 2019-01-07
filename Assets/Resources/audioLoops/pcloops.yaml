@@ -43,70 +43,70 @@ loops:
 - name: SensitiveFlute_01
   filename: MIDI/Melody/SensitiveFlute_01.mid
   beatDuration: 16
-  rhythmString: 10000000
+  rhythmString: 10000000100000001000000010000000
   emotionTags: 
     - happy
     - sad
 - name: SensitiveFlute_02
   filename: MIDI/Melody/SensitiveFlute_02.mid
   beatDuration: 16
-  rhythmString: 10000000
+  rhythmString: 10000000100000001000000010000000
   emotionTags: 
     - happy
     - sad
 - name: SensitiveFlute_03
   filename: MIDI/Melody/SensitiveFlute_03.mid
   beatDuration: 16
-  rhythmString: 10000000
+  rhythmString: 10000000100000001000000010000000
   emotionTags: 
     - happy
     - sad
 - name: SensitiveFlute_04
   filename: MIDI/Melody/SensitiveFlute_04.mid
   beatDuration: 16
-  rhythmString: 10000000
+  rhythmString: 10000000100000001000000010000000
   emotionTags: 
     - happy
     - sad
 - name: Flute_Celtic_Happy
   filename: MIDI/Melody/Flute_Celtic_Happy.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
 - name: Flute_Celtic_Romantic
   filename: MIDI/Melody/Flute_Celtic_Romantic.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
 - name: Flute_Jazz_Energetic
   filename: MIDI/Melody/Flute_Jazz_Energetic.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
 - name: Flute_Jazz_Sentimental
   filename: MIDI/Melody/Flute_Jazz_Sentimental.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
 - name: Flute_Rock_Energetic
   filename: MIDI/Melody/Flute_Rock_Energetic.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
 - name: Flute_Rock_Happy
   filename: MIDI/Melody/Flute_Rock_Happy.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad

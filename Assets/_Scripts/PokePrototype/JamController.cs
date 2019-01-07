@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class JamController : MonoBehaviour {
 
+
+
 	public Move activeMove;
 	public int activeEmo;
 	public int score = 0;
@@ -19,18 +21,24 @@ public class JamController : MonoBehaviour {
 	public MusicalEncounterManager musicalEncounterManager;
 	public PlayerCountoffDisplay countoffDisplay;
 	public string songFileName;
+	public bool firstMove = true;
+	public float bpm = 120;
+	public AIJamController ai;
 	enum Turn {Player,NPC};
 	Turn turn;
 	
-	private AIJamController ai;
+	
 	private PlayerJamMenu player;
 	private bool gameOver;
+	private DialogueController dialogueController;
 
 
 	// Use this for initialization
 	void Awake () {
+		firstMove = true;
 		ai = Object.FindObjectOfType<AIJamController>();
 		player = Object.FindObjectOfType<PlayerJamMenu>();
+		dialogueController = Object.FindObjectOfType<DialogueController>();
 		jammageBar.maxValue = hp;
 		jammageBar.minValue = hp * -1;
 		if(playerGoesFirst){
@@ -45,10 +53,17 @@ public class JamController : MonoBehaviour {
 			player.isPlayerTurn = false;
 			ai.MakeMove();		
 		}
+		
 	}
 	void Start(){
 		musicalEncounterManager.StartedMusicalEncounter(songFileName, countoffDisplay);
+		dialogueController.UpdateDialogue("Jammer wants to jam!",2);
 	}
+
+	public void StartSong(){
+		musicalEncounterManager.countoffController.StartCountoff();
+	}
+
 	public void UpdateScore(){
 		switch(turn) {
 			case Turn.Player:
@@ -70,11 +85,11 @@ public class JamController : MonoBehaviour {
 		Debug.Log("Score: " + score);
 		jammageBar.value = score;
 		if(score <= hp * -1){
-			dialogueDisplay.text = "You can't handle the jammage!";
+			dialogueController.UpdateDialogue("You can't handle the jammage!",2);
 			StartCoroutine(DisplayBonusDialogue("You passed out!", 2));
 			gameOver = true;
 		}else if(score >= hp){
-			dialogueDisplay.text = "Excellent jammage!";
+			dialogueController.UpdateDialogue("Excellent jammage!",2);
 			StartCoroutine(DisplayBonusDialogue("You outjammed Jammer!", 2));
 			gameOver = true;
 		}
@@ -84,7 +99,7 @@ public class JamController : MonoBehaviour {
 
 	IEnumerator DisplayBonusDialogue(string dialogueToDispay, float timeToWait){
 		yield return new WaitForSeconds(timeToWait);
-		dialogueDisplay.text = dialogueToDispay;
+		dialogueController.UpdateDialogue(dialogueToDispay,2);
 
 	}
 
@@ -99,13 +114,15 @@ public class JamController : MonoBehaviour {
 				case Turn.Player:
 					turnDisplay.text = "Turn: NPC";
 					player.isPlayerTurn = false;
-					ai.MakeMove();
+					//ai.MakeMove();
+					ai.isNPCTurn = true;
 					Debug.Log("Player Turn Ended");
 					turn = Turn.NPC;
 					break;
 				case Turn.NPC:
 					turnDisplay.text = "Turn: Player";
 					player.isPlayerTurn = true;
+					ai.isNPCTurn = false;
 					Debug.Log("NPC Turn Ended");
 					turn = Turn.Player;
 					break;

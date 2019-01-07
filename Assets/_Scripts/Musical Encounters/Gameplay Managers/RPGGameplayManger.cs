@@ -347,8 +347,8 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 
 	void CheckForPlayerAndNPCRhythmMatchesOnPulses(int beatNumber) {
 		// Right now and in one eighth note, do this check
-		StartCoroutine(CheckForRhythmMatch(0,beatNumber,false));
-		StartCoroutine(CheckForRhythmMatch(0.5f / (float)songStructureManager.bpm * 60, beatNumber, true));
+		//StartCoroutine(CheckForRhythmMatch(0,beatNumber,false));
+		//StartCoroutine(CheckForRhythmMatch(0.5f / (float)songStructureManager.bpm * 60, beatNumber, true));
 	}
 
 	IEnumerator CheckForRhythmMatch(float inTime, int beatNumber, bool checkUpbeat) {

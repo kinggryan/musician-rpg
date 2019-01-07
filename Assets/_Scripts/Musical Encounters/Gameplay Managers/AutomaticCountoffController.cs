@@ -22,28 +22,29 @@ public class AutomaticCountoffController : MonoBehaviour {
 			if(nextBeatTimer <= 0)
 				Countoff();
 		} else {
-			if(Input.GetButtonDown("Select")) {
-				StartCountoff();
-			}
+			// if(Input.GetButtonDown("Select")) {
+			// 	StartCountoff();
+			// }
 		}
 	}
 
-	void StartCountoff() {
+	public void StartCountoff() {
 		startedCountoff = true;
 		nextBeatTimer = 60 / bpm;
 		currentBeat = 1;
 		countoffDisplay.NextBeat();
+		NotificationBoard.SendNotification(Notifications.countoffComplete, this, bpm);
 	}
 
 	void Countoff() {
-		nextBeatTimer += 60 / bpm;
-		currentBeat++;
-		countoffDisplay.NextBeat();
-		if(currentBeat > 4) {
-			NotificationBoard.SendNotification(Notifications.countoffComplete, this, bpm);
-			currentBeat = 0;
-			startedCountoff = false;
-			this.enabled = false;
-		}
+		// nextBeatTimer += 60 / bpm;
+		// currentBeat++;
+		// countoffDisplay.NextBeat();
+		// if(currentBeat > 4) {
+		// 	//NotificationBoard.SendNotification(Notifications.countoffComplete, this, bpm);
+		// 	currentBeat = 0;
+		// 	startedCountoff = false;
+		// 	this.enabled = false;
+		// }
 	}
 }

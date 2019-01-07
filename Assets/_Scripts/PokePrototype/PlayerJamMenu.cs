@@ -9,25 +9,30 @@ public class PlayerJamMenu : MonoBehaviour {
 	public GameObject menuCursorPrefab;
 	public GameObject styleButton;
 	public bool isPlayerTurn = false;
-	public Text dialogueText;
 	public PlayerMidiController playerMidiController;
+	public bool startMuted = true;
 
 	private Move[] moveSet;
 	public CharacterJamController player;
-	private int rowHeight = 32;
+	private int rowHeight = 12;
 	public int menuIndex = 0;
 	private GameObject menuCursor;
 	enum List {MoveList,StyleList};
 	private List list;
 	private JamController jamController;
+	private DialogueController dialogueController;
 	// Use this for initialization
 	void Start () {
+		if(startMuted){
+			playerMidiController.mute = true;
+		}
+		dialogueController = Object.FindObjectOfType<DialogueController>();
 		PopulateMoveList();	
 		InstantiateCursor();
 	}
 
 	void InstantiateCursor(){
-		menuCursor = Object.Instantiate(menuCursorPrefab, new Vector3(transform.position.x - 100, transform.position.y + 8 - rowHeight + (rowHeight * moveSet.Length), transform.position.z), Quaternion.identity);
+		menuCursor = Object.Instantiate(menuCursorPrefab, new Vector3(transform.position.x - 90, transform.position.y + 10 - rowHeight + (rowHeight * moveSet.Length), transform.position.z), Quaternion.identity);
 		menuCursor.transform.parent = gameObject.transform;
 	}
 
@@ -46,19 +51,15 @@ public class PlayerJamMenu : MonoBehaviour {
 	}
 
 	void OnSelect(){
-		
 		if(list == List.MoveList){
 			if(menuIndex == moveSet.Length){
 				PopulateStyleList();
 			}else{
 				Move currentMove = player.moveSets.moveSets[player.currentMoveSet].moves[menuIndex];
 				if(currentMove.Pp > 0){
-					player.SelectMove(menuIndex);
-					playerMidiController.SetCurrentMidiFileWithName(currentMove.loopName);
-					dialogueText.text = "You used " + currentMove.name + "!";
-					UpdateMenuValues();
+					ChangeMove(currentMove);
 				}else{
-					dialogueText.text = "Out of PP!";
+					dialogueController.UpdateDialogue("Out of PP!",2);
 				}
 			}
 		}else{
@@ -67,10 +68,18 @@ public class PlayerJamMenu : MonoBehaviour {
 			}else{
 				player.ChangeMoveSet(menuIndex);
 				moveSet = player.moveSets.moveSets[player.currentMoveSet].moves;
-				dialogueText.text = "You changed styles!";
+				dialogueController.UpdateDialogue("You changed styles!",2);
 				PopulateMoveList();
 			}
 		}
+	}
+
+	void ChangeMove(Move currentMove){
+		playerMidiController.mute = false;
+		player.SelectMove(menuIndex);
+		playerMidiController.SetCurrentMidiFileWithName(currentMove.loopName);
+		dialogueController.UpdateDialogue("You used " + currentMove.name + "!",2);
+		UpdateMenuValues();
 	}
 
 	void MoveCursorUp(){

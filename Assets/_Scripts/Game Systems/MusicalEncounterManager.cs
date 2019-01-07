@@ -81,7 +81,7 @@ public class MusicalEncounterManager: MonoBehaviour {
 		StartSongWithBPM(bpm);
 	}
 
-	void StartSongWithBPM(float bpm) {
+	public void StartSongWithBPM(float bpm) {
 		// animationManager.SetBPM(bpm);
 		// animationManager.DidStartSong();
 		// animationManager.UpdateGroove(1f);

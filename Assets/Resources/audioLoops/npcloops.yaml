@@ -36,7 +36,7 @@ loops:
 - name: SensitiveHarp_01
   filename: MIDI/Comp/SensitiveHarp_01.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -44,7 +44,7 @@ loops:
 - name: SensitiveHarp_02
   filename: MIDI/Comp/SensitiveHarp_02.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -52,7 +52,7 @@ loops:
 - name: SensitiveHarp_03
   filename: MIDI/Comp/SensitiveHarp_03.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -60,7 +60,7 @@ loops:
 - name: Guitar_Folk_Energetic
   filename: MIDI/Comp/Guitar_Folk_Energetic.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -68,7 +68,7 @@ loops:
 - name: Guitar_Folk_Sentimental
   filename: MIDI/Comp/Guitar_Folk_Sentimental.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -76,7 +76,7 @@ loops:
 - name: Guitar_Jazz_Happy
   filename: MIDI/Comp/Guitar_Jazz_Happy.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -84,7 +84,7 @@ loops:
 - name: Guitar_Jazz_Romantic
   filename: MIDI/Comp/Guitar_Jazz_Romantic.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -92,7 +92,7 @@ loops:
 - name: Guitar_Jazz_Sentimental
   filename: MIDI/Comp/Guitar_Jazz_Sentimental.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -100,7 +100,7 @@ loops:
 - name: Guitar_Rock_Angry
   filename: MIDI/Comp/Guitar_Rock_Angry.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -108,7 +108,7 @@ loops:
 - name: Guitar_Rock_Energetic
   filename: MIDI/Comp/Guitar_Rock_Energetic.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
@@ -116,7 +116,7 @@ loops:
 - name: Guitar_Rock_Sensitive
   filename: MIDI/Comp/Guitar_Rock_Sensitive.mid
   beatDuration: 4
-  rhythmString: 1000
+  rhythmString: 10000000
   emotionTags: 
     - happy
     - sad
