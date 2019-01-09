@@ -50,6 +50,7 @@ public class NPCAnimationController : MonoBehaviour, IScorekeeperListener, IPlay
 
 	public void DidStartSongWithBPM(float bpm) {
 		SetBPM(bpm);
+		Debug.Log("Starting song with bpm " + bpm);
 		StartPlaying();
 	}
 

@@ -11,6 +11,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	public bool isPlayerTurn = false;
 	public PlayerMidiController playerMidiController;
 	public bool startMuted = true;
+	public Animator animator;
 
 	private Move[] moveSet;
 	public CharacterJamController player;
@@ -21,10 +22,12 @@ public class PlayerJamMenu : MonoBehaviour {
 	private List list;
 	private JamController jamController;
 	private DialogueController dialogueController;
+	
 	// Use this for initialization
 	void Start () {
 		if(startMuted){
 			playerMidiController.mute = true;
+			
 		}
 		dialogueController = Object.FindObjectOfType<DialogueController>();
 		PopulateMoveList();	
@@ -75,7 +78,10 @@ public class PlayerJamMenu : MonoBehaviour {
 	}
 
 	void ChangeMove(Move currentMove){
-		playerMidiController.mute = false;
+		if(playerMidiController.mute = true){
+			animator.SetBool("playing", true);
+			playerMidiController.mute = false;
+		}
 		player.SelectMove(menuIndex);
 		playerMidiController.SetCurrentMidiFileWithName(currentMove.loopName);
 		dialogueController.UpdateDialogue("You used " + currentMove.name + "!",2);
