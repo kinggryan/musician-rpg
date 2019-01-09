@@ -11914,7 +11914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNPCTurn: 0
-  currentMoveDisplay: {fileID: 0}
+  currentMoveDisplay: {fileID: 1412358649}
 --- !u!114 &2136257228
 MonoBehaviour:
   m_ObjectHideFlags: 0
