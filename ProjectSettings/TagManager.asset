@@ -42,6 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: NPCParticles
+    uniqueID: 611864557
+    locked: 0
   - name: Instruments
     uniqueID: 3851696853
     locked: 0

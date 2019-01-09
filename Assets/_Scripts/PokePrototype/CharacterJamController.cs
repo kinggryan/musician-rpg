@@ -9,6 +9,7 @@ public class CharacterJamController : MonoBehaviour {
 
 	public int currentMoveSet = 0;
 	public Move currentMove;
+	public ParticleSystem noteParticles;
 	private JamController jamController;
 
 	void Awake(){
@@ -21,6 +22,7 @@ public class CharacterJamController : MonoBehaviour {
 		jamController.EndTurn();
 	}
 	public void SelectMove(int moveToSelect){
+		noteParticles.Play();
 		currentMove = moveSets.moveSets[currentMoveSet].moves[moveToSelect];
 		currentMove.Pp = currentMove.Pp - 1;
 		jamController.activeMove = currentMove;
