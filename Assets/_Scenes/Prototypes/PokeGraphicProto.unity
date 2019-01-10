@@ -11468,7 +11468,7 @@ MonoBehaviour:
   dialogueDisplay: {fileID: 1412358649}
   musicalEncounterManager: {fileID: 1423210428}
   countoffDisplay: {fileID: 495279599}
-  songFileName: Songs/SensitiveHarp
+  songFileName: Songs/TavernSong
   firstMove: 1
   bpm: 120
   ai: {fileID: 0}
@@ -11827,6 +11827,11 @@ PrefabInstance:
     - target: {fileID: 1863988455918280, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114257947481392400, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 3}
+      propertyPath: songFilename
+      value: Songs/TavernSong
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114027399412401930, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 3}

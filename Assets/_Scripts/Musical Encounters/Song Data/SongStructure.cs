@@ -15,6 +15,7 @@ public enum Chord {
 	bIII,
 	IV,
 	iv,
+	hmV,
 	V,
 	v,
 	vi,
@@ -212,6 +213,7 @@ public static class SongStructureUtilities {
 			case "IV": return Chord.IV;
 			case "iv": return Chord.iv;
 			case "V": return Chord.V;
+			case "hmV": return Chord.hmV;
 			case "v": return Chord.v;
 			case "vi": return Chord.vi;
 			case "bVI": return Chord.bVI;

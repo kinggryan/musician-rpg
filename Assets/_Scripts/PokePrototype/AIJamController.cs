@@ -55,7 +55,6 @@ public class AIJamController : MonoBehaviour {
 		foreach(MoveSet moveSet in moveSets.moveSets){
 			currentTotalPP += PPInMoveSet(moveSet);
 		}
-		Debug.Log("AI Total PP: " + currentTotalPP);
 		return currentTotalPP;
 	}
 
@@ -64,7 +63,6 @@ public class AIJamController : MonoBehaviour {
 		foreach(Move move in moveSet.moves){
 				ppInMoveSet += move.Pp;
 			}
-		Debug.Log("AI PP in moveset " + moveSet.name + ": " + ppInMoveSet);
 		return ppInMoveSet;
 	}
 
