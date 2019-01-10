@@ -1,0 +1,163 @@
+loops:
+- name: Comp_Klezmer_Bulgar
+  filename: MIDI/Comp/Comp_Klezmer_Bulgar_01.mid
+  beatDuration: 8
+  rhythmString: 1001001010010010
+  emotionTags: 
+    - happy
+    - aggressive
+- name: Comp_Klezmer_Hosidl
+  filename: MIDI/Comp/Comp_Klezmer_Hosidl_01.mid
+  beatDuration: 8
+  rhythmString: 1000100010001000
+  emotionTags: 
+    - sad
+    - sentimental
+- name: Comp_Klezmer_OomPah
+  filename: MIDI/Comp/Comp_Klezmer_OomPah_01.mid
+  beatDuration: 8
+  rhythmString: 1010101010101010
+  emotionTags: 
+    - happy
+- name: Comp_Klezmer_Terkisher
+  filename: MIDI/Comp/Comp_Klezmer_Terkisher_01.mid
+  beatDuration: 8
+  rhythmString: 1001101010011010
+  emotionTags: 
+    - aggressive
+    - sad
+- name: Comp_End_Basic
+  filename: MIDI/Comp/Comp_End_Basic.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+- name: SensitiveHarp_01
+  filename: MIDI/Comp/SensitiveHarp_01.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: SensitiveHarp_02
+  filename: MIDI/Comp/SensitiveHarp_02.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: SensitiveHarp_03
+  filename: MIDI/Comp/SensitiveHarp_03.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Folk_Energetic
+  filename: MIDI/Comp/Guitar_Folk_Energetic.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Folk_Sentimental
+  filename: MIDI/Comp/Guitar_Folk_Sentimental.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Jazz_Happy
+  filename: MIDI/Comp/Guitar_Jazz_Happy.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Jazz_Romantic
+  filename: MIDI/Comp/Guitar_Jazz_Romantic.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Jazz_Sentimental
+  filename: MIDI/Comp/Guitar_Jazz_Sentimental.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Rock_Angry
+  filename: MIDI/Comp/Guitar_Rock_Angry.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Rock_Energetic
+  filename: MIDI/Comp/Guitar_Rock_Energetic.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_Rock_Sensitive
+  filename: MIDI/Comp/Guitar_Rock_Sensitive.mid
+  beatDuration: 4
+  rhythmString: 10000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_NewRebetik
+  filename: MIDI/Comp/Guitar_NewRebetik.mid
+  beatDuration: 8
+  rhythmString: 1000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_OldRebetik
+  filename: MIDI/Comp/Guitar_OldRebetik.mid
+  beatDuration: 8
+  rhythmString: 1000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_SoothingPick
+  filename: MIDI/Comp/Guitar_SoothingPick.mid
+  beatDuration: 8
+  rhythmString: 1000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_MedievalStrum
+  filename: MIDI/Comp/Guitar_MedievalStrum.mid
+  beatDuration: 16
+  rhythmString: 10000000100000001000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Silence
+  filename: MIDI/SilentMidi.mid
+  beatDuration: 1
+  rhythmString: 00
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental

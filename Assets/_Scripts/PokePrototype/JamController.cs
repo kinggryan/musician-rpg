@@ -7,7 +7,7 @@ public class JamController : MonoBehaviour {
 
 
 	public Move activeMove;
-	public int activeEmo;
+	public EmotionManager.Emo activeEmo;
 	public int score = 0;
 	public int hp;
 	public int noOfEmos;
@@ -30,6 +30,8 @@ public class JamController : MonoBehaviour {
 	private PlayerJamMenu player;
 	private bool gameOver;
 	private DialogueController dialogueController;
+	private EmotionManager emoManager;
+	
 
 
 	// Use this for initialization
@@ -38,6 +40,7 @@ public class JamController : MonoBehaviour {
 		ai = Object.FindObjectOfType<AIJamController>();
 		player = Object.FindObjectOfType<PlayerJamMenu>();
 		dialogueController = Object.FindObjectOfType<DialogueController>();
+		emoManager = GetComponent<EmotionManager>();
 		jammageBar.maxValue = hp;
 		jammageBar.minValue = hp * -1;
 		if(playerGoesFirst){
@@ -67,15 +70,16 @@ public class JamController : MonoBehaviour {
 		switch(turn) {
 			case Turn.Player:
 				score += activeMove.power;
-				if (activeMove.emo == activeEmo + 1 || activeEmo >= noOfEmos && activeMove.emo == 0 || activeMove.emo == activeEmo){
+				if (emoManager.checkEmoStrengths(activeMove.emo, activeEmo)){
 					score += activeMove.power;
 					StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
 				}
 				break;
 			case Turn.NPC:
 				score -= activeMove.power;
-				if (activeMove.emo == activeEmo + 1 || activeEmo >= noOfEmos && activeMove.emo == 0 || activeMove.emo == activeEmo){
+				if (emoManager.checkEmoStrengths(activeMove.emo, activeEmo)){
 					score -= activeMove.power;
+					StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
 				}
 				break;
 			}
@@ -105,7 +109,7 @@ public class JamController : MonoBehaviour {
 	}
 
 	void UpdateEmoDisplayText(){
-		emoDisplay.text = "Emotion: " + emoNames[activeEmo];
+		emoDisplay.text = "Emotion: " + activeEmo.ToString();
 	}
 
 	public void EndTurn(){

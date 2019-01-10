@@ -11,10 +11,12 @@ public class CharacterJamController : MonoBehaviour {
 	public Move currentMove;
 	public ParticleSystem noteParticles;
 	private JamController jamController;
+	private EmotionManager emoManager;
 
 	void Awake(){
 		moveSets = GetComponent<MoveSets>();
 		jamController = Object.FindObjectOfType<JamController>();
+		emoManager = FindObjectOfType<EmotionManager>();
 	}
 	
 	public void ChangeMoveSet(int moveSetToSelect){
@@ -22,12 +24,17 @@ public class CharacterJamController : MonoBehaviour {
 		jamController.EndTurn();
 	}
 	public void SelectMove(int moveToSelect){
-		noteParticles.Play();
 		currentMove = moveSets.moveSets[currentMoveSet].moves[moveToSelect];
 		currentMove.Pp = currentMove.Pp - 1;
+		PlayNoteParticles(currentMove.emo);
 		jamController.activeMove = currentMove;
 		jamController.UpdateScore();
 		jamController.EndTurn();
+	}
+
+	void PlayNoteParticles(EmotionManager.Emo emo){
+		noteParticles.startColor = emoManager.GetEmoColor(emo);
+		noteParticles.Play();
 	}
 
 }

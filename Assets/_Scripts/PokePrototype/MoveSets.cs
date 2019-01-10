@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Move {
 	public string name;
-	public int emo;
+	public EmotionManager.Emo emo;
 	public int power;
 	public int Pp;
 	public string loopName;
@@ -19,14 +19,11 @@ public class MoveSet {
 public class MoveSets : MonoBehaviour {
 
 	public MoveSet[] moveSets;
+	private EmotionManager emoManager;
 
 	// Use this for initialization
 	void Start () {
-		
+		emoManager = FindObjectOfType<EmotionManager>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
