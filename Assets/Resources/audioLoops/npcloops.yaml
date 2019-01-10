@@ -121,6 +121,38 @@ loops:
     - happy
     - sad
     - sentimental
+- name: Guitar_NewRebetik
+  filename: MIDI/Comp/Guitar_NewRebetik.mid
+  beatDuration: 8
+  rhythmString: 1000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_OldRebetik
+  filename: MIDI/Comp/Guitar_OldRebetik.mid
+  beatDuration: 8
+  rhythmString: 1000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_SoothingPick
+  filename: MIDI/Comp/Guitar_SoothingPick.mid
+  beatDuration: 8
+  rhythmString: 1000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Guitar_MedievalStrum
+  filename: MIDI/Comp/Guitar_MedievalStrum.mid
+  beatDuration: 16
+  rhythmString: 10000000100000001000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
 - name: Silence
   filename: MIDI/SilentMidi.mid
   beatDuration: 1

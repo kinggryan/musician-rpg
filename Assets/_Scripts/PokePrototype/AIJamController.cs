@@ -38,6 +38,36 @@ public class AIJamController : MonoBehaviour {
 		PickMove();
 	}
 
+	bool NPCOutOfPP(){
+		Debug.Log("Checking if NPC has PP");
+		int currentTotalPP = CurrentTotalPP();
+		if(currentTotalPP > 0){
+			return false;
+		}else{
+			return true;
+			Debug.Log("NPC out of PP!");
+		}
+	}
+
+	int CurrentTotalPP(){
+		int currentTotalPP = 0;
+		MoveSets moveSets = characterJamController.moveSets;
+		foreach(MoveSet moveSet in moveSets.moveSets){
+			currentTotalPP += PPInMoveSet(moveSet);
+		}
+		Debug.Log("AI Total PP: " + currentTotalPP);
+		return currentTotalPP;
+	}
+
+	int PPInMoveSet(MoveSet moveSet){
+		int ppInMoveSet = 0;
+		foreach(Move move in moveSet.moves){
+				ppInMoveSet += move.Pp;
+			}
+		Debug.Log("AI PP in moveset " + moveSet.name + ": " + ppInMoveSet);
+		return ppInMoveSet;
+	}
+
 	void PickMove(){
 		if(jamController.firstMove){
 			Debug.Log("First move!!");
@@ -49,12 +79,22 @@ public class AIJamController : MonoBehaviour {
 		foreach(Move moveToCheck in moveSet){
 			totalPp ++;
 		}
-		if(totalPp <= 0){
-			Debug.Log("AI Changing Moveset");
-			int newMoveSet = Random.Range(0,characterJamController.moveSets.moveSets.Length);
-			characterJamController.ChangeMoveSet(newMoveSet);
-			dialogueController.UpdateDialogue("NPC changed styles!", 2);
-			lastMoveWasStyleChange = true;
+		if(NPCOutOfPP()){
+			dialogueController.UpdateDialogue("NPC out of jams!", 2);
+			Debug.Log("NPC out of moves!");
+			jamController.EndTurn();
+		}else if(totalPp <= 0){
+			Debug.Log("AI Changing Moveset cuz Out Of PP");
+			int newMoveSetIndex = Random.Range(0,characterJamController.moveSets.moveSets.Length);
+			MoveSet newMoveSet = characterJamController.moveSets.moveSets[newMoveSetIndex];
+			if(PPInMoveSet(newMoveSet) > 0){
+				characterJamController.ChangeMoveSet(newMoveSetIndex);
+				dialogueController.UpdateDialogue("NPC changed styles!", 2);
+				lastMoveWasStyleChange = true;
+			}else{
+				Debug.Log("AI tried to pick moveset with no PP");
+				PickMove();
+			}
 		}else if(!lastMoveWasStyleChange){
 			int move = Random.Range(0,characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves.Length + 1);
 			if (move < moveSet.Length){

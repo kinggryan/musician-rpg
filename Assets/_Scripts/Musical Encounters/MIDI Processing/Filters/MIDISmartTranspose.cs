@@ -124,7 +124,7 @@ public class MIDISmartTranspose : MIDITrackFilter {
 			return shift;
 		}
 		else {
-			Debug.LogError("Couldn't find transposition for " + noteInfo);
+			Debug.LogWarning("Couldn't find transposition for " + noteInfo);
 		}
 
 		return 0;

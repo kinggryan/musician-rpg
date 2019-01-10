@@ -34,13 +34,13 @@ public class DialogueController : MonoBehaviour
         dialogueQueue.Remove(itemToRemove);
         dialogueQueue.TrimExcess();
         if(dialogueQueue.Count <= 0){
-            Debug.Log("Dia Queue Empty");
+            //Debug.Log("Dia Queue Empty");
             if(!jamController.ai.isNPCTurn){
                 dialogueText.text = "";
                 playerJamMenu.gameObject.SetActive(true);
             }
         }else{
-            Debug.Log("Displaying next dia");
+            //Debug.Log("Displaying next dia");
             StartCoroutine(DisplayNextItemInQueue(2));
         }
     }

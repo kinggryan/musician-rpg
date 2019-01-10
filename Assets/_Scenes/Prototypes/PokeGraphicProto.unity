@@ -11626,7 +11626,7 @@ PrefabInstance:
     - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
       propertyPath: knownLoopNames.Array.size
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
@@ -11667,6 +11667,26 @@ PrefabInstance:
         type: 3}
       propertyPath: knownLoopNames.Array.data[2]
       value: Guitar_Jazz_Happy
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 3}
+      propertyPath: knownLoopNames.Array.data[8]
+      value: Guitar_MedievalStrum
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 3}
+      propertyPath: knownLoopNames.Array.data[9]
+      value: Guitar_SoothingPick
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 3}
+      propertyPath: knownLoopNames.Array.data[10]
+      value: Guitar_OldRebetik
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 3}
+      propertyPath: knownLoopNames.Array.data[11]
+      value: Guitar_NewRebetik
       objectReference: {fileID: 0}
     - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11951,28 +11971,28 @@ MonoBehaviour:
   moveSets:
   - name: Rock
     moves:
-    - name: Angry Rock
+    - name: MedievalStrum
       emo: 4
       power: 4
       Pp: 1
-      loopName: Guitar_Rock_Angry
-    - name: Energetic Rock
+      loopName: Guitar_MedievalStrum
+    - name: Soothing Pick
       emo: 5
       power: 2
       Pp: 3
-      loopName: Guitar_Rock_Energetic
+      loopName: Guitar_SoothingPick
   - name: Jazz
     moves:
-    - name: Happy Jazz
+    - name: Old Rebetiko
       emo: 0
       power: 4
       Pp: 1
-      loopName: Guitar_Jazz_Happy
-    - name: Romantic Jazz
+      loopName: Guitar_OldRebetik
+    - name: New Rebetiko
       emo: 1
       power: 2
       Pp: 3
-      loopName: Guitar_Jazz_Romantic
+      loopName: Guitar_NewRebetik
   - name: Folk
     moves:
     - name: Energetic Folk

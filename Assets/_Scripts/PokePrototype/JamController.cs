@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class JamController : MonoBehaviour {
 
 
-
 	public Move activeMove;
 	public int activeEmo;
 	public int score = 0;
@@ -82,16 +81,18 @@ public class JamController : MonoBehaviour {
 			}
 		activeEmo = activeMove.emo;
 		UpdateEmoDisplayText();
-		Debug.Log("Score: " + score);
+		//Debug.Log("Score: " + score);
 		jammageBar.value = score;
 		if(score <= hp * -1){
 			dialogueController.UpdateDialogue("You can't handle the jammage!",2);
 			StartCoroutine(DisplayBonusDialogue("You passed out!", 2));
 			gameOver = true;
+			musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.TotalFailure);
 		}else if(score >= hp){
 			dialogueController.UpdateDialogue("Excellent jammage!",2);
 			StartCoroutine(DisplayBonusDialogue("You outjammed Jammer!", 2));
 			gameOver = true;
+			musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.Pass);
 		}
 
 		
@@ -116,14 +117,14 @@ public class JamController : MonoBehaviour {
 					player.isPlayerTurn = false;
 					//ai.MakeMove();
 					ai.isNPCTurn = true;
-					Debug.Log("Player Turn Ended");
+					//Debug.Log("Player Turn Ended");
 					turn = Turn.NPC;
 					break;
 				case Turn.NPC:
 					turnDisplay.text = "Turn: Player";
 					player.isPlayerTurn = true;
 					ai.isNPCTurn = false;
-					Debug.Log("NPC Turn Ended");
+					//Debug.Log("NPC Turn Ended");
 					turn = Turn.Player;
 					break;
 			}
