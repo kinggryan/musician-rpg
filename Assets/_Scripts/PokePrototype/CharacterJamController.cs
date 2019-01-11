@@ -27,7 +27,7 @@ public class CharacterJamController : MonoBehaviour {
 		currentMove = moveSets.moveSets[currentMoveSet].moves[moveToSelect];
 		currentMove.Pp = currentMove.Pp - 1;
 		PlayNoteParticles(currentMove.emo);
-		jamController.activeMove = currentMove;
+		jamController.newMove = currentMove;
 		jamController.UpdateScore();
 		jamController.EndTurn();
 	}

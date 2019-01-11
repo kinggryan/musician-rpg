@@ -70,7 +70,7 @@ public class MusicalEncounterManager: MonoBehaviour {
 		songStructureManager.StopSong();
 		countoffController.enabled = false;
 		playerMidiController.enabled = false;
-		//particleController.EndSong();
+		particleController.EndSong();
 
 		foreach(var c in jamCanvas)
 			c.enabled = false;

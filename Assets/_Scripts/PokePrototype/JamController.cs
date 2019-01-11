@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class JamController : MonoBehaviour {
 
 
-	public Move activeMove;
+	public Move newMove;
 	public EmotionManager.Emo activeEmo;
 	public int score = 0;
 	public int hp;
@@ -69,37 +69,51 @@ public class JamController : MonoBehaviour {
 	public void UpdateScore(){
 		switch(turn) {
 			case Turn.Player:
-				score += activeMove.power;
-				if (emoManager.checkEmoStrengths(activeMove.emo, activeEmo)){
-					score += activeMove.power;
+				score += newMove.power;
+				if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
+					score += newMove.power;
 					StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
 				}
 				break;
 			case Turn.NPC:
-				score -= activeMove.power;
-				if (emoManager.checkEmoStrengths(activeMove.emo, activeEmo)){
-					score -= activeMove.power;
+				score -= newMove.power;
+				if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
+					score -= newMove.power;
 					StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
 				}
 				break;
 			}
-		activeEmo = activeMove.emo;
+		activeEmo = newMove.emo;
 		UpdateEmoDisplayText();
 		//Debug.Log("Score: " + score);
 		jammageBar.value = score;
-		if(score <= hp * -1){
+		if(ScoreIsBelowMin()){
 			dialogueController.UpdateDialogue("You can't handle the jammage!",2);
 			StartCoroutine(DisplayBonusDialogue("You passed out!", 2));
 			gameOver = true;
 			musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.TotalFailure);
-		}else if(score >= hp){
+		}else if(ScoreIsAboveMax()){
 			dialogueController.UpdateDialogue("Excellent jammage!",2);
 			StartCoroutine(DisplayBonusDialogue("You outjammed Jammer!", 2));
 			gameOver = true;
 			musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.Pass);
-		}
+		}	
+	}
 
-		
+	bool ScoreIsBelowMin(){
+		if(score <= hp * -1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	bool ScoreIsAboveMax(){
+		if(score >= hp){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	IEnumerator DisplayBonusDialogue(string dialogueToDispay, float timeToWait){
