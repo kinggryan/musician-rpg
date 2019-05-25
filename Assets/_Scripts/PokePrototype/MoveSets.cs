@@ -9,6 +9,7 @@ public class Move {
 	public int power;
 	public int Pp;
 	public string loopName;
+	public string style;
 }
 [System.Serializable]
 public class MoveSet {

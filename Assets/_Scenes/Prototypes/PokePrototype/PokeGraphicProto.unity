@@ -1085,6 +1085,7 @@ MonoBehaviour:
     power: 0
     Pp: 0
     loopName: 
+    style: 
   noteParticles: {fileID: 1716455890}
 --- !u!114 &825439266
 MonoBehaviour:
@@ -1106,11 +1107,13 @@ MonoBehaviour:
       power: 2
       Pp: 3
       loopName: Flute_Rock_Happy
+      style: Rock
     - name: Energetic Rock
       emo: 5
       power: 4
       Pp: 1
       loopName: Flute_Rock_Energetic
+      style: Rock
   - name: Jazz
     moves:
     - name: Sentimental Jazz
@@ -1118,11 +1121,13 @@ MonoBehaviour:
       power: 2
       Pp: 3
       loopName: Flute_Jazz_Sentimental
+      style: Jazz
     - name: Energetic Jazz
       emo: 5
       power: 4
       Pp: 1
       loopName: Flute_Jazz_Energetic
+      style: Jazz
   - name: Celtic
     moves:
     - name: Romantic Celtic
@@ -1130,11 +1135,13 @@ MonoBehaviour:
       power: 2
       Pp: 3
       loopName: Flute_Celtic_Romantic
+      style: Celtic
     - name: Happy Celtic
       emo: 0
       power: 4
       Pp: 1
       loopName: Flute_Celtic_Happy
+      style: Celtic
 --- !u!4 &825439267
 Transform:
   m_ObjectHideFlags: 0
@@ -11542,12 +11549,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de3f8f76a23e704d816fc5d259d223b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeMove:
+  newMove:
     name: 
     emo: 0
     power: 0
     Pp: 0
     loopName: 
+    style: 
   activeEmo: 0
   score: 0
   hp: 13
@@ -12089,6 +12097,7 @@ MonoBehaviour:
     power: 0
     Pp: 0
     loopName: 
+    style: 
   noteParticles: {fileID: 1326932297}
 --- !u!114 &2136257229
 MonoBehaviour:
@@ -12110,11 +12119,13 @@ MonoBehaviour:
       power: 4
       Pp: 1
       loopName: Guitar_MedievalStrum
+      style: 
     - name: Soothing Pick
       emo: 1
       power: 2
       Pp: 3
       loopName: Guitar_SoothingPick
+      style: 
   - name: Jazz
     moves:
     - name: Old Rebetiko
@@ -12122,11 +12133,13 @@ MonoBehaviour:
       power: 4
       Pp: 1
       loopName: Guitar_OldRebetik
+      style: 
     - name: New Rebetiko
       emo: 5
       power: 2
       Pp: 3
       loopName: Guitar_NewRebetik
+      style: 
   - name: Folk
     moves:
     - name: Energetic Folk
@@ -12134,11 +12147,13 @@ MonoBehaviour:
       power: 4
       Pp: 1
       loopName: Guitar_Folk_Energetic
+      style: 
     - name: Sentimental Folk
       emo: 2
       power: 2
       Pp: 3
       loopName: Guitar_Folk_Sentimental
+      style: 
 --- !u!4 &2136257230
 Transform:
   m_ObjectHideFlags: 0

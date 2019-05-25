@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - menuRow
+  - equippedMenuRow
+  - equippedStyleLabel
   layers:
   - Default
   - TransparentFX
