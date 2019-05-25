@@ -12,11 +12,13 @@ public class CharacterJamController : MonoBehaviour {
 	public ParticleSystem noteParticles;
 	private JamController jamController;
 	private EmotionManager emoManager;
+	
 
 	void Awake(){
 		moveSets = GetComponent<MoveSets>();
 		jamController = Object.FindObjectOfType<JamController>();
 		emoManager = FindObjectOfType<EmotionManager>();
+	
 	}
 	
 	public void ChangeMoveSet(int moveSetToSelect){

@@ -29,6 +29,7 @@ public class JamController : MonoBehaviour {
 	
 	private PlayerJamMenu player;
 	private bool gameOver;
+	private PersistentInfo persistenInfo;
 	private DialogueController dialogueController;
 	private EmotionManager emoManager;
 	
@@ -55,6 +56,8 @@ public class JamController : MonoBehaviour {
 			player.isPlayerTurn = false;
 			ai.MakeMove();		
 		}
+		persistenInfo = Object.FindObjectOfType<PersistentInfo>();
+		player.player.moveSets.moveSets = persistenInfo.activeMoves;
 		
 	}
 	void Start(){

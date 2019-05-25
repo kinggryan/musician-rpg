@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InventoryDisplay : MonoBehaviour
 {
@@ -62,6 +63,9 @@ public class InventoryDisplay : MonoBehaviour
 		if(Input.GetButtonDown("Select")){
 			OnSelect();
 		}
+        if(Input.GetButtonDown("Space")){
+            StartMusicalEncounter();
+        }
 	}
 
     void OnSelect(){
@@ -86,6 +90,12 @@ public class InventoryDisplay : MonoBehaviour
         }
 		
 	}
+
+    void StartMusicalEncounter(){
+        PersistentInfo persistenInfo = Object.FindObjectOfType<PersistentInfo>();
+        persistenInfo.activeMoves = inventory.activeMoves;
+        SceneManager.LoadScene(1);
+    }
 
 
     void MoveCursorUp(){

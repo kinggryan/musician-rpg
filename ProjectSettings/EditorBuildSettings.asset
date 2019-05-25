@@ -9,21 +9,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/_Scenes/Prototypes/JammageOnlyMenu.unity
-    guid: 6f9f2665ee01d427ba56810403978b27
+    path: Assets/_Scenes/Prototypes/PokePrototype/Inventory.unity
+    guid: 2aac47c2f0e66e44cb464c8732faf949
   - enabled: 1
-    path: Assets/_Scenes/Tutorial/Tutorial_Part1.unity
-    guid: 1d1464583a3984f4fa08cbf1842918b1
-  - enabled: 1
-    path: Assets/_Scenes/Tutorial/Tutorial_Part2.unity
-    guid: ac8e21e38ad1c4323a0af6d78fb0acca
-  - enabled: 1
-    path: Assets/_Scenes/Tutorial/Tutorial_Part3.unity
-    guid: 55688d86426424ceb8c2a8ee99521aa0
-  - enabled: 1
-    path: Assets/_Scenes/Prototypes/JammageOnly.unity
-    guid: 508439c1d0bb4458a8121178886557be
-  - enabled: 1
-    path: Assets/_Scenes/Prototypes/JammageOnlyFreePlay.unity
-    guid: dd6e27d6b447f449eb282cf78f4cad14
+    path: Assets/_Scenes/Prototypes/PokePrototype/PokeMusicalEncounter.unity
+    guid: eafbd5d022cf2984da684979ea94d1fa
   m_configObjects: {}
