@@ -14,7 +14,7 @@ public class SoundEngine : MonoBehaviour {
 
 	public EventAndName[] events;
 
-	/* void Awake ()
+	void Awake ()
     {
         if (instance != null && instance != this)
         {
@@ -27,7 +27,7 @@ public class SoundEngine : MonoBehaviour {
         }
 
         GameObject.DontDestroyOnLoad(gameObject);
-    } */
+    }
     
 
 	public void PlaySoundWithName(string name) {
@@ -42,16 +42,6 @@ public class SoundEngine : MonoBehaviour {
 		// Debugging thing
 		if (!playedSound) {
 			Debug.LogError("Couldn't find sound for name: " + name);
-		}
-	}
-
-	public void StopSoundWithName(string name) {
-		var playedSound = false;
-		foreach (var eventAndName in events) {
-			if (eventAndName.name == name) {
-				eventAndName.soundEvent.StopSound ();
-				playedSound = false;
-			}
 		}
 	}
 }

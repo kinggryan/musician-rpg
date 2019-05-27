@@ -33,6 +33,6 @@ public class NPCDialogueManager : MonoBehaviour {
 	// Update is called once per frame
 	public void StartConversation () {
 		dialogueManager.StartStory(inkJSONAsset, songFileName, dialogueBox, movementController, countoffDisplay);
-		soundEngine.StopSoundWithName("HarpSong");
+//		soundEngine.StopSoundWithName("HarpSong");
 	}
 }

@@ -13,35 +13,30 @@ public class MusicTransition : MonoBehaviour {
 	public float vertTargetVol;
 	public float vertStartVol;
 	public float fadeAfterTime;
-	public bool fadeAfterInterval;
+	private bool transition = false;
 	public float timer = 0;
-	public bool transition = false;
 
 	public void ChangeMusic(){
-		print("changing music: " + destination.name);
+		print("changing music");
 		transition = true;
 		if (!crossfade && !verticalLayer){
 			source.StopSound();
-		}else if(crossfade){
-			destination.PlaySound();
 		}
 	}
 
 	
 
 	// Use this for initialization
-	/* void Start () {
-		Debug.Log(gameObject.name + " Music Transition Load");
+	void Start () {
+		source.externalVolumeModifier = 1;
 		if (!verticalLayer){
-			source.externalVolumeModifier = 1;
 			destination.externalVolumeModifier = 0;
 		}
 		else {
 			 destination.externalVolumeModifier = vertStartVol;
-			print(destination.name + " vol mod: " + destination.externalVolumeModifier);
+			print("vol mod: " + destination.externalVolumeModifier);
 		}
 	}
-	*/
 
 
 	
@@ -51,9 +46,6 @@ public class MusicTransition : MonoBehaviour {
 		/*if (Input.GetKeyDown("space")){
             ChangeMusic();
         }*/
-
-		
-
 		if (transition){
 			if (crossfade){
 				source.externalVolumeModifier -= Time.deltaTime / transitionTime;
@@ -63,51 +55,29 @@ public class MusicTransition : MonoBehaviour {
 				}
 			} 
 			else if (verticalLayer){
-				if (vertTargetVol >= vertStartVol){
-					//Debug.Log("Turning UP");
-					if (destination.externalVolumeModifier >= vertTargetVol && fadeAfterTime <= 0){
+				if (destination.externalVolumeModifier >= vertTargetVol && fadeAfterTime <= 0){
+					transition = false;
+				}
+				else if (timer >= fadeAfterTime){
+					destination.externalVolumeModifier -= (Time.deltaTime / transitionTime) * (vertTargetVol - vertStartVol);
+
+					if (destination.externalVolumeModifier <= 0){
+						timer = 0;
+						destination.externalVolumeModifier = 0;
 						transition = false;
 					}
-					else if (timer >= fadeAfterTime && fadeAfterInterval){
-						destination.externalVolumeModifier -= (Time.deltaTime / transitionTime) * (vertTargetVol - vertStartVol);
-
-						if (destination.externalVolumeModifier <= 0){
-							timer = 0;
-							destination.externalVolumeModifier = 0;
-							transition = false;
-						}
-					}
-					else if (destination.externalVolumeModifier >= vertTargetVol && fadeAfterInterval){
-						timer += (Time.deltaTime / fadeAfterTime);
-					}
-					else {
-						destination.externalVolumeModifier += (Time.deltaTime / transitionTime) * (vertTargetVol - vertStartVol);
-					}
-				}else if (vertTargetVol < vertStartVol){
-					if (destination.externalVolumeModifier <= vertTargetVol && fadeAfterTime <= 0){
-						transition = false;
-					}
-					else if (timer >= fadeAfterTime && fadeAfterInterval){
-						destination.externalVolumeModifier -= (Time.deltaTime / transitionTime) * (vertTargetVol - vertStartVol);
-
-						if (destination.externalVolumeModifier <= 0){
-							timer = 0;
-							destination.externalVolumeModifier = 0;
-							transition = false;
-						}
-					}
-					else if (destination.externalVolumeModifier <= vertTargetVol){
-						timer += (Time.deltaTime / fadeAfterTime);
-					}
-					else {
-						destination.externalVolumeModifier += (Time.deltaTime / transitionTime) * (vertTargetVol - vertStartVol);
-					}
+				}
+				else if (destination.externalVolumeModifier >= vertTargetVol){
+					timer += (Time.deltaTime / fadeAfterTime);
+				}
+				else {
+					destination.externalVolumeModifier += (Time.deltaTime / transitionTime) * (vertTargetVol - vertStartVol);
 				}
 			}
 			else if (!verticalLayer){
 				if (source.fadeOutTimer <= 0.02f){
 					destination.externalVolumeModifier = vertTargetVol;
-					//destination.PlaySound();
+					destination.PlaySound();
 					transition = false;
 				}
 
