@@ -11,7 +11,46 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Prototypes/PokePrototype/Inventory.unity
     guid: 2aac47c2f0e66e44cb464c8732faf949
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/_Scenes/Prototypes/PokePrototype/PokeMusicalEncounter.unity
     guid: eafbd5d022cf2984da684979ea94d1fa
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/ToyTestGround.unity
+    guid: 5d0b8c09bb1191c4fb4d1adcc1540919
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Menu/00 SplashScreen.unity
+    guid: bf439e5bdd7302f4fb551ecc97d6d5fd
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Menu/Start.unity
+    guid: 9f6b2f79ecd307e498f33d4a07fc872e
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Menu/01b Options.unity
+    guid: 0d1c22a549b409c4f8201b1759f58725
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/EmptyHouse_01.unity
+    guid: 67ed8fb8002852242b5a854bdb100000
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/EmptyHouse_02.unity
+    guid: 78f6b6d8eee181748bcfd50d12795129
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/GuardHouse.unity
+    guid: 28edae065b4bc4c43bc86f39c149fccf
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/GuruHouse.unity
+    guid: 2eba21225055ddc42b9c45c0a9129055
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/HealerShop.unity
+    guid: 1aef3ec3fad40d14bbc5f1f45fcb74a0
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/Overworld.unity
+    guid: d6f96b17cfb52f949a69d8d4ace3fc1c
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/PlayerHouse.unity
+    guid: ed8b0da27c9093c478c84d33d9a2db22
+  - enabled: 1
+    path: Assets/_Scenes/Prototypes/PokePrototype/Rooms/ShroomShop.unity
+    guid: c4880f084366b754aa64242f7dce5710
   m_configObjects: {}

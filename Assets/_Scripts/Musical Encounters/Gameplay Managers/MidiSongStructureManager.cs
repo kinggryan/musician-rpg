@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MidiSongStructureManager : SongStructureManager, IScorekeeperListener {
 	public MIDISongPlayer songPlayer;
 
@@ -36,6 +37,13 @@ public class MidiSongStructureManager : SongStructureManager, IScorekeeperListen
 		transposeFilter.AddTransposeRule(transposeRules, sampleTimeForPhrase);
 	}
 
+	public void ManualChordChange(Chord chord){
+		Debug.Log("Changeing chord to " + chord.ToString());
+		var transposeRules = TransposeRules.RulesForChord(chord);
+		transposeFilter.AddTransposeRule(transposeRules, CurrentSampleTime() + 1000);
+		Debug.Log("ChordChanged");
+	}
+
 	override protected double GetCurrentBeat() {
 		return GetBeatForSampleTime(songPlayer.midiSequencer.SampleTime);
 	}
@@ -55,5 +63,10 @@ public class MidiSongStructureManager : SongStructureManager, IScorekeeperListen
 	private int GetSampleTimeForBeat(double beat) {
 		// NOTE: We use a static songBPM here because the sampleTime from the stream synthesizer is stretched to adjust for dynamic BPM already
 		return Mathf.FloorToInt((float)(beat / songBPM * 60 * songPlayer.midiStreamSynthesizer.SampleRate));
+	}
+
+	private int CurrentSampleTime() {
+		// NOTE: We use a static songBPM here because the sampleTime from the stream synthesizer is stretched to adjust for dynamic BPM already
+		return Mathf.FloorToInt((float)(AudioSettings.dspTime * songPlayer.midiStreamSynthesizer.SampleRate));
 	}
 }

@@ -48,13 +48,17 @@ public class PlayerMovementController : MonoBehaviour {
 
 	public SoundEvent spellSound;
 
+
 	private int startingHP;
 
 	private DemoWorldLevelManager levelManager;
 
 	static PlayerMovementController instance = null;
 
-	// Use this for initialization
+	void OnCollisionEnter2D(Collision2D col)
+    {
+        Debug.Log("OnCollisionEnter2D");
+    }
 
 	void Awake ()
     {
@@ -94,6 +98,14 @@ public class PlayerMovementController : MonoBehaviour {
 		print("End cast");
 		casting = false;
 		hasCast = false;
+		}
+	}
+
+	public void LockMovement(bool lockMovement){
+		if(lockMovement){
+			mode = MovementMode.Locked;
+		}else{
+			mode = MovementMode.Free;
 		}
 	}
 
@@ -177,13 +189,13 @@ public class PlayerMovementController : MonoBehaviour {
         }
 
 
-		if(Input.GetKeyDown("q") || Input.GetButtonDown("Fire1") && !hasCast){
-			//print("CAST!");
-			//animator.SetTrigger("cast");
-			//float castSpeed = spells.spellSpeed * spellLerpSpeed * Time.deltaTime;
-			//animator.SetFloat ("speed", Mathf.Lerp(0.5f, 10f, castSpeed));
-			//print("Cast speed: " + castSpeed);
-		}
+		// if(Input.GetKeyDown("q") || Input.GetButtonDown("Fire1") && !hasCast){
+		// 	//print("CAST!");
+		// 	//animator.SetTrigger("cast");
+		// 	//float castSpeed = spells.spellSpeed * spellLerpSpeed * Time.deltaTime;
+		// 	//animator.SetFloat ("speed", Mathf.Lerp(0.5f, 10f, castSpeed));
+		// 	//print("Cast speed: " + castSpeed);
+		// }
 		if (mode == MovementMode.Locked || mode == MovementMode.Animating) {
 			return;
 		}
@@ -202,23 +214,26 @@ public class PlayerMovementController : MonoBehaviour {
 			}
 
 			//SPRINT
-			float sprintModifier;
-			if(Input.GetButton("BButton") && hasStamina){
-				sprintModifier = sprintSpeed;
-				currentStamina -= Time.deltaTime * 2;
-				animator.speed = sprintModifier;
-			}else{
-				sprintModifier = 1;
-				if(currentStamina < stamina) currentStamina += Time.deltaTime;
-				animator.speed = 1;
-			}
+			// float sprintModifier;
+			// if(Input.GetButton("BButton") && hasStamina){
+			// 	sprintModifier = sprintSpeed;
+			// 	currentStamina -= Time.deltaTime * 2;
+			// 	animator.speed = sprintModifier;
+			// }else{
+			// 	sprintModifier = 1;
+			// 	if(currentStamina < stamina) currentStamina += Time.deltaTime;
+			// 	animator.speed = 1;
+			// }
 
 
 
-			rbody.velocity = Vector2.Lerp (rbody.velocity, movementInput*maxSpeed * sprintModifier, movementLerpSpeed * Time.deltaTime);
+			// rbody.velocity = Vector2.Lerp (rbody.velocity, movementInput*maxSpeed /* * sprintModifier*/, movementLerpSpeed * Time.deltaTime);
+			
+			rbody.velocity = movementInput * maxSpeed;
+			
 
 			// Set animation parameters
-			var walking = movementInput.magnitude > 0.01f;
+			bool walking = movementInput.magnitude > 0.001f;
 			animator.SetBool ("walking", walking);
 			//if(walking) {
 				// The walk directions are:

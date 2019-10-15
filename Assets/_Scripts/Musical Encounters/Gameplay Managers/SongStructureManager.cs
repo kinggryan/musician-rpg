@@ -47,18 +47,18 @@ public abstract class SongStructureManager : MonoBehaviour {
 	protected bool isSongPlaying = false;
 	protected List<ISongUpdateListener> songUpdateListeners = new List<ISongUpdateListener>();
 
-	private int endBeat {
-		get {
-			var beat = 0;
-			foreach(var section in songSections) {
-				foreach(var phrase in section.phrases) {
-					beat += phrase.TotalBeatLength();
-				}
-			}
+	// private int endBeat {
+	// 	get {
+	// 		var beat = 0;
+	// 		foreach(var section in songSections) {
+	// 			foreach(var phrase in section.phrases) {
+	// 				beat += phrase.TotalBeatLength();
+	// 			}
+	// 		}
 
-			return beat;
-		}
-	}
+	// 		return beat;
+	// 	}
+	// }
 
 	//-- Public functions
 
@@ -155,9 +155,9 @@ public abstract class SongStructureManager : MonoBehaviour {
 		currentSongBeat = GetCurrentBeat();
 
 		if(currentSongBeat > previousBeat) {
-			if(currentSongBeat == endBeat) {
-				EndSong();
-			}
+			// if(currentSongBeat == endBeat) {
+			// 	EndSong();
+			// }
 
 			// Play the next phrase
 			if(currentSongBeat == currentSongPhraseEndBeat - 1)

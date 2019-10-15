@@ -80,10 +80,15 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		}
 	}
 
+	public void ChangeChord(Chord chord){
+		songStructureManager.ManualChordChange(chord);
+	}
+
 	public void DidFinishSong() { }
 
 	// Use this for initialization
 	void Start () {
+		
 		
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
@@ -121,10 +126,17 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	// Update is called once per frame
 	void Update () {
 
-		if (mute){
-			volumeFilter.volumeMultiplier = 0;
-		}else{
-			volumeFilter.volumeMultiplier = 1;
+		// if (mute){
+		// 	volumeFilter.volumeMultiplier = 0;
+		// }else{
+		// 	volumeFilter.volumeMultiplier = 1;
+		// }
+
+		if(Input.GetKeyDown("f")){
+			ChangeChord(Chord.I);
+		}
+		if(Input.GetKeyDown("g")){
+			ChangeChord(Chord.V);
 		}
 		
         UpdateCurrentMidiFile();

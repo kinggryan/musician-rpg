@@ -5,7 +5,9 @@ using CSharpSynth.Midi;
 
 public class MIDISmartTranspose : MIDITrackFilter {
 
-	class TransposeRulesQueueElement {
+	public TransposeRulesQueueElement transposeQueueElement;
+
+	public class TransposeRulesQueueElement {
 		public TransposeRules transposeRules;
 		public int startSampleTime;
 

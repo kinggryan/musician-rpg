@@ -12,6 +12,10 @@ public class PlayerJamMenu : MonoBehaviour {
 	public PlayerMidiController playerMidiController;
 	public bool startMuted = true;
 	public Animator animator;
+	[SerializeField]
+	private int menuCursorOffset;
+	[SerializeField]
+	private Vector2 styleButtonOffset;
 
 	private Move[] moveSet;
 	public CharacterJamController player;
@@ -37,7 +41,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	}
 
 	void InstantiateCursor(){
-		menuCursor = Object.Instantiate(menuCursorPrefab, new Vector3(transform.position.x - 90, transform.position.y + 10 - (rowHeight * 2) + (rowHeight * moveSet.Length), transform.position.z), Quaternion.identity);
+		menuCursor = Object.Instantiate(menuCursorPrefab, new Vector3(transform.position.x + menuCursorOffset, transform.position.y + 10 - (rowHeight * 2) + (rowHeight * moveSet.Length), transform.position.z), Quaternion.identity);
 		menuCursor.transform.parent = gameObject.transform;
 	}
 
@@ -114,7 +118,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	void ResetMenuCursorPosition(){
 		menuIndex = 0;
 		if (menuCursor != null){
-			menuCursor.transform.position = new Vector3(transform.position.x - 100, transform.position.y + 8 - (rowHeight * 2) + (rowHeight * moveSet.Length), transform.position.z);
+			menuCursor.transform.position = new Vector3(transform.position.x + menuCursorOffset, transform.position.y + 8 - (rowHeight * 2) + (rowHeight * moveSet.Length), transform.position.z);
 		}
 		RemoveErrantChildren();
 	}
@@ -126,6 +130,7 @@ public class PlayerJamMenu : MonoBehaviour {
 		ResetMenuCursorPosition();
 		moveSet = player.moveSets.moveSets[player.currentMoveSet].moves;
 		float yCoord = transform.position.y - rowHeight + (moveSet.Length * rowHeight);
+		Debug.Log("Creating menu header");
 		JamMenuRow menuHeader = CreateNewMenuRow(yCoord,"Pattern","Power","PP");
 		yCoord = GetNextYCoord(yCoord);
 		foreach(Move move in moveSet){
@@ -159,21 +164,25 @@ public class PlayerJamMenu : MonoBehaviour {
 	}
 
 	GameObject CreateStyleButton(float yCoord){
-		var newStyleButton = GameObject.Instantiate(styleButton, new Vector3(transform.position.x, yCoord, transform.position.z), Quaternion.identity);
+		var newStyleButton = GameObject.Instantiate(styleButton, new Vector3(transform.position.x + styleButtonOffset.x, yCoord + styleButtonOffset.y, transform.position.z), Quaternion.identity);
 		newStyleButton.transform.parent = gameObject.transform;
 		return newStyleButton;
+		Debug.Log("Style button made");
 	}
 
 	void UpdateMenuValues(){
 		int i = 0;
 		int moveSetLength = player.moveSets.moveSets[player.currentMoveSet].moves.Length;
 		foreach(Transform child in transform){
-			if(i < moveSetLength && child.gameObject.tag == "menuRow"){
-			var move = player.moveSets.moveSets[player.currentMoveSet].moves[i];
+			if(i == 0){
+				i++;
+			}
+			else if(i < moveSetLength && child.gameObject.tag == "menuRow"){
+			var move = player.moveSets.moveSets[player.currentMoveSet].moves[i-1];
 			var menuRow = child.gameObject.GetComponent<JamMenuRow>();
 			menuRow.rowItems[0].text = move.name;
 			menuRow.rowItems[1].text = move.power.ToString();
-			menuRow.rowItems[2].text = move.emo.ToString();
+			menuRow.rowItems[2].text = move.Pp.ToString();
 			menuRow.rowItems[3].text = move.Pp.ToString();
 			i++;
 			}
@@ -183,7 +192,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	public void PopulateStyleList(){
 		list = List.StyleList;
 		ResetMenuCursorPosition();
-		float yCoord = transform.position.y - rowHeight + (moveSet.Length * rowHeight);
+		float yCoord = transform.position.y - (rowHeight*2) + (moveSet.Length * rowHeight);
 		var styles = player.moveSets.moveSets;
 		foreach(MoveSet style in styles){
 			JamMenuRow newMenuRow = CreateNewStyleMenuRow(yCoord,style.name);
@@ -202,7 +211,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	}
 
 	JamMenuRow CreateNewStyleMenuRow(float yCoord,string text){
-			var menuRowObject = Object.Instantiate(styleRow, new Vector3(transform.position.x, yCoord, transform.position.z), Quaternion.identity);
+			var menuRowObject = Object.Instantiate(styleRow, new Vector3(transform.position.x + styleButtonOffset.x, yCoord + styleButtonOffset.y, transform.position.z), Quaternion.identity);
 			menuRowObject.transform.parent = gameObject.transform;
 			JamMenuRow newMenuRow = menuRowObject.GetComponent<JamMenuRow>();
 			newMenuRow.rowItems[0].text = text;

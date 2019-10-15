@@ -32,12 +32,14 @@ public class MIDIPlayer : MonoBehaviour
     }
 
     // public int chordChange {
-    //     set {transposeFilter.transposeRules = transposeRules[value];
+    //     set {transposeFilter. = transposeRules[value];
     //         midiStreamSynthesizer.NoteOffAll(true);
+    //     }
     // }
 
     // public TransposeRules[] transposeRules;
     
+
     public bool mute;
     //Private 
     private float[] sampleBuffer;
@@ -75,6 +77,7 @@ public class MIDIPlayer : MonoBehaviour
         // Play();
     }
 
+
     public void Play() {
         isPlaying = true;
         midiSequencer.Play();
@@ -89,6 +92,7 @@ public class MIDIPlayer : MonoBehaviour
     void Start()
     {
     }
+
 
     // Update is called every frame, if the
     // MonoBehaviour is enabled.

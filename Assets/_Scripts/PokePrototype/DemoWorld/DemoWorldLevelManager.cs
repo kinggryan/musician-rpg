@@ -45,7 +45,7 @@ public class DemoWorldLevelManager : MonoBehaviour {
         levelToLoad = name;
         timerOn = true;
         Debug.Log("Level load requested for " + levelToLoad + " Time on = " + timerOn + ".");
-        FadeTransition(transitionTime);
+        //FadeTransition(transitionTime);
         
     }
 
