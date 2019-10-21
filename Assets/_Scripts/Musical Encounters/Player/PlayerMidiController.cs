@@ -34,10 +34,13 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	public int currentInstIndex;
 	public int outputChannel = 0;
 	public bool mute;
+	[SerializeField]
+	private bool mono;
 	
 	float songBPM = 240f;
 
-	int[] playerInstruments = new int[]{74,127,126,94,98,102,101,108,103,118,110,111,91,88};
+	int[] playerInstruments = new int[]{74,25,126,94,98,102,101,108,103,118,110,111,91,88};
+	[SerializeField]
 	int playerInstrumentsIndex = 0;
 	
 	MidiFileStreamer midiStreamer;
@@ -114,8 +117,10 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 		midiStreamer.AddFilter(volumeFilter);
 
 		// Add the monophonic filter here
-		monophonicFilter = new MIDIMonophonicFilter();
-		midiStreamer.AddFilter(monophonicFilter);
+		if(mono){
+			monophonicFilter = new MIDIMonophonicFilter();
+			midiStreamer.AddFilter(monophonicFilter);
+		}
 		
 		currentInstIndex = 0;
 

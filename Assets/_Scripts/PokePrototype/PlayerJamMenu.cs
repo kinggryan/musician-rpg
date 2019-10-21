@@ -11,6 +11,8 @@ public class PlayerJamMenu : MonoBehaviour {
 	public bool isPlayerTurn = false;
 	public PlayerMidiController playerMidiController;
 	public bool startMuted = true;
+	public bool controlsDisabled;
+	public GameObject chordSelector;
 	public Animator animator;
 	[SerializeField]
 	private int menuCursorOffset;
@@ -36,6 +38,7 @@ public class PlayerJamMenu : MonoBehaviour {
 			
 		}
 		dialogueController = Object.FindObjectOfType<DialogueController>();
+		jamController = Object.FindObjectOfType<JamController>();
 		PopulateMoveList();	
 		InstantiateCursor();
 	}
@@ -46,17 +49,30 @@ public class PlayerJamMenu : MonoBehaviour {
 	}
 
 	void Update(){
-		if(Input.GetButtonDown("Up")){
-			MoveCursorUp();
-		}
-		if(Input.GetButtonDown("Down")){
-			MoveCursorDown();
-		}
-		if(Input.GetButtonDown("Select")){
-			if(isPlayerTurn){
-				OnSelect();
+		if(!controlsDisabled){
+			if(Input.GetButtonDown("Up")){
+				MoveCursorUp();
+			}
+			if(Input.GetButtonDown("Down")){
+				MoveCursorDown();
+			}
+			if(Input.GetButtonDown("Select")){
+				if(isPlayerTurn){
+					OnSelect();
+				}
+			}
+			if(Input.GetKeyDown("backspace")){
+				StopSong();
+				jamController.firstMove = true;
+				controlsDisabled = true;
+				chordSelector.SetActive(true);
 			}
 		}
+	}
+
+	public void StopSong(){
+		playerMidiController.midiPlayer.Stop();
+		player.jamController.firstMove = true;
 	}
 
 	void OnSelect(){
@@ -93,6 +109,7 @@ public class PlayerJamMenu : MonoBehaviour {
 		dialogueController.UpdateDialogue("You used " + currentMove.name + "!",2);
 		UpdateMenuValues();
 	}
+	
 
 	void MoveCursorUp(){
 		if(menuIndex > 0){
@@ -183,7 +200,6 @@ public class PlayerJamMenu : MonoBehaviour {
 			menuRow.rowItems[0].text = move.name;
 			menuRow.rowItems[1].text = move.power.ToString();
 			menuRow.rowItems[2].text = move.Pp.ToString();
-			menuRow.rowItems[3].text = move.Pp.ToString();
 			i++;
 			}
 		}

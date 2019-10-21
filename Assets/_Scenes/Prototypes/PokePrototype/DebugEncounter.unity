@@ -760,6 +760,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PersistentInfo
       objectReference: {fileID: 0}
+    - target: {fileID: 6321272851863988218, guid: 3703fad1bb96ef14d8873ddc54e2625f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6321272851863988221, guid: 3703fad1bb96ef14d8873ddc54e2625f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1645,7 +1650,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 611864557
-  m_SortingLayer: 8
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -6561,6 +6566,8 @@ MonoBehaviour:
   isPlayerTurn: 0
   playerMidiController: {fileID: 1423210440}
   startMuted: 1
+  controlsDisabled: 0
+  chordSelector: {fileID: 0}
   animator: {fileID: 1716455887}
   menuCursorOffset: -60
   styleButtonOffset: {x: 33, y: -2}
@@ -11551,6 +11558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de3f8f76a23e704d816fc5d259d223b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soloPlay: 0
   newMove:
     name: 
     emo: 0
@@ -11717,6 +11725,11 @@ PrefabInstance:
       propertyPath: testSong
       value: Songs/SensitiveHarp
       objectReference: {fileID: 0}
+    - target: {fileID: 114204891874136292, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 3}
+      propertyPath: playerInstrumentsIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
       propertyPath: playerMoves.Array.size
@@ -11745,22 +11758,22 @@ PrefabInstance:
     - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
       propertyPath: playerMoves.Array.data[0].loopName
-      value: Flute_Celtic_Happy
+      value: Guitar_MedievalStrum
       objectReference: {fileID: 0}
     - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
       propertyPath: playerMoves.Array.data[1].loopName
-      value: Flute_Celtic_Romantic
+      value: Guitar_SoothingPick
       objectReference: {fileID: 0}
     - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
       propertyPath: playerMoves.Array.data[2].loopName
-      value: Flute_Jazz_Energetic
+      value: Guitar_OldRebetik
       objectReference: {fileID: 0}
     - target: {fileID: 114603825184883100, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
       propertyPath: playerMoves.Array.data[3].loopName
-      value: Flute_Jazz_Sentimental
+      value: Guitar_NewRebetik
       objectReference: {fileID: 0}
     - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
         type: 3}
@@ -11826,6 +11839,11 @@ PrefabInstance:
         type: 3}
       propertyPath: knownLoopNames.Array.data[11]
       value: Guitar_NewRebetik
+      objectReference: {fileID: 0}
+    - target: {fileID: 114755676810867986, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c,
+        type: 3}
+      propertyPath: mono
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4962043577239176, guid: d4b9ca5ec9cfa7942b078e4b9cec8a3c, type: 3}
       propertyPath: m_LocalPosition.x

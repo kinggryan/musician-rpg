@@ -74,6 +74,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private MidiFileStreamer midiStreamer;
     private MIDITrackGate gate;
     private MIDIVolumeFilter volumeFilter;
+	MIDIMonophonicFilter monophonicFilter;
 	private bool dynMatchBuffer;
 	
 	private float volumeTimer;
@@ -86,9 +87,11 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private bool gateMatchBuffer;
 
 	private const int channelNumber = 1;
-	public const int instrumentIndex = 25;
+	public const int instrumentIndex = 74;
 
 	private List<IAIListener> listeners = new List<IAIListener>();
+	[SerializeField]
+	private bool mono;
 
 	public void DidChangeLoop(AudioLoop playerLoop, int index) {
 		loopDecider.DidStartPlayerLoop(playerLoop);
@@ -128,6 +131,11 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		midiStreamer.outputChannel = channelNumber;
 		midiPlayer.midiSequencer.setProgram(channelNumber, instrumentIndex);
 
+		if(mono){
+			monophonicFilter = new MIDIMonophonicFilter();
+			midiStreamer.AddFilter(monophonicFilter);
+		}
+
 		gate = new MIDITrackGate();
 		// midiStreamer.AddFilter(gate);
 		gate.activeChannel = channelNumber;
@@ -136,6 +144,8 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		midiStreamer.AddFilter(volumeFilter);
 		volumeFilter.activeChannel = channelNumber;
 		volumeFilter.volumeMultiplier = 0.8f;
+
+		
 
 		moveInterval = Random.Range(moveMinInterval, moveMaxInterval);
 

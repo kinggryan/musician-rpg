@@ -92,7 +92,7 @@ public class EmotionManager : MonoBehaviour
         }
 
         public Color GetEmoColor(Emo emo){
-            Debug.Log("Getting emo color " + emo.ToString());
+            //Debug.Log("Getting emo color " + emo.ToString());
             switch(emo){
             case Emo.Happy:
                 return emoColors[0];

@@ -50,7 +50,7 @@ public class Dialogue : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown("space") || Input.GetButtonDown("BButton")) {
+		if (Input.GetKeyDown("space")) {
 			if (playerInArea){
 				if (GameObject.Find("DialogueBox(Clone)") == null){
 				print("dialogue started");

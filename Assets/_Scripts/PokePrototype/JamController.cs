@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class JamController : MonoBehaviour {
 
-
+	[SerializeField]
+	private bool soloPlay;
 	public Move newMove;
 	public EmotionManager.Emo activeEmo;
 	public int score = 0;
@@ -62,45 +63,62 @@ public class JamController : MonoBehaviour {
 	}
 	void Start(){
 		musicalEncounterManager.StartedMusicalEncounter(songFileName, countoffDisplay);
-		dialogueController.UpdateDialogue("Jammer wants to jam!",2);
+		if(!soloPlay){
+			OnStart();
+		}
+	}
+
+	public void OnStart(){
+		musicalEncounterManager.StartedMusicalEncounter(songFileName, countoffDisplay);
+		if(soloPlay){
+			dialogueController.UpdateDialogue("Solo Play!",2);	
+		}else{
+			dialogueController.UpdateDialogue("Jammer wants to jam!",2);
+		}
 	}
 
 	public void StartSong(){
+		Debug.Log("Starting song");
 		musicalEncounterManager.countoffController.StartCountoff();
 	}
 
 	public void UpdateScore(){
-		switch(turn) {
-			case Turn.Player:
-				score += newMove.power;
-				if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
+		if(!soloPlay){
+			switch(turn) {
+				case Turn.Player:
 					score += newMove.power;
-					StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
-				}
-				break;
-			case Turn.NPC:
-				score -= newMove.power;
-				if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
+					if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
+						score += newMove.power;
+						StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
+					}
+					break;
+				case Turn.NPC:
 					score -= newMove.power;
-					StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
+					if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
+						score -= newMove.power;
+						StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
+					}
+					break;
 				}
-				break;
+			activeEmo = newMove.emo;
+			UpdateEmoDisplayText();
+			//Debug.Log("Score: " + score);
+			jammageBar.value = score;
+			if(ScoreIsBelowMin()){
+				dialogueController.UpdateDialogue("You can't handle the jammage!",2);
+				StartCoroutine(DisplayBonusDialogue("You passed out!", 2));
+				gameOver = true;
+				musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.TotalFailure);
+			}else if(ScoreIsAboveMax()){
+				dialogueController.UpdateDialogue("Excellent jammage!",2);
+				StartCoroutine(DisplayBonusDialogue("You outjammed Jammer!", 2));
+				gameOver = true;
+				musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.Pass);
 			}
-		activeEmo = newMove.emo;
-		UpdateEmoDisplayText();
-		//Debug.Log("Score: " + score);
-		jammageBar.value = score;
-		if(ScoreIsBelowMin()){
-			dialogueController.UpdateDialogue("You can't handle the jammage!",2);
-			StartCoroutine(DisplayBonusDialogue("You passed out!", 2));
-			gameOver = true;
-			musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.TotalFailure);
-		}else if(ScoreIsAboveMax()){
-			dialogueController.UpdateDialogue("Excellent jammage!",2);
-			StartCoroutine(DisplayBonusDialogue("You outjammed Jammer!", 2));
-			gameOver = true;
-			musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.Pass);
-		}	
+		}else{
+			activeEmo = newMove.emo;
+			UpdateEmoDisplayText();
+		}
 	}
 
 	bool ScoreIsBelowMin(){
@@ -130,7 +148,7 @@ public class JamController : MonoBehaviour {
 	}
 
 	public void EndTurn(){
-		if(!gameOver){
+		if(!gameOver && !soloPlay){
 			switch(turn){
 				
 				case Turn.Player:

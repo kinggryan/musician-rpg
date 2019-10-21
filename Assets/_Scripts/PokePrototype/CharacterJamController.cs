@@ -10,7 +10,7 @@ public class CharacterJamController : MonoBehaviour {
 	public int currentMoveSet = 0;
 	public Move currentMove;
 	public ParticleSystem noteParticles;
-	private JamController jamController;
+	public JamController jamController;
 	private EmotionManager emoManager;
 	
 
@@ -31,10 +31,15 @@ public class CharacterJamController : MonoBehaviour {
 		PlayNoteParticles(currentMove.emo);
 		jamController.newMove = currentMove;
 		jamController.UpdateScore();
+		if(jamController.firstMove){
+			jamController.StartSong();
+			jamController.firstMove = false;
+		}
 		jamController.EndTurn();
 	}
 
 	void PlayNoteParticles(EmotionManager.Emo emo){
+		Debug.Log("Notes go!");
 		noteParticles.startColor = emoManager.GetEmoColor(emo);
 		noteParticles.Play();
 	}
