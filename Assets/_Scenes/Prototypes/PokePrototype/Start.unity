@@ -385,7 +385,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusPower
         m_Mode: 1
         m_Arguments:
@@ -976,7 +976,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusPower
         m_Mode: 1
         m_Arguments:
@@ -1109,7 +1109,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusPower
         m_Mode: 1
         m_Arguments:
@@ -2391,7 +2391,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusSpeed
         m_Mode: 1
         m_Arguments:
@@ -2524,7 +2524,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusPower
         m_Mode: 1
         m_Arguments:
@@ -3672,7 +3672,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusLight
         m_Mode: 1
         m_Arguments:
@@ -4016,7 +4016,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusPower
         m_Mode: 1
         m_Arguments:
@@ -4149,7 +4149,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusDark
         m_Mode: 1
         m_Arguments:
@@ -4467,11 +4467,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6321272851863988218, guid: 3703fad1bb96ef14d8873ddc54e2625f,
-        type: 3}
-      propertyPath: m_Name
-      value: PersistentInfo
-      objectReference: {fileID: 0}
     - target: {fileID: 6321272851863988221, guid: 3703fad1bb96ef14d8873ddc54e2625f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4526,6 +4521,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6321272851863988218, guid: 3703fad1bb96ef14d8873ddc54e2625f,
+        type: 3}
+      propertyPath: m_Name
+      value: PersistentInfo
       objectReference: {fileID: 0}
     - target: {fileID: 6321272851863988220, guid: 3703fad1bb96ef14d8873ddc54e2625f,
         type: 3}
@@ -5164,7 +5164,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusRange
         m_Mode: 1
         m_Arguments:
@@ -5430,7 +5430,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusPower
         m_Mode: 1
         m_Arguments:
@@ -6748,7 +6748,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusRadius
         m_Mode: 1
         m_Arguments:
@@ -8081,7 +8081,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusPower
         m_Mode: 1
         m_Arguments:
@@ -9485,7 +9485,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusRadius
         m_Mode: 1
         m_Arguments:
@@ -9954,7 +9954,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusPower
         m_Mode: 1
         m_Arguments:
@@ -10087,7 +10087,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusSpeed
         m_Mode: 1
         m_Arguments:
@@ -11329,11 +11329,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209648583}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 9.55, y: 0.8, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1536136939}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1209648585
 SpriteRenderer:
@@ -12366,7 +12366,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusDark
         m_Mode: 1
         m_Arguments:
@@ -13241,7 +13241,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusRange
         m_Mode: 1
         m_Arguments:
@@ -13491,52 +13491,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 83711475835184662}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1515622432
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1640724375413614, guid: 9d8bbc1376aff6d4f84e5b28f8b4d4fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1515622434}
-  - component: {fileID: 1515622433}
-  m_Layer: 0
-  m_Name: Spells
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1515622433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114403406836801398, guid: 9d8bbc1376aff6d4f84e5b28f8b4d4fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1515622432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed72410a2c28c4340be74d2497164ff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1515622434
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4907437084146684, guid: 9d8bbc1376aff6d4f84e5b28f8b4d4fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1515622432}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1521905850
 GameObject:
   m_ObjectHideFlags: 0
@@ -77488,9 +77442,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 936641085}
-  - {fileID: 1209648584}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1536136940
 Animator:
@@ -77798,7 +77751,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusPower
         m_Mode: 1
         m_Arguments:
@@ -77931,7 +77884,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusPower
         m_Mode: 1
         m_Arguments:
@@ -78711,7 +78664,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusPower
         m_Mode: 1
         m_Arguments:
@@ -78900,7 +78853,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: plusPower
         m_Mode: 1
         m_Arguments:
@@ -81449,7 +81402,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusPower
         m_Mode: 1
         m_Arguments:
@@ -82167,7 +82120,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusPower
         m_Mode: 1
         m_Arguments:
@@ -82953,7 +82906,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1515622433}
+      - m_Target: {fileID: 0}
         m_MethodName: minusLight
         m_Mode: 1
         m_Arguments:
@@ -84117,7 +84070,7 @@ Transform:
   - {fileID: 8465582251484293662}
   - {fileID: 8465582252652650721}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8465582251733099219
 GameObject:
@@ -94413,16 +94366,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8465582253334732596}
     m_Modifications:
-    - target: {fileID: 6321272851863988218, guid: 3703fad1bb96ef14d8873ddc54e2625f,
-        type: 3}
-      propertyPath: m_Name
-      value: PersistentInfo
-      objectReference: {fileID: 0}
-    - target: {fileID: 6321272851863988218, guid: 3703fad1bb96ef14d8873ddc54e2625f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6321272851863988221, guid: 3703fad1bb96ef14d8873ddc54e2625f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -94477,6 +94420,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6321272851863988218, guid: 3703fad1bb96ef14d8873ddc54e2625f,
+        type: 3}
+      propertyPath: m_Name
+      value: PersistentInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6321272851863988218, guid: 3703fad1bb96ef14d8873ddc54e2625f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6321272851863988220, guid: 3703fad1bb96ef14d8873ddc54e2625f,
         type: 3}
