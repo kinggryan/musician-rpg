@@ -28,7 +28,6 @@ public class WindEffect : MonoBehaviour {
 		transform.position = new Vector3(camera.transform.position.x + Random.Range(- xPosRange, xPosRange),camera.transform.position.y + Random.Range(-yPosRange, yPosRange),transform.position.z);
 		
 		soundEngine.PlaySoundWithName("windGust");
-		print("Wind Sound");
 		yield return new WaitForSeconds(1);
 		particleSystem.Play();
 		soundEngine.PlaySoundWithName("windWhistle");

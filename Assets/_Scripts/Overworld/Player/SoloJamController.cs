@@ -39,7 +39,7 @@ public class SoloJamController : MonoBehaviour {
 		// TODO: The dialoguemanager should talk to an NPC controller, rather than smaller components of that controller
 		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
 		// Don't display the UI elements until the npc has 
-		musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName,countoffDisplay);
+		musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName/*,countoffDisplay */);
 		isSoloJamming = true;
 	}
 

@@ -57,8 +57,11 @@ public class MIDISongPlayer : MonoBehaviour
     }
 
     public void Play() {
-        isPlaying = true;
-        midiSequencer.Play();
+        //Prevent more the 1 song from playing
+        if(!isPlaying){
+            isPlaying = true;
+            midiSequencer.Play();
+        }
     }
 
     public void Stop() {

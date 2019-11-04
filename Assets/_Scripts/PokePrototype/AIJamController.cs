@@ -10,7 +10,7 @@ public class AIJamController : MonoBehaviour {
 	private CharacterJamController characterJamController;
 	private JamController jamController;
 	public Text currentMoveDisplay;
-	private AIMIDIController aiMidiController;
+	public AIMIDIController aiMidiController;
 	private bool lastMoveWasStyleChange = true;
 	private DialogueController dialogueController;
 	
@@ -39,7 +39,7 @@ public class AIJamController : MonoBehaviour {
 	}
 
 	bool NPCOutOfPP(){
-		Debug.Log("Checking if NPC has PP");
+//		Debug.Log("Checking if NPC has PP");
 		int currentTotalPP = CurrentTotalPP();
 		if(currentTotalPP > 0){
 			return false;

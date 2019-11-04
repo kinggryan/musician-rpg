@@ -22,7 +22,7 @@ public class MusicalEncounterManager: MonoBehaviour {
 	}
 
 	struct MusicalEncounterInfo {
-		public string songFileName;
+		public string currentSongFile;
 		// Other metadata about the song -  npc, environment, etc
 		public SuccessLevel successLevel;
 	}
@@ -47,20 +47,23 @@ public class MusicalEncounterManager: MonoBehaviour {
 	}
 
 	public string GetCurrentMusicalEncounterSongFile() {
-		return currentEncounterInfo.songFileName;
+		return currentEncounterInfo.currentSongFile;
 	}
 
 	// TODO: This should be modified once we have the unified NPC manager to take an NPC manager rather than the component pieces
-	public void StartedMusicalEncounter(string songFileName, PlayerCountoffDisplay countoffDisplay) {
-		currentEncounterInfo.songFileName = songFileName;
-		songStructureManager.LoadSong(songFileName);
-		aiMIDIController.LoadSong();
-		countoffController.enabled = true;
-		countoffController.countoffDisplay = countoffDisplay;
+	public void StartedMusicalEncounter(string songFileName/*, PlayerCountoffDisplay countoffDisplay*/) {
+		LoadSong(songFileName);
+		// countoffController.enabled = true;
+		// countoffController.countoffDisplay = countoffDisplay;
 		playerMidiController.enabled = true;
-
 		foreach(var c in jamCanvas)
 			c.enabled = true;
+	}
+
+	public void LoadSong(string songFileName){
+		currentEncounterInfo.currentSongFile = songFileName;
+		songStructureManager.LoadSong(songFileName);
+		aiMIDIController.LoadSong();
 	}
 
 	public void CompletedMusicalEncounter(SuccessLevel successLevel) {

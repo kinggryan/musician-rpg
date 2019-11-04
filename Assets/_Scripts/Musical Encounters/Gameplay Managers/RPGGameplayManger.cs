@@ -131,7 +131,7 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 
 	void Awake() {
 		NotificationBoard.AddListener(PlayerMidiController.Notifications.changedSelectedLoop, DidChangeCurrentPlayerLoop);
-		NotificationBoard.AddListener(SongStructureManager.Notifications.didStartSong, DidStartSong);
+//		NotificationBoard.AddListener(SongStructureManager.Notifications.didStartSong, DidStartSong);
 		songStructureManager = Object.FindObjectOfType<MidiSongStructureManager>();
 		songStructureManager.RegisterSongUpdateListener(this);
 
@@ -162,7 +162,7 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 
 	void OnDestroy() {
 		NotificationBoard.RemoveListener(PlayerMidiController.Notifications.changedSelectedLoop, DidChangeCurrentPlayerLoop);
-		NotificationBoard.RemoveListener(SongStructureManager.Notifications.didStartSong, DidStartSong);
+//		NotificationBoard.RemoveListener(SongStructureManager.Notifications.didStartSong, DidStartSong);
 	}
 
 	// Public functions
@@ -208,12 +208,12 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 	private IEnumerator ReturnToOverworld() {
 		yield return new WaitForSeconds(3f);
 		var transitionManager = Object.FindObjectOfType<TransitionManager>();
-		transitionManager.ReturnToOverworld();
+		//transitionManager.ReturnToOverworld();
 	}
 
-	void DidStartSong(object sender, object arg) {
-		UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, 0);
-	}
+	// public void DidStartSong(object sender, object arg) {
+	// 	UpdateStaminaAndJammageWithNextPlayerMove(currentPlayerMoveIndex, 0);
+	// }
 
 	void DidChangeCurrentPlayerLoop(object sender, object arg) {
 		currentPlayerMoveIndex = (int)arg;
@@ -388,7 +388,7 @@ public partial class RPGGameplayManger : MonoBehaviour, ISongUpdateListener, IAI
 		// Get NPC rhythm string
 		var npcRhythmString = new RhythmString("");
 		foreach(var record in npcSongRecord) {
-			npcRhythmString = npcRhythmString.AppendRhythmString(record.loop.rhythmString.GetRhythmStringForBeat(record.startBeat));
+//			npcRhythmString = npcRhythmString.AppendRhythmString(record.loop.rhythmString.GetRhythmStringForBeat(record.startBeat));
 		}
 
 		// Compare the two rhythm strings

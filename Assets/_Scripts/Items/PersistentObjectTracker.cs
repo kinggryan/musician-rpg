@@ -43,7 +43,7 @@ public class PersistentObjectTracker : MonoBehaviour {
 	}
 
 	public void UpdatePersistentObjects(){
-		print("Updating Persistent Objects");
+//		print("Updating Persistent Objects");
 		int i = 0;
 		foreach (bool persistentObject in isObjectDestroyed)
     	{

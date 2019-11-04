@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DemoWorldLevelManager : MonoBehaviour {
 
     static DemoWorldLevelManager instance = null;
 
     public GameObject colorFadePanel;
+    public Animator fadePanel;
     
     private float transitionTime;
     
@@ -19,6 +21,7 @@ public class DemoWorldLevelManager : MonoBehaviour {
     public PersistentObjectTracker persistentObjectTracker;
 
     public GameObject transitionPanel;
+    private SceneFader sceneFader;
     
     void Awake ()
     {
@@ -34,22 +37,38 @@ public class DemoWorldLevelManager : MonoBehaviour {
 
         GameObject.DontDestroyOnLoad(gameObject);
         canvas = GameObject.Find("Canvas");
+        sceneFader = GetComponent<SceneFader>();
+    }
+
+    void Start(){
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     
     public void LoadLevel(string name, float loadTransitionTime)
     {
-        if(name != "Overworld"){
-            persistentObjectTracker.UpdatePersistentObjects();
-        }
-        transitionTime = loadTransitionTime;
-        levelToLoad = name;
-        timerOn = true;
         Debug.Log("Level load requested for " + levelToLoad + " Time on = " + timerOn + ".");
+        if(name != "Overworld"){
+//            persistentObjectTracker.UpdatePersistentObjects();
+        }
+        levelToLoad = name;
+        fadePanel.SetTrigger("EndLevel");
+        
+        //transitionTime = loadTransitionTime;
+        
+        //timerOn = true;
+        
         //FadeTransition(transitionTime);
         
     }
 
+    public void OnFadeComplete(){
+        SceneManager.LoadScene(levelToLoad);
+    }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode){
+        Debug.Log("Scene Loaded");
+        fadePanel.SetTrigger("StartLevel");
+    }
     
     public void QuitRequest()
     {
@@ -57,57 +76,6 @@ public class DemoWorldLevelManager : MonoBehaviour {
         Application.Quit();
     }
     
-    void FadeTransition (float fadeTime)
-    {
-        Debug.Log("Fade Trans Started");
-        GameObject newPanel = Instantiate(colorFadePanel, canvas.transform.position, canvas.transform.rotation) as GameObject;
-        GameObject transitionPanel = newPanel;
-        print("Transition panel = " + transitionPanel);
-        //GameObject.DontDestroyOnLoad(transitionPanel);
-        transitionPanel.GetComponent<FadeFromColor>().fadeIn = false;
-        //transitionPanel.GetComponent<FadeFromColor>().currentColor.a = 0;
-        transitionPanel.GetComponent<FadeFromColor>().fadeTime = fadeTime;
-        
-        transitionPanel.transform.SetParent(canvas.transform, false);
-        
-    }
-    
-    void Update ()
-    {
-        if (timerOn)
-        {
-            transitionTimer += Time.deltaTime;
-        }
-        
-        if (transitionTimer > transitionTime)
-        {
-            timerOn = false;
-            transitionTimer = 0f;
-            Application.LoadLevel(levelToLoad);
-            if (!transitionPanel.GetComponent<FadeFromColor>().fadeIn  && transitionPanel != null){
-                timerOn = true;
-                transitionPanel.GetComponent<FadeFromColor>().fadeIn = true;
-                transitionPanel.GetComponent<FadeFromColor>().timeSinceAwake = 0;
-            }
-            
-
-        }
-    }
-    
-    //UI LOAD BUTTON
-    
-    public void ButtonLoadTime (float loadTransitionTime)
-    {
-        transitionTime = loadTransitionTime;
-    }
-    
-    public void ButtonLoadLevel (string name)
-    {
-        levelToLoad = name;
-        timerOn = true;
-        Debug.Log("Level load requested for " + levelToLoad + " Time on = " + timerOn + ".");
-        FadeTransition(transitionTime);
-    }
     
 
     

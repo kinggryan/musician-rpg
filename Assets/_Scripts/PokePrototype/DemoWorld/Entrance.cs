@@ -7,11 +7,10 @@ public class Entrance : MonoBehaviour {
 	public string exitPoint;
 
 	private PlayerMovementController player;
-	private DemoWorldLevelManager levelManager;
+	public DemoWorldLevelManager levelManager;
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.name == "Player"){
-			print("Player entrance col");
 			player.entrancePoint = exitPoint;
 			levelManager.LoadLevel(levelToLoad, 0.6f);
 			//Application.LoadLevel(levelToLoad);
@@ -19,7 +18,7 @@ public class Entrance : MonoBehaviour {
 	}
 
 	void Start () {
-		levelManager = GameObject.Find("LevelManager").GetComponentInParent<DemoWorldLevelManager>();
+		levelManager = GameObject.Find("LevelManager").GetComponentInChildren<DemoWorldLevelManager>();
 		player = FindObjectOfType<PlayerMovementController>();
 	}
 	

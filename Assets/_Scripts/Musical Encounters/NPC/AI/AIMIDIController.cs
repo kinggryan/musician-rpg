@@ -80,7 +80,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private float volumeTimer;
 	public float dynamicsMatchTimer;
 	
-    private bool isPlaying;
+    public bool isPlaying;
 
 	private int currentPlayerGate;
 	private float gateMatchTimer;
@@ -290,7 +290,9 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		// TODO: This should be based on song triggers or number of beats, something like that.
 		if (mute){
             volumeFilter.volumeMultiplier = 0;
-        }
+        }else{
+			volumeFilter.volumeMultiplier = 1;
+		}
 
 		// Do the main actions based on whether leading or not
 		if (isLeading){
@@ -301,10 +303,10 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 	
 	void DidSwitchLead(bool npcIsLeading) {
-		if(npcIsLeading)
-			aiFeedback.DisplayText("I'll lead now!", 3f, Color.white);
-		else
-			aiFeedback.DisplayText("Take the lead!", 3f, Color.white);
+		// if(npcIsLeading)
+		// 	aiFeedback.DisplayText("I'll lead now!", 3f, Color.white);
+		// else
+		// 	aiFeedback.DisplayText("Take the lead!", 3f, Color.white);
 
 		foreach(var listener in listeners) {
 			listener.DidChangeLead(npcIsLeading);

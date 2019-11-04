@@ -39,7 +39,7 @@ public class CharacterJamController : MonoBehaviour {
 	}
 
 	void PlayNoteParticles(EmotionManager.Emo emo){
-		Debug.Log("Notes go!");
+//		Debug.Log("Notes go!");
 		noteParticles.startColor = emoManager.GetEmoColor(emo);
 		noteParticles.Play();
 	}

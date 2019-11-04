@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerJamMenu : MonoBehaviour {
+	public string soloSong;
 	public GameObject menuRow;
 	public GameObject styleRow;
 	public GameObject menuCursorPrefab;
@@ -12,13 +13,12 @@ public class PlayerJamMenu : MonoBehaviour {
 	public PlayerMidiController playerMidiController;
 	public bool startMuted = true;
 	public bool controlsDisabled;
-	public GameObject chordSelector;
+	//public GameObject chordSelector;
 	public Animator animator;
 	[SerializeField]
 	private int menuCursorOffset;
 	[SerializeField]
 	private Vector2 styleButtonOffset;
-
 	private Move[] moveSet;
 	public CharacterJamController player;
 	private int rowHeight = 12;
@@ -26,7 +26,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	private GameObject menuCursor;
 	enum List {MoveList,StyleList};
 	private List list;
-	private JamController jamController;
+	public JamController jamController;
 	private DialogueController dialogueController;
 	private EmotionManager emoManager;
 	
@@ -34,8 +34,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	void Start () {
 		emoManager = FindObjectOfType<EmotionManager>();
 		if(startMuted){
-			playerMidiController.mute = true;
-			
+			MutePlayer();
 		}
 		dialogueController = Object.FindObjectOfType<DialogueController>();
 		jamController = Object.FindObjectOfType<JamController>();
@@ -46,6 +45,10 @@ public class PlayerJamMenu : MonoBehaviour {
 	void InstantiateCursor(){
 		menuCursor = Object.Instantiate(menuCursorPrefab, new Vector3(transform.position.x + menuCursorOffset, transform.position.y + 10 - (rowHeight * 2) + (rowHeight * moveSet.Length), transform.position.z), Quaternion.identity);
 		menuCursor.transform.parent = gameObject.transform;
+	}
+
+	public void MutePlayer(){
+		playerMidiController.mute = true;
 	}
 
 	void Update(){
@@ -61,18 +64,25 @@ public class PlayerJamMenu : MonoBehaviour {
 					OnSelect();
 				}
 			}
-			if(Input.GetKeyDown("backspace")){
-				StopSong();
-				jamController.firstMove = true;
-				controlsDisabled = true;
-				chordSelector.SetActive(true);
-			}
+			// if(Input.GetKeyDown("backspace")){
+			// 	StopSong();
+			// 	jamController.firstMove = true;
+			// 	controlsDisabled = true;
+			// 	chordSelector.SetActive(true);
+			// }
 		}
+	}
+
+	public void StartSong(){
+		playerMidiController.midiPlayer.Play();
 	}
 
 	public void StopSong(){
 		playerMidiController.midiPlayer.Stop();
 		player.jamController.firstMove = true;
+		if(startMuted){
+			MutePlayer();
+		}
 	}
 
 	void OnSelect(){
@@ -147,7 +157,7 @@ public class PlayerJamMenu : MonoBehaviour {
 		ResetMenuCursorPosition();
 		moveSet = player.moveSets.moveSets[player.currentMoveSet].moves;
 		float yCoord = transform.position.y - rowHeight + (moveSet.Length * rowHeight);
-		Debug.Log("Creating menu header");
+//		Debug.Log("Creating menu header");
 		JamMenuRow menuHeader = CreateNewMenuRow(yCoord,"Pattern","Power","PP");
 		yCoord = GetNextYCoord(yCoord);
 		foreach(Move move in moveSet){

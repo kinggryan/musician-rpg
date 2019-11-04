@@ -28,7 +28,7 @@ public abstract class SongStructureManager : MonoBehaviour {
 
 	[HideInInspector]
 	public double bpm;
-	public string songFilename;
+	public string currentSongFile;
 
 	public SongSection[] songSections { get; protected set; }
 
@@ -63,8 +63,8 @@ public abstract class SongStructureManager : MonoBehaviour {
 	//-- Public functions
 
 	public void LoadSong(string songFilename) {
-		Debug.Log("Lodeing song " + songFilename);
-		this.songFilename = songFilename;
+		Debug.Log("Loading song " + songFilename);
+		currentSongFile = songFilename;
 		songSections = SongFileReader.ReadSongFile(songFilename);
 	}
 

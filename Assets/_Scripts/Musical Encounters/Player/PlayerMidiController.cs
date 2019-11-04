@@ -131,11 +131,11 @@ public class PlayerMidiController : MonoBehaviour, ISongUpdateListener {
 	// Update is called once per frame
 	void Update () {
 
-		// if (mute){
-		// 	volumeFilter.volumeMultiplier = 0;
-		// }else{
-		// 	volumeFilter.volumeMultiplier = 1;
-		// }
+		if (mute){
+			volumeFilter.volumeMultiplier = 0;
+		}else{
+			volumeFilter.volumeMultiplier = 1;
+		}
 
 		if(Input.GetKeyDown("f")){
 			ChangeChord(Chord.I);

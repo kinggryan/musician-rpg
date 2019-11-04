@@ -176,7 +176,7 @@ public class DialogueManager : MonoBehaviour {
 		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
 		// Don't display the UI elements until the npc has 
 		npcMovementController.MoveToMusicalEncounterPosition(delegate() {
-			musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName, countoffDisplay);
+			musicalEncounterManager.StartedMusicalEncounter(musicalEncounterSongfileName/*, countoffDisplay*/);
 		});
 		
 		//transitionManager.LoadMusicalEncounterScene(musicalEncounterScene);

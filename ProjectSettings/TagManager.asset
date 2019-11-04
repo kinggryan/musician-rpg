@@ -11,6 +11,7 @@ TagManager:
   - Collectable
   - Dialogue
   - Spell
+  - LevelManager
   layers:
   - Default
   - TransparentFX

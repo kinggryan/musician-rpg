@@ -21,6 +21,8 @@ public class OverworldCamera : MonoBehaviour
     bool movingCameraDown;
     float newXPosition;
 
+    
+
     // float cameraLeftBoundary(){
     //     float leftBoundary = cameraWidth/2 - cameraPosition.x;
     //     return boundary;
@@ -84,29 +86,35 @@ public class OverworldCamera : MonoBehaviour
     void Start()
     {
         player = Object.FindObjectOfType<PlayerMovementController>().gameObject;
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
         camera = GetComponent<Camera>();
-        cameraPosition = transform.position;
         cameraWidth = camera.pixelWidth/32;
         cameraHeight = camera.pixelHeight/32;
-        
+        SetCameraStartPosition();
+        cameraPosition = transform.position;
         GetCameraBoundaries();
     }
+
+    void SetCameraStartPosition(){
+        float roundedXPos = RoundToNearestMultiple(player.transform.position.x, cameraWidth);
+        float roundedYPos = RoundToNearestMultiple(player.transform.position.y, cameraHeight);
+        transform.position = new Vector3(roundedXPos, roundedYPos, transform.position.z);
+    }
+
+    public float RoundToNearestMultiple(float numberToRound, float multipleOf){
+     int multiple =  Mathf.RoundToInt(numberToRound/multipleOf);
+     return multiple*multipleOf;
+ }
 
     // Update is called once per frame
     void Update()
     {
         if(playerOutsideOfLeftBoundary()){
-            Debug.Log("player outside of left boundary");
             moveCameraLeft();
         }else if(playerOutsideOfRightBoundary()){
-            Debug.Log("player outside of right boundary");
             moveCameraRight();
         }else if(playerOutsideOfTopBoundary()){
-            Debug.Log("player outside of top boundary");
             moveCameraUp();
         }else if(playerOutsideOfBottomBoundary()){
-            Debug.Log("player outside of bottom boundary");
             moveCameraDown();
         }
 

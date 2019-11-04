@@ -16,49 +16,49 @@ public class TransitionManager : MonoBehaviour {
 		// Do the animation
 		// Load the scene
 		// StartCoroutine(TransitionAsync(sceneName));
-		TransitionSync(sceneName);
+//		TransitionSync(sceneName);
 	}
 
-	public void ReturnToOverworld() {
-		var cameraController = Object.FindObjectOfType<CameraController>();
-		cameraController.TransitionToNormalCam();
-		var dialogueManager = Object.FindObjectOfType<DialogueManager>();
-		dialogueManager.ResumeStory();
-		// var jamInterface
-		// var levelManager = Object.FindObjectOfType<LevelManager>();
-		// levelManager.ReturnToLevel();
-		// TransitionSyncToOverworld();
-	}
+	// public void ReturnToOverworld() {
+	// 	var cameraController = Object.FindObjectOfType<CameraController>();
+	// 	cameraController.TransitionToNormalCam();
+	// 	var dialogueManager = Object.FindObjectOfType<DialogueManager>();
+	// 	dialogueManager.ResumeStory();
+	// 	// var jamInterface
+	// 	// var levelManager = Object.FindObjectOfType<LevelManager>();
+	// 	// levelManager.ReturnToLevel();
+	// 	// TransitionSyncToOverworld();
+	// }
 
-	IEnumerator TransitionAsync(string sceneName) {
-		transitionAnimator.SetTrigger("EndLevel");
-		transitionComplete = false;
-		var loadOp = SceneManager.LoadSceneAsync(sceneName);
-		while(!loadOp.isDone && !transitionComplete) 
-			yield return null;
-	}
+	// IEnumerator TransitionAsync(string sceneName) {
+	// 	transitionAnimator.SetTrigger("EndLevel");
+	// 	transitionComplete = false;
+	// 	var loadOp = SceneManager.LoadSceneAsync(sceneName);
+	// 	while(!loadOp.isDone && !transitionComplete) 
+	// 		yield return null;
+	// }
 
-	void TransitionSync(string sceneName) {
-		this.sceneName = sceneName;
-		transitionAnimator.SetTrigger("EndLevel");
-	}
+	// void TransitionSync(string sceneName) {
+	// 	this.sceneName = sceneName;
+	// 	transitionAnimator.SetTrigger("EndLevel");
+	// }
 
-	void TransitionSyncToOverworld() {
-		returnToOverworld = true;
-		transitionAnimator.SetTrigger("EndLevel");
-	}
+	// void TransitionSyncToOverworld() {
+	// 	returnToOverworld = true;
+	// 	transitionAnimator.SetTrigger("EndLevel");
+	// }
 
-	public void LevelTransitionComplete() {
-		transitionComplete = true;
-		if(returnToOverworld) {
-			returnToOverworld = false;
-			var levelManager = Object.FindObjectOfType<LevelManager>();
-			levelManager.ReturnToLevel();
-		} else if(sceneName != "") {
-			SceneManager.LoadScene(sceneName);
-			sceneName = "";
-		} else {
-			Debug.LogError("There was a problem with the scene name....don't know where to return to");
-		}
-	}
+	// public void LevelTransitionComplete() {
+	// 	transitionComplete = true;
+	// 	if(returnToOverworld) {
+	// 		returnToOverworld = false;
+	// 		var levelManager = Object.FindObjectOfType<LevelManager>();
+	// 		levelManager.ReturnToLevel();
+	// 	} else if(sceneName != "") {
+	// 		SceneManager.LoadScene(sceneName);
+	// 		sceneName = "";
+	// 	} else {
+	// 		Debug.LogError("There was a problem with the scene name....don't know where to return to");
+	// 	}
+	// }
 }

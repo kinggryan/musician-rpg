@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class JamController : MonoBehaviour {
 
 	[SerializeField]
-	private bool soloPlay;
+	public bool soloPlay;
 	public Move newMove;
 	public EmotionManager.Emo activeEmo;
 	public int score = 0;
@@ -27,12 +27,12 @@ public class JamController : MonoBehaviour {
 	enum Turn {Player,NPC};
 	Turn turn;
 	
-	
 	private PlayerJamMenu player;
 	private bool gameOver;
 	private PersistentInfo persistenInfo;
 	private DialogueController dialogueController;
 	private EmotionManager emoManager;
+	public bool isPlaying;
 	
 
 
@@ -47,8 +47,8 @@ public class JamController : MonoBehaviour {
 		jammageBar.minValue = hp * -1;
 		if(playerGoesFirst){
 			turn = Turn.Player;
-			Debug.Log("Turn: " + turn);
-			turnDisplay.text = "Turn: Player";
+//			Debug.Log("Turn: " + turn);
+//			turnDisplay.text = "Turn: Player";
 			player.isPlayerTurn = true;
 		}else{
 			turn = Turn.NPC;
@@ -62,14 +62,13 @@ public class JamController : MonoBehaviour {
 		
 	}
 	void Start(){
-		musicalEncounterManager.StartedMusicalEncounter(songFileName, countoffDisplay);
-		if(!soloPlay){
-			OnStart();
-		}
+		// songFileName = player.soloSong;
+		// musicalEncounterManager.StartedMusicalEncounter(songFileName/*, countoffDisplay) */);
+		LoadSong(player.soloSong);
 	}
 
 	public void OnStart(){
-		musicalEncounterManager.StartedMusicalEncounter(songFileName, countoffDisplay);
+		//musicalEncounterManager.StartedMusicalEncounter(songFileName/*, countoffDisplay */);
 		if(soloPlay){
 			dialogueController.UpdateDialogue("Solo Play!",2);	
 		}else{
@@ -77,9 +76,35 @@ public class JamController : MonoBehaviour {
 		}
 	}
 
+	public void LoadAndPlaySong(string songToLoad, bool npcEncounter){
+		player.startMuted = true;
+		ai.aiMidiController.mute = false;
+		soloPlay = !npcEncounter;
+		LoadSong(songToLoad);
+		StartSong();
+		firstMove = false;
+	}
+
+	void LoadSong(string songToLoad){
+		musicalEncounterManager.LoadSong(songToLoad);
+	}
+
+	public void ResetSong(){
+		LoadSong(player.soloSong);
+	}
+
 	public void StartSong(){
 		Debug.Log("Starting song");
-		musicalEncounterManager.countoffController.StartCountoff();
+		if(soloPlay){
+			ai.aiMidiController.mute = true;
+		}
+		musicalEncounterManager.StartSongWithBPM(120);
+		player.StartSong();
+	}
+
+	public void StopSong(){
+		player.StopSong();
+		firstMove = true;
 	}
 
 	public void UpdateScore(){
@@ -144,7 +169,7 @@ public class JamController : MonoBehaviour {
 	}
 
 	void UpdateEmoDisplayText(){
-		emoDisplay.text = "Emotion: " + activeEmo.ToString();
+//		emoDisplay.text = "Emotion: " + activeEmo.ToString();
 	}
 
 	public void EndTurn(){

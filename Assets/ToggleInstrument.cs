@@ -36,7 +36,6 @@ public class ToggleInstrument : MonoBehaviour
     }
 
     void TakeOutInstrument(){
-        Debug.Log("Taking Out Instrument");
         playerWithInstrument.SetActive(true);
         playerJamMenu.gameObject.SetActive(true);
         playerWithoutInstrument.enabled = false;
@@ -44,14 +43,24 @@ public class ToggleInstrument : MonoBehaviour
         instrumentIsOut = true;
     }
 
+    bool soloPlay(){
+        return playerJamMenu.jamController.soloPlay;
+    }
+
     void PutAwayInstrument(){
-        Debug.Log("Putting Away Instrument");
         playerWithInstrument.SetActive(false);
         playerJamMenu.gameObject.SetActive(false);
         playerWithoutInstrument.enabled = true;
         instrumentIsOut = false;
         playerMovementController.LockMovement(false);
-        playerJamMenu.StopSong();
+        if(soloPlay()){
+            playerJamMenu.StopSong();
+            playerJamMenu.startMuted = true;
+        }else{
+            playerJamMenu.startMuted = true;
+            playerJamMenu.MutePlayer();
+            
+        }
 
     }
 }
