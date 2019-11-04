@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Prototypes/PokePrototype/Start.unity
+    path: Assets/_Scenes/Start.unity
     guid: 9612928fc97c1b042a66bfb91a384739
   - enabled: 1
-    path: Assets/_Scenes/Prototypes/PokePrototype/Village.unity
+    path: Assets/_Scenes/Village.unity
     guid: bbf4314f055876b4ba845d1c6fcb0844
   m_configObjects: {}

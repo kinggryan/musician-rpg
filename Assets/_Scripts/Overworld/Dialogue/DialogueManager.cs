@@ -64,8 +64,8 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	void StartStory(Story story, DialogueBubble dialogueBox, NPCMovementController movementController, SpeechBubbleCountoffDisplay countoff) {
-		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
-		player.enabled = false;
+//		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
+//		player.enabled = false;
 		this.story = story;
 
 		// Get the canvas of the dialogue box
@@ -92,8 +92,8 @@ public class DialogueManager : MonoBehaviour {
 		this.story = null;
 		// canvas.enabled = false;
 		npcDialogueDisplay.SetVisible(false, null);
-		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
-		player.enabled = true;
+//		var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
+//		player.enabled = true;
 	}
 
 	void RefreshView () {
@@ -169,8 +169,8 @@ public class DialogueManager : MonoBehaviour {
 		// var player = UnityEngine.Object.FindObjectOfType<PlayerController>();
 
 		PauseStory();
-		var cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
-		cameraController.TransitionToMusicalEncounterCam();
+		// var cameraController = UnityEngine.Object.FindObjectOfType<CameraController>();
+		// cameraController.TransitionToMusicalEncounterCam();
 
 		// TODO: The dialoguemanager should talk to an NPC controller, rather than smaller components of that controller
 		// e.g. dialogue/movement shouldn't be interacted with individually but by a class that owns them
