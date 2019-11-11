@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ToggleInstrument : MonoBehaviour
 {
     public GameObject playerWithInstrument;
     public SpriteRenderer playerWithoutInstrument;
     private PlayerJamMenu playerJamMenu;
+    private Slider jammageBar;
     private PlayerMovementController playerMovementController;
 
     public bool instrumentIsOut = false;
@@ -14,6 +16,7 @@ public class ToggleInstrument : MonoBehaviour
     void Start(){
         GameObject.DontDestroyOnLoad(gameObject);
         playerJamMenu = Object.FindObjectOfType<PlayerJamMenu>();
+        jammageBar = Object.FindObjectOfType<Slider>();
         playerMovementController = Object.FindObjectOfType<PlayerMovementController>();
         PutAwayInstrument();
     }
@@ -29,18 +32,30 @@ public class ToggleInstrument : MonoBehaviour
         if(instrumentIsOut){
             PutAwayInstrument();
         }else{
-            TakeOutInstrument();
-            
+            TakeOutInstrument();          
         }
         
     }
 
     void TakeOutInstrument(){
-        playerWithInstrument.SetActive(true);
-        playerJamMenu.gameObject.SetActive(true);
+        ShowJamInterface();
         playerWithoutInstrument.enabled = false;
         playerMovementController.LockMovement(true);
         instrumentIsOut = true;
+    }
+
+    void ShowJamInterface(){
+        playerWithInstrument.SetActive(true);
+        playerJamMenu.gameObject.SetActive(true);
+        if(!soloPlay()){
+            jammageBar.gameObject.SetActive(true);
+        }
+    }
+
+    void HideJamInterface(){
+        playerWithInstrument.SetActive(false);
+        playerJamMenu.gameObject.SetActive(false);
+        jammageBar.gameObject.SetActive(false);
     }
 
     bool soloPlay(){
@@ -48,11 +63,14 @@ public class ToggleInstrument : MonoBehaviour
     }
 
     void PutAwayInstrument(){
-        playerWithInstrument.SetActive(false);
-        playerJamMenu.gameObject.SetActive(false);
+        HideJamInterface();
         playerWithoutInstrument.enabled = true;
         instrumentIsOut = false;
         playerMovementController.LockMovement(false);
+        StopPlaying();
+    }
+
+    void StopPlaying(){
         if(soloPlay()){
             playerJamMenu.StopSong();
             playerJamMenu.startMuted = true;
@@ -61,6 +79,5 @@ public class ToggleInstrument : MonoBehaviour
             playerJamMenu.MutePlayer();
             
         }
-
     }
 }

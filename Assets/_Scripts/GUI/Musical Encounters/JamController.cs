@@ -177,7 +177,7 @@ public class JamController : MonoBehaviour {
 			switch(turn){
 				
 				case Turn.Player:
-					turnDisplay.text = "Turn: NPC";
+					//turnDisplay.text = "Turn: NPC";
 					player.isPlayerTurn = false;
 					//ai.MakeMove();
 					ai.isNPCTurn = true;
@@ -185,7 +185,7 @@ public class JamController : MonoBehaviour {
 					turn = Turn.NPC;
 					break;
 				case Turn.NPC:
-					turnDisplay.text = "Turn: Player";
+					//turnDisplay.text = "Turn: Player";
 					player.isPlayerTurn = true;
 					ai.isNPCTurn = false;
 					//Debug.Log("NPC Turn Ended");

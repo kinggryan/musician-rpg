@@ -9,6 +9,7 @@ public class DialogueController : MonoBehaviour
     private PlayerJamMenu playerJamMenu;
     private JamController jamController;
     public List<string> dialogueQueue;
+    public float dialogueWaitTime = 1;
 
     void Awake(){
         dialogueText = GetComponent<Text>();    
@@ -18,6 +19,7 @@ public class DialogueController : MonoBehaviour
         dialogueQueue = new List<string>();
     }
     public void UpdateDialogue(string textToDisplay, float timeToWait){
+        timeToWait = dialogueWaitTime;
         Debug.Log("Dialogue: " + textToDisplay);
         dialogueQueue.Add(textToDisplay);
         if(dialogueQueue.Count == 1){
