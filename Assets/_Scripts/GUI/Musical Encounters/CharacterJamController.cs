@@ -23,19 +23,19 @@ public class CharacterJamController : MonoBehaviour {
 	
 	public void ChangeMoveSet(int moveSetToSelect){
 		currentMoveSet = moveSetToSelect;
-		jamController.EndTurn();
+		//jamController.EndTurn();
 	}
 	public void SelectMove(int moveToSelect){
 		currentMove = moveSets.moveSets[currentMoveSet].moves[moveToSelect];
 		currentMove.Pp = currentMove.Pp - 1;
 		PlayNoteParticles(currentMove.emo);
 		jamController.newMove = currentMove;
-		jamController.UpdateScore();
+		//jamController.UpdateScore();
 		if(jamController.firstMove){
 			jamController.StartSong();
 			jamController.firstMove = false;
 		}
-		jamController.EndTurn();
+		//jamController.EndTurn();
 	}
 
 	void PlayNoteParticles(EmotionManager.Emo emo){

@@ -221,7 +221,7 @@ namespace CSharpSynth.Synthesis
                     {
                         float sample = inst.getSampleAtTime(note, 0, synth.SampleRate, ref time);
                         sample = sample * (velocity / 127.0f) * synth.VolPositions[channel];
-
+                        
                         workingBuffer[0, i] += (sample * fadeMultiplier * leftpan * gainControl);
                         workingBuffer[1, i] += (sample * fadeMultiplier * rightpan * gainControl);
                     }

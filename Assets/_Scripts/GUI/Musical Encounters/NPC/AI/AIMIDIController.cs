@@ -67,6 +67,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private float moveTimer;
 	private bool moving;
 	private float targetVolume;
+	private AIJamController aiJamController;
 
 	private AILoopDecider loopDecider;
 	private List<AudioLoop> knownLoops;
@@ -108,6 +109,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	void Awake() {
 		// Do this during awake because we want the player to be fully initialized
 		player = Object.FindObjectOfType<PlayerMidiController>();
+		aiJamController = Object.FindObjectOfType<AIJamController>();
 		player.AddListener(this);
 	}
 
@@ -200,7 +202,10 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 		//Removed by Travis for PokePrototype
 		// if(newLoopToPlay != null)
 		// 	midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
+		aiJamController.OnBeat();
 	}
+
+	
 
 	public void DidStartSongWithBPM(float bpm) {
 		NotificationBoard.SendNotification(Notifications.changedLead, this, true);

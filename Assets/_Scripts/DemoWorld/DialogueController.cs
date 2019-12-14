@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
-    private Text dialogueText;
+    public Text dialogueText;
     private PlayerJamMenu playerJamMenu;
     private JamController jamController;
     public List<string> dialogueQueue;

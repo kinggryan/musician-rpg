@@ -10,6 +10,8 @@ public class ToggleInstrument : MonoBehaviour
     private PlayerJamMenu playerJamMenu;
     private Slider jammageBar;
     private PlayerMovementController playerMovementController;
+    private NumbericJamInterface jamInterface;
+    public bool playerInEncounterArea = false;
 
     public bool instrumentIsOut = false;
 
@@ -18,6 +20,7 @@ public class ToggleInstrument : MonoBehaviour
         playerJamMenu = Object.FindObjectOfType<PlayerJamMenu>();
         jammageBar = Object.FindObjectOfType<Slider>();
         playerMovementController = Object.FindObjectOfType<PlayerMovementController>();
+        jamInterface = Object.FindObjectOfType<NumbericJamInterface>();
         PutAwayInstrument();
     }
  
@@ -37,24 +40,37 @@ public class ToggleInstrument : MonoBehaviour
         
     }
 
-    void TakeOutInstrument(){
+    public void TakeOutInstrument(){
         ShowJamInterface();
         playerWithoutInstrument.enabled = false;
         playerMovementController.LockMovement(true);
         instrumentIsOut = true;
+        jamInterface.locked = false;
     }
 
     void ShowJamInterface(){
         playerWithInstrument.SetActive(true);
         playerJamMenu.gameObject.SetActive(true);
-        if(!soloPlay()){
+        if(!soloPlay() && playerInEncounterArea){
             jammageBar.gameObject.SetActive(true);
         }
     }
 
     void HideJamInterface(){
         playerWithInstrument.SetActive(false);
-        playerJamMenu.gameObject.SetActive(false);
+        //playerJamMenu.gameObject.SetActive(false);
+        jammageBar.gameObject.SetActive(false);
+    }
+
+    public void HideInstrument(){
+        playerWithInstrument.SetActive(false);
+        playerWithoutInstrument.enabled = true;
+        instrumentIsOut = false;
+        playerMovementController.LockMovement(false);
+        jamInterface.locked = true;
+    }
+
+    public void HideDisplay(){
         jammageBar.gameObject.SetActive(false);
     }
 
@@ -62,12 +78,14 @@ public class ToggleInstrument : MonoBehaviour
         return playerJamMenu.jamController.soloPlay;
     }
 
-    void PutAwayInstrument(){
+    public void PutAwayInstrument(){
         HideJamInterface();
         playerWithoutInstrument.enabled = true;
         instrumentIsOut = false;
         playerMovementController.LockMovement(false);
+        playerJamMenu.jamController.inEncounter = false;
         StopPlaying();
+        jamInterface.locked = true;
     }
 
     void StopPlaying(){

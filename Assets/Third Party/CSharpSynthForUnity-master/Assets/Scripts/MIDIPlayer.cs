@@ -69,13 +69,13 @@ public class MIDIPlayer : MonoBehaviour
         //midiSequencer.NoteOffEvent += new MidiSequencer.NoteOffEventHandler (MidiNoteOffHandler);			
     }
 
-    void LoadSong(string midiPath)
-    {
-        // midiSequencer.LoadMidi(midiPath, false);
-        // midiSequencer.ApplyMidiFilterToTracks(filterGroup);
-        // midiSequencer.Play();
-        // Play();
-    }
+    // void LoadSong(string midiPath)
+    // {
+    //     // midiSequencer.LoadMidi(midiPath, false);
+    //     // midiSequencer.ApplyMidiFilterToTracks(filterGroup);
+    //     // midiSequencer.Play();
+    //     // Play();
+    // }
 
 
     public void Play() {
@@ -107,7 +107,7 @@ public class MIDIPlayer : MonoBehaviour
             //if (!GetComponent<AudioSource>().isPlaying)
             if (ShouldPlayFile)
             {
-                LoadSong(midiFilePath);
+                //LoadSong(midiFilePath);
             }
         }
         else if (!ShouldPlayFile)

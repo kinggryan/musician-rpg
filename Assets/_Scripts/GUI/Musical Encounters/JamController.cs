@@ -9,7 +9,7 @@ public class JamController : MonoBehaviour {
 	public bool soloPlay;
 	public Move newMove;
 	public EmotionManager.Emo activeEmo;
-	public int score = 0;
+	public float score = 0;
 	public int hp;
 	public int noOfEmos;
 	public bool playerGoesFirst;
@@ -33,7 +33,11 @@ public class JamController : MonoBehaviour {
 	private DialogueController dialogueController;
 	private EmotionManager emoManager;
 	public bool isPlaying;
-	
+	public float aiCurrentPower;
+	public float playerCurrentPower;
+	public bool inEncounter;
+	private ToggleInstrument toggleInstrument;
+	public bool win;
 
 
 	// Use this for initialization
@@ -43,6 +47,7 @@ public class JamController : MonoBehaviour {
 		player = Object.FindObjectOfType<PlayerJamMenu>();
 		dialogueController = Object.FindObjectOfType<DialogueController>();
 		emoManager = GetComponent<EmotionManager>();
+		toggleInstrument = Object.FindObjectOfType<ToggleInstrument>();
 		jammageBar.maxValue = hp;
 		jammageBar.minValue = hp * -1;
 		if(playerGoesFirst){
@@ -55,7 +60,7 @@ public class JamController : MonoBehaviour {
 			Debug.Log("Turn: " + turn);
 			turnDisplay.text = "Turn: NPC";
 			player.isPlayerTurn = false;
-			ai.MakeMove();		
+			//ai.MakeMove();		
 		}
 		persistenInfo = Object.FindObjectOfType<PersistentInfo>();
 		player.player.moveSets.moveSets = persistenInfo.activeMoves;
@@ -65,6 +70,21 @@ public class JamController : MonoBehaviour {
 		// songFileName = player.soloSong;
 		// musicalEncounterManager.StartedMusicalEncounter(songFileName/*, countoffDisplay) */);
 		LoadSong(player.soloSong);
+	}
+
+	void Update(){
+		if(inEncounter){
+			score -= playerCurrentPower * Time.deltaTime;
+			score += aiCurrentPower * Time.deltaTime;
+			jammageBar.value = score;
+			if(ScoreIsAboveMax()){
+				EndEncounter();
+				win = true;
+			}else if(ScoreIsBelowMin()){
+				EndEncounter();
+				win = false;
+			}
+		}
 	}
 
 	public void OnStart(){
@@ -85,7 +105,7 @@ public class JamController : MonoBehaviour {
 		firstMove = false;
 	}
 
-	void LoadSong(string songToLoad){
+	public void LoadSong(string songToLoad){
 		musicalEncounterManager.LoadSong(songToLoad);
 	}
 
@@ -105,7 +125,14 @@ public class JamController : MonoBehaviour {
 	public void StopSong(){
 		player.StopSong();
 		firstMove = true;
+		inEncounter = false;
+		ai.ResetBeatCounter();
 	}
+	public void EndEncounter(){
+		StopSong();
+		toggleInstrument.HideInstrument();
+	}
+	
 
 	public void UpdateScore(){
 		if(!soloPlay){

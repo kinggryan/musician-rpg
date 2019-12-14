@@ -61,6 +61,7 @@ public class MusicalEncounterManager: MonoBehaviour {
 	}
 
 	public void LoadSong(string songFileName){
+		Debug.Log("Loading song: " + songFileName);
 		currentEncounterInfo.currentSongFile = songFileName;
 		songStructureManager.LoadSong(songFileName);
 		aiMIDIController.LoadSong();
@@ -77,6 +78,12 @@ public class MusicalEncounterManager: MonoBehaviour {
 
 		foreach(var c in jamCanvas)
 			c.enabled = false;
+	}
+
+	public void StopSong(){
+		songPlayer.Stop();
+		playerMidiController.Stop();
+		songStructureManager.StopSong();
 	}
 
 	public void CountoffComplete(object sender, object obj) {

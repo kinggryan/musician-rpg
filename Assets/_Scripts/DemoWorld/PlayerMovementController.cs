@@ -55,10 +55,7 @@ public class PlayerMovementController : MonoBehaviour {
 
 	static PlayerMovementController instance = null;
 
-	void OnCollisionEnter2D(Collision2D col)
-    {
-        Debug.Log("OnCollisionEnter2D");
-    }
+	
 
 	void Awake ()
     {
@@ -88,18 +85,7 @@ public class PlayerMovementController : MonoBehaviour {
 		soundEngine.PlaySoundWithName("footstep");
 	}
 
-	public void StartCast(){
-		print("Start cast");
-		casting = true;
-	}
 
-	public void EndCast(){
-		if(casting){
-		print("End cast");
-		casting = false;
-		hasCast = false;
-		}
-	}
 
 	public void LockMovement(bool lockMovement){
 		if(lockMovement){
@@ -108,53 +94,6 @@ public class PlayerMovementController : MonoBehaviour {
 			mode = MovementMode.Free;
 		}
 	}
-
-	// public void CastSpell(){
-	// 	hasCast = true;
-	// 	if (spells.spellSpeed + spells.spellPower <= spells.power && spells.spellRadius + spells.spellRange <= spells.area && spells.spellLight + spells.spellDark <= spells.energy){
-	// 		GameObject spellInstance = Instantiate(spell) as GameObject;
-	// 		spellInstance.transform.position = transform.position;
-			
-	// 		if (walkDirection == 0){
-	// 			spellInstance.transform.rotation = Quaternion.Euler(new Vector3(0, 0, (180 - spells.spellRadius * 10)));
-	// 		} else if (walkDirection == 1){
-	// 			spellInstance.transform.rotation = Quaternion.Euler(new Vector3(0, 0, (90 - spells.spellRadius * 10)));
-	// 		} else if (walkDirection == 2){
-	// 			spellInstance.transform.rotation = Quaternion.Euler(new Vector3(0, 0, (0 - spells.spellRadius * 10)));
-	// 		} else if (walkDirection == 3){
-	// 			spellInstance.transform.rotation = Quaternion.Euler(new Vector3(0, 0, (270 - spells.spellRadius * 10)));
-	// 		}
-
-	// 		ParticleSystem spellParticle = spellInstance.GetComponent<ParticleSystem>();
-
-	// 		ParticleSystem.ShapeModule shapeModule = spellInstance.GetComponent<ParticleSystem>().shape;
-	// 		ParticleSystem.EmissionModule emissionModule = spellInstance.GetComponent<ParticleSystem>().emission;
-
-	// 		//Radius
-	// 		shapeModule.arc = spells.spellRadius * 18;
-	// 		//Power/Density
-	// 		emissionModule.rate = spells.spellPower * 10;
-	// 		spellSound.externalPitchModifier = spells.spellPower * -0.1f;
-	// 		//Range
-	// 		spellParticle.startLifetime = spells.spellRange * 0.05f + 0.1f;
-	// 		//Speed
-	// 		spellParticle.startSpeed = (spells.spellSpeed) + 7;
-			
-	// 		spells.power -= spells.spellSpeed + spells.spellPower;
-	// 		spells.area -= spells.spellRadius + spells.spellRange;
-	// 		spells.energy -= spells.spellLight + spells.spellDark;
-	// 		spells.SetUIText();
-	// 		spellUI.SetUIText();
-	// 		soundEngine.PlaySoundWithName("castSpell");
-			
-			
-	// 	}else{
-	// 		print("NOT ENOUGH RESOURCES!");
-	// 		spellUI.SetUIText();
-	// 	}
-
-	// }
-
 	
 	void OnParticleCollision(GameObject other){
          
@@ -212,22 +151,6 @@ public class PlayerMovementController : MonoBehaviour {
 			}else if(currentStamina >= stamina){
 				hasStamina = true;
 			}
-
-			//SPRINT
-			// float sprintModifier;
-			// if(Input.GetButton("BButton") && hasStamina){
-			// 	sprintModifier = sprintSpeed;
-			// 	currentStamina -= Time.deltaTime * 2;
-			// 	animator.speed = sprintModifier;
-			// }else{
-			// 	sprintModifier = 1;
-			// 	if(currentStamina < stamina) currentStamina += Time.deltaTime;
-			// 	animator.speed = 1;
-			// }
-
-
-
-			// rbody.velocity = Vector2.Lerp (rbody.velocity, movementInput*maxSpeed /* * sprintModifier*/, movementLerpSpeed * Time.deltaTime);
 			
 			rbody.velocity = movementInput * maxSpeed;
 			

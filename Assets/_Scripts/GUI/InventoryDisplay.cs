@@ -13,6 +13,7 @@ public class InventoryDisplay : MonoBehaviour
     public GameObject styleLabel;
     public GameObject equippedStyleLabel;
     private Inventory inventory;
+    private NumericInventory numericInventory;
     public MenuCursor menuCursor;
     [SerializeField]
     private float row1XCoord;
@@ -46,6 +47,7 @@ public class InventoryDisplay : MonoBehaviour
     void Start()
     {
         inventory = Object.FindObjectOfType<Inventory>();
+        numericInventory = Object.FindObjectOfType<NumericInventory>();
         PopulateMoveList(1);
         PopulateStyleList();
         PopulateEquippedStyleList();

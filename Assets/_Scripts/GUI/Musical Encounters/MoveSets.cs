@@ -10,6 +10,7 @@ public class Move {
 	public int Pp;
 	public string loopName;
 	public string style;
+	public string equipKey;
 }
 [System.Serializable]
 public class MoveSet {

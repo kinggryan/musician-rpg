@@ -29,6 +29,7 @@ public class PlayerJamMenu : MonoBehaviour {
 	public JamController jamController;
 	private DialogueController dialogueController;
 	private EmotionManager emoManager;
+	private Move activeMove;
 	
 	// Use this for initialization
 	void Start () {
@@ -39,7 +40,7 @@ public class PlayerJamMenu : MonoBehaviour {
 		dialogueController = Object.FindObjectOfType<DialogueController>();
 		jamController = Object.FindObjectOfType<JamController>();
 		PopulateMoveList();	
-		InstantiateCursor();
+		//InstantiateCursor();
 	}
 
 	void InstantiateCursor(){
@@ -51,38 +52,41 @@ public class PlayerJamMenu : MonoBehaviour {
 		playerMidiController.mute = true;
 	}
 
-	void Update(){
-		if(!controlsDisabled){
-			if(Input.GetButtonDown("Up")){
-				MoveCursorUp();
-			}
-			if(Input.GetButtonDown("Down")){
-				MoveCursorDown();
-			}
-			if(Input.GetButtonDown("Select")){
-				if(isPlayerTurn){
-					OnSelect();
-				}
-			}
-			// if(Input.GetKeyDown("backspace")){
-			// 	StopSong();
-			// 	jamController.firstMove = true;
-			// 	controlsDisabled = true;
-			// 	chordSelector.SetActive(true);
-			// }
-		}
-	}
+	// void Update(){
+	// 	if(!controlsDisabled){
+	// 		if(Input.GetButtonDown("Up")){
+	// 			MoveCursorUp();
+	// 		}
+	// 		if(Input.GetButtonDown("Down")){
+	// 			MoveCursorDown();
+	// 		}
+	// 		if(Input.GetButtonDown("Select")){
+	// 			if(isPlayerTurn){
+	// 				OnSelect();
+	// 			}
+	// 		}
+	// 		// if(Input.GetKeyDown("backspace")){
+	// 		// 	StopSong();
+	// 		// 	jamController.firstMove = true;
+	// 		// 	controlsDisabled = true;
+	// 		// 	chordSelector.SetActive(true);
+	// 		// }
+	// 	}
+	// }
 
 	public void StartSong(){
 		playerMidiController.midiPlayer.Play();
+		jamController.isPlaying = true;
 	}
 
 	public void StopSong(){
 		playerMidiController.midiPlayer.Stop();
+		jamController.musicalEncounterManager.StopSong();
 		player.jamController.firstMove = true;
 		if(startMuted){
 			MutePlayer();
 		}
+		jamController.isPlaying = false;
 	}
 
 	void OnSelect(){
@@ -116,8 +120,19 @@ public class PlayerJamMenu : MonoBehaviour {
 		}
 		player.SelectMove(menuIndex);
 		playerMidiController.SetCurrentMidiFileWithName(currentMove.loopName);
-		dialogueController.UpdateDialogue("You used " + currentMove.name + "!",2);
+		//dialogueController.UpdateDialogue("You used " + currentMove.name + "!",2);
 		UpdateMenuValues();
+		jamController.playerCurrentPower = currentMove.power;
+		activeMove = currentMove;
+	}
+
+	public string getActiveMoveName(){
+		return activeMove.name;
+	}
+
+	public void NumericChangeMove(int key){
+		Move newMove = player.moveSets.moveSets[0].moves[key];
+		ChangeMove(newMove);
 	}
 	
 
@@ -158,14 +173,15 @@ public class PlayerJamMenu : MonoBehaviour {
 		moveSet = player.moveSets.moveSets[player.currentMoveSet].moves;
 		float yCoord = transform.position.y - rowHeight + (moveSet.Length * rowHeight);
 //		Debug.Log("Creating menu header");
-		JamMenuRow menuHeader = CreateNewMenuRow(yCoord,"Pattern","Power","PP");
+		//JamMenuRow menuHeader = CreateNewMenuRow(yCoord,"Pattern","Power","PP");
 		yCoord = GetNextYCoord(yCoord);
-		foreach(Move move in moveSet){
-			JamMenuRow newMenuRow = CreateNewMenuRow(yCoord, move.name, move.power.ToString(), move.Pp.ToString());
-			ColorCodeMenuRow(newMenuRow, move);
-			yCoord = GetNextYCoord(yCoord);
-		}
-		GameObject styleButton = CreateStyleButton(yCoord);
+		// CREATE UI MENU ITEM GAMEOBJECTS
+		// foreach(Move move in moveSet){
+		// 	JamMenuRow newMenuRow = CreateNewMenuRow(yCoord, move.name, move.power.ToString(), move.Pp.ToString());
+		// 	ColorCodeMenuRow(newMenuRow, move);
+		// 	yCoord = GetNextYCoord(yCoord);
+		// }
+		//GameObject styleButton = CreateStyleButton(yCoord);
 	}
 
 	JamMenuRow CreateNewMenuRow(float yCoord, string item1, string item2, string item3){

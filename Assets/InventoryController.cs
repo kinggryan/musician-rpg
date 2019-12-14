@@ -6,6 +6,8 @@ public class InventoryController : MonoBehaviour
 {
     private GameObject inventory;
     private PlayerMovementController player;
+    private PlayerJamMenu playerJamMenu;
+    private NumbericJamInterface numbericJamInterface;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +16,7 @@ public class InventoryController : MonoBehaviour
             inventory = child.gameObject;
         }
         player = Object.FindObjectOfType<PlayerMovementController>();
+        numbericJamInterface = Object.FindObjectOfType<NumbericJamInterface>();
         ToggleInventory();
         
     }
@@ -34,6 +37,7 @@ public class InventoryController : MonoBehaviour
         }else{
             inventory.SetActive(true);
             player.LockMovement(true);
+            numbericJamInterface.locked = true;
         }
     }
 }
