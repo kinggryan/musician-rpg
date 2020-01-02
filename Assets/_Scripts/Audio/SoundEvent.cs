@@ -120,9 +120,6 @@ private bool soundPlayed = false;
     
     void Start ()
     {
-        if(listener = null){
-            listener = Object.FindObjectOfType<PlayerMovementController>().transform;
-        }
         transform = gameObject.GetComponent<Transform>();
         if (playOnAwake)
         {
@@ -139,7 +136,6 @@ private bool soundPlayed = false;
 
     void Update()
     {
-        
         if (audioSource && loop && !audioSource.isPlaying && soundPlayed){
             StartCoroutine("NextClip");
             soundPlayed = false;
