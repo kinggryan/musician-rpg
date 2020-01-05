@@ -49,39 +49,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
-    uniqueID: 3583147971
-    locked: 0
   - name: Ground
     uniqueID: 1006845319
     locked: 0
-  - name: Wall1
-    uniqueID: 2537151905
-    locked: 0
-  - name: Details1
-    uniqueID: 2553465793
-    locked: 0
-  - name: Details1.1
-    uniqueID: 2602101795
-    locked: 0
-  - name: Wall2
-    uniqueID: 3772439465
-    locked: 0
   - name: Objects
-    uniqueID: 2280114045
-    locked: 0
-  - name: Instruments
-    uniqueID: 3851696853
+    uniqueID: 909462795
     locked: 0
   - name: Characters
     uniqueID: 2714864231
     locked: 0
-  - name: Details2
-    uniqueID: 831005
+  - name: Instruments
+    uniqueID: 3851696853
     locked: 0
-  - name: Details3
-    uniqueID: 3203889685
-    locked: 0
-  - name: NPCParticles
+  - name: Particles
     uniqueID: 611864557
     locked: 0

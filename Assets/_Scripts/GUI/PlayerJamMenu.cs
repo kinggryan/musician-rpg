@@ -87,6 +87,7 @@ public class PlayerJamMenu : MonoBehaviour {
 			MutePlayer();
 		}
 		jamController.isPlaying = false;
+		animator.SetBool("false", true);
 	}
 
 	void OnSelect(){

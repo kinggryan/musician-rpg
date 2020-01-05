@@ -20,7 +20,7 @@ public class PlayerMovementController : MonoBehaviour {
 	public float spellLerpSpeed = 20f;
 	MovementMode mode;
 
-	Animator animator;
+	AnimatorSynchroniser animator;
 	Rigidbody2D rbody;
 
 	public int walkDirection = 0;
@@ -75,7 +75,7 @@ public class PlayerMovementController : MonoBehaviour {
 	void Start () {
 		startingHP = hp;
 		rbody = GetComponent<Rigidbody2D> ();
-		animator = GetComponent<Animator> ();
+		animator = GetComponent<AnimatorSynchroniser> ();
 		soundEngine = GameObject.Find("SoundEngine").GetComponent<SoundEngine>();
 		levelManager = GameObject.Find("LevelManager").GetComponentInParent<DemoWorldLevelManager>();
 		//spells = GameObject.Find("Spells").GetComponent<Spells>();
@@ -177,10 +177,15 @@ public class PlayerMovementController : MonoBehaviour {
 						walkDirection = 3;
 					}
 				}
-				animator.SetInteger ("direction", walkDirection);
+				SetAnimatorDirection();
 			//}
 		}else{
 			rbody.velocity = new Vector2(0,0);
+			walkDirection = 3;
 		}
+	}
+
+	void SetAnimatorDirection(){
+		animator.SetInteger ("direction", walkDirection);
 	}
 }

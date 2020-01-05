@@ -13,20 +13,32 @@ public class NPCMusician : MonoBehaviour
     private ToggleInstrument toggleInstrument;
     private bool inEncounter = false;
     private DialogueController dialogue;
+    [SerializeField]
+    private int instrumentIndex;
+    
+    private int midiChannel = 1;
+    private float encounterTimer = 0;
+    [SerializeField]
+    private float encounterLength = 5;
 
     private SongSelector songSelector;
     [SerializeField]
     private string winDialogue;
     [SerializeField]
-    private string loseDialogue;
+    private string overDialogue;
+    [SerializeField]
+    private string underDialogue;
+    
     private float dialogueTime = 4;
     private AIJamController aiJamController;
     private MoveSets moveSets;
-    public float volume;
+    private float volume;
     public float maxAudibleDistance=20;
-    public float minAudibleDistance=10;
-    public float distance;
+    private float minAudibleDistance=0;
+    private float distance;
     bool playerInAudibleRange=false;
+    bool win = false;
+    private Animator animator;
 
     void Start(){
         jamController = Object.FindObjectOfType<JamController>();
@@ -35,6 +47,7 @@ public class NPCMusician : MonoBehaviour
         dialogue = Object.FindObjectOfType<DialogueController>();
         songSelector = Object.FindObjectOfType<SongSelector>();
         aiJamController = Object.FindObjectOfType<AIJamController>();
+        animator = GetComponent<Animator>();
         moveSets = GetComponent<MoveSets>();
     }
 
@@ -52,16 +65,24 @@ public class NPCMusician : MonoBehaviour
                 StartEncounter();
             }
         }else if(inEncounter){
-                if(!jamController.inEncounter){
-                    EndEncounter();
-                }
+            if(!jamController.inEncounter){
+                EndEncounter();
+            }else if (encounterTimer >= encounterLength){
+                win = true;
+                EndEncounter();
+            }else{
+                encounterTimer += Time.deltaTime;
             }
+        }
+        
     }
 
     void StartNPCSong(){
         StopSong();
+        aiJamController.aiMidiController.midiPlayer.midiSequencer.setProgram(midiChannel, instrumentIndex);
         jamController.LoadAndPlaySong("Songs/" + songFileName, true);
         jamController.isPlaying = true;
+        animator.SetBool("Playing", true);
     }
 
     public void StartEncounter(){
@@ -75,15 +96,33 @@ public class NPCMusician : MonoBehaviour
     void EndEncounter(){
         inEncounter = false;
         Debug.Log("Encounter OVER");
-        StartCoroutine(WaitThenHideJamDisplay());
-        if(jamController.win){
-            dialogue.UpdateDialogue(winDialogue, dialogueTime);
-        }else{
-            dialogue.UpdateDialogue(loseDialogue, dialogueTime);
+        //StartCoroutine(WaitThenHideJamDisplay());
+        toggleInstrument.HideDisplay();
+        if(jamController.ScoreIsAboveMax()){
+            dialogue.UpdateDialogue(overDialogue, dialogueTime);
+            animator.SetBool("Playing", false);
+        }else if(jamController.ScoreIsBelowMin()){
+            dialogue.UpdateDialogue(underDialogue, dialogueTime);
+            animator.SetBool("Playing", false);
+        }else if(win){
+            WinEncounter();
         }
-        songSelector.AddSongToInventory(songFileName);
         jamController.isPlaying = false;
         jamController.soloPlay = true;    
+    }
+
+    void WinEncounter(){
+        dialogue.UpdateDialogue(winDialogue, dialogueTime);
+        toggleInstrument.PutAwayInstrument();
+        animator.SetBool("Playing", false);
+        StopSong();
+        songSelector.AddSongToInventory(songFileName);
+        Reset();
+    }
+
+    void Reset(){
+        jamController.ResetSong();
+        encounterTimer = 0;
     }
 
     IEnumerator WaitThenHideJamDisplay(){

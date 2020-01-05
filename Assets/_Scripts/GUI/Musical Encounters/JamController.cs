@@ -111,6 +111,7 @@ public class JamController : MonoBehaviour {
 
 	public void ResetSong(){
 		LoadSong(player.soloSong);
+		score = 0;
 	}
 
 	public void StartSong(){
@@ -173,7 +174,7 @@ public class JamController : MonoBehaviour {
 		}
 	}
 
-	bool ScoreIsBelowMin(){
+	public bool ScoreIsBelowMin(){
 		if(score <= hp * -1){
 			return true;
 		}else{
@@ -181,7 +182,7 @@ public class JamController : MonoBehaviour {
 		}
 	}
 
-	bool ScoreIsAboveMax(){
+	public bool ScoreIsAboveMax(){
 		if(score >= hp){
 			return true;
 		}else{

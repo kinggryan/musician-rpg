@@ -20,7 +20,16 @@ public class SongSelector : MonoBehaviour
     }
 
     public void AddSongToInventory(string songToAdd){
-        inventory.learnedSongs.Add(songToAdd);
-        inventory.inventoryDisplay.UpdateMovesAndSongs();
+        int counter = 0;
+        foreach(string song in inventory.learnedSongs){
+            if(song == songToAdd){
+                counter++;
+            }
+        }
+        if(counter == 0){
+            inventory.learnedSongs.Add(songToAdd);
+            inventory.inventoryDisplay.UpdateMovesAndSongs();
+        }
+        
     }
 }

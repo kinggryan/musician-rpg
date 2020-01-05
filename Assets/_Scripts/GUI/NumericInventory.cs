@@ -25,6 +25,8 @@ public class NumericInventory : MonoBehaviour
         if(inventoryDisplay == null){
             Debug.LogError("Inventory Display not found!!");
         }
+        EquipMove(knownMoves[0],0);
+        EquipMove(knownMoves[1],1);
     }
 
     void GenerateStylesList(){

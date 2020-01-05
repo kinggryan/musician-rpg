@@ -21,12 +21,15 @@ public class MovableObject : MonoBehaviour
     [SerializeField]
     private float movementSpeed = 2;
     GameObject player;
+    private Animator animator;
+    private bool levitating = false;
 
     void Start()
     {
         playerJamMenu = Object.FindObjectOfType<PlayerJamMenu>();
         player = GameObject.Find("Player");
         rbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,6 +40,8 @@ public class MovableObject : MonoBehaviour
             string activeSong = playerJamMenu.soloSong;
             if("Songs/" + moveSong == activeSong && isPlaying){
                 string activeMove = playerJamMenu.getActiveMoveName();
+                animator.SetBool("Levitating",true);
+                //levitating = false;
                 if(activeMove == leftPattern){
                     MoveLeft();
                 }else if(activeMove == rightPattern){
@@ -50,6 +55,7 @@ public class MovableObject : MonoBehaviour
                 }
             }else{
                 StopMovement();
+                animator.SetBool("Levitating",false);
             }
         }
     }
@@ -66,6 +72,8 @@ public class MovableObject : MonoBehaviour
         if(other == player.GetComponent<Collider2D>()){
             if(isListening){
                 isListening = false;
+                StopMovement();
+                animator.SetBool("Levitating",false);
             }
         }
     }

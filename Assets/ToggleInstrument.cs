@@ -12,6 +12,7 @@ public class ToggleInstrument : MonoBehaviour
     private PlayerMovementController playerMovementController;
     private NumbericJamInterface jamInterface;
     public bool playerInEncounterArea = false;
+    public AnimatorSynchroniser animator;
 
     public bool instrumentIsOut = false;
 
@@ -42,14 +43,16 @@ public class ToggleInstrument : MonoBehaviour
 
     public void TakeOutInstrument(){
         ShowJamInterface();
-        playerWithoutInstrument.enabled = false;
+        //playerWithoutInstrument.enabled = false;
         playerMovementController.LockMovement(true);
+        animator.SetBool ("InstrumentOut", true);
+        animator.SetInteger ("direction", 3);
         instrumentIsOut = true;
         jamInterface.locked = false;
     }
 
     void ShowJamInterface(){
-        playerWithInstrument.SetActive(true);
+        //playerWithInstrument.SetActive(true);
         playerJamMenu.gameObject.SetActive(true);
         if(!soloPlay() && playerInEncounterArea){
             jammageBar.gameObject.SetActive(true);
@@ -57,14 +60,18 @@ public class ToggleInstrument : MonoBehaviour
     }
 
     void HideJamInterface(){
-        playerWithInstrument.SetActive(false);
+        //playerWithInstrument.SetActive(false);
+        animator.SetBool ("InstrumentOut", false);
+        animator.SetInteger ("direction", 3);
         //playerJamMenu.gameObject.SetActive(false);
         jammageBar.gameObject.SetActive(false);
     }
 
     public void HideInstrument(){
-        playerWithInstrument.SetActive(false);
-        playerWithoutInstrument.enabled = true;
+        //playerWithInstrument.SetActive(false);
+        animator.SetBool ("InstrumentOut", false);
+        animator.SetInteger ("direction", 3);
+        //playerWithoutInstrument.enabled = true;
         instrumentIsOut = false;
         playerMovementController.LockMovement(false);
         jamInterface.locked = true;
@@ -80,7 +87,9 @@ public class ToggleInstrument : MonoBehaviour
 
     public void PutAwayInstrument(){
         HideJamInterface();
-        playerWithoutInstrument.enabled = true;
+        //playerWithoutInstrument.enabled = true;
+        animator.SetBool ("InstrumentOut", false);
+        animator.SetInteger ("direction", 3);
         instrumentIsOut = false;
         playerMovementController.LockMovement(false);
         playerJamMenu.jamController.inEncounter = false;
@@ -97,5 +106,6 @@ public class ToggleInstrument : MonoBehaviour
             playerJamMenu.MutePlayer();
             
         }
+        animator.SetBool("playing", false);
     }
 }

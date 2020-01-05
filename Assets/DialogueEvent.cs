@@ -43,7 +43,9 @@ public class DialogueEvent : MonoBehaviour
         Text text = dialogueController.dialogueText;
         text.text = "";
         if(startEncounterAfterDia){
-            GetComponent<NPCMusician>().ForceStartEncounter();
+            NPCMusician npc = GetComponent<NPCMusician>();
+            npc.ForceStartEncounter();
+            npc.dialogueFirst = false;
         }
     }
 
