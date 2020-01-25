@@ -179,7 +179,7 @@ public class NumericInventoryDisplay : MonoBehaviour
         float yCoord = transform.localPosition.y;
         string activeSoloSong = songSelector.playerJamMenu.soloSong;
         foreach(string song in numericInventory.learnedSongs){
-            JamMenuRow newMenuRow = CreateNewMenuRow(songListCoord, yCoord, song, "", "", "");
+            JamMenuRow newMenuRow = CreateNewMenuRow(songListCoord, yCoord, song, "", "", "", null);
             yCoord = GetNextYCoord(yCoord);
             if("Songs/" + song == activeSoloSong){
                 foreach(Text text in newMenuRow.rowItems){
@@ -313,7 +313,7 @@ public class NumericInventoryDisplay : MonoBehaviour
         foreach(Move move in numericInventory.knownMoves){
             moveIndex += 1;
             knowMoveIndexInit = moveIndex;
-            JamMenuRow newMenuRow = CreateNewMenuRow(row1XCoord, yCoord, move.name, move.power.ToString(), move.Pp.ToString(), move.equipKey);
+            JamMenuRow newMenuRow = CreateNewMenuRow(row1XCoord, yCoord, move.name, move.power.ToString(), move.Pp.ToString(), move.equipKey, move.icon);
             yCoord = GetNextYCoord(yCoord);
             noOfMovesInStyle += 1;
         }
@@ -322,7 +322,7 @@ public class NumericInventoryDisplay : MonoBehaviour
 
 
 
-    JamMenuRow CreateNewMenuRow(float xCoord, float yCoord, string item1, string item2, string item3, string item4){
+    JamMenuRow CreateNewMenuRow(float xCoord, float yCoord, string item1, string item2, string item3, string item4, Sprite icon){
         Vector3 itemPosition = new Vector3(xCoord, yCoord, transform.position.z);
 		var menuRowObject = GameObject.Instantiate(menuRow, itemPosition, Quaternion.identity);
 			menuRowObject.transform.parent = gameObject.transform;
@@ -332,6 +332,7 @@ public class NumericInventoryDisplay : MonoBehaviour
 			newMenuRow.rowItems[1].text = item2;
 			newMenuRow.rowItems[2].text = item3;
             newMenuRow.rowItems[3].text = item4;
+            newMenuRow.icon.sprite = icon;
 			//yCoord -= rowHeight;
 			return newMenuRow;
 	}

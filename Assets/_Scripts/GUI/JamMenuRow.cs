@@ -7,9 +7,11 @@ public class JamMenuRow : MonoBehaviour {
 
 	// 0 is MoveName, 1 is Power, 2 is PP
 	public Text[] rowItems;
+	public Image icon;
 
 	// Use this for initialization
 	void Awake () {
 		rowItems = GetComponentsInChildren<Text>();
+		icon = GetComponentInChildren<Image>();
 	}
 }

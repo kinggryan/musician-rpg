@@ -30,6 +30,12 @@ public class PlayerJamMenu : MonoBehaviour {
 	private DialogueController dialogueController;
 	private EmotionManager emoManager;
 	private Move activeMove;
+	public float playerMelody;
+	public float playerHarmony;
+	public float playerRhythm;
+	public float aiMelody;
+	public float aiHarmony;
+	public float aiRhythm;
 	
 	// Use this for initialization
 	void Start () {

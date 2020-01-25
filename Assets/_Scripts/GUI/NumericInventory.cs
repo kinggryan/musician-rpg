@@ -13,6 +13,7 @@ public class NumericInventory : MonoBehaviour
     public NumericInventoryDisplay inventoryDisplay;
     public MoveSets playerMoves;
     public List<string> learnedSongs;
+    private EquipReadout equipReadout;
     // Start is called before the first frame update
     void Awake()
     {
@@ -21,12 +22,14 @@ public class NumericInventory : MonoBehaviour
     }
 
     void Start(){
+        equipReadout = Object.FindObjectOfType<EquipReadout>();
         inventoryDisplay = gameObject.GetComponent<NumericInventoryDisplay>();
         if(inventoryDisplay == null){
             Debug.LogError("Inventory Display not found!!");
         }
         EquipMove(knownMoves[0],0);
         EquipMove(knownMoves[1],1);
+        UpdateEquipReadout();
     }
 
     void GenerateStylesList(){
@@ -75,6 +78,28 @@ public class NumericInventory : MonoBehaviour
         activeMoves[0].moves[key] = move;
         playerMoves.moveSets = activeMoves;
         inventoryDisplay.UpdateMovesAndSongs();
+        UpdateEquipReadout();
+    }
+
+    void UpdateEquipReadout(){
+        int index = 1;
+        foreach(EquipIcon equipIcon in equipReadout.equipIcons){
+            equipIcon.background.gameObject.SetActive(false);
+            equipIcon.number.gameObject.SetActive(false);
+            equipIcon.icon.gameObject.SetActive(false);
+            foreach(Move move in activeMoves[0].moves){
+                int equipKeyInt;
+                int.TryParse(move.equipKey, out equipKeyInt);
+                Debug.Log("Equipkey: " + equipKeyInt);
+                if(move.equipKey != null && equipKeyInt == index){
+                    equipIcon.icon.gameObject.SetActive(true);
+                    equipIcon.icon.sprite = move.icon;
+                    equipIcon.background.gameObject.SetActive(true);
+                    equipIcon.number.gameObject.SetActive(true);
+                }
+            }
+            index++;
+        }
     }
 
     public void UnequipMove(Move move, int style){
