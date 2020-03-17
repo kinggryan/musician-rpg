@@ -83,7 +83,7 @@ public class AIJamController : MonoBehaviour {
 	int PPInMoveSet(MoveSet moveSet){
 		int ppInMoveSet = 0;
 		foreach(Move move in moveSet.moves){
-				ppInMoveSet += move.Pp;
+				ppInMoveSet += (int)move.melody;
 			}
 		return ppInMoveSet;
 	}
@@ -103,15 +103,26 @@ public class AIJamController : MonoBehaviour {
 		Move[] moveSet = characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves;
 		int move = Random.Range(0,characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves.Length);
 			Debug.Log("AI Selecting Move");
+			if(moveSet[move] == characterJamController.currentMove){
+				PickMove();
+				Debug.Log("Repicking cuz duplicate");
+				return;
+			}
+			characterJamController.SelectMove(move);
+			//currentMoveDisplay.text = moveSet[move].name;
+			aiMidiController.SetCurrentLoopWithName(moveSet[move].loopName);
+			//dialogueController.UpdateDialogue("NPC used " + characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves[move].name + "!", 2);
+			lastMoveWasStyleChange = false;
+			UpdateValues(moveSet[move]);
+			//MakeMove();
+			jamController.player.UnlockPlayerControls();
 			
-				characterJamController.SelectMove(move);
-				//currentMoveDisplay.text = moveSet[move].name;
-				aiMidiController.SetCurrentLoopWithName(moveSet[move].loopName);
-				//dialogueController.UpdateDialogue("NPC used " + characterJamController.moveSets.moveSets[characterJamController.currentMoveSet].moves[move].name + "!", 2);
-				lastMoveWasStyleChange = false;
-				jamController.aiCurrentPower = moveSet[move].power;
-				//MakeMove();
-			
+	}
+
+	void UpdateValues(Move move){
+		jamController.scoreManager.aiMelody = move.melody;
+		jamController.scoreManager.aiHarmony = move.harmony;
+		jamController.scoreManager.aiRhythm = move.rhythm;
 	}
 
 	// void PickMove(){

@@ -42,7 +42,7 @@ public class NumericInventoryDisplay : MonoBehaviour
     int activeMoveIndexInit = 0;
     private int selectedStyle;
     private List<Text> equippedStyles = new List<Text>();
-    private InventoryController inventoryController;
+    public InventoryController inventoryController;
     private int maxMoves = 10;
     private SongSelector songSelector;
     
@@ -273,7 +273,7 @@ public class NumericInventoryDisplay : MonoBehaviour
             if(move.style == styleName){
                 Debug.Log("Label for equipped move " + move.name);
                 activeMoveIndexInit = moveIndex;
-                JamMenuRow newMenuRow = CreateNewEquippedMenuRow(row4XCoord, yCoord, move.name, move.power.ToString(), move.Pp.ToString());
+                JamMenuRow newMenuRow = CreateNewEquippedMenuRow(row4XCoord, yCoord, move.name, move.melody.ToString(), move.harmony.ToString());
                 yCoord = GetNextYCoord(yCoord);
             }
             
@@ -313,7 +313,7 @@ public class NumericInventoryDisplay : MonoBehaviour
         foreach(Move move in numericInventory.knownMoves){
             moveIndex += 1;
             knowMoveIndexInit = moveIndex;
-            JamMenuRow newMenuRow = CreateNewMenuRow(row1XCoord, yCoord, move.name, move.power.ToString(), move.Pp.ToString(), move.equipKey, move.icon);
+            JamMenuRow newMenuRow = CreateNewMenuRow(row1XCoord, yCoord, move.name, move.melody.ToString(), move.harmony.ToString(), move.equipKey, move.icon);
             yCoord = GetNextYCoord(yCoord);
             noOfMovesInStyle += 1;
         }
@@ -332,7 +332,11 @@ public class NumericInventoryDisplay : MonoBehaviour
 			newMenuRow.rowItems[1].text = item2;
 			newMenuRow.rowItems[2].text = item3;
             newMenuRow.rowItems[3].text = item4;
-            newMenuRow.icon.sprite = icon;
+            if(icon != null){
+                newMenuRow.icon.sprite = icon;
+            }else{
+                Destroy(newMenuRow.icon.gameObject);
+            }
 			//yCoord -= rowHeight;
 			return newMenuRow;
 	}

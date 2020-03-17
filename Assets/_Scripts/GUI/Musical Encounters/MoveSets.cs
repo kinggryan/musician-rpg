@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class Move {
 	public string name;
 	public Sprite icon;
-	public EmotionManager.Emo emo;
-	public int power;
-	public int Pp;
+	public float melody;
+	public float harmony;
+	public float rhythm;
 	public string loopName;
 	public string style;
 	public string equipKey;

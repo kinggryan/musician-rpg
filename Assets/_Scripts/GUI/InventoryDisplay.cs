@@ -277,7 +277,7 @@ public class InventoryDisplay : MonoBehaviour
             if(move.style == styleName){
                 Debug.Log("Label for equipped move " + move.name);
                 activeMoveIndexInit = moveIndex;
-                JamMenuRow newMenuRow = CreateNewEquippedMenuRow(row4XCoord, yCoord, move.name, move.power.ToString(), move.Pp.ToString());
+                JamMenuRow newMenuRow = CreateNewEquippedMenuRow(row4XCoord, yCoord, move.name, move.melody.ToString(), move.harmony.ToString());
                 yCoord = GetNextYCoord(yCoord);
             }
             
@@ -318,7 +318,7 @@ public class InventoryDisplay : MonoBehaviour
             moveIndex += 1;
             if(move.style == inventory.styles[style]){
                 knowMoveIndexInit = moveIndex;
-                JamMenuRow newMenuRow = CreateNewMenuRow(row2XCoord, yCoord, move.name, move.power.ToString(), move.Pp.ToString());
+                JamMenuRow newMenuRow = CreateNewMenuRow(row2XCoord, yCoord, move.name, move.melody.ToString(), move.harmony.ToString());
                 yCoord = GetNextYCoord(yCoord);
                 noOfMovesInStyle += 1;
             }

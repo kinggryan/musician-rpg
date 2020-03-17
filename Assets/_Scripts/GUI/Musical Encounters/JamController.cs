@@ -15,6 +15,7 @@ public class JamController : MonoBehaviour {
 	public bool playerGoesFirst;
 	public string[] emoNames;
 	public Slider jammageBar;
+	
 	public Text turnDisplay;
 	public Text emoDisplay;
 	public Text dialogueDisplay;
@@ -27,7 +28,7 @@ public class JamController : MonoBehaviour {
 	enum Turn {Player,NPC};
 	Turn turn;
 	
-	private PlayerJamMenu player;
+	public PlayerJamMenu player;
 	private bool gameOver;
 	private PersistentInfo persistenInfo;
 	private DialogueController dialogueController;
@@ -38,6 +39,8 @@ public class JamController : MonoBehaviour {
 	public bool inEncounter;
 	private ToggleInstrument toggleInstrument;
 	public bool win;
+	public ScoreManager scoreManager;
+	
 
 
 	// Use this for initialization
@@ -48,8 +51,9 @@ public class JamController : MonoBehaviour {
 		dialogueController = Object.FindObjectOfType<DialogueController>();
 		emoManager = GetComponent<EmotionManager>();
 		toggleInstrument = Object.FindObjectOfType<ToggleInstrument>();
-		jammageBar.maxValue = hp;
-		jammageBar.minValue = hp * -1;
+		scoreManager = Object.FindObjectOfType<ScoreManager>();
+		//jammageBar.maxValue = hp;
+		//jammageBar.minValue = hp * -1;
 		if(playerGoesFirst){
 			turn = Turn.Player;
 //			Debug.Log("Turn: " + turn);
@@ -74,18 +78,17 @@ public class JamController : MonoBehaviour {
 
 	void Update(){
 		if(inEncounter){
-			score -= playerCurrentPower * Time.deltaTime;
-			score += aiCurrentPower * Time.deltaTime;
-			jammageBar.value = score;
-			if(ScoreIsAboveMax()){
+			scoreManager.UpdateScores();
+			scoreManager.inEncounter = true;
+			if(scoreManager.fail){
 				EndEncounter();
-				win = true;
-			}else if(ScoreIsBelowMin()){
-				EndEncounter();
-				win = false;
 			}
+		}else{
+			scoreManager.inEncounter = false;
 		}
 	}
+
+	
 
 	public void OnStart(){
 		//musicalEncounterManager.StartedMusicalEncounter(songFileName/*, countoffDisplay */);
@@ -132,47 +135,13 @@ public class JamController : MonoBehaviour {
 	public void EndEncounter(){
 		StopSong();
 		toggleInstrument.HideInstrument();
+		scoreManager.StopGraceTimer();
+		scoreManager.fail = false;
+		player.UnlockPlayerControls();
 	}
 	
 
-	public void UpdateScore(){
-		if(!soloPlay){
-			switch(turn) {
-				case Turn.Player:
-					score += newMove.power;
-					if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
-						score += newMove.power;
-						StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
-					}
-					break;
-				case Turn.NPC:
-					score -= newMove.power;
-					if (emoManager.checkEmoStrengths(newMove.emo, activeEmo)){
-						score -= newMove.power;
-						StartCoroutine(DisplayBonusDialogue("It's super effective!", 1));
-					}
-					break;
-				}
-			activeEmo = newMove.emo;
-			UpdateEmoDisplayText();
-			//Debug.Log("Score: " + score);
-			jammageBar.value = score;
-			if(ScoreIsBelowMin()){
-				dialogueController.UpdateDialogue("You can't handle the jammage!",2);
-				StartCoroutine(DisplayBonusDialogue("You passed out!", 2));
-				gameOver = true;
-				musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.TotalFailure);
-			}else if(ScoreIsAboveMax()){
-				dialogueController.UpdateDialogue("Excellent jammage!",2);
-				StartCoroutine(DisplayBonusDialogue("You outjammed Jammer!", 2));
-				gameOver = true;
-				musicalEncounterManager.CompletedMusicalEncounter(MusicalEncounterManager.SuccessLevel.Pass);
-			}
-		}else{
-			activeEmo = newMove.emo;
-			UpdateEmoDisplayText();
-		}
-	}
+	
 
 	public bool ScoreIsBelowMin(){
 		if(score <= hp * -1){
@@ -197,26 +166,19 @@ public class JamController : MonoBehaviour {
 	}
 
 	void UpdateEmoDisplayText(){
-//		emoDisplay.text = "Emotion: " + activeEmo.ToString();
 	}
 
 	public void EndTurn(){
 		if(!gameOver && !soloPlay){
 			switch(turn){
-				
 				case Turn.Player:
-					//turnDisplay.text = "Turn: NPC";
 					player.isPlayerTurn = false;
-					//ai.MakeMove();
 					ai.isNPCTurn = true;
-					//Debug.Log("Player Turn Ended");
 					turn = Turn.NPC;
 					break;
 				case Turn.NPC:
-					//turnDisplay.text = "Turn: Player";
 					player.isPlayerTurn = true;
 					ai.isNPCTurn = false;
-					//Debug.Log("NPC Turn Ended");
 					turn = Turn.Player;
 					break;
 			}

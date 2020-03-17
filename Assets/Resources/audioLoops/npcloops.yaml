@@ -153,6 +153,38 @@ loops:
     - happy
     - sad
     - sentimental
+- name: SimplePentaMelody
+  filename: MIDI/SimplePentaMelody.mid
+  beatDuration: 16
+  rhythmString: 10000000100000001000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: HalfNoteChords
+  filename: MIDI/HalfNoteChords.mid
+  beatDuration: 4
+  rhythmString: 10000000100000001000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: AlternatingQuarters
+  filename: MIDI/AlternatingQuarters.mid
+  beatDuration: 4
+  rhythmString: 10000000100000001000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
+- name: Melodious
+  filename: MIDI/JauntyMelody.mid
+  beatDuration: 16
+  rhythmString: 10000000100000001000000010000000
+  emotionTags: 
+    - happy
+    - sad
+    - sentimental
 - name: Silence
   filename: MIDI/SilentMidi.mid
   beatDuration: 1

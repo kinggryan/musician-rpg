@@ -85,12 +85,12 @@ public class MovableObject : MonoBehaviour
 
     void MoveLeft(){
         Debug.Log("Moving Left");
-        rbody.velocity = new Vector2(movementSpeed, 0);
+        rbody.velocity = new Vector2(movementSpeed * -1, 0);
     }
 
     void MoveRight(){
         Debug.Log("Moving Right");
-        rbody.velocity = new Vector2(movementSpeed * -1, 0);
+        rbody.velocity = new Vector2(movementSpeed, 0);
     }
 
     void MoveUp(){

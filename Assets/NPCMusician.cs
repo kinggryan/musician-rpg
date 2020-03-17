@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NPCMusician : MonoBehaviour
 {
@@ -28,15 +29,17 @@ public class NPCMusician : MonoBehaviour
     private string overDialogue;
     [SerializeField]
     private string underDialogue;
+    public UnityEvent runOnWin;
+    public UnityEvent runOnLose;
     
     private float dialogueTime = 4;
     private AIJamController aiJamController;
     private MoveSets moveSets;
-    private float volume;
+    public float volume;
     public float maxAudibleDistance=20;
     private float minAudibleDistance=0;
     private float distance;
-    bool playerInAudibleRange=false;
+    bool playerInAudibleRange = false;
     bool win = false;
     private Animator animator;
 
@@ -88,8 +91,10 @@ public class NPCMusician : MonoBehaviour
     public void StartEncounter(){
         checkingForInstrument = false;
         jamController.inEncounter = true;
+        jamController.scoreManager.UpdateScores();
         inEncounter = true;
         Debug.Log("Starting Encounter");
+
     }
 
 
@@ -98,26 +103,35 @@ public class NPCMusician : MonoBehaviour
         Debug.Log("Encounter OVER");
         //StartCoroutine(WaitThenHideJamDisplay());
         toggleInstrument.HideDisplay();
-        if(jamController.ScoreIsAboveMax()){
-            dialogue.UpdateDialogue(overDialogue, dialogueTime);
-            animator.SetBool("Playing", false);
-        }else if(jamController.ScoreIsBelowMin()){
-            dialogue.UpdateDialogue(underDialogue, dialogueTime);
-            animator.SetBool("Playing", false);
-        }else if(win){
+        if(win){
             WinEncounter();
+            
+        }else{
+            LoseEncounter();
         }
         jamController.isPlaying = false;
-        jamController.soloPlay = true;    
+        jamController.soloPlay = true;
+        jamController.player.UnlockPlayerControls();
+    }
+
+    void LoseEncounter()
+    {
+        animator.SetBool("Playing", false);
+        if(runOnLose != null){
+            runOnLose.Invoke();
+        }
     }
 
     void WinEncounter(){
-        dialogue.UpdateDialogue(winDialogue, dialogueTime);
+        //dialogue.UpdateDialogue(winDialogue, dialogueTime);
         toggleInstrument.PutAwayInstrument();
         animator.SetBool("Playing", false);
         StopSong();
         songSelector.AddSongToInventory(songFileName);
         Reset();
+        if(runOnWin != null){
+            runOnWin.Invoke();
+        }
     }
 
     void Reset(){

@@ -27,8 +27,8 @@ public class CharacterJamController : MonoBehaviour {
 	}
 	public void SelectMove(int moveToSelect){
 		currentMove = moveSets.moveSets[currentMoveSet].moves[moveToSelect];
-		currentMove.Pp = currentMove.Pp - 1;
-		PlayNoteParticles(currentMove.emo);
+		//currentMove.Pp = currentMove.Pp - 1;
+		PlayNoteParticles();
 		jamController.newMove = currentMove;
 		//jamController.UpdateScore();
 		if(jamController.firstMove){
@@ -38,9 +38,9 @@ public class CharacterJamController : MonoBehaviour {
 		//jamController.EndTurn();
 	}
 
-	void PlayNoteParticles(EmotionManager.Emo emo){
+	void PlayNoteParticles(){
 //		Debug.Log("Notes go!");
-		noteParticles.startColor = emoManager.GetEmoColor(emo);
+		//noteParticles.startColor = emoManager.GetEmoColor(emo);
 		noteParticles.Play();
 	}
 

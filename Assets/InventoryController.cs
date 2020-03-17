@@ -17,7 +17,7 @@ public class InventoryController : MonoBehaviour
         }
         player = Object.FindObjectOfType<PlayerMovementController>();
         numbericJamInterface = Object.FindObjectOfType<NumbericJamInterface>();
-        ToggleInventory();
+        //ToggleInventory();
         
     }
 
@@ -32,12 +32,21 @@ public class InventoryController : MonoBehaviour
 
     public void ToggleInventory(){
         if(inventory.activeSelf){
-            inventory.SetActive(false);
-            player.LockMovement(false);
+            DeactivateInventory();
         }else{
-            inventory.SetActive(true);
-            player.LockMovement(true);
-            numbericJamInterface.locked = true;
+            ActivateInventory();
         }
+    }
+
+    public void ActivateInventory(){
+        inventory.SetActive(true);
+        player.LockMovement(true);
+        numbericJamInterface.locked = true;
+    }
+    public void DeactivateInventory(){
+        PlayerMovementController player = Object.FindObjectOfType<PlayerMovementController>();
+        player.RemoveInstrument();
+        inventory.SetActive(false);
+        player.LockMovement(false);
     }
 }

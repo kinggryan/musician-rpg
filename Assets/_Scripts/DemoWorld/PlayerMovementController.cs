@@ -48,12 +48,14 @@ public class PlayerMovementController : MonoBehaviour {
 
 	public SoundEvent spellSound;
 
-
 	private int startingHP;
 
 	private DemoWorldLevelManager levelManager;
 
 	static PlayerMovementController instance = null;
+	private GameObject instrument;
+	public bool hasInstrument = true;
+	private GameObject equipReadout;
 
 	
 
@@ -78,6 +80,9 @@ public class PlayerMovementController : MonoBehaviour {
 		animator = GetComponent<AnimatorSynchroniser> ();
 		soundEngine = GameObject.Find("SoundEngine").GetComponent<SoundEngine>();
 		levelManager = GameObject.Find("LevelManager").GetComponentInParent<DemoWorldLevelManager>();
+		equipReadout = GameObject.FindObjectOfType<EquipReadout>().gameObject;
+		instrument = transform.Find("Instrument").gameObject;
+		RemoveInstrument();
 		//spells = GameObject.Find("Spells").GetComponent<Spells>();
 	}
 
@@ -88,8 +93,11 @@ public class PlayerMovementController : MonoBehaviour {
 
 
 	public void LockMovement(bool lockMovement){
+		animator.SetBool ("walking", false);
+		rbody.velocity = new Vector2(0,0);
 		if(lockMovement){
 			mode = MovementMode.Locked;
+			
 		}else{
 			mode = MovementMode.Free;
 		}
@@ -106,6 +114,25 @@ public class PlayerMovementController : MonoBehaviour {
             
         }
     }
+
+	public void ReceiveInstrument(){
+		instrument.SetActive(true);
+		hasInstrument = true;
+	}
+
+	public void RemoveInstrument(){
+		instrument.SetActive(false);
+		hasInstrument = false;
+	}
+	void ShowEquipReadout(bool show){
+		
+		if(show == true){
+			equipReadout.SetActive(true);
+		}else{
+			equipReadout.SetActive(false);
+		}
+	}
+
 	
 	public void Die(){
 		levelManager.LoadLevel("PlayerHouse", 5);
@@ -139,7 +166,7 @@ public class PlayerMovementController : MonoBehaviour {
 			return;
 		}
 
-			if (!casting){ 
+			if (mode != MovementMode.Locked){ 
 
 			var movementInput = new Vector2 (Input.GetAxis ("Horizontal"), Input.GetAxis ("Vertical"));
 			if (movementInput.magnitude > 1) {

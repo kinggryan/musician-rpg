@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class DialogueEvent : MonoBehaviour
 {
@@ -13,10 +14,15 @@ public class DialogueEvent : MonoBehaviour
         public bool waitForClick;
     }
     private DialogueController dialogueController;
+    private PlayerMovementController playerMovementController;
     private bool waitingForClick = false;
     public int index = 0;
     public bool startEncounterAfterDia;
+    public UnityEvent runOnClose;
+    [SerializeField]
+    private float bufferTime;
     public void StartDialogueEvents(){
+        playerMovementController.LockMovement(true);
         StartCoroutine(DisplayDialogue(0));
     }
     IEnumerator DisplayDialogue(int i){
@@ -28,7 +34,7 @@ public class DialogueEvent : MonoBehaviour
             text.text = dialogueEvents[i].dialogue;
             if(dialogueEvents[i].waitForClick){
                 Debug.Log("Waiting for click");
-                waitingForClick = true;
+                StartCoroutine(WaitForClickBuffer(bufferTime));
                 index = i + 1;
                 yield break;
             }else{
@@ -37,6 +43,11 @@ public class DialogueEvent : MonoBehaviour
                 StartCoroutine(DisplayDialogue(i));
             }
         }
+    } 
+
+    IEnumerator WaitForClickBuffer(float timeToWait){
+        yield return new WaitForSeconds(timeToWait);
+        waitingForClick = true;
     }
 
     void CloseDialogue(){
@@ -47,9 +58,14 @@ public class DialogueEvent : MonoBehaviour
             npc.ForceStartEncounter();
             npc.dialogueFirst = false;
         }
+        if(runOnClose != null){
+            runOnClose.Invoke();
+        }
+        playerMovementController.LockMovement(false);
     }
 
     void Start(){
+        playerMovementController = Object.FindObjectOfType<PlayerMovementController>();
         dialogueController = Object.FindObjectOfType<DialogueController>();
     }
 

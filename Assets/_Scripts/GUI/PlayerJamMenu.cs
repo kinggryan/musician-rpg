@@ -12,7 +12,6 @@ public class PlayerJamMenu : MonoBehaviour {
 	public bool isPlayerTurn = false;
 	public PlayerMidiController playerMidiController;
 	public bool startMuted = true;
-	public bool controlsDisabled;
 	//public GameObject chordSelector;
 	public Animator animator;
 	[SerializeField]
@@ -30,12 +29,9 @@ public class PlayerJamMenu : MonoBehaviour {
 	private DialogueController dialogueController;
 	private EmotionManager emoManager;
 	private Move activeMove;
-	public float playerMelody;
-	public float playerHarmony;
-	public float playerRhythm;
-	public float aiMelody;
-	public float aiHarmony;
-	public float aiRhythm;
+	public bool locked = false;
+	private EquipReadout equipReadout;
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -45,6 +41,7 @@ public class PlayerJamMenu : MonoBehaviour {
 		}
 		dialogueController = Object.FindObjectOfType<DialogueController>();
 		jamController = Object.FindObjectOfType<JamController>();
+		equipReadout = Object.FindObjectOfType<EquipReadout>();
 		PopulateMoveList();	
 		//InstantiateCursor();
 	}
@@ -102,11 +99,11 @@ public class PlayerJamMenu : MonoBehaviour {
 				PopulateStyleList();
 			}else{
 				Move currentMove = player.moveSets.moveSets[player.currentMoveSet].moves[menuIndex];
-				if(currentMove.Pp > 0){
-					ChangeMove(currentMove);
-				}else{
-					dialogueController.UpdateDialogue("Out of PP!",2);
-				}
+				// if(currentMove.Pp > 0){
+				// 	ChangeMove(currentMove);
+				// }else{
+				// 	dialogueController.UpdateDialogue("Out of PP!",2);
+				// }
 			}
 		}else{
 			if(menuIndex == player.moveSets.moveSets.Length){
@@ -120,6 +117,14 @@ public class PlayerJamMenu : MonoBehaviour {
 		}
 	}
 
+	public void LockPlayerControls(){
+		locked = true;
+		equipReadout.FadeEquipIcons();
+	}
+	public void UnlockPlayerControls(){
+		locked = false;
+		equipReadout.UnfadeEquipIcons();
+	}
 	void ChangeMove(Move currentMove){
 		if(playerMidiController.mute = true){
 			animator.SetBool("playing", true);
@@ -129,8 +134,18 @@ public class PlayerJamMenu : MonoBehaviour {
 		playerMidiController.SetCurrentMidiFileWithName(currentMove.loopName);
 		//dialogueController.UpdateDialogue("You used " + currentMove.name + "!",2);
 		UpdateMenuValues();
-		jamController.playerCurrentPower = currentMove.power;
+		UpdateMelodyHarmonyRhythmValues(currentMove);
 		activeMove = currentMove;
+		if(jamController.inEncounter){
+			LockPlayerControls();
+		}
+	}
+
+	void UpdateMelodyHarmonyRhythmValues(Move move){
+		ScoreManager scoreManager = jamController.scoreManager;
+		scoreManager.playerMelody = move.melody;
+		scoreManager.playerHarmony = move.harmony;
+		scoreManager.playerRhythm = move.rhythm;
 	}
 
 	public string getActiveMoveName(){
@@ -139,7 +154,9 @@ public class PlayerJamMenu : MonoBehaviour {
 
 	public void NumericChangeMove(int key){
 		Move newMove = player.moveSets.moveSets[0].moves[key];
-		ChangeMove(newMove);
+		if(!locked){
+			ChangeMove(newMove);
+		}
 	}
 	
 
@@ -207,11 +224,11 @@ public class PlayerJamMenu : MonoBehaviour {
 		return yCoord;
 	}
 
-	void ColorCodeMenuRow(JamMenuRow menuRow, Move move){
-		foreach(Text text in menuRow.rowItems){
-			text.color = emoManager.GetEmoColor(move.emo);
-		}
-	}
+	// void ColorCodeMenuRow(JamMenuRow menuRow, Move move){
+	// 	foreach(Text text in menuRow.rowItems){
+	// 		text.color = emoManager.GetEmoColor(move.emo);
+	// 	}
+	// }
 
 	GameObject CreateStyleButton(float yCoord){
 		var newStyleButton = GameObject.Instantiate(styleButton, new Vector3(transform.position.x + styleButtonOffset.x, yCoord + styleButtonOffset.y, transform.position.z), Quaternion.identity);
@@ -231,8 +248,8 @@ public class PlayerJamMenu : MonoBehaviour {
 			var move = player.moveSets.moveSets[player.currentMoveSet].moves[i-1];
 			var menuRow = child.gameObject.GetComponent<JamMenuRow>();
 			menuRow.rowItems[0].text = move.name;
-			menuRow.rowItems[1].text = move.power.ToString();
-			menuRow.rowItems[2].text = move.Pp.ToString();
+			menuRow.rowItems[1].text = move.melody.ToString();
+			menuRow.rowItems[2].text = move.harmony.ToString();
 			i++;
 			}
 		}

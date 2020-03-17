@@ -8,7 +8,7 @@ public class ToggleInstrument : MonoBehaviour
     public GameObject playerWithInstrument;
     public SpriteRenderer playerWithoutInstrument;
     private PlayerJamMenu playerJamMenu;
-    private Slider jammageBar;
+    private Slider[] jamageBars;
     private PlayerMovementController playerMovementController;
     private NumbericJamInterface jamInterface;
     public bool playerInEncounterArea = false;
@@ -19,7 +19,7 @@ public class ToggleInstrument : MonoBehaviour
     void Start(){
         GameObject.DontDestroyOnLoad(gameObject);
         playerJamMenu = Object.FindObjectOfType<PlayerJamMenu>();
-        jammageBar = Object.FindObjectOfType<Slider>();
+        jamageBars = Object.FindObjectsOfType<Slider>();
         playerMovementController = Object.FindObjectOfType<PlayerMovementController>();
         jamInterface = Object.FindObjectOfType<NumbericJamInterface>();
         PutAwayInstrument();
@@ -27,7 +27,7 @@ public class ToggleInstrument : MonoBehaviour
  
     void Update()
     {
-        if(Input.GetKeyDown("z")){
+        if(Input.GetKeyDown("z") && playerMovementController.hasInstrument == true){
             ToggleIfInstrumentIsOut();
         }       
     }
@@ -55,7 +55,19 @@ public class ToggleInstrument : MonoBehaviour
         //playerWithInstrument.SetActive(true);
         playerJamMenu.gameObject.SetActive(true);
         if(!soloPlay() && playerInEncounterArea){
-            jammageBar.gameObject.SetActive(true);
+            ShowJamageBars();
+        }
+    }
+
+    void ShowJamageBars(){
+        foreach(Slider jamageBar in jamageBars){
+            jamageBar.gameObject.SetActive(true);
+        }
+    }
+
+    void HideJamageBars(){
+        foreach(Slider jamageBar in jamageBars){
+            jamageBar.gameObject.SetActive(false);
         }
     }
 
@@ -64,7 +76,7 @@ public class ToggleInstrument : MonoBehaviour
         animator.SetBool ("InstrumentOut", false);
         animator.SetInteger ("direction", 3);
         //playerJamMenu.gameObject.SetActive(false);
-        jammageBar.gameObject.SetActive(false);
+        HideJamageBars();
     }
 
     public void HideInstrument(){
@@ -78,7 +90,7 @@ public class ToggleInstrument : MonoBehaviour
     }
 
     public void HideDisplay(){
-        jammageBar.gameObject.SetActive(false);
+        HideJamageBars();
     }
 
     bool soloPlay(){

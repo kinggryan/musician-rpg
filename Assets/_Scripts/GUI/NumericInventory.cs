@@ -25,11 +25,15 @@ public class NumericInventory : MonoBehaviour
         equipReadout = Object.FindObjectOfType<EquipReadout>();
         inventoryDisplay = gameObject.GetComponent<NumericInventoryDisplay>();
         if(inventoryDisplay == null){
-            Debug.LogError("Inventory Display not found!!");
+            Debug.Log("!!Inventory Display not found!!");
         }
+        //inventoryDisplay.inventoryController.ToggleInventory();
+        
         EquipMove(knownMoves[0],0);
         EquipMove(knownMoves[1],1);
+        EquipMove(knownMoves[2],2);
         UpdateEquipReadout();
+        inventoryDisplay.inventoryController.DeactivateInventory();
     }
 
     void GenerateStylesList(){

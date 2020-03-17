@@ -95,7 +95,7 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	private bool mono;
 
 	public void DidChangeLoop(AudioLoop playerLoop, int index) {
-		loopDecider.DidStartPlayerLoop(playerLoop);
+		//loopDecider.DidStartPlayerLoop(playerLoop);
 	}
 
 	public void AddListener(IAIListener listener) {
@@ -191,14 +191,14 @@ public class AIMIDIController : MonoBehaviour, ISongUpdateListener, IPlayerContr
 	}
 
 	public void DidStartNextBeat(SongStructureManager.BeatUpdateInfo beatInfo) {
-		loopDecider.DidStartNextBeat();
-		var newLoopDecider = loopDecider.UpdateState();
-		if(newLoopDecider != null) {
-			loopDecider = newLoopDecider;
-			DidSwitchLead(isLeading);
-		}
+		// loopDecider.DidStartNextBeat();
+		// var newLoopDecider = loopDecider.UpdateState();
+		// if(newLoopDecider != null) {
+		// 	loopDecider = newLoopDecider;
+		// 	DidSwitchLead(isLeading);
+		// }
 
-		var newLoopToPlay = loopDecider.ChooseLoopToPlay();
+		// var newLoopToPlay = loopDecider.ChooseLoopToPlay();
 		//Removed by Travis for PokePrototype
 		// if(newLoopToPlay != null)
 		// 	midiStreamer.SetCurrentMidiFileWith(newLoopToPlay);
