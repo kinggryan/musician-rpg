@@ -3021,7 +3021,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 10}
+  m_Size: {x: 6, y: 6}
   m_EdgeRadius: 0
 --- !u!114 &216852593
 MonoBehaviour:
@@ -3095,6 +3095,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   bufferTime: 0
+  dialogueInProgress: 0
 --- !u!198 &216852596
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -8203,7 +8204,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvents:
-  - dialogue: Win win win!
+  - dialogue: Good job!
+    waitTime: 0
+    waitForClick: 1
+  - dialogue: When you finish a jam with someone, you'll learn whatever song they
+      were playing.
+    waitTime: 0
+    waitForClick: 1
+  - dialogue: Press esc to open your inventory and change songs.
+    waitTime: 0
+    waitForClick: 1
+  - dialogue: You can change which patters you have equipped there, too.
     waitTime: 0
     waitForClick: 1
   index: 0
@@ -8214,6 +8225,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   bufferTime: 0
+  dialogueInProgress: 0
 --- !u!1001 &381735364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8649,6 +8661,16 @@ PrefabInstance:
     - target: {fileID: 155282943, guid: d0f9cfbb7706fb24d821f749ac799085, type: 3}
       propertyPath: m_SortingLayer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5621813782575800981, guid: d0f9cfbb7706fb24d821f749ac799085,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5621813782575800981, guid: d0f9cfbb7706fb24d821f749ac799085,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0f9cfbb7706fb24d821f749ac799085, type: 3}
@@ -9264,6 +9286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6ab091e2839434d9dcc1bae53e92de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInArea: 0
 --- !u!114 &735492730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9277,7 +9300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvents:
-  - dialogue: I've heard you can use some songs to move some objects
+  - dialogue: I've heard you can use songs to move some objects.
     waitTime: 0
     waitForClick: 1
   - dialogue: Isn't that crazy?
@@ -9291,6 +9314,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   bufferTime: 0
+  dialogueInProgress: 0
 --- !u!212 &735492731
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -63833,6 +63857,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   bufferTime: 0
+  dialogueInProgress: 0
 --- !u!1001 &1484737751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64903,6 +64928,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   bufferTime: 0
+  dialogueInProgress: 0
 --- !u!212 &1726173237
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -65003,6 +65029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6ab091e2839434d9dcc1bae53e92de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInArea: 0
 --- !u!4 &1734554854 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 869268388, guid: 398c2864c0a9e0541b8b59487413f212,

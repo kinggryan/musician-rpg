@@ -21,7 +21,9 @@ public class DialogueEvent : MonoBehaviour
     public UnityEvent runOnClose;
     [SerializeField]
     private float bufferTime;
+    public bool dialogueInProgress = false;
     public void StartDialogueEvents(){
+        dialogueInProgress = true;
         playerMovementController.LockMovement(true);
         StartCoroutine(DisplayDialogue(0));
     }
@@ -62,6 +64,12 @@ public class DialogueEvent : MonoBehaviour
             runOnClose.Invoke();
         }
         playerMovementController.LockMovement(false);
+        StartCoroutine(DialogueNoLongerInProgrress());
+    }
+
+    IEnumerator DialogueNoLongerInProgrress(){
+        yield return new WaitForSeconds(1);
+        dialogueInProgress = false;
     }
 
     void Start(){
