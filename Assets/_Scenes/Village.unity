@@ -2415,6 +2415,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3740056327180340803, guid: 398c2864c0a9e0541b8b59487413f212,
+        type: 3}
+      propertyPath: volume
+      value: 0.97
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 398c2864c0a9e0541b8b59487413f212, type: 3}
 --- !u!4 &93861412 stripped
@@ -8205,8 +8210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents:
   - dialogue: Good job!
-    waitTime: 0
-    waitForClick: 1
+    waitTime: 2
+    waitForClick: 0
   - dialogue: When you finish a jam with someone, you'll learn whatever song they
       were playing.
     waitTime: 0
@@ -8215,6 +8220,9 @@ MonoBehaviour:
     waitTime: 0
     waitForClick: 1
   - dialogue: You can change which patters you have equipped there, too.
+    waitTime: 0
+    waitForClick: 1
+  - dialogue: The song I was just playing is a favoirte of boulders everywhere.
     waitTime: 0
     waitForClick: 1
   index: 0
@@ -8662,15 +8670,19 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 155282943, guid: d0f9cfbb7706fb24d821f749ac799085, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5621813782575800981, guid: d0f9cfbb7706fb24d821f749ac799085,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 5621813782575800981, guid: d0f9cfbb7706fb24d821f749ac799085,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0f9cfbb7706fb24d821f749ac799085, type: 3}
@@ -8834,6 +8846,7 @@ MonoBehaviour:
   pitch: 0
   pitchRandomization: 0
   fadeInTime: 0
+  fadeInTimer: 0
   fadeOutTime: 0
   fadeOutTimer: 1
   audioClip:
@@ -8855,6 +8868,7 @@ MonoBehaviour:
   output: {fileID: 243243605031964894, guid: 78cfd71dd13d37b48ae29c36c401125f, type: 2}
   elementToLoop: 0
   playerXDistance: 0
+  currentRealVolume: 0
 --- !u!1 &490314653
 GameObject:
   m_ObjectHideFlags: 0
@@ -10164,6 +10178,7 @@ MonoBehaviour:
   pitch: 0
   pitchRandomization: 0
   fadeInTime: 0
+  fadeInTimer: 0
   fadeOutTime: 0
   fadeOutTimer: 1
   audioClip:
@@ -10179,6 +10194,7 @@ MonoBehaviour:
   output: {fileID: 243243605031964894, guid: 78cfd71dd13d37b48ae29c36c401125f, type: 2}
   elementToLoop: 0
   playerXDistance: 0
+  currentRealVolume: 0
 --- !u!4 &1057677023
 Transform:
   m_ObjectHideFlags: 0
@@ -63492,6 +63508,7 @@ MonoBehaviour:
   pitch: 1
   pitchRandomization: 0
   fadeInTime: 0
+  fadeInTimer: 0
   fadeOutTime: 0
   fadeOutTimer: 1
   audioClip:
@@ -63507,6 +63524,7 @@ MonoBehaviour:
   output: {fileID: 0}
   elementToLoop: 0
   playerXDistance: 0
+  currentRealVolume: 0
 --- !u!4 &1387837063
 Transform:
   m_ObjectHideFlags: 0
@@ -63835,25 +63853,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvents:
-  - dialogue: Lose lose lose!
+  - dialogue: Hm...I see you're new to this.
+    waitTime: 2
+    waitForClick: 0
+  - dialogue: Try to play patterns that complement what I play.
+    waitTime: 0
+    waitForClick: 1
+  - dialogue: Some patterns have more melody, harmony, or rhythm.
+    waitTime: 0
+    waitForClick: 1
+  - dialogue: Watch the meters in the corner of the screen to see how things are going.
     waitTime: 0
     waitForClick: 1
   index: 0
   startEncounterAfterDia: 0
   runOnClose:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1479925124}
-        m_MethodName: StartDialogueEvents
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   bufferTime: 0

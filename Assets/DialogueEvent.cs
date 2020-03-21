@@ -27,23 +27,54 @@ public class DialogueEvent : MonoBehaviour
         playerMovementController.LockMovement(true);
         StartCoroutine(DisplayDialogue(0));
     }
+    private float textSpeed = 0.05f;
     IEnumerator DisplayDialogue(int i){
         if(i > dialogueEvents.Length - 1){
             CloseDialogue();
         }else{
             index = i;
-            Text text = dialogueController.dialogueText;
-            text.text = dialogueEvents[i].dialogue;
-            if(dialogueEvents[i].waitForClick){
-                Debug.Log("Waiting for click");
-                StartCoroutine(WaitForClickBuffer(bufferTime));
-                index = i + 1;
-                yield break;
-            }else{
-                yield return new WaitForSeconds(dialogueEvents[i].waitTime);
-                i++;
-                StartCoroutine(DisplayDialogue(i));
-            }
+            // Text text = dialogueController.dialogueText;
+            // text.text = dialogueEvents[i].dialogue;
+            StartCoroutine(AnimateText(i, textSpeed));
+            // if(dialogueEvents[i].waitForClick){
+            //     Debug.Log("Waiting for click");
+            //     StartCoroutine(WaitForClickBuffer(bufferTime));
+            //     index = i + 1;
+            //     yield break;
+            // }else{
+            //     yield return new WaitForSeconds(dialogueEvents[i].waitTime);
+            //     i++;
+            //     StartCoroutine(DisplayDialogue(i));
+            // }
+        }
+        yield break;
+    }
+
+    IEnumerator AnimateText(int i, float speed){
+        string dialogue = dialogueEvents[i].dialogue;
+        Text text = dialogueController.dialogueText;
+        for (int charIndex = 0; charIndex <= dialogue.Length; charIndex++){
+            // if(Input.anyKeyDown){
+            //     text.text = dialogue;
+            //     StartCoroutine(AdvanceDialogue(i));
+            //     yield break;
+            // }
+            text.text = dialogue.Substring(0, charIndex);
+            yield return new WaitForSeconds(speed);
+        }
+        StartCoroutine(AdvanceDialogue(i));
+    }
+
+    IEnumerator AdvanceDialogue(int i){
+        if(dialogueEvents[i].waitForClick){
+            Debug.Log("Waiting for click");
+            StartCoroutine(WaitForClickBuffer(bufferTime));
+            index = i + 1;
+            yield break;
+        }else{
+            yield return new WaitForSeconds(dialogueEvents[i].waitTime);
+            i++;
+            StartCoroutine(DisplayDialogue(i));
         }
     } 
 
@@ -76,6 +107,8 @@ public class DialogueEvent : MonoBehaviour
         playerMovementController = Object.FindObjectOfType<PlayerMovementController>();
         dialogueController = Object.FindObjectOfType<DialogueController>();
     }
+
+    
 
     void Update(){
         if(Input.anyKeyDown){

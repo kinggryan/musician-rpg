@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 869268388}
   - component: {fileID: 323130594}
   - component: {fileID: 323130593}
+  - component: {fileID: 5237998228366792488}
+  - component: {fileID: 3046847413924743952}
+  - component: {fileID: 3740056327180340803}
   m_Layer: 0
   m_Name: Aspen_02
   m_TagString: Untagged
@@ -25,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323130592}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 65, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -106,3 +109,71 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1618576, y: 0.3354783}
   m_EdgeRadius: 0
+--- !u!95 &5237998228366792488
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323130592}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b023a7ceb6e25e24e8af2f43b2d8e31b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3046847413924743952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323130592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fcab7cfafac2641a02c551b3c42b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3740056327180340803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323130592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86dd0732abf60614ba9e025e4a569742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loop: 1
+  random: 0
+  sequence: 0
+  playOnAwake: 0
+  volume: 0.4
+  pitch: 0
+  pitchRandomization: 0
+  fadeInTime: 1
+  fadeInTimer: 0
+  fadeOutTime: 1
+  fadeOutTimer: 1
+  audioClip:
+  - {fileID: 8300000, guid: f130db2687ef1ae438ffdbe50fe9fcbc, type: 3}
+  waitTime: 0
+  waitRange: 0
+  listener: {fileID: 0}
+  threeDee: 1
+  threeDeeMultiplier: 3
+  panMultiplier: 0
+  externalVolumeModifier: 1
+  externalPitchModifier: 0
+  output: {fileID: 243359935233270484, guid: 78cfd71dd13d37b48ae29c36c401125f, type: 2}
+  elementToLoop: 0
+  playerXDistance: 0
+  currentRealVolume: 0

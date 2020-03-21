@@ -17,7 +17,7 @@ public float pitch;
 [Range(-12.0f, 12.0f)]
 public float pitchRandomization;
 public float fadeInTime;
-private float fadeInTimer = 0;
+public float fadeInTimer = 0;
 private bool fadeIn = false;
 public float fadeOutTime;
 public float fadeOutTimer = 1;
@@ -44,6 +44,7 @@ private float playerDistance;
 public float playerXDistance;
 private float playerYDistance;
 private Transform transform;
+public float currentRealVolume;
 
 
     
@@ -56,6 +57,7 @@ private bool soundPlayed = false;
         source.outputAudioMixerGroup = output;
         soundPlayed = true;
         if(fadeInTime > 0){
+            fadeInTimer = 0;
             fadeIn = true;
             source.volume = 0;
         }
@@ -104,6 +106,7 @@ private bool soundPlayed = false;
     }
 
     public void StopSound(){
+        fadeIn = false;
         if(fadeOutTime > 0){
             fadeOut = true;
         }
@@ -147,7 +150,7 @@ private bool soundPlayed = false;
             if (fadeInTimer >= 1)
             {
                 //print("Fade done");
-                fadeInTimer = 0;
+                
                 fadeIn = false;
             }
         }
@@ -156,7 +159,7 @@ private bool soundPlayed = false;
                 //print("fadeOutTimer: " + fadeOutTimer);
             if (fadeOutTimer <= 0)
             {
-                //print("Fade done");
+                print("Fade done");
                 fadeOutTimer = 1;
                 soundPlayed = false;
                 Destroy(audioSource);
@@ -180,19 +183,18 @@ private bool soundPlayed = false;
         
         if (soundPlayed && audioSource != null)
         {
-            if (threeDee)
-            {
-                audioSource.volume = Mathf.Lerp(0, volume, Mathf.Clamp(volume * threeDeeVolume, 0, volume));
-                audioSource.panStereo = Mathf.Clamp((playerXDistance) * panMultiplier, -1, 1);
-            }
-            else if (threeDee && fadeIn)
+            if (threeDee && fadeIn)
             {
                 audioSource.volume = Mathf.Clamp(volume * threeDeeVolume * fadeInTimer, 0, volume);
                 audioSource.panStereo = Mathf.Clamp((playerXDistance) * panMultiplier, -1, 1);
             }
             else if (threeDee && fadeOut)
             {
-                audioSource.volume = Mathf.Clamp(volume * threeDeeVolume * fadeInTimer, 0, volume);
+                audioSource.volume = Mathf.Clamp(volume * threeDeeVolume * fadeOutTimer, 0, volume);
+                audioSource.panStereo = Mathf.Clamp((playerXDistance) * panMultiplier, -1, 1);
+            } else if (threeDee)
+            {
+                audioSource.volume = Mathf.Clamp(volume * threeDeeVolume, 0, volume);
                 audioSource.panStereo = Mathf.Clamp((playerXDistance) * panMultiplier, -1, 1);
             }
             else if (fadeIn)
@@ -211,6 +213,7 @@ private bool soundPlayed = false;
             {
 
             }
+            currentRealVolume = audioSource.volume;
         }
     }
     
