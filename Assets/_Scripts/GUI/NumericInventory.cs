@@ -128,6 +128,11 @@ public class NumericInventory : MonoBehaviour
         return false;
     }
 
+    public void LearnNewMove(Move move){
+        Debug.Log("Learning new move: " + move.name);
+        knownMoves = AddMoveToArray(knownMoves, move, false);
+    }
+
     Move[] AddMoveToArray(Move[] original, Move itemToAdd, bool newMoveSet){
         Debug.Log(original[0].name);
         int originalArrayLength = 0;

@@ -185,6 +185,7 @@ loops:
     - happy
     - sad
     - sentimental
+
 - name: Silence
   filename: MIDI/SilentMidi.mid
   beatDuration: 1

@@ -23,12 +23,6 @@ public class NPCMusician : MonoBehaviour
     private float encounterLength = 5;
 
     private SongSelector songSelector;
-    [SerializeField]
-    private string winDialogue;
-    [SerializeField]
-    private string overDialogue;
-    [SerializeField]
-    private string underDialogue;
     public UnityEvent runOnWin;
     public UnityEvent runOnLose;
     
@@ -42,6 +36,9 @@ public class NPCMusician : MonoBehaviour
     bool playerInAudibleRange = false;
     bool win = false;
     private Animator animator;
+    [SerializeField]
+    private Move moveToTeach;
+    public NumericInventory inventory;
 
     void Start(){
         jamController = Object.FindObjectOfType<JamController>();
@@ -78,6 +75,22 @@ public class NPCMusician : MonoBehaviour
             }
         }
         
+    }
+
+    public void InstantiateNextMusician(GameObject musician){
+        gameObject.SetActive(false);
+        musician.SetActive(true);
+    }
+
+    
+    public void TeachFirstMoveToPC(){
+        Move firstMove = moveSets.moveSets[0].moves[0];
+        inventory.LearnNewMove(firstMove);
+        dialogue.UpdateNotification("You learned the pattern " + firstMove.name + ".", 0);
+    }
+
+    public void TeachMoveToPC(Move move){
+        inventory.LearnNewMove(move);
     }
 
     void StartNPCSong(){

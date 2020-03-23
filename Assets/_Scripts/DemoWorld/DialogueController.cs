@@ -10,6 +10,10 @@ public class DialogueController : MonoBehaviour
     private JamController jamController;
     public List<string> dialogueQueue;
     public float dialogueWaitTime = 1;
+    [SerializeField]
+    private Color defaultColor;
+    [SerializeField]
+    private Color notificationColor;
 
     void Awake(){
         dialogueText = GetComponent<Text>();    
@@ -23,14 +27,25 @@ public class DialogueController : MonoBehaviour
         Debug.Log("Dialogue: " + textToDisplay);
         dialogueQueue.Add(textToDisplay);
         if(dialogueQueue.Count == 1){
-            StartCoroutine(DisplayNextItemInQueue(timeToWait)); 
+            StartCoroutine(DisplayNextItemInQueue(timeToWait, defaultColor)); 
         }
 
     }
 
-    IEnumerator DisplayNextItemInQueue(float timeToWait){
+    public void UpdateNotification(string textToDisplay, float timeToWait){
+        timeToWait = dialogueWaitTime;
+        Debug.Log("Dialogue: " + textToDisplay);
+        dialogueQueue.Add(textToDisplay);
+        if(dialogueQueue.Count == 1){
+            StartCoroutine(DisplayNextItemInQueue(timeToWait, notificationColor)); 
+        }
+
+    }
+
+    IEnumerator DisplayNextItemInQueue(float timeToWait,Color color){
         playerJamMenu.gameObject.SetActive(false);
         dialogueText.text = dialogueQueue[0];
+        dialogueText.color = color;
         string itemToRemove = dialogueQueue[0];
         yield return new WaitForSeconds(timeToWait);
         dialogueQueue.Remove(itemToRemove);
@@ -43,7 +58,7 @@ public class DialogueController : MonoBehaviour
             }
         }else{
             //Debug.Log("Displaying next dia");
-            StartCoroutine(DisplayNextItemInQueue(2));
+            StartCoroutine(DisplayNextItemInQueue(2, color));
         }
     }
 }
